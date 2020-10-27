@@ -1,0 +1,20 @@
+﻿
+Roguelike
+PŻ: 
+PM: 
+I - EKWIPUNEK, C - POSTAĆ
+NOWY POZIOM!
+Następny: 
+PD
+X: 
+, Y: 
+SIŁ
+ZRĘ
+WYT
+INT
+MĄD
+Złoto: 
+Obr
+SkA
+, poziom 
+Moondale

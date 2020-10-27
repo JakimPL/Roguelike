@@ -1,0 +1,8 @@
+.qmake.stash
+
+Roguelike
+Makefile
+
+*.o
+*.log
+*.pro.user

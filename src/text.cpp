@@ -1,0 +1,105 @@
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <string.h>
+
+#include "text.hpp"
+#include "constants.hpp"
+#include "functions.hpp"
+#include "log.hpp"
+
+Text::Text()
+{
+	if (!loadContent(FILENAME_STRING)) {
+		std::string errorMessage = "Failed to open " + FILENAME_STRING + " dialog file";
+		_LogError(errorMessage);
+		throw std::runtime_error(errorMessage);
+	}
+}
+
+bool Text::convertFromTXTtoSTR(const std::string &input, const std::string &output)
+{
+	std::ifstream infile(input);
+	std::ofstream outfile(output);
+	if (infile.good()) {
+		content.clear();
+		std::string line;
+		while (std::getline(infile, line)) {
+			content.push_back(line);
+		}
+		_LogInfo("Loaded " << input << " file succesfully");
+		infile.close();
+		if (outfile.good()) {
+			outfile.write(headerSTR, SIZE_HEADER);
+			unsigned int size = static_cast<unsigned int>(content.size());
+			outfile.write(reinterpret_cast<char*>(&size), SIZE_TABLE);
+			for (size_t it = 0; it < content.size(); ++it) {
+				unsigned short line_size = static_cast<unsigned short>(content[it].size());
+				outfile.write(reinterpret_cast<char*>(&line_size), SIZE_ITEM);
+			}
+			for (size_t it = 0; it < content.size(); ++it) {
+				outfile.write(content[it].c_str(), static_cast<unsigned int>(content[it].size()));
+			}
+			_LogInfo("Saved " << output << " file succesfully");
+			outfile.close();
+			return true;
+		} else {
+			_LogError("Failed to save " << output << " file!");
+			return false;
+		}
+	} else {
+		_LogError("Failed to load " << input << " file!");
+		return false;
+	}
+}
+
+bool Text::loadContent(const std::string &filename)
+{
+	///TODO: error handling
+	std::string path = PATH_STR + filename + STR_SUFFIX;
+	_LogInfo("Opening " << path << " dialogs file");
+	std::ifstream resource(path);
+	if (resource.good()) {
+		bool success = true;
+		char resourceHeader[SIZE_HEADER + 1];
+		resource.read(resourceHeader, SIZE_HEADER);
+		resourceHeader[SIZE_HEADER] = '\0';
+		if (Functions::compareHeaders(headerSTR, resourceHeader)) {
+			unsigned int tableSize;
+			resource.read(reinterpret_cast<char*>(&tableSize), SIZE_TABLE);
+			std::vector<short> itemSizes;
+
+			for (unsigned int i = 0; i < tableSize; i++) {
+				short string_size;
+				resource.read(reinterpret_cast<char*>(&string_size), SIZE_ITEM);
+				itemSizes.push_back(string_size);
+			}
+
+			if (itemSizes.size() != tableSize) {
+				_LogError("Invalid number of items in " << filename << " file!");
+				success = false;
+			}
+
+			for (unsigned int i = 0; i < tableSize; i++) {
+				char* item = new char[itemSizes[i]];
+				resource.read(item, itemSizes[i]);
+				content.push_back(std::string(item));
+				delete[] item;
+			}
+
+			_LogInfo("Dialog file " << filename << " opened successfully");
+		} else {
+			_LogError("Invalid dialog " << filename << " file!");
+		}
+
+		resource.close();
+		return success;
+	} else {
+		return false;
+	}
+}
+
+std::string Text::text(unsigned long id) const
+{
+	return content[id];
+}
