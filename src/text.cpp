@@ -10,6 +10,7 @@
 
 Text::Text()
 {
+	convertFromTXTtoSTR("data/STR/DIALOGS.TXT", "data/STR/DIALOGS.STR");
 	if (!loadContent(FILENAME_STRING)) {
 		std::string errorMessage = "Failed to open " + FILENAME_STRING + " dialog file";
 		_LogError(errorMessage);
@@ -99,7 +100,24 @@ bool Text::loadContent(const std::string &filename)
 	}
 }
 
-std::string Text::text(unsigned long id) const
+const std::string Text::text(unsigned int id) const
 {
-	return content[id];
+	std::string output;
+	try {
+		output = content.at(id);
+	}  catch (std::out_of_range &) {
+		_LogError("Failed to load a text of id: " << id);
+		throw std::runtime_error("failed to load a text");
+	}
+	return output;
+}
+
+const std::string Text::operator[](String id) const
+{
+	return (*this)[(unsigned int)(id)];
+}
+
+const std::string Text::operator[](unsigned int id) const
+{
+	return text(id);
 }

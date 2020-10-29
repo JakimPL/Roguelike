@@ -22,3 +22,5 @@ SOURCES += \
 	src/text.cpp
 
 LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -ldl -lpthread
+
+DEFINES += COURIER_NEW

@@ -6,8 +6,6 @@
 
 #include "constants.hpp"
 
-#define TEXT(a) (text.text((int)(a)))
-
 class Text
 {
 private:
@@ -16,8 +14,10 @@ private:
 	bool loadContent(const std::string &filename);
 
 public:
-	std::string text(unsigned long id) const;
 	Text();
+	const std::string text(unsigned int id) const;
+	const std::string operator[](String id) const;
+	const std::string operator[](unsigned int id) const;
 };
 
 static std::vector<Text*> TextCounter;

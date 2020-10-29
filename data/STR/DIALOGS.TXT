@@ -4,7 +4,7 @@ PŻ:
 PM: 
 I - EKWIPUNEK, C - POSTAĆ
 NOWY POZIOM!
-Następny: 
+Następny poziom: 
 PD
 X: 
 , Y: 
@@ -18,3 +18,5 @@ Obr
 SkA
 , poziom 
 Moondale
+Broń w użyciu: 
+PIĘŚĆ

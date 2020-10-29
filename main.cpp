@@ -53,20 +53,50 @@ int main()
 		// draw game map
 		size_t width = game.currentArea.getWidth();
 		size_t height = game.currentArea.getHeight();
+		Position playerPosition = game.player.getPosition();
 		for (size_t y = 0; y < height; ++y) {
 			for (size_t x = 0; x < width; ++x) {
 				Tile tile = game.currentArea.getTile(x, y);
-				Functions::drawLetter(renderer, font, tile.letter, tile.color, x, y);
+				Functions::drawLetter(renderer, font, tile.letter, tile.color, x - playerPosition.x + CENTER_X, y - playerPosition.y + CENTER_Y);
 			}
 		}
 
-		// draw player
-		Position position = game.player.getPosition();
-		Functions::drawLetter(renderer, font, game.player.creature.getLetter(), game.player.creature.getColor(), position.x, position.y);
+		// draw player and target
+		Functions::drawLetter(renderer, font, game.player.creature.getLetter(), game.player.creature.getColor(), CENTER_X, CENTER_Y);
 
 		// draw GUI
-		Functions::drawRectangle(renderer, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3, GUI_RECTANGLE);
-		Functions::drawRectangle(renderer, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3, GUI_RECTANGLE);
+		Functions::drawRectangle(renderer, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3, GUI_RECTANGLE_COLOR);
+		Functions::drawRectangle(renderer, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3, GUI_RECTANGLE_COLOR);
+
+		Functions::drawText(renderer, font, text[game.currentArea.getTextID()], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left, Alignment::Center);
+
+		std::stringstream nextLevelText;
+		nextLevelText << text[String::Next] << game.player.creature.getRemainingXP();
+		Functions::drawText(renderer, font, nextLevelText.str(), COLOR_YELLOW, SCREEN_WIDTH / 2, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Center, Alignment::Center);
+
+		std::stringstream hpText;
+		hpText << text[String::HP] << game.player.creature.getCurrentHP() << "/" << game.player.creature.getMaxHP();
+		Functions::drawText(renderer, font, hpText.str(), COLOR_RED, SCREEN_WIDTH - 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Right, Alignment::Center);
+
+		std::stringstream mpText;
+		mpText << text[String::HP] << game.player.creature.getCurrentMP() << "/" << game.player.creature.getMaxMP();
+		Functions::drawText(renderer, font, mpText.str(), COLOR_BLUE, SCREEN_WIDTH - 2 * GUI_X_OFFSET, GUI_Y_OFFSET + 3 * TILE_HEIGHT / 2, Alignment::Right, Alignment::Center);
+
+		std::stringstream locationText;
+		locationText << text[String::X] << playerPosition.x << text[String::Y] << playerPosition.y;
+		Functions::drawText(renderer, font, locationText.str(), COLOR_YELLOW, SCREEN_WIDTH / 2, GUI_Y_OFFSET + 3 * TILE_HEIGHT / 2, Alignment::Center, Alignment::Center);
+
+		std::stringstream playerInfoText;
+		playerInfoText << game.player.getName() << text[String::level] << game.player.creature.getLevel();
+		Functions::drawText(renderer, font, playerInfoText.str(), COLOR_WHITE, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Left, Alignment::Center);
+
+		std::stringstream weaponInUseText;
+		weaponInUseText << text[String::WeaponInUse] << text[game.player.creature.getWeaponTextID()];
+		Functions::drawText(renderer, font, weaponInUseText.str(), COLOR_DGREEN, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT / 2, Alignment::Left, Alignment::Center);
+
+		std::stringstream shortcutsText;
+		shortcutsText << text[String::SHORTCUTS];
+		Functions::drawText(renderer, font, shortcutsText.str(), COLOR_BROWN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Right, Alignment::Center);
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderPresent(renderer);

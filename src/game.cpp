@@ -1,6 +1,5 @@
 #include "game.hpp"
 
-Game::Game() : currentArea("MOONDALE")
+Game::Game() : player("Liop"), currentArea("MOONDALE")
 {
-
 }

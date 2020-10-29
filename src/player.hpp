@@ -6,13 +6,16 @@
 class Player
 {
 private:
+	std::string name;
 	Position position;
 
 public:
 	Character character;
 	Creature creature;
-	Player();
+public:
+	Player(std::string initialName);
 
+	std::string getName();
 	Position getPosition();
 };
 

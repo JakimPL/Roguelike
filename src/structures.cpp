@@ -10,7 +10,7 @@ Area::Area(const std::string &filename)
 		resource.read(resourceHeader, SIZE_HEADER);
 		if (Functions::compareHeaders(headerARE, resourceHeader)) {
 			// read map name, width and height
-			resource.read((char*)&name, SIZE_INT);
+			resource.read((char*)&textID, SIZE_INT);
 			resource.read((char*)&width, SIZE_INT);
 			resource.read((char*)&height, SIZE_INT);
 
@@ -18,11 +18,13 @@ Area::Area(const std::string &filename)
 			std::vector<std::vector<char>> characterMap;
 			std::vector<std::vector<Color>> colorMap;
 			std::vector<std::vector<bool>> obstacleMap;
+			std::vector<std::vector<unsigned int>> textIDMap;
 
 			// prepare map 2d vectors
 			characterMap.resize(height);
 			colorMap.resize(height);
 			obstacleMap.resize(height);
+			textIDMap.resize(height);
 			map.resize(height);
 
 			///TODO: abstract version of block reading and error handling
@@ -45,7 +47,7 @@ Area::Area(const std::string &filename)
 				}
 			}
 
-			// read map obstacle map
+			// read obstacle map
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
 					char temp[SIZE_CHAR];
@@ -55,10 +57,20 @@ Area::Area(const std::string &filename)
 				}
 			}
 
+			// read tile textID map
+			for (unsigned int y = 0; y < height; ++y) {
+				for (unsigned int x = 0; x < width; ++x) {
+					char temp[SIZE_INT];
+					resource.read(temp, SIZE_INT);
+					unsigned int textID = Functions::getValue(temp);
+					textIDMap[x].push_back(textID);
+				}
+			}
+
 			// convert data to tile structure
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
-					Tile tile = {characterMap[x][y], colorMap[x][y], obstacleMap[x][y]};
+					Tile tile = {characterMap[x][y], colorMap[x][y], obstacleMap[x][y], textIDMap[x][y]};
 					map[x].push_back(tile);
 				}
 			}
@@ -88,9 +100,47 @@ Tile Area::getTile(unsigned int x, unsigned int y)
 	return map[x][y];
 }
 
-unsigned int Creature::getName()
+unsigned int Area::getTextID()
 {
-	return name;
+	return textID;
+}
+
+Creature::Creature(const std::string &filename)
+{
+
+}
+
+Creature::Creature()
+{
+	textID = 0;
+	color = {255, 255, 0};
+	letter = 'X';
+	race = Race::human;
+	gender = Gender::male;
+	state = 0;
+	level = 1;
+	xp = 0;
+	xpNextLevel = 100;
+	xpValue = 0;
+	gold = 50;
+	hp = 30;
+	hpMax = 30;
+	mp = 15;
+	mpMax = 15;
+	acBase = 10;
+	accuracy = 25;
+	strength = 0;
+	dexterity = 0;
+	constitution = 0;
+	intelligence = 0;
+	wisdom = 0;
+	effects = {};
+	abilities = {};
+}
+
+unsigned int Creature::getTextID()
+{
+	return textID;
 }
 
 char Creature::getLetter()
@@ -103,37 +153,44 @@ Color Creature::getColor()
 	return color;
 }
 
-Creature::Creature(const std::string &filename)
+int Creature::getLevel()
 {
-
+	return level;
 }
 
-Creature::Creature()
+int Creature::getRemainingXP()
 {
-	name = 0;
-	color = {0, 0, 255};
-	letter = 'X';
-	race = Race::human;
-	gender = Gender::male;
-	state = 0;
-	level = 1;
-	xp_current = 0;
-	xp_next_level = 100;
-	xp_value = 0;
-	gold = 50;
-	hp = 30;
-	hp_max = 30;
-	mp = 15;
-	mp_max = 15;
-	ac_natural = 10;
-	accuracy = 25;
-	strength = 0;
-	dexterity = 0;
-	constitution = 0;
-	intelligence = 0;
-	wisdom = 0;
-	effects = {};
-	abilities = {};
+	return xpNextLevel - xp;
+}
+
+int Creature::getCurrentXP()
+{
+	return xp;
+}
+
+int Creature::getCurrentHP()
+{
+	return hp;
+}
+
+int Creature::getCurrentMP()
+{
+	return mp;
+}
+
+int Creature::getMaxHP()
+{
+	return hpMax;
+}
+
+int Creature::getMaxMP()
+{
+	return mpMax;
+}
+
+unsigned int Creature::getWeaponTextID()
+{
+	return (unsigned int)(String::Fist);
 }
 
 bool Area::saveToFile(const std::string &filename)

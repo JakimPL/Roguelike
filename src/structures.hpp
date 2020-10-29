@@ -156,14 +156,15 @@ struct Tile {
 	char letter;
 	Color color;
 	bool obstacle;
+	unsigned int textID;
 };
 
 struct ItemEffect {
-	unsigned int name;
+	unsigned int textID;
 };
 
 struct CreatureEffect {
-	unsigned int name;
+	unsigned int textID;
 };
 
 enum class Target {
@@ -177,12 +178,12 @@ enum class Target {
 };
 
 struct Ability {
-	unsigned int name;
+	unsigned int textID;
 };
 
 struct Area {
 private:
-	unsigned int name;
+	unsigned int textID;
 	unsigned int width;
 	unsigned int height;
 	std::vector<std::vector<Tile>> map;
@@ -190,13 +191,14 @@ public:
 	// create an area from a file
 	Area(const std::string &filename);
 	bool saveToFile(const std::string &filename);
+	unsigned int getTextID();
 	unsigned int getHeight();
 	unsigned int getWidth();
 	Tile getTile(unsigned int x, unsigned int y);
 };
 
 struct Character {
-	unsigned int name;
+	unsigned int textID;
 	long time;
 	int reputation;
 
@@ -205,7 +207,7 @@ struct Character {
 
 struct Item {
 private:
-	unsigned int name;
+	unsigned int textID;
 	long description;
 	ItemType type;
 	ItemCategory category;
@@ -231,22 +233,22 @@ public:
 
 struct Creature {
 private:
-	unsigned int name;
+	unsigned int textID;
 	char letter;
 	Color color;
 	Race race;
 	Gender gender;
 	unsigned int state;
 	unsigned int level;
-	unsigned long xp_current;
-	unsigned long xp_next_level;
-	unsigned long xp_value;
+	unsigned long xp;
+	unsigned long xpNextLevel;
+	unsigned long xpValue;
 	unsigned long gold;
 	unsigned int hp;
-	unsigned int hp_max;
+	unsigned int hpMax;
 	unsigned int mp;
-	unsigned int mp_max;
-	unsigned int ac_natural;
+	unsigned int mpMax;
+	unsigned int acBase;
 	unsigned int accuracy;
 	unsigned int strength;
 	unsigned int dexterity;
@@ -261,37 +263,23 @@ public:
 	Creature(const std::string &filename);
 	bool saveToFile(const std::string &filename);
 
-	unsigned int getName();
+	unsigned int getTextID();
 	Color getColor();
 	char getLetter();
+	int getLevel();
+	int getRemainingXP();
+	int getCurrentXP();
+	int getCurrentHP();
+	int getCurrentMP();
+	int getMaxHP();
+	int getMaxMP();
+
+	unsigned int getWeaponTextID();
 };
 
 struct Position {
 	unsigned int x, y;
 	unsigned int direction : 3;
-};
-
-enum class String {
-	empty,
-	Roguelike,
-	HP,
-	MP,
-	InvChar,
-	NextLevel,
-	Next,
-	XP,
-	X,
-	Y,
-	STR,
-	DEX,
-	CON,
-	INT,
-	WIS,
-	Gold,
-	Att,
-	Acc,
-	level,
-	Moondale
 };
 
 #endif
