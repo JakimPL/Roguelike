@@ -3,8 +3,11 @@
 
 #include <string>
 
-#define EXIT_FLAG -1
-#define FONT_SIZE 12
+#define GUI_X_OFFSET 8
+#define GUI_Y_OFFSET 8
+#define GUI_RECTANGLE {16, 16, 16, 224}
+
+#define FONT_SIZE 18
 #define TILE_WIDTH 12
 #define TILE_HEIGHT 16
 
@@ -21,9 +24,9 @@ static constexpr char headerCRE[SIZE_HEADER + 1] = {'C', 'R', 'E', '\0'};
 static constexpr char headerITM[SIZE_HEADER + 1] = {'I', 'T', 'M', '\0'};
 static constexpr char headerCHR[SIZE_HEADER + 1] = {'C', 'H', 'R', '\0'};
 
+static const char PATH_FONT[] = "data/COURIER.TTF";
 static const std::string FILENAME_PLAYER = "CHARACTER.CRE";
 static const std::string FILENAME_STRING = "DIALOGS";
-static const std::string PATH_FONT = "data/COURIER.TTF";
 static const std::string PATH_ARE = "data/ARE/";
 static const std::string PATH_ITM = "data/ITM/";
 static const std::string PATH_CRE = "data/CRE/";
@@ -38,5 +41,12 @@ static const std::string TXT_SUFFIX = ".TXT";
 
 constexpr int SCREEN_WIDTH = 1280;
 constexpr int SCREEN_HEIGHT = 768;
+
+enum ErrorCodes {
+	OK,
+	SDL_ERROR,
+	TTF_ERROR,
+	FONT_ERROR
+};
 
 #endif // DEFINITIONS_HPP

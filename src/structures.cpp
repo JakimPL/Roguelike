@@ -14,28 +14,54 @@ Area::Area(const std::string &filename)
 			resource.read((char*)&width, SIZE_INT);
 			resource.read((char*)&height, SIZE_INT);
 
+			map.clear();
+			std::vector<std::vector<char>> characterMap;
+			std::vector<std::vector<Color>> colorMap;
+			std::vector<std::vector<bool>> obstacleMap;
+
 			// prepare map 2d vectors
-			backgroudMap.resize(height);
+			characterMap.resize(height);
 			colorMap.resize(height);
+			obstacleMap.resize(height);
+			map.resize(height);
 
 			///TODO: abstract version of block reading and error handling
+			// read map characters
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
 					char temp[SIZE_CHAR];
-					resource.read(temp, SIZE_COLOR);
-					backgroudMap[x].push_back(temp[0]);
+					resource.read(temp, SIZE_CHAR);
+					characterMap[x].push_back(temp[0]);
 				}
 			}
 
-			/*for (unsigned int y = 0; y < height; ++y) {
+			// read map colors
+			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
 					char temp[SIZE_COLOR];
 					resource.read(temp, SIZE_COLOR);
 					Color color = {(unsigned int)(temp[0]), (unsigned int)(temp[1]), (unsigned int)(temp[2])};
 					colorMap[x].push_back(color);
-					_LogNone(temp[0] << temp[1] << temp[2]);
 				}
-			}*/
+			}
+
+			// read map obstacle map
+			for (unsigned int y = 0; y < height; ++y) {
+				for (unsigned int x = 0; x < width; ++x) {
+					char temp[SIZE_CHAR];
+					resource.read(temp, SIZE_CHAR);
+					bool obstacle = temp[0] > 0;
+					obstacleMap[x].push_back(obstacle);
+				}
+			}
+
+			// convert data to tile structure
+			for (unsigned int y = 0; y < height; ++y) {
+				for (unsigned int x = 0; x < width; ++x) {
+					Tile tile = {characterMap[x][y], colorMap[x][y], obstacleMap[x][y]};
+					map[x].push_back(tile);
+				}
+			}
 		} else {
 			_LogError("Invalid area file!");
 		}
@@ -45,6 +71,36 @@ Area::Area(const std::string &filename)
 	}
 
 	_LogInfo(filename << ARE_SUFFIX << " opened successfully.");
+}
+
+unsigned int Area::getWidth()
+{
+	return width;
+}
+
+unsigned int Area::getHeight()
+{
+	return height;
+}
+
+Tile Area::getTile(unsigned int x, unsigned int y)
+{
+	return map[x][y];
+}
+
+unsigned int Creature::getName()
+{
+	return name;
+}
+
+char Creature::getLetter()
+{
+	return letter;
+}
+
+Color Creature::getColor()
+{
+	return color;
 }
 
 Creature::Creature(const std::string &filename)

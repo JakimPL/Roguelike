@@ -2,12 +2,13 @@
 #define GAME_HPP
 
 #include "player.hpp"
+#include <queue>
 
 class Game
 {
-private:
-	Area currentArea;
+public:
 	Player player;
+	Area currentArea;
 
 public:
 	Game();

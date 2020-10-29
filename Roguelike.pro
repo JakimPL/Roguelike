@@ -14,11 +14,11 @@ HEADERS += \
 
 
 SOURCES += \
-        main.cpp \
-		src/functions.cpp \
+	main.cpp \
+	src/functions.cpp \
 	src/game.cpp \
-        src/player.cpp \
+	src/player.cpp \
 	src/structures.cpp \
 	src/text.cpp
 
-LIBS += -L/usr/lib -lSDL2 -ldl -lpthread
+LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -ldl -lpthread

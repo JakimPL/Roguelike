@@ -6,12 +6,14 @@
 class Player
 {
 private:
-	Character character;
-	Creature creature;
 	Position position;
 
 public:
+	Character character;
+	Creature creature;
 	Player();
+
+	Position getPosition();
 };
 
 #endif // PLAYER_HPP

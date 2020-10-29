@@ -1,6 +1,7 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
+#include <SDL2/SDL.h>
 #include "constants.hpp"
 #include "functions.hpp"
 #include "log.hpp"
@@ -17,6 +18,17 @@ enum class Allegiance {
 	neutral,
 	enemy,
 	count
+};
+
+enum Direction {
+	NORTH,
+	NORTHEAST,
+	EAST,
+	SOUTHEAST,
+	SOUTH,
+	SOUTHWEST,
+	WEST,
+	NORTHWEST
 };
 
 enum class Race {
@@ -130,6 +142,20 @@ enum class ItemFlag {
 
 struct Color {
 	unsigned int red, green, blue;
+	operator SDL_Color() const
+	{
+		uint8_t r = red;
+		uint8_t g = green;
+		uint8_t b = blue;
+		SDL_Color sdlColor = {r, g, b, 255};
+		return sdlColor;
+	};
+};
+
+struct Tile {
+	char letter;
+	Color color;
+	bool obstacle;
 };
 
 struct ItemEffect {
@@ -155,15 +181,18 @@ struct Ability {
 };
 
 struct Area {
+private:
 	unsigned int name;
 	unsigned int width;
 	unsigned int height;
-	std::vector<std::vector<char>> backgroudMap;
-	std::vector<std::vector<Color>> colorMap;
-
+	std::vector<std::vector<Tile>> map;
+public:
 	// create an area from a file
 	Area(const std::string &filename);
 	bool saveToFile(const std::string &filename);
+	unsigned int getHeight();
+	unsigned int getWidth();
+	Tile getTile(unsigned int x, unsigned int y);
 };
 
 struct Character {
@@ -175,6 +204,7 @@ struct Character {
 };
 
 struct Item {
+private:
 	unsigned int name;
 	long description;
 	ItemType type;
@@ -195,14 +225,15 @@ struct Item {
 	unsigned int required_intelligence;
 	std::vector<ItemEffect> effects;
 	std::string resource;
-
+public:
 	bool saveToFile(const std::string &filename);
 };
 
 struct Creature {
+private:
 	unsigned int name;
-	Color color;
 	char letter;
+	Color color;
 	Race race;
 	Gender gender;
 	unsigned int state;
@@ -225,14 +256,18 @@ struct Creature {
 	unsigned int resistance[(unsigned int)(Elementals::count)];
 	std::vector<CreatureEffect> effects;
 	std::vector<Ability> abilities;
-
+public:
 	Creature();
 	Creature(const std::string &filename);
 	bool saveToFile(const std::string &filename);
+
+	unsigned int getName();
+	Color getColor();
+	char getLetter();
 };
 
 struct Position {
-	unsigned long x, y;
+	unsigned int x, y;
 	unsigned int direction : 3;
 };
 
