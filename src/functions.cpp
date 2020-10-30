@@ -40,7 +40,7 @@ void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned
 	SDL_RenderFillRect(renderer, &upperRectangle);
 }
 
-void drawText(SDL_Renderer* renderer, TTF_Font* font, const std::string text, const SDL_Color color, const unsigned short x, const unsigned short y, const Alignment hAlign, const Alignment vAlign)
+void drawText(SDL_Renderer* renderer, TTF_Font* font, const std::string& text, const SDL_Color color, const unsigned short x, const unsigned short y, const Alignment hAlign, const Alignment vAlign)
 {
 	int _x = x / SCALE;
 	int _y = y / SCALE;
@@ -62,6 +62,35 @@ void drawText(SDL_Renderer* renderer, TTF_Font* font, const std::string text, co
 	SDL_RenderCopy(renderer, textTexture, NULL, &textRectangle);
 	SDL_FreeSurface(textSurface);
 	SDL_DestroyTexture(textTexture);
+}
+
+const std::string getPath(const std::string& filename, Filetype filetype)
+{
+	std::string path;
+	switch (filetype) {
+	case ARE:
+		path = PATH_DATA + PATH_ARE + filename + SUFFIX_ARE;
+		break;
+	case CHR:
+		path = PATH_DATA + PATH_CHR + filename + SUFFIX_CHR;
+		break;
+	case CRE:
+		path = PATH_DATA + PATH_CRE + filename + SUFFIX_CRE;
+		break;
+	case ITM:
+		path = PATH_DATA + PATH_ITM + filename + SUFFIX_ITM;
+		break;
+	case STR:
+		path = PATH_DATA + PATH_STR + filename + SUFFIX_STR;
+		break;
+	case TXT:
+		path = PATH_DATA + PATH_STR + filename + SUFFIX_TXT;
+		break;
+	default:
+		return PATH_DATA + filename;
+	}
+
+	return path;
 }
 
 void read(std::ifstream& resource, char* string, unsigned int size)

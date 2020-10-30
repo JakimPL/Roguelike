@@ -10,8 +10,8 @@ class Text
 {
 private:
 	std::vector<std::string> content;
-	bool convertFromTXTtoSTR(const std::string input, const std::string output);
-	bool loadContent(const std::string filename);
+	bool convertFromTXTtoSTR(const std::string& inputPath, const std::string& outputPath);
+	bool loadContent(const std::string& filename);
 
 public:
 	Text();

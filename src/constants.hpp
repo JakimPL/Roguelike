@@ -31,7 +31,7 @@ static const char PATH_FONT[] = "data/COURIER.TTF";
 #define FONT_SIZE 16
 #define _TILE_WIDTH 12
 #define _TILE_HEIGHT 22
-static const char PATH_FONT[] = "data/COURIER.TTF";
+static const char PATH_FONT[] = "data/NOTOMONO.TTF";
 #endif
 
 #define SIZE_TABLE 4
@@ -39,7 +39,9 @@ static const char PATH_FONT[] = "data/COURIER.TTF";
 #define SIZE_ITEM 2
 #define SIZE_CHAR 1
 #define SIZE_COLOR 3
+
 static constexpr unsigned int SIZE_INT = sizeof(unsigned int);
+static constexpr unsigned int SIZE_LONG = sizeof(unsigned long);
 
 static constexpr char headerARE[SIZE_HEADER + 1] = {'A', 'R', 'E', '\0'};
 static constexpr char headerSTR[SIZE_HEADER + 1] = {'S', 'T', 'R', '\0'};
@@ -49,17 +51,18 @@ static constexpr char headerCHR[SIZE_HEADER + 1] = {'C', 'H', 'R', '\0'};
 
 static const std::string FILENAME_PLAYER = "CHARACTER.CRE";
 static const std::string FILENAME_STRING = "DIALOGS";
-static const std::string PATH_ARE = "data/ARE/";
-static const std::string PATH_ITM = "data/ITM/";
-static const std::string PATH_CRE = "data/CRE/";
-static const std::string PATH_CHR = "data/CHR/";
-static const std::string PATH_STR = "data/STR/";
-static const std::string ARE_SUFFIX = ".ARE";
-static const std::string ITM_SUFFIX = ".ITM";
-static const std::string CRE_SUFFIX = ".CRE";
-static const std::string CHR_SUFFIX = ".CHR";
-static const std::string STR_SUFFIX = ".STR";
-static const std::string TXT_SUFFIX = ".TXT";
+static const std::string PATH_DATA = "data/";
+static const std::string PATH_ARE = "ARE/";
+static const std::string PATH_ITM = "ITM/";
+static const std::string PATH_CRE = "CRE/";
+static const std::string PATH_CHR = "CHR/";
+static const std::string PATH_STR = "STR/";
+static const std::string SUFFIX_ARE = ".ARE";
+static const std::string SUFFIX_ITM = ".ITM";
+static const std::string SUFFIX_CRE = ".CRE";
+static const std::string SUFFIX_CHR = ".CHR";
+static const std::string SUFFIX_STR = ".STR";
+static const std::string SUFFIX_TXT = ".TXT";
 
 static constexpr float SCALE = 1.5f;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
@@ -72,6 +75,18 @@ static constexpr int CENTER_X = SCREEN_WIDTH / (2 * TILE_WIDTH);
 static constexpr int CENTER_Y = SCREEN_HEIGHT / (2 * TILE_HEIGHT);
 
 static constexpr char TARGET_CHAR = u'¤';
+
+static constexpr unsigned int INVENTORY_SIZE = 30;
+
+enum Filetype {
+	NONE,
+	ARE,
+	CHR,
+	CRE,
+	ITM,
+	STR,
+	TXT
+};
 
 enum Alignment {
 	Left = 0,

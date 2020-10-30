@@ -14,9 +14,9 @@ const Position Position::operator +(int length) const
 	return newPosition;
 }
 
-Area::Area(const std::string filename)
+Area::Area(const std::string& filename)
 {
-	std::string path = PATH_ARE + filename + ARE_SUFFIX;
+	std::string path = Functions::getPath(filename, ARE);
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
@@ -90,10 +90,10 @@ Area::Area(const std::string filename)
 		}
 		resource.close();
 	} else {
-		_LogError("Failed to open " << filename << " file!");
+		_LogError("Failed to open " << filename << " area file!");
 	}
 
-	_LogInfo(filename << ARE_SUFFIX << " opened successfully.");
+	_LogInfo("File " << path << " opened successfully.");
 }
 
 unsigned int Area::getWidth()
@@ -128,110 +128,12 @@ unsigned int Area::getTextID()
 	return textID;
 }
 
-Creature::Creature(const std::string)
-{
-
-}
-
-Creature::Creature()
-{
-	textID = 0;
-	color = {255, 255, 0};
-	letter = 'X';
-	race = Race::human;
-	gender = Gender::male;
-	state = 0;
-	level = 1;
-	xp = 0;
-	xpNextLevel = 100;
-	xpValue = 0;
-	gold = 50;
-	hp = 30;
-	hpMax = 30;
-	mp = 15;
-	mpMax = 15;
-	acBase = 10;
-	accuracy = 25;
-	strength = 0;
-	dexterity = 0;
-	constitution = 0;
-	intelligence = 0;
-	wisdom = 0;
-	effects = {};
-	abilities = {};
-}
-
-unsigned int Creature::getTextID()
-{
-	return textID;
-}
-
-char Creature::getLetter()
-{
-	return letter;
-}
-
-Color Creature::getColor()
-{
-	return color;
-}
-
-int Creature::getLevel()
-{
-	return level;
-}
-
-int Creature::getRemainingXP()
-{
-	return xpNextLevel - xp;
-}
-
-int Creature::getCurrentXP()
-{
-	return xp;
-}
-
-int Creature::getCurrentHP()
-{
-	return hp;
-}
-
-int Creature::getCurrentMP()
-{
-	return mp;
-}
-
-int Creature::getMaxHP()
-{
-	return hpMax;
-}
-
-int Creature::getMaxMP()
-{
-	return mpMax;
-}
-
-unsigned int Creature::getWeaponTextID()
-{
-	return (unsigned int)(String::Fist);
-}
-
-bool Area::saveToFile(const std::string)
+bool Area::saveToFile(const std::string&)
 {
 	return false;
 }
 
-bool Character::saveToFile(const std::string)
-{
-	return false;
-}
-
-bool Creature::saveToFile(const std::string)
-{
-	return false;
-}
-
-bool Item::saveToFile(const std::string)
+bool Character::saveToFile(const std::string&)
 {
 	return false;
 }

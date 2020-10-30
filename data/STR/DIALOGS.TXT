@@ -23,3 +23,5 @@ Pięść
 Ziemia
 Piasek
 Woda
+Sztylet
+Broń jednoręczna

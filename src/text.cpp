@@ -11,7 +11,7 @@
 Text::Text()
 {
 #ifdef CONVERT_TXT_TO_STR
-	convertFromTXTtoSTR(PATH_STR + FILENAME_STRING + TXT_SUFFIX, PATH_STR + FILENAME_STRING + STR_SUFFIX);
+	convertFromTXTtoSTR(Functions::getPath(FILENAME_STRING, TXT), Functions::getPath(FILENAME_STRING, STR));
 #endif
 	if (!loadContent(FILENAME_STRING)) {
 		std::string errorMessage = "Failed to open " + FILENAME_STRING + " dialog file";
@@ -20,17 +20,17 @@ Text::Text()
 	}
 }
 
-bool Text::convertFromTXTtoSTR(const std::string input, const std::string output)
+bool Text::convertFromTXTtoSTR(const std::string& inputPath, const std::string& outputPath)
 {
-	std::ifstream infile(input);
-	std::ofstream outfile(output);
+	std::ifstream infile(inputPath);
+	std::ofstream outfile(outputPath);
 	if (infile.good()) {
 		content.clear();
 		std::string line;
 		while (std::getline(infile, line)) {
 			content.push_back(line);
 		}
-		_LogInfo("Loaded " << input << " file succesfully");
+		_LogInfo("Loaded " << inputPath << " file succesfully");
 		infile.close();
 		if (outfile.good()) {
 			outfile.write(headerSTR, SIZE_HEADER);
@@ -43,23 +43,23 @@ bool Text::convertFromTXTtoSTR(const std::string input, const std::string output
 			for (size_t it = 0; it < content.size(); ++it) {
 				outfile.write(content[it].c_str(), static_cast<unsigned int>(content[it].size()));
 			}
-			_LogInfo("Saved " << output << " file succesfully");
+			_LogInfo("Saved " << outputPath << " file succesfully");
 			outfile.close();
 			return true;
 		} else {
-			_LogError("Failed to save " << output << " file!");
+			_LogError("Failed to save " << outputPath << " file!");
 			return false;
 		}
 	} else {
-		_LogError("Failed to load " << input << " file!");
+		_LogError("Failed to load " << inputPath << " file!");
 		return false;
 	}
 }
 
-bool Text::loadContent(const std::string filename)
+bool Text::loadContent(const std::string& filename)
 {
 	///TODO: error handling
-	std::string path = PATH_STR + filename + STR_SUFFIX;
+	std::string path = Functions::getPath(filename, STR);
 	_LogInfo("Opening " << path << " dialogs file");
 	std::ifstream resource(path);
 	if (resource.good()) {
@@ -109,6 +109,7 @@ const std::string Text::text(unsigned int id) const
 		_LogError("Failed to load a text of id: " << id);
 		throw std::runtime_error("failed to load a text");
 	}
+
 	return output;
 }
 

@@ -7,8 +7,9 @@
 #include "log.hpp"
 
 #include <fstream>
-#include <vector>
+#include <map>
 #include <string>
+#include <vector>
 
 #define DIR_X(dir) (dir % 4 > 0 ? (dir / 4 > 0 ? -1 : 1) : 0)
 #define DIR_Y(dir) ((dir + 2) % 4 > 0 ? ((((dir + 2) % 8) / 4 > 0) ? 1 : -1) : 0)
@@ -198,10 +199,10 @@ private:
 	unsigned int width;
 	unsigned int height;
 	std::vector<std::vector<Tile>> map;
+
 public:
-	// create an area from a file
-	Area(const std::string filename);
-	bool saveToFile(const std::string filename);
+	Area(const std::string& filename);
+	bool saveToFile(const std::string& filename);
 	unsigned int getTextID();
 	unsigned int getHeight();
 	unsigned int getWidth();
@@ -214,79 +215,7 @@ struct Character {
 	long time;
 	int reputation;
 
-	bool saveToFile(const std::string filename);
-};
-
-struct Item {
-private:
-	unsigned int textID;
-	long description;
-	ItemType type;
-	ItemCategory category;
-	ItemFlag flag;
-	long price;
-	int attack;
-	int attack_rate;
-	int damage;
-	int damage_delta;
-	unsigned int delay;
-	int defense;
-	int defense_rate;
-	unsigned int required_level;
-	unsigned int required_strength;
-	unsigned int required_wisdom;
-	unsigned int required_dexterity;
-	unsigned int required_intelligence;
-	std::vector<ItemEffect> effects;
-	std::string resource;
-public:
-	bool saveToFile(const std::string filename);
-};
-
-struct Creature {
-private:
-	unsigned int textID;
-	char letter;
-	Color color;
-	Race race;
-	Gender gender;
-	unsigned int state;
-	unsigned int level;
-	unsigned long xp;
-	unsigned long xpNextLevel;
-	unsigned long xpValue;
-	unsigned long gold;
-	unsigned int hp;
-	unsigned int hpMax;
-	unsigned int mp;
-	unsigned int mpMax;
-	unsigned int acBase;
-	unsigned int accuracy;
-	unsigned int strength;
-	unsigned int dexterity;
-	unsigned int constitution;
-	unsigned int intelligence;
-	unsigned int wisdom;
-	unsigned int resistance[(unsigned int)(Elementals::count)];
-	std::vector<CreatureEffect> effects;
-	std::vector<Ability> abilities;
-public:
-	Creature();
-	Creature(const std::string filename);
-	bool saveToFile(const std::string filename);
-
-	unsigned int getTextID();
-	Color getColor();
-	char getLetter();
-	int getLevel();
-	int getRemainingXP();
-	int getCurrentXP();
-	int getCurrentHP();
-	int getCurrentMP();
-	int getMaxHP();
-	int getMaxMP();
-
-	unsigned int getWeaponTextID();
+	bool saveToFile(const std::string& filename);
 };
 
 #endif

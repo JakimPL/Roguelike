@@ -2,6 +2,7 @@
 #define PLAYER_HPP
 
 #include "structures.hpp"
+#include "creature.hpp"
 
 class Game;
 
