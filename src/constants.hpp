@@ -3,8 +3,6 @@
 
 #include <string>
 
-#define GUI_X_OFFSET 8
-#define GUI_Y_OFFSET 8
 #define GUI_RECTANGLE_COLOR {16, 16, 16, 224}
 
 #define COLOR_BLACK   {0,   0,   0,   255}
@@ -22,16 +20,17 @@
 
 #define COLOR_BROWN   {160, 96,  0,   255}
 #define COLOR_PURPLE  {96,  0,   160, 255}
+#define COLOR_LBLUE   {0,  64,   224, 255}
 
 #ifdef COURIER_NEW
 #define FONT_SIZE 19
-#define TILE_WIDTH 12
-#define TILE_HEIGHT 22
+#define _TILE_WIDTH 12
+#define _TILE_HEIGHT 22
 static const char PATH_FONT[] = "data/COURIER.TTF";
 #else
 #define FONT_SIZE 16
-#define TILE_WIDTH 12
-#define TILE_HEIGHT 22
+#define _TILE_WIDTH 12
+#define _TILE_HEIGHT 22
 static const char PATH_FONT[] = "data/COURIER.TTF";
 #endif
 
@@ -62,10 +61,17 @@ static const std::string CHR_SUFFIX = ".CHR";
 static const std::string STR_SUFFIX = ".STR";
 static const std::string TXT_SUFFIX = ".TXT";
 
-constexpr int SCREEN_WIDTH = 640;
-constexpr int SCREEN_HEIGHT = 480;
-constexpr int CENTER_X = SCREEN_WIDTH / (2 * TILE_WIDTH);
-constexpr int CENTER_Y = SCREEN_HEIGHT / (2 * TILE_HEIGHT);
+static constexpr float SCALE = 2.0f;
+static constexpr int GUI_X_OFFSET = 8 / SCALE;
+static constexpr int GUI_Y_OFFSET = 8 / SCALE;
+static constexpr int SCREEN_WIDTH = 1024;
+static constexpr int SCREEN_HEIGHT = 768;
+static constexpr int TILE_WIDTH = _TILE_WIDTH * SCALE;
+static constexpr int TILE_HEIGHT = _TILE_HEIGHT * SCALE;
+static constexpr int CENTER_X = SCREEN_WIDTH / (2 * TILE_WIDTH);
+static constexpr int CENTER_Y = SCREEN_HEIGHT / (2 * TILE_HEIGHT);
+
+static constexpr char TARGET_CHAR = u'¤';
 
 enum Alignment {
 	Left = 0,

@@ -49,6 +49,7 @@ int main()
 		}
 
 		SDL_RenderClear(renderer);
+		SDL_RenderSetScale(renderer, SCALE, SCALE);
 
 		// draw game map
 		size_t width = game.currentArea.getWidth();
@@ -62,6 +63,7 @@ int main()
 		}
 
 		// draw player and target
+		Functions::drawLetter(renderer, font, TARGET_CHAR, COLOR_LBLUE, CENTER_X + DIR_X(playerPosition.direction), CENTER_Y + DIR_Y(playerPosition.direction));
 		Functions::drawLetter(renderer, font, game.player.creature.getLetter(), game.player.creature.getColor(), CENTER_X, CENTER_Y);
 
 		// draw GUI

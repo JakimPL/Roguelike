@@ -10,6 +10,9 @@
 #include <vector>
 #include <string>
 
+#define DIR_X(dir) (dir % 4 > 0 ? (dir / 4 > 0 ? -1 : 1) : 0)
+#define DIR_Y(dir) ((dir + 2) % 4 > 0 ? ((((dir + 2) % 8) / 4 > 0) ? 1 : -1) : 0)
+
 enum class Allegiance {
 	unknown,
 	pc,
@@ -28,7 +31,8 @@ enum Direction {
 	SOUTH,
 	SOUTHWEST,
 	WEST,
-	NORTHWEST
+	NORTHWEST,
+	COUNT
 };
 
 enum class Race {
@@ -280,6 +284,8 @@ public:
 struct Position {
 	unsigned int x, y;
 	unsigned int direction : 3;
+	void moveInDirection(int length = 1, Direction chosenDirection = COUNT);
+	const Position operator +(int length) const;
 };
 
 #endif

@@ -1,5 +1,19 @@
 #include "structures.hpp"
 
+void Position::moveInDirection(int length, Direction chosenDirection)
+{
+	int dir = (chosenDirection == COUNT ? direction : chosenDirection);
+	x += length * DIR_X(dir);
+	y += length * DIR_Y(dir);
+}
+
+const Position Position::operator +(int length) const
+{
+	Position newPosition(*this);
+	newPosition.moveInDirection(length);
+	return newPosition;
+}
+
 Area::Area(const std::string &filename)
 {
 	std::string path = PATH_ARE + filename + ARE_SUFFIX;
