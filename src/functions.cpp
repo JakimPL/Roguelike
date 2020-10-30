@@ -28,7 +28,7 @@ void drawLetter(SDL_Renderer* renderer, TTF_Font* font, const char letter, const
 	SDL_DestroyTexture(textTexture);
 }
 
-void drawRectangle(SDL_Renderer* renderer, unsigned short x, unsigned short y, unsigned short w, unsigned short h, SDL_Color sdlColor)
+void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned short x, const unsigned short y, const unsigned short w, const unsigned short h)
 {
 	SDL_Rect upperRectangle;
 	upperRectangle.x = x / SCALE;
@@ -36,7 +36,7 @@ void drawRectangle(SDL_Renderer* renderer, unsigned short x, unsigned short y, u
 	upperRectangle.w = w / SCALE;
 	upperRectangle.h = h / SCALE;
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(renderer, sdlColor.r, sdlColor.g, sdlColor.b, sdlColor.a);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(renderer, &upperRectangle);
 }
 

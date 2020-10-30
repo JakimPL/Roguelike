@@ -30,6 +30,8 @@ Game::Game() : player("Liop"), currentArea("MOONDALE")
 		_LogError("Failed to load font file!");
 		throw std::runtime_error("failed to load font file");
 	}
+
+	player.currentArea = &currentArea;
 }
 
 void Game::drawFrame()
@@ -70,8 +72,8 @@ void Game::drawPlayer()
 void Game::drawGUI()
 {
 	Position playerPosition = player.getPosition();
-	Functions::drawRectangle(renderer, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3, GUI_RECTANGLE_COLOR);
-	Functions::drawRectangle(renderer, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3, GUI_RECTANGLE_COLOR);
+	Functions::drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
+	Functions::drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
 	Functions::drawText(renderer, font, text[currentArea.getTextID()], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream nextLevelText;
@@ -118,8 +120,42 @@ void Game::mainLoop()
 	while (!quit) {
 		while (SDL_PollEvent(&event) != 0) {
 			change = true;
-			if (event.type == SDL_QUIT) {
+			switch (event.type) {
+			case SDL_KEYDOWN: {
+				switch (event.key.keysym.sym) {
+				case SDLK_KP_8:
+					player.move(NORTH);
+					break;
+				case SDLK_KP_9:
+					player.move(NORTHEAST);
+					break;
+				case SDLK_KP_6:
+					player.move(EAST);
+					break;
+				case SDLK_KP_3:
+					player.move(SOUTHEAST);
+					break;
+				case SDLK_KP_2:
+					player.move(SOUTH);
+					break;
+				case SDLK_KP_1:
+					player.move(SOUTHWEST);
+					break;
+				case SDLK_KP_4:
+					player.move(WEST);
+					break;
+				case SDLK_KP_7:
+					player.move(NORTHWEST);
+					break;
+				case SDLK_ESCAPE:
+					quit = true;
+					break;
+				}
+				break;
+			}
+			case SDL_QUIT:
 				quit = true;
+				break;
 			}
 		}
 

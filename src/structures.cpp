@@ -108,7 +108,19 @@ unsigned int Area::getHeight()
 
 Tile Area::getTile(unsigned int x, unsigned int y)
 {
-	return map[x][y];
+	Tile tile;
+	try {
+		tile = map.at(x).at(y);
+	}  catch (std::out_of_range &) {
+
+	}
+
+	return tile;
+}
+
+Tile Area::getTile(Position position)
+{
+	return getTile(position.x, position.y);
 }
 
 unsigned int Area::getTextID()

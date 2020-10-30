@@ -157,10 +157,17 @@ struct Color {
 };
 
 struct Tile {
-	char letter;
-	Color color;
-	bool obstacle;
-	unsigned int textID;
+	char letter = ' ';
+	Color color = {0, 0, 0};
+	bool obstacle = 0;
+	unsigned int textID = 0;
+};
+
+struct Position {
+	int x, y;
+	unsigned int direction : 3;
+	void moveInDirection(int length = 1, Direction chosenDirection = COUNT);
+	const Position operator +(int length) const;
 };
 
 struct ItemEffect {
@@ -199,6 +206,7 @@ public:
 	unsigned int getHeight();
 	unsigned int getWidth();
 	Tile getTile(unsigned int x, unsigned int y);
+	Tile getTile(Position position);
 };
 
 struct Character {
@@ -279,13 +287,6 @@ public:
 	int getMaxMP();
 
 	unsigned int getWeaponTextID();
-};
-
-struct Position {
-	unsigned int x, y;
-	unsigned int direction : 3;
-	void moveInDirection(int length = 1, Direction chosenDirection = COUNT);
-	const Position operator +(int length) const;
 };
 
 #endif

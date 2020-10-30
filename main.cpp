@@ -9,7 +9,6 @@ int main()
 {
 	_LogNone("Game starts");
 
-	// initialize game objects
 	Game game;
 	game.mainLoop();
 	game.quit();

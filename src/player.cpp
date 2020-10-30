@@ -17,3 +17,11 @@ Position Player::getPosition()
 {
 	return position;
 }
+
+void Player::move(Direction direction)
+{
+	position.direction = direction;
+	if (!currentArea->getTile(position + 1).obstacle) {
+		position.moveInDirection();
+	}
+}
