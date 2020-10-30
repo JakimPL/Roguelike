@@ -2,7 +2,7 @@
 
 void Position::moveInDirection(int length, Direction chosenDirection)
 {
-	int dir = (chosenDirection == COUNT ? direction : chosenDirection);
+	int dir = (chosenDirection == COUNT ? Direction(direction) : chosenDirection);
 	x += length * DIR_X(dir);
 	y += length * DIR_Y(dir);
 }
@@ -14,14 +14,14 @@ const Position Position::operator +(int length) const
 	return newPosition;
 }
 
-Area::Area(const std::string &filename)
+Area::Area(const std::string filename)
 {
 	std::string path = PATH_ARE + filename + ARE_SUFFIX;
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
-		char resourceHeader[SIZE_HEADER];
-		resource.read(resourceHeader, SIZE_HEADER);
+		char resourceHeader[SIZE_HEADER + 1];
+		Functions::read(resource, resourceHeader, SIZE_HEADER);
 		if (Functions::compareHeaders(headerARE, resourceHeader)) {
 			// read map name, width and height
 			resource.read((char*)&textID, SIZE_INT);
@@ -45,18 +45,17 @@ Area::Area(const std::string &filename)
 			// read map characters
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
-					char temp[SIZE_CHAR];
-					resource.read(temp, SIZE_CHAR);
-					characterMap[x].push_back(temp[0]);
+					char character;
+					resource.read(reinterpret_cast<char*>(&character), SIZE_CHAR);
+					characterMap[x].push_back(character);
 				}
 			}
 
 			// read map colors
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
-					char temp[SIZE_COLOR];
-					resource.read(temp, SIZE_COLOR);
-					Color color = {(unsigned int)(temp[0]), (unsigned int)(temp[1]), (unsigned int)(temp[2])};
+					Color color;
+					resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
 					colorMap[x].push_back(color);
 				}
 			}
@@ -64,9 +63,8 @@ Area::Area(const std::string &filename)
 			// read obstacle map
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
-					char temp[SIZE_CHAR];
-					resource.read(temp, SIZE_CHAR);
-					bool obstacle = temp[0] > 0;
+					bool obstacle;
+					resource.read(reinterpret_cast<char*>(&obstacle), SIZE_CHAR);
 					obstacleMap[x].push_back(obstacle);
 				}
 			}
@@ -74,9 +72,8 @@ Area::Area(const std::string &filename)
 			// read tile textID map
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
-					char temp[SIZE_INT];
-					resource.read(temp, SIZE_INT);
-					unsigned int textID = Functions::getValue(temp);
+					unsigned int textID;
+					resource.read(reinterpret_cast<char*>(&textID), SIZE_INT);
 					textIDMap[x].push_back(textID);
 				}
 			}
@@ -119,7 +116,7 @@ unsigned int Area::getTextID()
 	return textID;
 }
 
-Creature::Creature(const std::string &filename)
+Creature::Creature(const std::string)
 {
 
 }
@@ -207,22 +204,22 @@ unsigned int Creature::getWeaponTextID()
 	return (unsigned int)(String::Fist);
 }
 
-bool Area::saveToFile(const std::string &filename)
+bool Area::saveToFile(const std::string)
 {
 	return false;
 }
 
-bool Character::saveToFile(const std::string &filename)
+bool Character::saveToFile(const std::string)
 {
 	return false;
 }
 
-bool Creature::saveToFile(const std::string &filename)
+bool Creature::saveToFile(const std::string)
 {
 	return false;
 }
 
-bool Item::saveToFile(const std::string &filename)
+bool Item::saveToFile(const std::string)
 {
 	return false;
 }

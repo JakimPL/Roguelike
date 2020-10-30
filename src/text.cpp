@@ -10,7 +10,9 @@
 
 Text::Text()
 {
-	convertFromTXTtoSTR("data/STR/DIALOGS.TXT", "data/STR/DIALOGS.STR");
+#ifdef CONVERT_TXT_TO_STR
+	convertFromTXTtoSTR(PATH_STR + FILENAME_STRING + TXT_SUFFIX, PATH_STR + FILENAME_STRING + STR_SUFFIX);
+#endif
 	if (!loadContent(FILENAME_STRING)) {
 		std::string errorMessage = "Failed to open " + FILENAME_STRING + " dialog file";
 		_LogError(errorMessage);
@@ -18,7 +20,7 @@ Text::Text()
 	}
 }
 
-bool Text::convertFromTXTtoSTR(const std::string &input, const std::string &output)
+bool Text::convertFromTXTtoSTR(const std::string input, const std::string output)
 {
 	std::ifstream infile(input);
 	std::ofstream outfile(output);
@@ -54,7 +56,7 @@ bool Text::convertFromTXTtoSTR(const std::string &input, const std::string &outp
 	}
 }
 
-bool Text::loadContent(const std::string &filename)
+bool Text::loadContent(const std::string filename)
 {
 	///TODO: error handling
 	std::string path = PATH_STR + filename + STR_SUFFIX;
@@ -63,8 +65,7 @@ bool Text::loadContent(const std::string &filename)
 	if (resource.good()) {
 		bool success = true;
 		char resourceHeader[SIZE_HEADER + 1];
-		resource.read(resourceHeader, SIZE_HEADER);
-		resourceHeader[SIZE_HEADER] = '\0';
+		Functions::read(resource, resourceHeader, SIZE_HEADER);
 		if (Functions::compareHeaders(headerSTR, resourceHeader)) {
 			unsigned int tableSize;
 			resource.read(reinterpret_cast<char*>(&tableSize), SIZE_TABLE);
@@ -82,10 +83,9 @@ bool Text::loadContent(const std::string &filename)
 			}
 
 			for (unsigned int i = 0; i < tableSize; i++) {
-				char* item = new char[itemSizes[i]];
-				resource.read(item, itemSizes[i]);
+				char item[itemSizes[i] + 1];
+				Functions::read(resource, item, itemSizes[i]);
 				content.push_back(std::string(item));
-				delete[] item;
 			}
 
 			_LogInfo("Dialog file " << filename << " opened successfully");

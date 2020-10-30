@@ -145,7 +145,7 @@ enum class ItemFlag {
 };
 
 struct Color {
-	unsigned int red, green, blue;
+	uint8_t red, green, blue;
 	operator SDL_Color() const
 	{
 		uint8_t r = red;
@@ -193,8 +193,8 @@ private:
 	std::vector<std::vector<Tile>> map;
 public:
 	// create an area from a file
-	Area(const std::string &filename);
-	bool saveToFile(const std::string &filename);
+	Area(const std::string filename);
+	bool saveToFile(const std::string filename);
 	unsigned int getTextID();
 	unsigned int getHeight();
 	unsigned int getWidth();
@@ -206,7 +206,7 @@ struct Character {
 	long time;
 	int reputation;
 
-	bool saveToFile(const std::string &filename);
+	bool saveToFile(const std::string filename);
 };
 
 struct Item {
@@ -232,7 +232,7 @@ private:
 	std::vector<ItemEffect> effects;
 	std::string resource;
 public:
-	bool saveToFile(const std::string &filename);
+	bool saveToFile(const std::string filename);
 };
 
 struct Creature {
@@ -264,8 +264,8 @@ private:
 	std::vector<Ability> abilities;
 public:
 	Creature();
-	Creature(const std::string &filename);
-	bool saveToFile(const std::string &filename);
+	Creature(const std::string filename);
+	bool saveToFile(const std::string filename);
 
 	unsigned int getTextID();
 	Color getColor();

@@ -3,6 +3,7 @@
 #include "structures.hpp"
 
 #include <cstring>
+#include <array>
 
 namespace Functions
 {
@@ -63,14 +64,10 @@ void drawText(SDL_Renderer* renderer, TTF_Font* font, const std::string text, co
 	SDL_DestroyTexture(textTexture);
 }
 
-unsigned int getValue(const char* chars)
+void read(std::ifstream& resource, char* string, unsigned int size)
 {
-	unsigned int value = 0;
-	for (size_t i = 0; i < SIZE_INT; ++i) {
-		value += (unsigned int)(chars[i]) << (8 * i);
-	}
-
-	return value;
+	resource.read(string, size);
+	string[size] = '\0';
 }
 
 }

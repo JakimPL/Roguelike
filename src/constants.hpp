@@ -4,6 +4,7 @@
 #include <string>
 
 #define GUI_RECTANGLE_COLOR {16, 16, 16, 224}
+#define TARGET_COLOR   {64,  128, 224, 255}
 
 #define COLOR_BLACK   {0,   0,   0,   255}
 #define COLOR_RED     {224, 0,   0,   255}
@@ -20,7 +21,6 @@
 
 #define COLOR_BROWN   {160, 96,  0,   255}
 #define COLOR_PURPLE  {96,  0,   160, 255}
-#define COLOR_LBLUE   {0,  64,   224, 255}
 
 #ifdef COURIER_NEW
 #define FONT_SIZE 19
@@ -61,9 +61,9 @@ static const std::string CHR_SUFFIX = ".CHR";
 static const std::string STR_SUFFIX = ".STR";
 static const std::string TXT_SUFFIX = ".TXT";
 
-static constexpr float SCALE = 2.0f;
-static constexpr int GUI_X_OFFSET = 8 / SCALE;
-static constexpr int GUI_Y_OFFSET = 8 / SCALE;
+static constexpr float SCALE = 1.5f;
+static constexpr int GUI_X_OFFSET = 8 * SCALE;
+static constexpr int GUI_Y_OFFSET = 8 * SCALE;
 static constexpr int SCREEN_WIDTH = 1024;
 static constexpr int SCREEN_HEIGHT = 768;
 static constexpr int TILE_WIDTH = _TILE_WIDTH * SCALE;
@@ -110,7 +110,10 @@ enum class String : unsigned int {
 	level,
 	Moondale,
 	WeaponInUse,
-	Fist
+	Fist,
+	Ground,
+	Sand,
+	Water
 };
 
 #endif // DEFINITIONS_HPP
