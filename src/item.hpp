@@ -7,6 +7,7 @@ struct Item {
 private:
 	unsigned int textID;
 	unsigned int descriptionID;
+	Color color;
 	ItemType type;
 	ItemCategory category;
 	ItemFlag flag;
@@ -27,6 +28,8 @@ private:
 
 public:
 	Item(const std::string &filename);
+	unsigned int getTextID();
+	Color getColor();
 	bool saveToFile(const std::string& filename);
 };
 
@@ -38,6 +41,8 @@ private:
 public:
 	bool addItem(const std::string& filename);
 	bool addItem(Item item);
+	unsigned int getBackpackSize();
+	Item* getBackpackItem(unsigned int name);
 	bool isFull() const;
 };
 

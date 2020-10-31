@@ -11,6 +11,7 @@ Item::Item(const std::string& filename)
 		if (Functions::compareHeaders(headerITM, resourceHeader)) {
 			resource.read(reinterpret_cast<char*>(&textID), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
+			resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
 			resource.read(reinterpret_cast<char*>(&type), SIZE_CHAR);
 			resource.read(reinterpret_cast<char*>(&category), SIZE_CHAR);
 			resource.read(reinterpret_cast<char*>(&flag), SIZE_CHAR);
@@ -40,6 +41,16 @@ Item::Item(const std::string& filename)
 	_LogInfo("File " << path << " opened successfully.");
 }
 
+unsigned int Item::getTextID()
+{
+	return textID;
+}
+
+Color Item::getColor()
+{
+	return color;
+}
+
 bool Item::saveToFile(const std::string& filename)
 {
 	std::string path = Functions::getPath(filename, ITM);
@@ -48,6 +59,7 @@ bool Item::saveToFile(const std::string& filename)
 		resource.write(headerITM, SIZE_HEADER);
 		resource.write(reinterpret_cast<char*>(&textID), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
 		resource.write(reinterpret_cast<char*>(&type), SIZE_CHAR);
 		resource.write(reinterpret_cast<char*>(&category), SIZE_CHAR);
 		resource.write(reinterpret_cast<char*>(&flag), SIZE_CHAR);
@@ -98,6 +110,20 @@ bool Inventory::addItem(Item item)
 	}
 
 	return false;
+}
+
+Item* Inventory::getBackpackItem(unsigned int index)
+{
+	if (index >= backpack.size()) {
+		return nullptr;
+	} else {
+		return &backpack[index];
+	}
+}
+
+unsigned int Inventory::getBackpackSize()
+{
+	return backpack.size();
 }
 
 bool Inventory::isFull() const

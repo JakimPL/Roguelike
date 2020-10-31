@@ -9,8 +9,7 @@ Game::Game() : player("Liop"), currentArea("MOONDALE")
 	}
 
 	window = SDL_CreateWindow("Roguelike", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-	Uint32 renderFlags = SDL_RENDERER_ACCELERATED;
-	renderer = SDL_CreateRenderer(window, -1, renderFlags);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	if (renderer == NULL) {
 		_LogError("Bad SDL object!");
@@ -109,11 +108,42 @@ void Game::drawGUI()
 	std::stringstream shortcutsText;
 	shortcutsText << text[String::SHORTCUTS];
 	Functions::drawText(renderer, font, shortcutsText.str(), COLOR_BROWN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Right);
+
+	if (isGUIactive()) {
+		Functions::drawRectangle(renderer, COLOR_WHITE, GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + 4 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT, true);
+		Functions::drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + SCALE, GUI_Y_OFFSET + 4 * TILE_HEIGHT + SCALE, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH - 2 * SCALE, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT - 2 * SCALE);
+	}
+
+	switch (activeGUI) {
+	case GUI::Inventory: {
+		Inventory& inventory = player.creature.inventory;
+		for (size_t index = 0; index < INVENTORY_ITEMS_PER_PAGE; ++index) {
+			if (index >= inventory.getBackpackSize()) {
+				break;
+			}
+
+			Item* item = inventory.getBackpackItem(index);
+			Functions::drawText(renderer, font, text[item->getTextID()], item->getColor(), 2 * GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + (4 + index) * TILE_HEIGHT, Alignment::Left, Alignment::Top);
+		}
+
+		break;
+	}
+	case GUI::Character:
+		break;
+	case GUI::Map:
+		break;
+	default:
+		break;
+	}
+}
+
+bool Game::isGUIactive() const
+{
+	return (unsigned int)(activeGUI) > 0;
 }
 
 void Game::mainLoop()
 {
-	// main game loop
 	bool change = true;
 	bool quit = false;
 	SDL_Event event;

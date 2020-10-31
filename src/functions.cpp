@@ -13,6 +13,11 @@ bool compareHeaders(const char* header1, const char* header2)
 	return (std::strcmp(header1, header2) == 0);
 }
 
+SDL_Color createColor(Color color, uint8_t alpha)
+{
+	return {color.red, color.green, color.blue, alpha};
+}
+
 void drawLetter(SDL_Renderer* renderer, TTF_Font* font, const char letter, const SDL_Color color, const unsigned short x, const unsigned short y)
 {
 	const char text[] = {letter};
@@ -28,7 +33,7 @@ void drawLetter(SDL_Renderer* renderer, TTF_Font* font, const char letter, const
 	SDL_DestroyTexture(textTexture);
 }
 
-void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned short x, const unsigned short y, const unsigned short w, const unsigned short h)
+void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned short x, const unsigned short y, const unsigned short w, const unsigned short h, const bool outline)
 {
 	SDL_Rect upperRectangle;
 	upperRectangle.x = x / SCALE;
@@ -37,7 +42,11 @@ void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned
 	upperRectangle.h = h / SCALE;
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-	SDL_RenderFillRect(renderer, &upperRectangle);
+	if (outline) {
+		SDL_RenderDrawRect(renderer, &upperRectangle);
+	} else {
+		SDL_RenderFillRect(renderer, &upperRectangle);
+	}
 }
 
 void drawText(SDL_Renderer* renderer, TTF_Font* font, const std::string& text, const SDL_Color color, const unsigned short x, const unsigned short y, const Alignment hAlign, const Alignment vAlign)

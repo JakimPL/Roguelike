@@ -64,7 +64,7 @@ static const std::string SUFFIX_CHR = ".CHR";
 static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
 
-static constexpr float SCALE = 1.5f;
+static constexpr float SCALE = 2.0f;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
 static constexpr int GUI_Y_OFFSET = 8 * SCALE;
 static constexpr int SCREEN_WIDTH = 1024;
@@ -77,6 +77,7 @@ static constexpr int CENTER_Y = SCREEN_HEIGHT / (2 * TILE_HEIGHT);
 static constexpr char TARGET_CHAR = u'¤';
 
 static constexpr unsigned int INVENTORY_SIZE = 30;
+static constexpr unsigned int INVENTORY_ITEMS_PER_PAGE = 12;
 
 enum Filetype {
 	NONE,

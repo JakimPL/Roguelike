@@ -1,6 +1,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include "area.hpp"
 #include "structures.hpp"
 #include "creature.hpp"
 

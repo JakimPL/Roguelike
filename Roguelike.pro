@@ -4,6 +4,7 @@ OBJECTS_DIR = obj
 
 HEADERS += \
 	main.hpp \
+	src/area.hpp \
 	src/constants.hpp \
 	src/creature.hpp \
 	src/functions.hpp \
@@ -17,6 +18,7 @@ HEADERS += \
 
 SOURCES += \
 	main.cpp \
+	src/area.cpp \
 	src/creature.cpp \
 	src/functions.cpp \
 	src/game.cpp \
