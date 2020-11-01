@@ -22,6 +22,22 @@
 #define COLOR_BROWN   {160, 96,  0,   255}
 #define COLOR_PURPLE  {96,  0,   160, 255}
 
+static constexpr float FPS = 60.0f;
+
+static constexpr unsigned int SIZE_TABLE = 4;
+static constexpr unsigned int SIZE_HEADER = 3;
+static constexpr unsigned int SIZE_ITEM = 2;
+static constexpr unsigned int SIZE_CHAR = 1;
+static constexpr unsigned int SIZE_COLOR = 3;
+static constexpr unsigned int SIZE_INT = sizeof(unsigned int);
+static constexpr unsigned int SIZE_LONG = sizeof(unsigned long);
+
+static constexpr char headerARE[SIZE_HEADER + 1] = {'A', 'R', 'E', '\0'};
+static constexpr char headerSTR[SIZE_HEADER + 1] = {'S', 'T', 'R', '\0'};
+static constexpr char headerCRE[SIZE_HEADER + 1] = {'C', 'R', 'E', '\0'};
+static constexpr char headerITM[SIZE_HEADER + 1] = {'I', 'T', 'M', '\0'};
+static constexpr char headerCHR[SIZE_HEADER + 1] = {'C', 'H', 'R', '\0'};
+
 #ifdef COURIER_NEW
 #define FONT_SIZE 19
 #define _TILE_WIDTH 12
@@ -33,21 +49,6 @@ static const char PATH_FONT[] = "data/COURIER.TTF";
 #define _TILE_HEIGHT 22
 static const char PATH_FONT[] = "data/NOTOMONO.TTF";
 #endif
-
-#define SIZE_TABLE 4
-#define SIZE_HEADER 3
-#define SIZE_ITEM 2
-#define SIZE_CHAR 1
-#define SIZE_COLOR 3
-
-static constexpr unsigned int SIZE_INT = sizeof(unsigned int);
-static constexpr unsigned int SIZE_LONG = sizeof(unsigned long);
-
-static constexpr char headerARE[SIZE_HEADER + 1] = {'A', 'R', 'E', '\0'};
-static constexpr char headerSTR[SIZE_HEADER + 1] = {'S', 'T', 'R', '\0'};
-static constexpr char headerCRE[SIZE_HEADER + 1] = {'C', 'R', 'E', '\0'};
-static constexpr char headerITM[SIZE_HEADER + 1] = {'I', 'T', 'M', '\0'};
-static constexpr char headerCHR[SIZE_HEADER + 1] = {'C', 'H', 'R', '\0'};
 
 static const std::string FILENAME_PLAYER = "CHARACTER.CRE";
 static const std::string FILENAME_STRING = "DIALOGS";

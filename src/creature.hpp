@@ -1,9 +1,49 @@
 #ifndef CREATURE_HPP
 #define CREATURE_HPP
 
-#include "constants.hpp"
 #include "item.hpp"
-#include "structures.hpp"
+
+enum class Race {
+	undefined,
+	human,
+	elf,
+	gnome,
+	dwarf,
+	orc,
+	animal,
+	monster,
+	magic_being,
+	demigod,
+	god,
+	count
+};
+
+enum class State {
+	dead,
+	sleeping,
+	mute,
+	frozen,
+	panic,
+	summoned,
+	undead,
+	count
+};
+
+enum class Gender {
+	unknown,
+	male,
+	female,
+	nonbinary,
+	count
+};
+
+enum class CreatureCharacter {
+	unknown,
+	good,
+	neutral,
+	evil,
+	count
+};
 
 struct Creature {
 private:

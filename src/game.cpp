@@ -114,7 +114,7 @@ void Game::drawGUI()
 		Functions::drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + SCALE, GUI_Y_OFFSET + 4 * TILE_HEIGHT + SCALE, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH - 2 * SCALE, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT - 2 * SCALE);
 	}
 
-	switch (activeGUI) {
+	switch (activeCart) {
 	case GUI::Inventory: {
 		Inventory& inventory = player.creature.inventory;
 		for (size_t index = 0; index < INVENTORY_ITEMS_PER_PAGE; ++index) {
@@ -137,61 +137,82 @@ void Game::drawGUI()
 	}
 }
 
+bool Game::isKey(SDL_Keycode keyCode)
+{
+	return keyState[keyCode];
+}
+
+bool Game::isKeyPressed(SDL_Keycode keyCode)
+{
+	if (keyState[keyCode]) {
+		if (!keyPressed[keyCode]) {
+			keyPressed[keyCode] = true;
+			return true;
+		}
+	} else {
+		keyPressed[keyCode] = false;
+	}
+
+	return false;
+}
+
+/*bool Game::isKeyReleased(SDL_Keycode keyCode)
+{
+	return keyReleased[keyCode];
+}*/
+
 bool Game::isGUIactive() const
 {
-	return (unsigned int)(activeGUI) > 0;
+	return (unsigned int)(activeCart) > 0;
 }
 
 void Game::mainLoop()
 {
-	bool change = true;
 	bool quit = false;
 	SDL_Event event;
 	while (!quit) {
-		while (SDL_PollEvent(&event) != 0) {
-			change = true;
-			switch (event.type) {
-			case SDL_KEYDOWN: {
-				switch (event.key.keysym.sym) {
-				case SDLK_KP_8:
-					player.move(NORTH);
+		timer.update();
+		if (timer.frame()) {
+			while (SDL_PollEvent(&event) != 0) {
+				switch (event.type) {
+				case SDL_KEYDOWN:
+				case SDL_KEYUP: {
+					SDL_Keycode keyCode = event.key.keysym.sym;
+					keyState[keyCode] = event.key.state;
 					break;
-				case SDLK_KP_9:
-					player.move(NORTHEAST);
-					break;
-				case SDLK_KP_6:
-					player.move(EAST);
-					break;
-				case SDLK_KP_3:
-					player.move(SOUTHEAST);
-					break;
-				case SDLK_KP_2:
-					player.move(SOUTH);
-					break;
-				case SDLK_KP_1:
-					player.move(SOUTHWEST);
-					break;
-				case SDLK_KP_4:
-					player.move(WEST);
-					break;
-				case SDLK_KP_7:
-					player.move(NORTHWEST);
-					break;
-				case SDLK_ESCAPE:
+				}
+				case SDL_QUIT:
 					quit = true;
 					break;
 				}
-				break;
 			}
-			case SDL_QUIT:
-				quit = true;
-				break;
-			}
-		}
 
-		if (change) {
+			if (isKeyPressed(SDLK_i)) {
+				if (activeCart == GUI::Inventory) {
+					activeCart = GUI::None;
+				} else {
+					activeCart = GUI::Inventory;
+				}
+			}
+
+			for (unsigned int dir = 0; dir < COUNT; ++dir) {
+				Direction direction = Direction(dir);
+				if (isKey(keyDirection[direction])) {
+					player.move(direction);
+					break;
+				}
+			}
+
+			if (isKeyPressed(SDLK_ESCAPE)) {
+				if (activeCart == GUI::None) {
+					quit = true;
+				} else {
+					activeCart = GUI::None;
+				}
+			}
+
+			player.step();
 			drawFrame();
-			change = false;
 		}
 	}
 }

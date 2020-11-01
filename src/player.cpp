@@ -3,9 +3,6 @@
 Player::Player(std::string initialName)
 {
 	name = initialName;
-	position.x = 0;
-	position.y = 0;
-	position.direction = SOUTH;
 }
 
 std::string Player::getName()
@@ -22,6 +19,16 @@ void Player::move(Direction direction)
 {
 	position.direction = direction;
 	if (!currentArea->getTile(position + 1).obstacle) {
-		position.moveInDirection();
+		if (delay == 0) {
+			position.moveInDirection();
+			delay = 10;
+		}
+	}
+}
+
+void Player::step()
+{
+	if (delay > 0) {
+		delay--;
 	}
 }

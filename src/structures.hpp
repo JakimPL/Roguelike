@@ -24,7 +24,7 @@ enum class Allegiance {
 	count
 };
 
-enum Direction {
+enum Direction : unsigned int {
 	NORTH,
 	NORTHEAST,
 	EAST,
@@ -34,115 +34,6 @@ enum Direction {
 	WEST,
 	NORTHWEST,
 	COUNT
-};
-
-enum class Race {
-	undefined,
-	human,
-	elf,
-	gnome,
-	dwarf,
-	orc,
-	animal,
-	monster,
-	magic_being,
-	demigod,
-	god,
-	count
-};
-
-enum class State {
-	dead,
-	sleeping,
-	mute,
-	frozen,
-	panic,
-	summoned,
-	undead,
-	count
-};
-
-enum class Elementals {
-	physical,
-	magic,
-	fire,
-	ice,
-	electricity,
-	acid,
-	missile,
-	count
-};
-
-enum class Gender {
-	unknown,
-	male,
-	female,
-	nonbinary,
-	count
-};
-
-enum class CreatureCharacter {
-	unknown,
-	good,
-	neutral,
-	evil,
-	count
-};
-
-enum class Stack {
-	unused,
-	weapon,
-	armor,
-	helmet,
-	gloves,
-	cloak,
-	boots,
-	ring,
-	amulet,
-	quiver,
-	quick,
-	count
-};
-
-enum class ItemType {
-	miscellaneous,
-	weapon,
-	armor,
-	helmet,
-	gloves,
-	cloak,
-	boots,
-	ring,
-	amulet,
-	quiver,
-	quick,
-	count
-};
-
-enum class ItemCategory {
-	unused,
-	long_sword,
-	short_sword,
-	staff,
-	spear,
-	club,
-	axe,
-	bow,
-	crossbow,
-	small_arms,
-	sling,
-	leather_armor,
-	chain_mall,
-	plate_armor,
-	robe,
-	count
-};
-
-enum class ItemFlag {
-	none,
-	broken,
-	magic,
-	count
 };
 
 struct Color {
@@ -162,10 +53,6 @@ struct Position {
 	unsigned int direction : 3;
 	void moveInDirection(int length = 1, Direction chosenDirection = COUNT);
 	const Position operator +(int length) const;
-};
-
-struct ItemEffect {
-	unsigned int textID;
 };
 
 struct CreatureEffect {
@@ -192,6 +79,28 @@ struct Character {
 	int reputation;
 
 	bool saveToFile(const std::string& filename);
+};
+
+struct Timer {
+private:
+	float fps = FPS;
+	Uint32 start = 0;
+	Uint32 end = 0;
+	Uint32 delta = 0;
+public:
+	bool frame();
+	void update();
+};
+
+static std::map<Direction, SDL_Keycode> keyDirection = {
+	{NORTH, SDLK_KP_8},
+	{NORTHEAST, SDLK_KP_9},
+	{EAST, SDLK_KP_6},
+	{SOUTHEAST, SDLK_KP_3},
+	{SOUTH, SDLK_KP_2},
+	{SOUTHWEST, SDLK_KP_1},
+	{WEST, SDLK_KP_4},
+	{NORTHWEST, SDLK_KP_7}
 };
 
 #endif

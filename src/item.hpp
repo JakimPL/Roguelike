@@ -3,6 +3,78 @@
 
 #include "structures.hpp"
 
+enum class Elementals {
+	physical,
+	magic,
+	fire,
+	ice,
+	electricity,
+	acid,
+	missile,
+	count
+};
+
+enum class Stack {
+	unused,
+	weapon,
+	armor,
+	helmet,
+	gloves,
+	cloak,
+	boots,
+	ring,
+	amulet,
+	quiver,
+	quick,
+	count
+};
+
+
+enum class ItemType {
+	miscellaneous,
+	weapon,
+	armor,
+	helmet,
+	gloves,
+	cloak,
+	boots,
+	ring,
+	amulet,
+	quiver,
+	quick,
+	count
+};
+
+enum class ItemCategory {
+	unused,
+	long_sword,
+	short_sword,
+	staff,
+	spear,
+	club,
+	axe,
+	bow,
+	crossbow,
+	small_arms,
+	sling,
+	leather_armor,
+	chain_mall,
+	plate_armor,
+	robe,
+	count
+};
+
+enum class ItemFlag {
+	none,
+	broken,
+	magic,
+	count
+};
+
+struct ItemEffect {
+	unsigned int textID;
+};
+
 struct Item {
 private:
 	unsigned int textID;

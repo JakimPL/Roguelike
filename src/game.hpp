@@ -20,10 +20,14 @@ private:
 	SDL_Window* window;
 	TTF_Font* font;
 	Text text;
+
+	Timer timer;
+	std::map<SDL_Keycode, bool> keyState;
+	std::map<SDL_Keycode, bool> keyPressed;
 public:
 	Player player;
 	Area currentArea;
-	GUI activeGUI = GUI::Inventory;
+	GUI activeCart = GUI::Inventory;
 public:
 	Game();
 
@@ -31,6 +35,10 @@ public:
 	void drawMap();
 	void drawPlayer();
 	void drawGUI();
+
+	bool isKey(SDL_Keycode keyCode);
+	bool isKeyPressed(SDL_Keycode keyCode);
+	//bool isKeyReleased(SDL_Keycode keyCode);
 
 	bool isGUIactive() const;
 	void mainLoop();

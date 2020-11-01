@@ -11,7 +11,8 @@ class Player
 {
 private:
 	std::string name;
-	Position position;
+	Position position = {0, 0, SOUTH};
+	unsigned int delay = 0;
 
 public:
 	Area* currentArea;
@@ -24,6 +25,7 @@ public:
 	std::string getName();
 	Position getPosition();
 	void move(Direction direction);
+	void step();
 };
 
 #endif // PLAYER_HPP
