@@ -52,6 +52,7 @@ struct Position {
 	int x, y;
 	unsigned int direction : 3;
 	void moveInDirection(int length = 1, Direction chosenDirection = COUNT);
+	void setDirection(Direction newDirection);
 	const Position operator +(int length) const;
 };
 
@@ -90,6 +91,19 @@ private:
 public:
 	bool frame();
 	void update();
+};
+
+struct Keyboard {
+private:
+	int keyInputDelay = 0;
+	std::map<SDL_Keycode, bool> keyState;
+	std::map<SDL_Keycode, bool> keyPressed;
+public:
+	bool getKeyState(SDL_Keycode keyCode);
+	bool isKey(SDL_Keycode keyCode);
+	bool isKeyPressed(SDL_Keycode keyCode);
+	void step();
+	void update(SDL_Event& event);
 };
 
 static std::map<Direction, SDL_Keycode> keyDirection = {

@@ -3,7 +3,8 @@
 
 #include <string>
 
-#define GUI_RECTANGLE_COLOR {16, 16, 16, 224}
+#define GUI_RECTANGLE_COLOR {16,  16,  16,  224}
+#define GUI_INVENTORY_COLOR {0,   0,   192, 224}
 #define TARGET_COLOR   {64,  128, 224, 255}
 
 #define COLOR_BLACK   {0,   0,   0,   255}
@@ -21,8 +22,6 @@
 
 #define COLOR_BROWN   {160, 96,  0,   255}
 #define COLOR_PURPLE  {96,  0,   160, 255}
-
-static constexpr float FPS = 60.0f;
 
 static constexpr unsigned int SIZE_TABLE = 4;
 static constexpr unsigned int SIZE_HEADER = 3;
@@ -65,6 +64,7 @@ static const std::string SUFFIX_CHR = ".CHR";
 static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
 
+static constexpr float FPS = 60.0f;
 static constexpr float SCALE = 2.0f;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
 static constexpr int GUI_Y_OFFSET = 8 * SCALE;
@@ -78,7 +78,9 @@ static constexpr int CENTER_Y = SCREEN_HEIGHT / (2 * TILE_HEIGHT);
 static constexpr char TARGET_CHAR = u'¤';
 
 static constexpr unsigned int INVENTORY_SIZE = 30;
-static constexpr unsigned int INVENTORY_ITEMS_PER_PAGE = 12;
+static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT;
+
+static constexpr unsigned int KEY_INPUT_DELAY = 8;
 
 enum Filetype {
 	NONE,

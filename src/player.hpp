@@ -24,6 +24,7 @@ public:
 
 	std::string getName();
 	Position getPosition();
+	void setDirection(Direction direction);
 	void move(Direction direction);
 	void step();
 };

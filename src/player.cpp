@@ -26,6 +26,11 @@ void Player::move(Direction direction)
 	}
 }
 
+void Player::setDirection(Direction direction)
+{
+	position.direction = direction;
+}
+
 void Player::step()
 {
 	if (delay > 0) {

@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+using namespace Functions;
+
 Game::Game() : player("Liop"), currentArea("MOONDALE")
 {
 	// init SDL
@@ -54,7 +56,7 @@ void Game::drawMap()
 	for (size_t y = 0; y < height; ++y) {
 		for (size_t x = 0; x < width; ++x) {
 			Tile tile = currentArea.getTile(x, y);
-			Functions::drawLetter(renderer, font, tile.letter, tile.color, x - playerPosition.x + CENTER_X, y - playerPosition.y + CENTER_Y);
+			drawLetter(renderer, font, tile.letter, tile.color, x - playerPosition.x + CENTER_X, y - playerPosition.y + CENTER_Y);
 		}
 	}
 }
@@ -64,66 +66,68 @@ void Game::drawPlayer()
 	Position playerPosition = player.getPosition();
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
-	Functions::drawLetter(renderer, font, TARGET_CHAR, TARGET_COLOR, CENTER_X + dirX, CENTER_Y + dirY);
-	Functions::drawLetter(renderer, font, player.creature.getLetter(), player.creature.getColor(), CENTER_X, CENTER_Y);
+	drawLetter(renderer, font, TARGET_CHAR, TARGET_COLOR, CENTER_X + dirX, CENTER_Y + dirY);
+	drawLetter(renderer, font, player.creature.getLetter(), player.creature.getColor(), CENTER_X, CENTER_Y);
 }
 
 void Game::drawGUI()
 {
 	Position playerPosition = player.getPosition();
-	Functions::drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
-	Functions::drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
-	Functions::drawText(renderer, font, text[currentArea.getTextID()], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
+	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
+	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
+	drawText(renderer, font, text[currentArea.getTextID()], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream nextLevelText;
 	nextLevelText << text[String::Next] << player.creature.getRemainingXP();
-	Functions::drawText(renderer, font, nextLevelText.str(), COLOR_YELLOW, SCREEN_WIDTH / 2, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Center);
+	drawText(renderer, font, nextLevelText.str(), COLOR_YELLOW, SCREEN_WIDTH / 2, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Center);
 
 	std::stringstream hpText;
 	hpText << text[String::HP] << player.creature.getCurrentHP() << "/" << player.creature.getMaxHP();
-	Functions::drawText(renderer, font, hpText.str(), COLOR_RED, SCREEN_WIDTH - 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Right);
+	drawText(renderer, font, hpText.str(), COLOR_RED, SCREEN_WIDTH - 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Right);
 
 	std::stringstream mpText;
 	mpText << text[String::HP] << player.creature.getCurrentMP() << "/" << player.creature.getMaxMP();
-	Functions::drawText(renderer, font, mpText.str(), COLOR_BLUE, SCREEN_WIDTH - 2 * GUI_X_OFFSET, GUI_Y_OFFSET + 3 * TILE_HEIGHT / 2, Alignment::Right);
+	drawText(renderer, font, mpText.str(), COLOR_BLUE, SCREEN_WIDTH - 2 * GUI_X_OFFSET, GUI_Y_OFFSET + 3 * TILE_HEIGHT / 2, Alignment::Right);
 
 	std::stringstream locationText;
 	locationText << text[String::X] << playerPosition.x << text[String::Y] << playerPosition.y;
-	Functions::drawText(renderer, font, locationText.str(), COLOR_YELLOW, SCREEN_WIDTH / 2, GUI_Y_OFFSET + 3 * TILE_HEIGHT / 2, Alignment::Center);
+	drawText(renderer, font, locationText.str(), COLOR_YELLOW, SCREEN_WIDTH / 2, GUI_Y_OFFSET + 3 * TILE_HEIGHT / 2, Alignment::Center);
 
 	std::stringstream playerInfoText;
 	playerInfoText << player.getName() << text[String::level] << player.creature.getLevel();
-	Functions::drawText(renderer, font, playerInfoText.str(), COLOR_WHITE, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Left);
+	drawText(renderer, font, playerInfoText.str(), COLOR_WHITE, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream weaponInUseText;
 	weaponInUseText << text[String::WeaponInUse] << text[player.creature.getWeaponTextID()];
-	Functions::drawText(renderer, font, weaponInUseText.str(), COLOR_DGREEN, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT / 2, Alignment::Left);
+	drawText(renderer, font, weaponInUseText.str(), COLOR_DGREEN, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream mapObjectText;
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
 	Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
-	Functions::drawText(renderer, font, text[objectTile.textID], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+	drawText(renderer, font, text[objectTile.textID], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream shortcutsText;
 	shortcutsText << text[String::SHORTCUTS];
-	Functions::drawText(renderer, font, shortcutsText.str(), COLOR_BROWN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Right);
+	drawText(renderer, font, shortcutsText.str(), COLOR_BROWN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Right);
 
 	if (isGUIactive()) {
-		Functions::drawRectangle(renderer, COLOR_WHITE, GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + 4 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT, true);
-		Functions::drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + SCALE, GUI_Y_OFFSET + 4 * TILE_HEIGHT + SCALE, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH - 2 * SCALE, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT - 2 * SCALE);
+		drawRectangle(renderer, COLOR_WHITE, GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + 4 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT, true);
+		drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + SCALE, GUI_Y_OFFSET + 4 * TILE_HEIGHT + SCALE, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH - 2 * SCALE, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT - 2 * SCALE);
 	}
 
 	switch (activeCart) {
 	case GUI::Inventory: {
 		Inventory& inventory = player.creature.inventory;
+		int inventoryPage = inventoryPosition / INVENTORY_ITEMS_PER_PAGE;
+		drawRectangle(renderer, GUI_INVENTORY_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + 4 * SCALE, GUI_Y_OFFSET + (4 + inventoryPosition % INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT + 4 * SCALE, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH - 8 * SCALE, TILE_HEIGHT);
 		for (size_t index = 0; index < INVENTORY_ITEMS_PER_PAGE; ++index) {
-			if (index >= inventory.getBackpackSize()) {
+			if (index + inventoryPage * INVENTORY_ITEMS_PER_PAGE >= inventory.getBackpackSize()) {
 				break;
 			}
 
-			Item* item = inventory.getBackpackItem(index);
-			Functions::drawText(renderer, font, text[item->getTextID()], item->getColor(), 2 * GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + (4 + index) * TILE_HEIGHT, Alignment::Left, Alignment::Top);
+			Item* item = inventory.getBackpackItem(index + inventoryPage * INVENTORY_ITEMS_PER_PAGE);
+			drawText(renderer, font, text[item->getTextID()], item->getColor(), 2 * GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + (4.5f + index) * TILE_HEIGHT + 2 * SCALE, Alignment::Left, Alignment::Center);
 		}
 
 		break;
@@ -137,33 +141,18 @@ void Game::drawGUI()
 	}
 }
 
-bool Game::isKey(SDL_Keycode keyCode)
-{
-	return keyState[keyCode];
-}
-
-bool Game::isKeyPressed(SDL_Keycode keyCode)
-{
-	if (keyState[keyCode]) {
-		if (!keyPressed[keyCode]) {
-			keyPressed[keyCode] = true;
-			return true;
-		}
-	} else {
-		keyPressed[keyCode] = false;
-	}
-
-	return false;
-}
-
-/*bool Game::isKeyReleased(SDL_Keycode keyCode)
-{
-	return keyReleased[keyCode];
-}*/
-
 bool Game::isGUIactive() const
 {
 	return (unsigned int)(activeCart) > 0;
+}
+
+void Game::openCart(GUI cart)
+{
+	if (activeCart == cart) {
+		activeCart = GUI::None;
+	} else {
+		activeCart = cart;
+	}
 }
 
 void Game::mainLoop()
@@ -177,8 +166,7 @@ void Game::mainLoop()
 				switch (event.type) {
 				case SDL_KEYDOWN:
 				case SDL_KEYUP: {
-					SDL_Keycode keyCode = event.key.keysym.sym;
-					keyState[keyCode] = event.key.state;
+					keyboard.update(event);
 					break;
 				}
 				case SDL_QUIT:
@@ -187,23 +175,15 @@ void Game::mainLoop()
 				}
 			}
 
-			if (isKeyPressed(SDLK_i)) {
-				if (activeCart == GUI::Inventory) {
-					activeCart = GUI::None;
-				} else {
-					activeCart = GUI::Inventory;
-				}
+			if (keyboard.isKeyPressed(SDLK_i)) {
+				openCart(GUI::Inventory);
+			} else if (keyboard.isKeyPressed(SDLK_c)) {
+				openCart(GUI::Character);
+			} else if (keyboard.isKeyPressed(SDLK_m)) {
+				openCart(GUI::Map);
 			}
 
-			for (unsigned int dir = 0; dir < COUNT; ++dir) {
-				Direction direction = Direction(dir);
-				if (isKey(keyDirection[direction])) {
-					player.move(direction);
-					break;
-				}
-			}
-
-			if (isKeyPressed(SDLK_ESCAPE)) {
+			if (keyboard.isKeyPressed(SDLK_ESCAPE)) {
 				if (activeCart == GUI::None) {
 					quit = true;
 				} else {
@@ -211,6 +191,42 @@ void Game::mainLoop()
 				}
 			}
 
+			switch (activeCart) {
+			case GUI::None:
+				for (unsigned int dir = 0; dir < COUNT; ++dir) {
+					Direction direction = Direction(dir);
+					if (keyboard.isKey(keyDirection[direction])) {
+						if (keyboard.getKeyState(SDLK_LSHIFT)) {
+							player.setDirection(direction);
+						} else {
+							player.move(direction);
+						}
+						break;
+					}
+				}
+
+				break;
+			case GUI::Inventory:
+				if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
+					inventoryPosition = std::max(0, inventoryPosition - 1);
+				}
+				if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
+					inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + 1);
+				}
+				if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
+					inventoryPosition = std::max(0, inventoryPosition - INVENTORY_ITEMS_PER_PAGE);
+				}
+				if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6) or keyboard.isKey(SDLK_PAGEDOWN)) {
+					inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + INVENTORY_ITEMS_PER_PAGE);
+				}
+				break;
+			case GUI::Character:
+				break;
+			case GUI::Map:
+				break;
+			}
+
+			keyboard.step();
 			player.step();
 			drawFrame();
 		}
