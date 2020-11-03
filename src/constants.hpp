@@ -4,7 +4,7 @@
 #include <string>
 
 #define GUI_RECTANGLE_COLOR {16,  16,  16,  224}
-#define GUI_INVENTORY_COLOR {0,   0,   192, 224}
+#define GUI_INVENTORY_COLOR {0,   0,   160, 224}
 #define TARGET_COLOR   {64,  128, 224, 255}
 
 #define COLOR_BLACK   {0,   0,   0,   255}
@@ -75,6 +75,10 @@ static constexpr int TILE_WIDTH = _TILE_WIDTH * SCALE;
 static constexpr int TILE_HEIGHT = _TILE_HEIGHT * SCALE;
 static constexpr int CENTER_X = SCREEN_WIDTH / (2 * TILE_WIDTH);
 static constexpr int CENTER_Y = SCREEN_HEIGHT / (2 * TILE_HEIGHT);
+static constexpr int TAB_X_OFFSET = GUI_X_OFFSET + 2 * TILE_WIDTH;
+static constexpr int TAB_Y_OFFSET = GUI_Y_OFFSET + 4 * TILE_HEIGHT;
+static constexpr int TAB_WIDTH = SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH;
+static constexpr int TAB_HEIGHT = SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT;
 
 static constexpr char TARGET_CHAR = u'¤';
 
@@ -106,34 +110,6 @@ enum ErrorCodes {
 	SDL_ERROR,
 	TTF_ERROR,
 	FONT_ERROR
-};
-
-enum class String : unsigned int {
-	empty,
-	Roguelike,
-	HP,
-	MP,
-	SHORTCUTS,
-	NextLevel,
-	Next,
-	XP,
-	X,
-	Y,
-	STR,
-	DEX,
-	CON,
-	INT,
-	WIS,
-	Gold,
-	Att,
-	Acc,
-	level,
-	Moondale,
-	WeaponInUse,
-	Fist,
-	Ground,
-	Sand,
-	Water
 };
 
 #endif // DEFINITIONS_HPP

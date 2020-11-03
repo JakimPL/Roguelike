@@ -25,7 +25,7 @@ private:
 public:
 	Player player;
 	Area currentArea;
-	GUI activeCart = GUI::None;
+	GUI activeTab = GUI::None;
 	unsigned int inventoryPage = 0;
 	int inventoryPosition = 0;
 public:
@@ -38,7 +38,7 @@ public:
 	void drawItemDescription(Item* item);
 
 	bool isGUIactive() const;
-	void openCart(GUI cart);
+	void openTab(GUI tab);
 
 	void mainLoop();
 

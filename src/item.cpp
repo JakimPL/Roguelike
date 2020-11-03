@@ -41,14 +41,29 @@ Item::Item(const std::string& filename)
 	_LogInfo("File " << path << " opened successfully.");
 }
 
-unsigned int Item::getTextID()
+unsigned int Item::getTextID() const
 {
 	return textID;
 }
 
-Color Item::getColor()
+unsigned int Item::getDescriptionID() const
+{
+	return descriptionID;
+}
+
+Color Item::getColor() const
 {
 	return color;
+}
+
+ItemType Item::getType() const
+{
+	return type;
+}
+
+ItemCategory Item::getCategory() const
+{
+	return category;
 }
 
 bool Item::saveToFile(const std::string& filename)

@@ -55,12 +55,14 @@ enum class ItemCategory {
 	axe,
 	bow,
 	crossbow,
-	small_arms,
 	sling,
+	clothing,
 	leather_armor,
 	chain_mall,
 	plate_armor,
 	robe,
+	potion,
+	spell,
 	count
 };
 
@@ -100,8 +102,11 @@ private:
 
 public:
 	Item(const std::string &filename);
-	unsigned int getTextID();
-	Color getColor();
+	unsigned int getTextID() const;
+	unsigned int getDescriptionID() const;
+	Color getColor() const;
+	ItemType getType() const;
+	ItemCategory getCategory() const;
 	bool saveToFile(const std::string& filename);
 };
 

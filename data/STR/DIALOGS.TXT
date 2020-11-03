@@ -18,7 +18,37 @@ Obr
 SkA
 , poziom 
 Moondale
-Broń w użyciu: 
+Broń w użyciu:
+Atak: 
+Obrona: 
+Skut. ataku: 
+Skut. obrony: 
+Sztylet
+Krótki miecz 
+Długi miecz
+Kij
+Włócznia
+Pałka
+Topór
+Łuk
+Kusza
+Proca
+Koszula
+Skórzana zbroja
+Kolczuga
+Zbroja płytowa
+Szata
+Broń
+Pancerz
+Hełm
+Rękawice
+Płaszcz
+Buty
+Pierścień
+Amulet
+Amunicja
+Mikstura
+Zaklęcie
 Pięść
 Ziemia
 Piasek

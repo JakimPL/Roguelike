@@ -87,23 +87,23 @@ void Game::drawGUI()
 	drawText(renderer, font, shortcutsText.str(), COLOR_BROWN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Right);
 
 	if (isGUIactive()) {
-		drawRectangle(renderer, COLOR_WHITE, GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + 4 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT, true);
-		drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + SCALE, GUI_Y_OFFSET + 4 * TILE_HEIGHT + SCALE, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH - 2 * SCALE, SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT - 2 * SCALE);
+		drawRectangle(renderer, COLOR_WHITE, TAB_X_OFFSET - 4 * SCALE, TAB_Y_OFFSET - 4 * SCALE, TAB_WIDTH + 8 * SCALE, TAB_HEIGHT + 8 * SCALE, true);
+		drawRectangle(renderer, GUI_RECTANGLE_COLOR, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + 2 * SCALE, TAB_WIDTH - 4 * SCALE, TAB_HEIGHT - 4 * SCALE);
 	}
 
-	switch (activeCart) {
+	switch (activeTab) {
 	case GUI::Inventory: {
 		Inventory& inventory = player.creature.inventory;
 		if (!inventory.isEmpty()) {
 			int inventoryPage = inventoryPosition / INVENTORY_ITEMS_PER_PAGE;
-			drawRectangle(renderer, GUI_INVENTORY_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + 4 * SCALE, GUI_Y_OFFSET + (4 + inventoryPosition % INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT + 4 * SCALE, SCREEN_WIDTH / 2 - GUI_X_OFFSET - 2 * TILE_WIDTH - 4 * SCALE, TILE_HEIGHT);
+			drawRectangle(renderer, GUI_INVENTORY_COLOR, TAB_X_OFFSET, TAB_Y_OFFSET + (inventoryPosition % INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, TAB_WIDTH / 2, TILE_HEIGHT);
 			for (size_t index = 0; index < INVENTORY_ITEMS_PER_PAGE; ++index) {
 				if (index + inventoryPage * INVENTORY_ITEMS_PER_PAGE >= inventory.getBackpackSize()) {
 					break;
 				}
 
 				Item* item = inventory.getBackpackItem(index + inventoryPage * INVENTORY_ITEMS_PER_PAGE);
-				drawText(renderer, font, text[item->getTextID()], item->getColor(), 2 * GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + (4.5f + index) * TILE_HEIGHT + 2 * SCALE, Alignment::Left, Alignment::Center);
+				drawText(renderer, font, text[item->getTextID()], item->getColor(), TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
 				drawItemDescription(item);
 			}
 		}
@@ -121,19 +121,42 @@ void Game::drawGUI()
 
 void Game::drawItemDescription(Item *item)
 {
+	const int xOffset = TAB_X_OFFSET + 3 * TAB_WIDTH / 4;
+	const int yOffset = TAB_Y_OFFSET + 0.5f * TILE_HEIGHT;
+	drawText(renderer, font, text[item->getTextID()], item->getColor(), xOffset, yOffset, Alignment::Center);
+	drawText(renderer, font, text[item->getDescriptionID()], item->getColor(), xOffset, yOffset + TILE_HEIGHT, Alignment::Center);
+	switch (item->getType()) {
+	case ItemType::weapon:
+		break;
+	case ItemType::armor:
+	case ItemType::helmet:
+	case ItemType::gloves:
+	case ItemType::cloak:
+	case ItemType::boots:
+		break;
+	case ItemType::ring:
+	case ItemType::amulet:
+		break;
+	case ItemType::quiver:
+		break;
+	case ItemType::quick:
+		break;
+	default:
+		break;
+	}
 }
 
 bool Game::isGUIactive() const
 {
-	return (unsigned int)(activeCart) > 0;
+	return (unsigned int)(activeTab) > 0;
 }
 
-void Game::openCart(GUI cart)
+void Game::openTab(GUI tab)
 {
-	if (activeCart == cart) {
-		activeCart = GUI::None;
+	if (activeTab == tab) {
+		activeTab = GUI::None;
 	} else {
-		activeCart = cart;
+		activeTab = tab;
 	}
 }
 
@@ -158,22 +181,22 @@ void Game::mainLoop()
 			}
 
 			if (keyboard.isKeyPressed(SDLK_i)) {
-				openCart(GUI::Inventory);
+				openTab(GUI::Inventory);
 			} else if (keyboard.isKeyPressed(SDLK_c)) {
-				openCart(GUI::Character);
+				openTab(GUI::Character);
 			} else if (keyboard.isKeyPressed(SDLK_m)) {
-				openCart(GUI::Map);
+				openTab(GUI::Map);
 			}
 
 			if (keyboard.isKeyPressed(SDLK_ESCAPE)) {
-				if (activeCart == GUI::None) {
+				if (activeTab == GUI::None) {
 					quit = true;
 				} else {
-					activeCart = GUI::None;
+					activeTab = GUI::None;
 				}
 			}
 
-			switch (activeCart) {
+			switch (activeTab) {
 			case GUI::None:
 				for (unsigned int dir = 0; dir < COUNT; ++dir) {
 					Direction direction = Direction(dir);
@@ -256,6 +279,11 @@ void Game::initializeGraphics()
 	if (renderer == NULL) {
 		_LogError("Bad SDL object!");
 		throw std::runtime_error("bad SDL object");
+	}
+
+	if (INVENTORY_ITEMS_PER_PAGE <= 0) {
+		_LogError("Too small inventory size!");
+		throw std::runtime_error("too small inventory size");
 	}
 }
 
