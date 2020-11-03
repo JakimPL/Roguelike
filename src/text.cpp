@@ -122,3 +122,8 @@ const std::string Text::operator[](unsigned int id) const
 {
 	return text(id);
 }
+
+unsigned int Text::getContentSize() const
+{
+	return content.size();
+}

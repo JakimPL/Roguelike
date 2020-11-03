@@ -83,6 +83,8 @@ public:
 	const std::string text(unsigned int id) const;
 	const std::string operator[](String id) const;
 	const std::string operator[](unsigned int id) const;
+
+	unsigned int getContentSize() const;
 };
 
 static std::vector<Text*> TextCounter;

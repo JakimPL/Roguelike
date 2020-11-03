@@ -2,6 +2,7 @@
 #define TIMER_HPP
 
 #include "constants.hpp"
+
 #include <SDL2/SDL.h>
 
 struct Timer {

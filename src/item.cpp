@@ -2,9 +2,9 @@
 #include "functions.hpp"
 #include "log.hpp"
 
-Item::Item(const std::string& filename)
+Item::Item(const std::string& filename, bool fullPath)
 {
-	std::string path = Functions::getPath(filename, ITM);
+	std::string path = fullPath ? filename : Functions::getPath(filename, ITM);
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
@@ -33,12 +33,12 @@ Item::Item(const std::string& filename)
 		} else {
 			_LogError("Invalid item file!");
 		}
+
 		resource.close();
+		_LogInfo("File " << path << " opened successfully.");
 	} else {
 		_LogError("Failed to open " << filename << " item file!");
 	}
-
-	_LogInfo("File " << path << " opened successfully.");
 }
 
 unsigned int Item::getTextID() const
@@ -111,9 +111,9 @@ int Item::getRequiredAbility(const Ability ability) const
 	return requiredAbilities[ability];
 }
 
-bool Item::saveToFile(const std::string& filename)
+bool Item::saveToFile(const std::string& filename, bool fullPath)
 {
-	std::string path = Functions::getPath(filename, ITM);
+	std::string path = fullPath ? filename : Functions::getPath(filename, ITM);
 	std::ofstream resource(path);
 	if (resource.good()) {
 		resource.write(headerITM, SIZE_HEADER);

@@ -99,7 +99,7 @@ public:
 	std::vector<ItemEffect> effects;
 
 public:
-	Item(const std::string &filename);
+	Item(const std::string &filename, bool fullPath = false);
 	unsigned int getTextID() const;
 	unsigned int getDescriptionID() const;
 	Color getColor() const;
@@ -114,7 +114,7 @@ public:
 	int getDefenseRate() const;
 	int getRequiredLevel() const;
 	int getRequiredAbility(const Ability ability) const;
-	bool saveToFile(const std::string& filename);
+	bool saveToFile(const std::string& filename, bool fullPath = false);
 };
 
 struct Inventory {

@@ -2,9 +2,9 @@
 #include "functions.hpp"
 #include "log.hpp"
 
-Area::Area(const std::string& filename)
+Area::Area(const std::string& filename, bool fullPath)
 {
-	std::string path = Functions::getPath(filename, ARE);
+	std::string path = fullPath ? filename : Functions::getPath(filename, ARE);
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
@@ -116,7 +116,7 @@ unsigned int Area::getTextID()
 	return textID;
 }
 
-bool Area::saveToFile(const std::string&)
+bool Area::saveToFile(const std::string&, bool)
 {
 	return false;
 }

@@ -1,5 +1,9 @@
 .qmake.stash
 
+ui_itemeditor.h
+moc_predefs.h
+moc_itemeditor.cpp
+
 Roguelike
 Makefile
 
