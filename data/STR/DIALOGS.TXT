@@ -18,11 +18,13 @@ Obr
 SkA
 , poziom 
 Moondale
-Broń w użyciu:
-Atak: 
+Broń w użyciu: 
+Obrażenia: 
 Obrona: 
 Skut. ataku: 
 Skut. obrony: 
+Opóźnienie: 
+Prędkość: 
 Sztylet
 Krótki miecz 
 Długi miecz
@@ -47,6 +49,7 @@ Buty
 Pierścień
 Amulet
 Amunicja
+Przedmiot szybkiego użycia
 Mikstura
 Zaklęcie
 Pięść

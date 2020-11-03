@@ -16,10 +16,9 @@ Item::Item(const std::string& filename)
 			resource.read(reinterpret_cast<char*>(&category), SIZE_CHAR);
 			resource.read(reinterpret_cast<char*>(&flag), SIZE_CHAR);
 			resource.read(reinterpret_cast<char*>(&price), SIZE_LONG);
-			resource.read(reinterpret_cast<char*>(&attack), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&attackRate), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&damage), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&damageDelta), SIZE_INT);
+			resource.read(reinterpret_cast<char*>(&attackRate), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&delay), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&defense), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
@@ -66,6 +65,41 @@ ItemCategory Item::getCategory() const
 	return category;
 }
 
+unsigned long Item::getPrice() const
+{
+	return price;
+}
+
+int Item::getDamage() const
+{
+	return damage;
+}
+
+int Item::getDamageDelta() const
+{
+	return damageDelta;
+}
+
+int Item::getAttackRate() const
+{
+	return attackRate;
+}
+
+int Item::getDelay() const
+{
+	return delay;
+}
+
+int Item::getDefense() const
+{
+	return defense;
+}
+
+int Item::getDefenseRate() const
+{
+	return defenseRate;
+}
+
 bool Item::saveToFile(const std::string& filename)
 {
 	std::string path = Functions::getPath(filename, ITM);
@@ -79,10 +113,9 @@ bool Item::saveToFile(const std::string& filename)
 		resource.write(reinterpret_cast<char*>(&category), SIZE_CHAR);
 		resource.write(reinterpret_cast<char*>(&flag), SIZE_CHAR);
 		resource.write(reinterpret_cast<char*>(&price), SIZE_LONG);
-		resource.write(reinterpret_cast<char*>(&attack), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&attackRate), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&damage), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&damageDelta), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&attackRate), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&defense), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&defenseRate), SIZE_INT);

@@ -6,7 +6,6 @@ Game::Game() : player("Liop"), currentArea("MOONDALE")
 {
 	initializeGraphics();
 	initializeFont();
-
 	player.currentArea = &currentArea;
 }
 
@@ -121,28 +120,46 @@ void Game::drawGUI()
 
 void Game::drawItemDescription(Item *item)
 {
+	int line = 0;
 	const int xOffset = TAB_X_OFFSET + 3 * TAB_WIDTH / 4;
 	const int yOffset = TAB_Y_OFFSET + 0.5f * TILE_HEIGHT;
-	drawText(renderer, font, text[item->getTextID()], item->getColor(), xOffset, yOffset, Alignment::Center);
-	drawText(renderer, font, text[item->getDescriptionID()], item->getColor(), xOffset, yOffset + TILE_HEIGHT, Alignment::Center);
-	switch (item->getType()) {
-	case ItemType::weapon:
-		break;
-	case ItemType::armor:
-	case ItemType::helmet:
-	case ItemType::gloves:
-	case ItemType::cloak:
-	case ItemType::boots:
-		break;
-	case ItemType::ring:
-	case ItemType::amulet:
-		break;
-	case ItemType::quiver:
-		break;
-	case ItemType::quick:
-		break;
-	default:
-		break;
+	drawText(renderer, font, text[item->getTextID()], item->getColor(), xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+
+	std::stringstream descriptionText;
+	if (item->getDescriptionID() > 0) {
+		descriptionText << text[item->getDescriptionID()];
+	} else {
+		switch (item->getType()) {
+		case ItemType::weapon:
+		case ItemType::armor:
+		case ItemType::quick:
+			descriptionText << text[categoryTextIDs[(size_t)(item->getCategory())]];
+			break;
+		default:
+			descriptionText << text[typeTextIDs[(size_t)(item->getType())]];
+			break;
+		}
+	}
+
+	drawText(renderer, font, descriptionText.str(), item->getColor(), xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+	if (item->getDamage() + item->getDamageDelta() > 0) {
+		std::stringstream attackText, attackRateText;
+		attackText << text[String::Damage] << item->getDamage() << "-" << item->getDamage() + item->getDamageDelta();
+		attackRateText << text[String::AttackRate] << item->getAttackRate();
+		drawText(renderer, font, attackText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+		drawText(renderer, font, attackRateText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+	}
+	if (item->getDefense() + item->getDefenseRate() > 0) {
+		std::stringstream defenseText, defenseRateText;
+		defenseText << text[String::Defense] << item->getDefense();
+		defenseRateText << text[String::DefenseRate] << item->getDefenseRate();
+		drawText(renderer, font, defenseText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+		drawText(renderer, font, defenseRateText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+	}
+	if (item->getDelay() > 0) {
+		std::stringstream delayText;
+		delayText << text[(item->getType() == ItemType::weapon) ? String::Delay : String::Speed] << item->getDelay();
+		drawText(renderer, font, delayText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 	}
 }
 

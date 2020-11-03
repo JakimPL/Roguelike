@@ -2,8 +2,9 @@
 #define ITEM_HPP
 
 #include "structures.hpp"
+#include "text.hpp"
 
-enum class Elementals {
+enum class Elementals : unsigned char {
 	physical,
 	magic,
 	fire,
@@ -14,7 +15,7 @@ enum class Elementals {
 	count
 };
 
-enum class Stack {
+enum class Stack : unsigned char {
 	unused,
 	weapon,
 	armor,
@@ -29,8 +30,7 @@ enum class Stack {
 	count
 };
 
-
-enum class ItemType {
+enum class ItemType : unsigned char {
 	miscellaneous,
 	weapon,
 	armor,
@@ -45,10 +45,11 @@ enum class ItemType {
 	count
 };
 
-enum class ItemCategory {
+enum class ItemCategory : unsigned char {
 	unused,
-	long_sword,
+	dagger,
 	short_sword,
+	long_sword,
 	staff,
 	spear,
 	club,
@@ -78,7 +79,7 @@ struct ItemEffect {
 };
 
 struct Item {
-private:
+public:
 	unsigned int textID;
 	unsigned int descriptionID;
 	Color color;
@@ -86,10 +87,9 @@ private:
 	ItemCategory category;
 	ItemFlag flag;
 	unsigned long price;
-	int attack;
-	int attackRate;
 	int damage;
 	int damageDelta;
+	int attackRate;
 	unsigned int delay;
 	int defense;
 	int defenseRate;
@@ -107,6 +107,13 @@ public:
 	Color getColor() const;
 	ItemType getType() const;
 	ItemCategory getCategory() const;
+	unsigned long getPrice() const;
+	int getDamage() const;
+	int getDamageDelta() const;
+	int getAttackRate() const;
+	int getDelay() const;
+	int getDefense() const;
+	int getDefenseRate() const;
 	bool saveToFile(const std::string& filename);
 };
 
@@ -122,6 +129,41 @@ public:
 	Item* getBackpackItem(unsigned int name);
 	bool isEmpty() const;
 	bool isFull() const;
+};
+
+static const String typeTextIDs[(size_t)(ItemType::count)] = {
+	String::empty,
+	String::Weapon,
+	String::Armor,
+	String::Helmet,
+	String::Gloves,
+	String::Cloak,
+	String::Boots,
+	String::Ring,
+	String::Amulet,
+	String::Quiver,
+	String::Quick,
+};
+
+static const String categoryTextIDs[(size_t)(ItemCategory::count)] = {
+	String::empty,
+	String::Dagger,
+	String::ShortSword,
+	String::LongSword,
+	String::Staff,
+	String::Spear,
+	String::Club,
+	String::Axe,
+	String::Bow,
+	String::Crossbow,
+	String::Sling,
+	String::Clothing,
+	String::LeatherArmor,
+	String::ChainMail,
+	String::PlateArmor,
+	String::Robe,
+	String::Potion,
+	String::Spell,
 };
 
 #endif // ITEM_HPP

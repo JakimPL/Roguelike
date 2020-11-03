@@ -69,8 +69,8 @@ static constexpr float SCALE = 2.0f;
 static constexpr bool FULLSCREEN = true;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
 static constexpr int GUI_Y_OFFSET = 8 * SCALE;
-static constexpr int SCREEN_WIDTH = 1600;
-static constexpr int SCREEN_HEIGHT = 900;
+static constexpr int SCREEN_WIDTH = 1920;
+static constexpr int SCREEN_HEIGHT = 1080;
 static constexpr int TILE_WIDTH = _TILE_WIDTH * SCALE;
 static constexpr int TILE_HEIGHT = _TILE_HEIGHT * SCALE;
 static constexpr int CENTER_X = SCREEN_WIDTH / (2 * TILE_WIDTH);
@@ -83,8 +83,7 @@ static constexpr int TAB_HEIGHT = SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HE
 static constexpr char TARGET_CHAR = u'¤';
 
 static constexpr unsigned int INVENTORY_SIZE = 30;
-static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT;
-
+static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT - 2;
 static constexpr unsigned int KEY_INPUT_DELAY = 8;
 
 enum Filetype {
