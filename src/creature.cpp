@@ -32,6 +32,7 @@ Creature::Creature()
 	effects = {};
 	abilities = {};
 	inventory.addItem("DAGGER");
+	inventory.addItem("DAGGER");
 }
 
 unsigned int Creature::getTextID()

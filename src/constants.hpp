@@ -66,10 +66,11 @@ static const std::string SUFFIX_TXT = ".TXT";
 
 static constexpr float FPS = 60.0f;
 static constexpr float SCALE = 2.0f;
+static constexpr bool FULLSCREEN = true;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
 static constexpr int GUI_Y_OFFSET = 8 * SCALE;
-static constexpr int SCREEN_WIDTH = 1024;
-static constexpr int SCREEN_HEIGHT = 768;
+static constexpr int SCREEN_WIDTH = 1600;
+static constexpr int SCREEN_HEIGHT = 900;
 static constexpr int TILE_WIDTH = _TILE_WIDTH * SCALE;
 static constexpr int TILE_HEIGHT = _TILE_HEIGHT * SCALE;
 static constexpr int CENTER_X = SCREEN_WIDTH / (2 * TILE_WIDTH);

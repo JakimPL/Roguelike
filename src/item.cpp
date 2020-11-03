@@ -126,6 +126,11 @@ unsigned int Inventory::getBackpackSize()
 	return backpack.size();
 }
 
+bool Inventory::isEmpty() const
+{
+	return backpack.size() == 0;
+}
+
 bool Inventory::isFull() const
 {
 	return backpack.size() >= INVENTORY_SIZE;

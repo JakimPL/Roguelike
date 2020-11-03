@@ -35,11 +35,15 @@ public:
 	void drawMap();
 	void drawPlayer();
 	void drawGUI();
+	void drawItemDescription(Item* item);
 
 	bool isGUIactive() const;
 	void openCart(GUI cart);
 
 	void mainLoop();
+
+	void initializeFont();
+	void initializeGraphics();
 	void quit();
 };
 

@@ -4,33 +4,8 @@ using namespace Functions;
 
 Game::Game() : player("Liop"), currentArea("MOONDALE")
 {
-	// init SDL
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		_LogError("Error initializing SDL: " << SDL_GetError());
-		throw std::runtime_error("error initializing SDL");
-	}
-
-	window = SDL_CreateWindow("Roguelike", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-	if (renderer == NULL) {
-		_LogError("Bad SDL object!");
-		throw std::runtime_error("bad SDL object");
-	}
-
-	// init TTF
-	if (TTF_Init() == -1) {
-		_LogError("Error initializing TTF: " << TTF_GetError());
-		throw std::runtime_error("error initializing TTF");
-	}
-
-	// load a font
-	_LogInfo("Opening font file " << PATH_FONT);
-	font = TTF_OpenFont(PATH_FONT, FONT_SIZE);
-	if (font == NULL) {
-		_LogError("Failed to load font file!");
-		throw std::runtime_error("failed to load font file");
-	}
+	initializeGraphics();
+	initializeFont();
 
 	player.currentArea = &currentArea;
 }
@@ -119,15 +94,18 @@ void Game::drawGUI()
 	switch (activeCart) {
 	case GUI::Inventory: {
 		Inventory& inventory = player.creature.inventory;
-		int inventoryPage = inventoryPosition / INVENTORY_ITEMS_PER_PAGE;
-		drawRectangle(renderer, GUI_INVENTORY_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + 4 * SCALE, GUI_Y_OFFSET + (4 + inventoryPosition % INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT + 4 * SCALE, SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH - 8 * SCALE, TILE_HEIGHT);
-		for (size_t index = 0; index < INVENTORY_ITEMS_PER_PAGE; ++index) {
-			if (index + inventoryPage * INVENTORY_ITEMS_PER_PAGE >= inventory.getBackpackSize()) {
-				break;
-			}
+		if (!inventory.isEmpty()) {
+			int inventoryPage = inventoryPosition / INVENTORY_ITEMS_PER_PAGE;
+			drawRectangle(renderer, GUI_INVENTORY_COLOR, GUI_X_OFFSET + 2 * TILE_WIDTH + 4 * SCALE, GUI_Y_OFFSET + (4 + inventoryPosition % INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT + 4 * SCALE, SCREEN_WIDTH / 2 - GUI_X_OFFSET - 2 * TILE_WIDTH - 4 * SCALE, TILE_HEIGHT);
+			for (size_t index = 0; index < INVENTORY_ITEMS_PER_PAGE; ++index) {
+				if (index + inventoryPage * INVENTORY_ITEMS_PER_PAGE >= inventory.getBackpackSize()) {
+					break;
+				}
 
-			Item* item = inventory.getBackpackItem(index + inventoryPage * INVENTORY_ITEMS_PER_PAGE);
-			drawText(renderer, font, text[item->getTextID()], item->getColor(), 2 * GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + (4.5f + index) * TILE_HEIGHT + 2 * SCALE, Alignment::Left, Alignment::Center);
+				Item* item = inventory.getBackpackItem(index + inventoryPage * INVENTORY_ITEMS_PER_PAGE);
+				drawText(renderer, font, text[item->getTextID()], item->getColor(), 2 * GUI_X_OFFSET + 2 * TILE_WIDTH, GUI_Y_OFFSET + (4.5f + index) * TILE_HEIGHT + 2 * SCALE, Alignment::Left, Alignment::Center);
+				drawItemDescription(item);
+			}
 		}
 
 		break;
@@ -139,6 +117,10 @@ void Game::drawGUI()
 	default:
 		break;
 	}
+}
+
+void Game::drawItemDescription(Item *item)
+{
 }
 
 bool Game::isGUIactive() const
@@ -207,17 +189,19 @@ void Game::mainLoop()
 
 				break;
 			case GUI::Inventory:
-				if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
-					inventoryPosition = std::max(0, inventoryPosition - 1);
-				}
-				if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
-					inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + 1);
-				}
-				if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
-					inventoryPosition = std::max(0, inventoryPosition - INVENTORY_ITEMS_PER_PAGE);
-				}
-				if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6) or keyboard.isKey(SDLK_PAGEDOWN)) {
-					inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + INVENTORY_ITEMS_PER_PAGE);
+				if (!player.creature.inventory.isEmpty()) {
+					if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
+						inventoryPosition = std::max(0, inventoryPosition - 1);
+					}
+					if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
+						inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + 1);
+					}
+					if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
+						inventoryPosition = std::max(0, inventoryPosition - INVENTORY_ITEMS_PER_PAGE);
+					}
+					if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6) or keyboard.isKey(SDLK_PAGEDOWN)) {
+						inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + INVENTORY_ITEMS_PER_PAGE);
+					}
 				}
 				break;
 			case GUI::Character:
@@ -230,6 +214,48 @@ void Game::mainLoop()
 			player.step();
 			drawFrame();
 		}
+	}
+}
+
+void Game::initializeFont()
+{
+	if (TTF_Init() == -1) {
+		_LogError("Error initializing TTF: " << TTF_GetError());
+		throw std::runtime_error("error initializing TTF");
+	}
+
+	_LogInfo("Opening font file " << PATH_FONT);
+	font = TTF_OpenFont(PATH_FONT, FONT_SIZE);
+	if (font == NULL) {
+		_LogError("Failed to load font file!");
+		throw std::runtime_error("failed to load font file");
+	}
+}
+
+void Game::initializeGraphics()
+{
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+		_LogError("Error initializing SDL: " << SDL_GetError());
+		throw std::runtime_error("error initializing SDL");
+	}
+
+	int screenWidth = SCREEN_WIDTH;
+	int screenHeight = SCREEN_HEIGHT;
+	if (FULLSCREEN) {
+		SDL_GetRendererOutputSize(renderer, &screenWidth, &screenHeight);
+	}
+
+	window = SDL_CreateWindow("Roguelike", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, 0);
+
+	if (FULLSCREEN) {
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+	}
+
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	if (renderer == NULL) {
+		_LogError("Bad SDL object!");
+		throw std::runtime_error("bad SDL object");
 	}
 }
 

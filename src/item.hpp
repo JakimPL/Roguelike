@@ -115,6 +115,7 @@ public:
 	bool addItem(Item item);
 	unsigned int getBackpackSize();
 	Item* getBackpackItem(unsigned int name);
+	bool isEmpty() const;
 	bool isFull() const;
 };
 
