@@ -1,4 +1,5 @@
 #include "creature.hpp"
+#include "color.hpp"
 #include "text.hpp"
 
 Creature::Creature(const std::string&)

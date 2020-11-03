@@ -1,11 +1,6 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-#include <SDL2/SDL.h>
-#include "constants.hpp"
-#include "functions.hpp"
-#include "log.hpp"
-
 #include <fstream>
 #include <map>
 #include <string>
@@ -45,18 +40,6 @@ enum Direction : unsigned int {
 	COUNT
 };
 
-struct Color {
-	uint8_t red, green, blue;
-	operator SDL_Color() const
-	{
-		uint8_t r = red;
-		uint8_t g = green;
-		uint8_t b = blue;
-		SDL_Color sdlColor = {r, g, b, 255};
-		return sdlColor;
-	};
-};
-
 struct Position {
 	int x, y;
 	unsigned int direction : 3;
@@ -85,41 +68,6 @@ struct Character {
 	int reputation;
 
 	bool saveToFile(const std::string& filename);
-};
-
-struct Timer {
-private:
-	float fps = FPS;
-	Uint32 start = 0;
-	Uint32 end = 0;
-	Uint32 delta = 0;
-public:
-	bool frame();
-	void update();
-};
-
-struct Keyboard {
-private:
-	int keyInputDelay = 0;
-	std::map<SDL_Keycode, bool> keyState;
-	std::map<SDL_Keycode, bool> keyPressed;
-public:
-	bool getKeyState(SDL_Keycode keyCode);
-	bool isKey(SDL_Keycode keyCode);
-	bool isKeyPressed(SDL_Keycode keyCode);
-	void step();
-	void update(SDL_Event& event);
-};
-
-static std::map<Direction, SDL_Keycode> keyDirection = {
-	{NORTH, SDLK_KP_8},
-	{NORTHEAST, SDLK_KP_9},
-	{EAST, SDLK_KP_6},
-	{SOUTHEAST, SDLK_KP_3},
-	{SOUTH, SDLK_KP_2},
-	{SOUTHWEST, SDLK_KP_1},
-	{WEST, SDLK_KP_4},
-	{NORTHWEST, SDLK_KP_7}
 };
 
 #endif

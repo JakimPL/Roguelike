@@ -1,9 +1,11 @@
 #include "functions.hpp"
 #include "constants.hpp"
-#include "structures.hpp"
+#include "color.hpp"
 
-#include <cstring>
 #include <array>
+#include <cstring>
+#include <fstream>
+#include <sstream>
 
 namespace Functions
 {

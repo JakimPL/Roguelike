@@ -1,10 +1,10 @@
 #ifndef LOG_H
 #define LOG_H
 
-#include <string>
-#include <sstream>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 #define dRED        "\x1b[0;31;40m"
 #define dGREEN      "\x1b[0;32;40m"

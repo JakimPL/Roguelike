@@ -2,9 +2,13 @@
 #define GAME_HPP
 
 #include "area.hpp"
+#include "keyboard.hpp"
 #include "player.hpp"
 #include "text.hpp"
+#include "timer.hpp"
+
 #include <queue>
+#include <SDL2/SDL_ttf.h>
 
 enum class GUI : unsigned int {
 	None,

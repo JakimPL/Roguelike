@@ -1,4 +1,6 @@
 #include "area.hpp"
+#include "functions.hpp"
+#include "log.hpp"
 
 Area::Area(const std::string& filename)
 {

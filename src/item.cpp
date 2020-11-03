@@ -1,4 +1,6 @@
 #include "item.hpp"
+#include "functions.hpp"
+#include "log.hpp"
 
 Item::Item(const std::string& filename)
 {

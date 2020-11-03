@@ -2,6 +2,7 @@
 #define ITEM_HPP
 
 #include "structures.hpp"
+#include "color.hpp"
 #include "text.hpp"
 
 enum class Elementals : unsigned char {

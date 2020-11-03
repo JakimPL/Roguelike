@@ -1,4 +1,3 @@
-#include "main.hpp"
 #include "src/constants.hpp"
 #include "src/game.hpp"
 #include "src/log.hpp"

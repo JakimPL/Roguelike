@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include "functions.hpp"
+#include "log.hpp"
 
 using namespace Functions;
 
@@ -170,9 +172,9 @@ void Game::drawItemDescription(Item *item)
 		drawText(renderer, font, delayText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 	}
 
-	for (size_t ab = 0; ab < Ability::count; ++ab) {
-		Ability ability = Ability(ab);
-		drawText(renderer, font, text[size_t(String::STR) + ab], COLOR_WHITE, TAB_X_OFFSET + TAB_WIDTH / 2 + (ab - float(Ability::count - 1) / 2) * INVENTORY_ABILITIES_DISTANCE * TILE_WIDTH, TAB_Y_OFFSET + (0.5f + INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, Alignment::Center);
+	for (size_t abilityIndex = 0; abilityIndex < Ability::count; ++abilityIndex) {
+		Ability ability = Ability(abilityIndex);
+		drawText(renderer, font, text[size_t(String::STR) + abilityIndex], COLOR_WHITE, TAB_X_OFFSET + TAB_WIDTH / 2 + (abilityIndex - float(Ability::count - 1) / 2) * INVENTORY_ABILITIES_DISTANCE * TILE_WIDTH, TAB_Y_OFFSET + (0.5f + INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, Alignment::Center);
 		drawText(renderer, font, STRING(player.creature.getAbilityValue(ability)), COLOR_WHITE, TAB_X_OFFSET + TAB_WIDTH / 2 + (ability - float(Ability::count - 1) / 2) * INVENTORY_ABILITIES_DISTANCE * TILE_WIDTH, TAB_Y_OFFSET + (1.5f + INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, Alignment::Center);
 
 		SDL_Color sdlColor = (item->getRequiredAbility(ability) > player.creature.getAbilityValue(ability) ? SDL_Color(COLOR_RED) : SDL_Color(COLOR_GREEN));

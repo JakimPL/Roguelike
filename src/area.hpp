@@ -2,6 +2,7 @@
 #define AREA_HPP
 
 #include "structures.hpp"
+#include "color.hpp"
 
 struct Tile {
 	char letter = ' ';
