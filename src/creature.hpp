@@ -3,15 +3,6 @@
 
 #include "item.hpp"
 
-enum Ability : size_t {
-	strength,
-	dexterity,
-	constitution,
-	intelligence,
-	wisdom,
-	count
-};
-
 enum class Race {
 	undefined,
 	human,

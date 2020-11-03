@@ -94,10 +94,7 @@ public:
 	int defense;
 	int defenseRate;
 	unsigned int requiredLevel;
-	unsigned int requiredStrength;
-	unsigned int requiredWisdom;
-	unsigned int requiredDexterity;
-	unsigned int requiredIntelligence;
+	unsigned int requiredAbilities[Ability::count];
 	std::vector<ItemEffect> effects;
 
 public:
@@ -114,6 +111,8 @@ public:
 	int getDelay() const;
 	int getDefense() const;
 	int getDefenseRate() const;
+	int getRequiredLevel() const;
+	int getRequiredAbility(const Ability ability) const;
 	bool saveToFile(const std::string& filename);
 };
 

@@ -2,7 +2,7 @@
 Roguelike
 PŻ: 
 PM: 
-I - EKWIPUNEK, C - POSTAĆ
+I - EKWIPUNEK, C - POSTAĆ, M - MAPA
 NOWY POZIOM!
 Następny poziom: 
 PD
@@ -26,6 +26,7 @@ Skut. ataku:
 Skut. obrony: 
 Opóźnienie: 
 Prędkość: 
+Wymagany poziom: 
 Sztylet
 Krótki miecz 
 Długi miecz

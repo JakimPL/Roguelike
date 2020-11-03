@@ -23,10 +23,9 @@ Item::Item(const std::string& filename)
 			resource.read(reinterpret_cast<char*>(&defense), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&requiredStrength), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&requiredWisdom), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&requiredDexterity), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&requiredIntelligence), SIZE_INT);
+			for (size_t ability = 0; ability < Ability::count; ++ability) {
+				resource.read(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);
+			}
 
 			// effects to be implemented
 		} else {
@@ -100,6 +99,16 @@ int Item::getDefenseRate() const
 	return defenseRate;
 }
 
+int Item::getRequiredLevel() const
+{
+	return defenseRate;
+}
+
+int Item::getRequiredAbility(const Ability ability) const
+{
+	return requiredAbilities[ability];
+}
+
 bool Item::saveToFile(const std::string& filename)
 {
 	std::string path = Functions::getPath(filename, ITM);
@@ -120,10 +129,10 @@ bool Item::saveToFile(const std::string& filename)
 		resource.write(reinterpret_cast<char*>(&defense), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&requiredStrength), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&requiredWisdom), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&requiredDexterity), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&requiredIntelligence), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
+		for (size_t ability = 0; ability < Ability::count; ++ability) {
+			resource.write(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);
+		}
 
 		unsigned int size = effects.size();
 		resource.write(reinterpret_cast<char*>(&size), SIZE_INT);

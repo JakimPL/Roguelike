@@ -37,6 +37,7 @@ enum class String : unsigned int {
 	DefenseRate,
 	Delay,
 	Speed,
+	RequiredLevel,
 	Dagger,
 	ShortSword,
 	LongSword,

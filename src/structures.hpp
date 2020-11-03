@@ -14,6 +14,15 @@
 #define DIR_X(dir) (dir % 4 > 0 ? (dir / 4 > 0 ? -1 : 1) : 0)
 #define DIR_Y(dir) ((dir + 2) % 4 > 0 ? ((((dir + 2) % 8) / 4 > 0) ? 1 : -1) : 0)
 
+enum Ability : size_t {
+	strength,
+	dexterity,
+	constitution,
+	intelligence,
+	wisdom,
+	count
+};
+
 enum class Allegiance {
 	unknown,
 	pc,
