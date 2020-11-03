@@ -25,65 +25,69 @@ Creature::Creature()
 	mpMax = 15;
 	acBase = 10;
 	accuracy = 25;
-	strength = 0;
-	dexterity = 0;
-	constitution = 0;
-	intelligence = 0;
-	wisdom = 0;
+	abilities[strength] = 0;
+	abilities[dexterity] = 0;
+	abilities[constitution] = 0;
+	abilities[intelligence] = 0;
+	abilities[wisdom] = 0;
 	effects = {};
-	abilities = {};
 	inventory.addItem("DAGGER");
 	inventory.addItem("DAGGER");
 }
 
-unsigned int Creature::getTextID()
+unsigned int Creature::getTextID() const
 {
 	return textID;
 }
 
-char Creature::getLetter()
+char Creature::getLetter() const
 {
 	return letter;
 }
 
-Color Creature::getColor()
+Color Creature::getColor() const
 {
 	return color;
 }
 
-int Creature::getLevel()
+int Creature::getLevel() const
 {
 	return level;
 }
 
-int Creature::getRemainingXP()
+int Creature::getRemainingXP() const
 {
 	return xpNextLevel - xp;
 }
 
-int Creature::getCurrentXP()
+int Creature::getCurrentXP() const
 {
 	return xp;
 }
 
-int Creature::getCurrentHP()
+int Creature::getCurrentHP() const
 {
 	return hp;
 }
 
-int Creature::getCurrentMP()
+int Creature::getCurrentMP() const
 {
 	return mp;
 }
 
-int Creature::getMaxHP()
+int Creature::getMaxHP() const
 {
 	return hpMax;
 }
 
-int Creature::getMaxMP()
+int Creature::getMaxMP() const
 {
 	return mpMax;
+}
+
+int Creature::getAbilityValue(const Ability ability) const
+{
+	return abilities[ability];
 }
 
 unsigned int Creature::getWeaponTextID()

@@ -14,6 +14,7 @@ WYT
 INT
 MĄD
 Złoto: 
+Plecak jest pusty.
 Obr
 SkA
 , poziom 

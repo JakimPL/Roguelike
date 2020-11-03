@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#define STRING(value) std::to_string(value)
+
 #include "constants.hpp"
 
 enum class String : unsigned int {
@@ -23,7 +25,8 @@ enum class String : unsigned int {
 	INT,
 	WIS,
 	Gold,
-	Att,
+	EmptyBackpack,
+	Dmg,
 	Acc,
 	level,
 	Moondale,

@@ -70,10 +70,6 @@ enum class Target {
 	count
 };
 
-struct Ability {
-	unsigned int textID;
-};
-
 struct Character {
 	unsigned int textID;
 	long time;

@@ -3,6 +3,15 @@
 
 #include "item.hpp"
 
+enum Ability : size_t {
+	strength,
+	dexterity,
+	constitution,
+	intelligence,
+	wisdom,
+	count
+};
+
 enum class Race {
 	undefined,
 	human,
@@ -64,14 +73,9 @@ private:
 	unsigned int mpMax;
 	unsigned int acBase;
 	unsigned int accuracy;
-	unsigned int strength;
-	unsigned int dexterity;
-	unsigned int constitution;
-	unsigned int intelligence;
-	unsigned int wisdom;
+	unsigned int abilities[Ability::count];
 	unsigned int resistance[(unsigned int)(Elementals::count)];
 	std::vector<CreatureEffect> effects;
-	std::vector<Ability> abilities;
 
 public:
 	Inventory inventory;
@@ -81,16 +85,17 @@ public:
 	Creature(const std::string& filename);
 	bool saveToFile(const std::string& filename);
 
-	unsigned int getTextID();
-	Color getColor();
-	char getLetter();
-	int getLevel();
-	int getRemainingXP();
-	int getCurrentXP();
-	int getCurrentHP();
-	int getCurrentMP();
-	int getMaxHP();
-	int getMaxMP();
+	unsigned int getTextID() const;
+	Color getColor() const;
+	char getLetter() const;
+	int getLevel() const;
+	int getRemainingXP() const;
+	int getCurrentXP() const;
+	int getCurrentHP() const;
+	int getCurrentMP() const;
+	int getMaxHP() const;
+	int getMaxMP() const;
+	int getAbilityValue(const Ability ability) const;
 	unsigned int getWeaponTextID();
 };
 

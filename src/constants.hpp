@@ -79,11 +79,11 @@ static constexpr int TAB_X_OFFSET = GUI_X_OFFSET + 2 * TILE_WIDTH;
 static constexpr int TAB_Y_OFFSET = GUI_Y_OFFSET + 4 * TILE_HEIGHT;
 static constexpr int TAB_WIDTH = SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH;
 static constexpr int TAB_HEIGHT = SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT;
-
 static constexpr char TARGET_CHAR = u'¤';
 
 static constexpr unsigned int INVENTORY_SIZE = 30;
 static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT - 2;
+static constexpr int INVENTORY_ABILITIES_DISTANCE = 6;
 static constexpr unsigned int KEY_INPUT_DELAY = 8;
 
 enum Filetype {

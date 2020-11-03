@@ -105,6 +105,13 @@ void Game::drawGUI()
 				drawText(renderer, font, text[item->getTextID()], item->getColor(), TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
 				drawItemDescription(item);
 			}
+		} else {
+			drawText(renderer, font, text[String::EmptyBackpack], COLOR_BROWN, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + 0.5f * TILE_HEIGHT, Alignment::Left, Alignment::Center);
+		}
+
+		for (size_t ability = 0; ability < Ability::count; ++ability) {
+			drawText(renderer, font, text[size_t(String::STR) + ability], COLOR_WHITE, TAB_X_OFFSET + TAB_WIDTH / 2 + (ability - float(Ability::count - 1) / 2) * INVENTORY_ABILITIES_DISTANCE * TILE_WIDTH, TAB_Y_OFFSET + (0.5f + INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, Alignment::Center);
+			drawText(renderer, font, STRING(player.creature.getAbilityValue(Ability(ability))), COLOR_WHITE, TAB_X_OFFSET + TAB_WIDTH / 2 + (ability - float(Ability::count - 1) / 2) * INVENTORY_ABILITIES_DISTANCE * TILE_WIDTH, TAB_Y_OFFSET + (1.5f + INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, Alignment::Center);
 		}
 
 		break;
