@@ -1,8 +1,8 @@
 #include "game.hpp"
-#include "functions.hpp"
+#include "graphics.hpp"
 #include "log.hpp"
 
-using namespace Functions;
+using namespace Graphics;
 
 Game::Game() : player("Liop"), currentArea("MOONDALE")
 {

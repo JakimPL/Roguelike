@@ -9,6 +9,7 @@ HEADERS += \
 	src/creature.hpp \
 	src/functions.hpp \
 	src/game.hpp \
+	src/graphics.hpp \
 	src/item.hpp \
 	src/keyboard.hpp \
 	src/log.hpp \
@@ -24,6 +25,7 @@ SOURCES += \
 	src/creature.cpp \
 	src/functions.cpp \
 	src/game.cpp \
+	src/graphics.cpp \
 	src/item.cpp \
 	src/keyboard.cpp \
 	src/player.cpp \
