@@ -111,6 +111,77 @@ int Item::getRequiredAbility(const Ability ability) const
 	return requiredAbilities[ability];
 }
 
+void Item::setTextID(unsigned int value)
+{
+	textID = value;
+}
+
+void Item::setDescriptionID(unsigned int value)
+{
+	descriptionID = value;
+}
+
+void Item::setColor(Color value)
+{
+	color = value;;
+}
+
+void Item::setType(ItemType value)
+{
+	type = value;
+}
+
+void Item::setCategory(ItemCategory value)
+{
+	category = value;
+}
+
+void Item::setPrice(unsigned long value)
+{
+	price = value;
+}
+
+void Item::setDamage(int value)
+{
+	damage = value;
+}
+
+void Item::setDamageDelta(int value)
+{
+	damageDelta = value;
+}
+
+void Item::setAttackRate(int value)
+{
+	attackRate = value;
+}
+
+void Item::setDelay(unsigned int value)
+{
+	delay = value;
+}
+
+void Item::setDefense(int value)
+{
+	defense = value;
+}
+
+void Item::setDefenseRate(int value)
+{
+	defenseRate = value;
+}
+
+void Item::setRequiredLevel(unsigned int value)
+{
+	defenseRate = value;
+}
+
+void Item::setRequiredAbility(const Ability ability, unsigned int value)
+{
+	requiredAbilities[ability] = value;
+}
+
+
 bool Item::saveToFile(const std::string& filename, bool fullPath)
 {
 	std::string path = fullPath ? filename : Functions::getPath(filename, ITM);

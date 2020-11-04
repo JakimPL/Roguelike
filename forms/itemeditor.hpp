@@ -27,10 +27,11 @@ private slots:
 	void on_actionSave_triggered();
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
+
+	void prepareEditorValuesAndRanges();
 	void updateApplicationTitle();
-
-	void on_comboBox_currentIndexChanged(int index);
-
+	void updateEditorValues();
+	void updateItemParameters();
 private:
 	Ui::ItemEditor *ui;
 };

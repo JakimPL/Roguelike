@@ -80,7 +80,7 @@ struct ItemEffect {
 };
 
 struct Item {
-public:
+private:
 	unsigned int textID;
 	unsigned int descriptionID;
 	Color color;
@@ -114,6 +114,22 @@ public:
 	int getDefenseRate() const;
 	int getRequiredLevel() const;
 	int getRequiredAbility(const Ability ability) const;
+
+	void setTextID(unsigned int value);
+	void setDescriptionID(unsigned int value);
+	void setColor(Color value);
+	void setType(ItemType value);
+	void setCategory(ItemCategory value);
+	void setPrice(unsigned long value);
+	void setDamage(int value);
+	void setDamageDelta(int value);
+	void setAttackRate(int value);
+	void setDelay(unsigned int value);
+	void setDefense(int value);
+	void setDefenseRate(int value);
+	void setRequiredLevel(unsigned int value);
+	void setRequiredAbility(const Ability ability, unsigned int value);
+
 	bool saveToFile(const std::string& filename, bool fullPath = false);
 };
 
