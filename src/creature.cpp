@@ -44,6 +44,14 @@ Creature::Creature()
 	inventory.addItem("LIGHTBLADE");
 }
 
+void Creature::assignPoint(Ability ability)
+{
+	if (abilityPoints > 0) {
+		abilities[ability]++;
+		abilityPoints--;
+	}
+}
+
 unsigned int Creature::getTextID() const
 {
 	return textID;
@@ -132,6 +140,11 @@ int Creature::getAttackRate() const
 int Creature::getGold() const
 {
 	return gold;
+}
+
+int Creature::getAbilityPoints() const
+{
+	return abilityPoints;
 }
 
 int Creature::getAbilityValue(const Ability ability) const

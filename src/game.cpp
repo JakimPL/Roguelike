@@ -87,6 +87,12 @@ void Game::drawGUI()
 	shortcutsText << text[String::General::SHORTCUTS];
 	drawText(renderer, font, shortcutsText.str(), COLOR_BROWN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Right);
 
+	if (player.creature.getAbilityPoints() > 0) {
+		std::stringstream newLevelText;
+		newLevelText << text[String::General::NextLevel];
+		drawText(renderer, font, newLevelText.str(), COLOR_LGREEN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT / 2, Alignment::Right);
+	}
+
 	if (isGUIactive()) {
 		drawRectangle(renderer, COLOR_WHITE, TAB_X_OFFSET - 4 * SCALE, TAB_Y_OFFSET - 4 * SCALE, TAB_WIDTH + 8 * SCALE, TAB_HEIGHT + 8 * SCALE, true);
 		drawRectangle(renderer, GUI_RECTANGLE_COLOR, TAB_X_OFFSET, TAB_Y_OFFSET, TAB_WIDTH, TAB_HEIGHT);
@@ -159,10 +165,14 @@ void Game::drawCharacterInfo()
 	goldText << text[String::General::Gold] << player.creature.getGold();
 	drawText(renderer, font, goldText.str(), COLOR_YELLOW, xOffset, yOffset + (TILE_HEIGHT * line++));
 
+	if (player.creature.getAbilityPoints() > 0) {
+		drawRectangle(renderer, COLOR_DGREEN, TAB_X_OFFSET, TAB_Y_OFFSET + TAB_HEIGHT + (-5.0f + characterInfoPosition) * TILE_HEIGHT, TAB_WIDTH, TILE_HEIGHT);
+	}
+
 	for (size_t abilityIndex = 0; abilityIndex < Ability::count; ++abilityIndex) {
 		Ability ability = Ability(abilityIndex);
-		drawText(renderer, font, text[ {TextCategory::General, size_t(String::General::Strength) + abilityIndex} ], COLOR_BROWN, xOffset, TAB_Y_OFFSET + TAB_HEIGHT + (-4.5f + ability) * TILE_HEIGHT);
-		drawText(renderer, font, STRING(player.creature.getAbilityValue(ability)), COLOR_BROWN, TAB_X_OFFSET + TAB_WIDTH - 2 * SCALE, TAB_Y_OFFSET + TAB_HEIGHT + (-4.5f + ability) * TILE_HEIGHT, Alignment::Right);
+		drawText(renderer, font, text[ {TextCategory::General, size_t(String::General::Strength) + abilityIndex} ], COLOR_YGREEN, xOffset, TAB_Y_OFFSET + TAB_HEIGHT + (-4.5f + ability) * TILE_HEIGHT);
+		drawText(renderer, font, STRING(player.creature.getAbilityValue(ability)), COLOR_YGREEN, TAB_X_OFFSET + TAB_WIDTH - 2 * SCALE, TAB_Y_OFFSET + TAB_HEIGHT + (-4.5f + ability) * TILE_HEIGHT, Alignment::Right);
 	}
 }
 
@@ -352,6 +362,23 @@ void Game::mainLoop()
 				}
 				break;
 			case GUI::Character:
+				if (player.creature.getAbilityPoints() > 0) {
+					if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
+						characterInfoPosition = std::max(0, characterInfoPosition - 1);
+					}
+					if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
+						characterInfoPosition = std::min((int)(Ability::count) - 1, characterInfoPosition + 1);
+					}
+					if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
+						characterInfoPosition = 0;
+					}
+					if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6) or keyboard.isKey(SDLK_PAGEDOWN)) {
+						characterInfoPosition = Ability::count - 1;
+					}
+					if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
+						player.creature.assignPoint(Ability(characterInfoPosition));
+					}
+				}
 				break;
 			case GUI::Map:
 				break;

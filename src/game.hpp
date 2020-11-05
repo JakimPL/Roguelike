@@ -32,6 +32,7 @@ public:
 	GUI activeTab = GUI::None;
 	unsigned int inventoryPage = 0;
 	int inventoryPosition = 0;
+	int characterInfoPosition = 0;
 public:
 	Game();
 

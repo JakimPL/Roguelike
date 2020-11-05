@@ -81,6 +81,8 @@ public:
 	Creature(const std::string& filename);
 	bool saveToFile(const std::string& filename);
 
+	void assignPoint(Ability ability);
+
 	unsigned int getTextID() const;
 	Color getColor() const;
 	char getLetter() const;
@@ -99,6 +101,7 @@ public:
 	int getDamageMax() const;
 	int getAttackRate() const;
 	int getGold() const;
+	int getAbilityPoints() const;
 	int getAbilityValue(const Ability ability) const;
 	unsigned int getWeaponTextID();
 };

@@ -16,16 +16,21 @@
 #define COLOR_GREEN   {0,   224, 0,   255}
 #define COLOR_BLUE    {0,   0,   224, 255}
 #define COLOR_YELLOW  {224, 224, 0,   255}
-#define COLOR_MAGENTA {192, 0,   192, 255}
-#define COLOR_CYAN    {0,   192, 192, 255}
+#define COLOR_MAGENTA {224, 0,   192, 255}
+#define COLOR_CYAN    {0,   224, 192, 255}
 #define COLOR_WHITE   {252, 255, 255, 255}
 
-#define COLOR_DRED    {160, 0,   0,   255}
-#define COLOR_DGREEN  {0,   160, 0,   255}
-#define COLOR_DBLUE   {0,   0,   160, 255}
+#define COLOR_DRED    {128, 0,   0,   255}
+#define COLOR_DGREEN  {0,   128, 0,   255}
+#define COLOR_DBLUE   {0,   0,   128, 255}
+
+#define COLOR_LRED    {255, 64,  64,  255}
+#define COLOR_LGREEN  {64,  255, 64,  255}
+#define COLOR_LBLUE   {64,  64,  255, 255}
 
 #define COLOR_BROWN   {160, 96,  0,   255}
 #define COLOR_PURPLE  {96,  0,   160, 255}
+#define COLOR_YGREEN  {192, 255, 32,  255}
 
 static constexpr unsigned int SIZE_TABLE = 4;
 static constexpr unsigned int SIZE_HEADER = 3;
