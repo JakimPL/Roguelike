@@ -45,7 +45,10 @@ enum class General : unsigned int {
 	WIS,
 	Gold,
 	EmptyBackpack,
-	Dmg,
+	Def,
+	DefRate,
+	AttMin,
+	AttMax,
 	Acc,
 	level,
 	WeaponInUse,
@@ -55,7 +58,17 @@ enum class General : unsigned int {
 	DefenseRate,
 	Delay,
 	Speed,
-	RequiredLevel
+	RequiredLevel,
+	Experience,
+	HealthPoints,
+	ManaPoints,
+	HealthRegeneration,
+	ManaRegeneration,
+	Strength,
+	Dexterity,
+	Constitution,
+	Intelligence,
+	Wisdom
 };
 
 enum class Area : unsigned int {

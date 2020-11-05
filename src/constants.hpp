@@ -68,7 +68,7 @@ static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
 
 static constexpr float FPS = 60.0f;
-static constexpr float SCALE = 2.0f;
+static constexpr float SCALE = 1.5f;
 static constexpr bool FULLSCREEN = true;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
 static constexpr int GUI_Y_OFFSET = 8 * SCALE;
@@ -85,7 +85,7 @@ static constexpr int TAB_HEIGHT = SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HE
 static constexpr char TARGET_CHAR = u'¤';
 
 static constexpr unsigned int INVENTORY_SIZE = 30;
-static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT - 2;
+static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT - 3;
 static constexpr int INVENTORY_ABILITIES_DISTANCE = 6;
 static constexpr unsigned int KEY_INPUT_DELAY = 8;
 

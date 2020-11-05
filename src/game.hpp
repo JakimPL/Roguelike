@@ -36,10 +36,13 @@ public:
 	Game();
 
 	void drawFrame();
-	void drawMap();
+	void drawWorld();
 	void drawPlayer();
 	void drawGUI();
+	void drawCharacterInfo();
+	void drawInventory();
 	void drawItemDescription(Item* item);
+	void drawMap();
 
 	bool isGUIactive() const;
 	void openTab(GUI tab);

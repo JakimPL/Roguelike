@@ -16,7 +16,10 @@ MĄD
 Złoto: 
 Plecak jest pusty.
 Obr
-SkA
+SkObr
+AtMin
+AtMax
+SkAt
 , poziom 
 Broń w użyciu: 
 Obrażenia: 
@@ -26,3 +29,13 @@ Skut. obrony:
 Opóźnienie: 
 Prędkość: 
 Wymagany poziom: 
+Doświadczenie: 
+Punkty życia: 
+Punkty many: 
+Regeneracja życia: 
+Regeneracja many: 
+Siła: 
+Zręczność: 
+Kondycja: 
+Inteligencja: 
+Wiedza: 

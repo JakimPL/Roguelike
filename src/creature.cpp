@@ -21,11 +21,16 @@ Creature::Creature()
 	xpValue = 0;
 	gold = 50;
 	hp = 30;
-	hpMax = 30;
-	mp = 15;
-	mpMax = 15;
-	acBase = 10;
-	accuracy = 25;
+	hpMax = 28;
+	hpRegeneration = 1;
+	mp = 24;
+	mpMax = 22;
+	mpRegeneration = 0;
+	damage = 1;
+	attackRate = 24;
+	defense = 9;
+	defenseRate = 0;
+	abilityPoints = 10;
 	abilities[strength] = 0;
 	abilities[dexterity] = 0;
 	abilities[constitution] = 0;
@@ -59,34 +64,74 @@ int Creature::getLevel() const
 	return level;
 }
 
-int Creature::getRemainingXP() const
+int Creature::getXPRemaining() const
 {
 	return xpNextLevel - xp;
 }
 
-int Creature::getCurrentXP() const
+int Creature::getXPCurrent() const
 {
 	return xp;
 }
 
-int Creature::getCurrentHP() const
+int Creature::getHPCurrent() const
 {
 	return hp;
 }
 
-int Creature::getCurrentMP() const
+int Creature::getHPMax() const
+{
+	return hpMax + abilities[Ability::constitution] + level * 2;
+}
+
+int Creature::getHPRegeneration() const
+{
+	return hpRegeneration;
+}
+
+int Creature::getMPCurrent() const
 {
 	return mp;
 }
 
-int Creature::getMaxHP() const
+int Creature::getMPMax() const
 {
-	return hpMax;
+	return mpMax + abilities[Ability::intelligence] / 2 + level * 2;
 }
 
-int Creature::getMaxMP() const
+int Creature::getMPRegeneration() const
 {
-	return mpMax;
+	return mpRegeneration;
+}
+
+int Creature::getDefense() const
+{
+	return defense + abilities[Ability::constitution] / 5 + 1;
+}
+
+int Creature::getDefenseRate() const
+{
+	return defenseRate + abilities[Ability::dexterity] / 5 + 1;
+}
+
+int Creature::getDamageMin() const
+{
+	return damage;
+}
+
+int Creature::getDamageMax() const
+{
+	return damage;
+}
+
+int Creature::getAttackRate() const
+{
+	return attackRate + abilities[Ability::dexterity] / 4 + 1;
+}
+
+int Creature::getGold() const
+{
+	return gold;
 }
 
 int Creature::getAbilityValue(const Ability ability) const
