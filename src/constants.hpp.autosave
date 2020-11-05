@@ -5,7 +5,7 @@
 
 #define VERSION "0.1.0"
 #define DESCRIPTION "Roguelike"
-#define PRINT(string)    std::cout << string << std::endl
+#define PRINT(string) std::cout << string << std::endl
 
 #define GUI_RECTANGLE_COLOR {16,  16,  16,  224}
 #define GUI_INVENTORY_COLOR {0,   0,   160, 224}

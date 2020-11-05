@@ -39,7 +39,7 @@ SOURCES += \
 FORMS += \
     forms/itemeditor.ui
 
-LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -ldl -lpthread
+LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -lboost_program_options -ldl -lpthread
 
 DEFINES += \
 	COURIER_NEW \
