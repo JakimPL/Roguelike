@@ -105,8 +105,10 @@ void Game::drawGUI()
 
 				Item* item = inventory.getBackpackItem(index + inventoryPage * INVENTORY_ITEMS_PER_PAGE);
 				drawText(renderer, font, text[ {TextCategory::Item, item->getTextID()} ], item->getColor(), TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
-				drawItemDescription(item);
 			}
+
+			Item* selectedItem = inventory.getBackpackItem(inventoryPosition);
+			drawItemDescription(selectedItem);
 		} else {
 			drawText(renderer, font, text[String::General::EmptyBackpack], COLOR_BROWN, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + 0.5f * TILE_HEIGHT, Alignment::Left, Alignment::Center);
 		}
@@ -148,8 +150,10 @@ void Game::drawItemDescription(Item *item)
 	drawText(renderer, font, descriptionText.str(), item->getColor(), xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 
 	if (item->getRequiredLevel() > 0) {
-		SDL_Color sdlColor = (item->getRequiredLevel() > player.creature.getLevel() ? SDL_Color(COLOR_RED) : SDL_Color(COLOR_GREEN));
-		drawText(renderer, font, STRING(item->getRequiredLevel()), sdlColor, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+		std::stringstream requiredLevelText;
+		requiredLevelText << text[String::General::RequiredLevel] << item->getRequiredLevel();
+		SDL_Color sdlColor = (item->getRequiredLevel() > player.creature.getLevel() ? SDL_Color(COLOR_RED) : SDL_Color(COLOR_WHITE));
+		drawText(renderer, font, requiredLevelText.str(), sdlColor, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 	}
 
 	if (item->getDamage() + item->getDamageDelta() > 0) {

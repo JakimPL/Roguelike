@@ -33,7 +33,10 @@ Creature::Creature()
 	abilities[wisdom] = 0;
 	effects = {};
 	inventory.addItem("DAGGER");
-	inventory.addItem("DAGGER");
+	inventory.addItem("SHORTSWORD");
+	inventory.addItem("LONGSWORD");
+	inventory.addItem("BROADSWORD");
+	inventory.addItem("LIGHTBLADE");
 }
 
 unsigned int Creature::getTextID() const

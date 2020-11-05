@@ -15,12 +15,13 @@ Text::Text()
 	for (unsigned int category = 0; category < (unsigned int)(TextCategory::Count); ++category) {
 #ifdef CONVERT_TXT_TO_STR
 		convertFromTXTtoSTR(TextCategory(category), getPath(FILENAME_STRING[category], TXT), getPath(FILENAME_STRING[category], STR));
-#endif
+#else
 		if (!loadContent(TextCategory(category), FILENAME_STRING[category])) {
 			std::string errorMessage = "Failed to open " + FILENAME_STRING[category] + " dialog file";
 			_LogError(errorMessage);
 			throw std::runtime_error(errorMessage);
 		}
+#endif
 	}
 }
 

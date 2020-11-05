@@ -83,6 +83,11 @@ void ItemEditor::prepareEditorValuesAndRanges()
 		ui->categoryBox->insertItem(index, listItem);
 	}
 
+	for (unsigned int index = 0; index < (unsigned int)(ItemFlag::count); ++index) {
+		QString listItem = QString::fromStdString(text[flagTextIDs[index]]);
+		ui->flagBox->insertItem(index, listItem);
+	}
+
 	ui->colorRedBox->setRange(0, 255);
 	ui->colorGreenBox->setRange(0, 255);
 	ui->colorBlueBox->setRange(0, 255);
@@ -98,7 +103,8 @@ void ItemEditor::updateEditorValues()
 	ui->colorGreenBox->setValue(color.green);
 	ui->colorBlueBox->setValue(color.blue);
 	ui->typeBox->setCurrentIndex(int(item.getType()));
-	ui->categoryBox->setCurrentIndex(int(item.getType()));
+	ui->categoryBox->setCurrentIndex(int(item.getCategory()));
+	ui->flagBox->setCurrentIndex(int(item.getFlag()));
 	ui->priceBox->setValue(item.getPrice());
 	ui->damageBox->setValue(item.getDamage());
 	ui->damageDeltaBox->setValue(item.getDamageDelta());
@@ -118,12 +124,13 @@ void ItemEditor::updateEditorValues()
 void ItemEditor::updateItemParameters()
 {
 	item.setTextID(ui->textIDBox->currentIndex());
-	item.setDescriptionID(ui->textIDBox->currentIndex());
+	item.setDescriptionID(ui->descriptionIDBox->currentIndex());
 
 	Color color = {(uint8_t)(ui->colorRedBox->value()), (uint8_t)(ui->colorGreenBox->value()), (uint8_t)(ui->colorBlueBox->value())};
 	item.setColor(color);
 	item.setType(ItemType(ui->typeBox->currentIndex()));
 	item.setCategory(ItemCategory(ui->categoryBox->currentIndex()));
+	item.setFlag(ItemFlag(ui->flagBox->currentIndex()));
 	item.setPrice(ui->priceBox->value());
 	item.setDamage(ui->damageBox->value());
 	item.setDamageDelta(ui->damageDeltaBox->value());

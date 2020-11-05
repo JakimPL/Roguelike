@@ -72,6 +72,7 @@ enum class ItemFlag {
 	none,
 	broken,
 	magic,
+	unidentified,
 	count
 };
 
@@ -105,6 +106,7 @@ public:
 	Color getColor() const;
 	ItemType getType() const;
 	ItemCategory getCategory() const;
+	ItemFlag getFlag() const;
 	unsigned long getPrice() const;
 	int getDamage() const;
 	int getDamageDelta() const;
@@ -120,6 +122,7 @@ public:
 	void setColor(Color value);
 	void setType(ItemType value);
 	void setCategory(ItemCategory value);
+	void setFlag(ItemFlag value);
 	void setPrice(unsigned long value);
 	void setDamage(int value);
 	void setDamageDelta(int value);
@@ -142,7 +145,7 @@ public:
 	bool addItem(const std::string& filename);
 	bool addItem(Item item);
 	unsigned int getBackpackSize();
-	Item* getBackpackItem(unsigned int name);
+	Item* getBackpackItem(unsigned int index);
 	bool isEmpty() const;
 	bool isFull() const;
 };
@@ -158,7 +161,7 @@ static const String::Item typeTextIDs[(size_t)(ItemType::count)] = {
 	String::Item::Ring,
 	String::Item::Amulet,
 	String::Item::Quiver,
-	String::Item::Quick,
+	String::Item::Quick
 };
 
 static const String::Item categoryTextIDs[(size_t)(ItemCategory::count)] = {
@@ -179,7 +182,14 @@ static const String::Item categoryTextIDs[(size_t)(ItemCategory::count)] = {
 	String::Item::PlateArmor,
 	String::Item::Robe,
 	String::Item::Potion,
-	String::Item::Spell,
+	String::Item::Spell
+};
+
+static const String::Item flagTextIDs[(size_t)(ItemFlag::count)] = {
+	String::Item::empty,
+	String::Item::Broken,
+	String::Item::Magic,
+	String::Item::Unidentified
 };
 
 #endif // ITEM_HPP

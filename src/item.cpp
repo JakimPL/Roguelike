@@ -66,6 +66,11 @@ ItemCategory Item::getCategory() const
 	return category;
 }
 
+ItemFlag Item::getFlag() const
+{
+	return flag;
+}
+
 unsigned long Item::getPrice() const
 {
 	return price;
@@ -103,7 +108,7 @@ int Item::getDefenseRate() const
 
 int Item::getRequiredLevel() const
 {
-	return defenseRate;
+	return requiredLevel;
 }
 
 int Item::getRequiredAbility(const Ability ability) const
@@ -134,6 +139,11 @@ void Item::setType(ItemType value)
 void Item::setCategory(ItemCategory value)
 {
 	category = value;
+}
+
+void Item::setFlag(ItemFlag value)
+{
+	flag = value;
 }
 
 void Item::setPrice(unsigned long value)
@@ -173,7 +183,7 @@ void Item::setDefenseRate(int value)
 
 void Item::setRequiredLevel(unsigned int value)
 {
-	defenseRate = value;
+	requiredLevel = value;
 }
 
 void Item::setRequiredAbility(const Ability ability, unsigned int value)
@@ -201,7 +211,6 @@ bool Item::saveToFile(const std::string& filename, bool fullPath)
 		resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&defense), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
 		for (size_t ability = 0; ability < Ability::count; ++ability) {
 			resource.write(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);

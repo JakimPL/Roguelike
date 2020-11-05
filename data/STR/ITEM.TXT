@@ -27,3 +27,17 @@ Amunicja
 Przedmiot szybkiego użycia
 Mikstura
 Zaklęcie
+Uszkodzony
+Magiczny
+Niezidentyfikowany
+Nóż
+Kris
+Stiletto
+Szeroki miecz
+Lekkie ostrze
+Wielki miecz
+Ciężki topór
+Ostrze
+Włócznia
+Halabarda
+Lanca

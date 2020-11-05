@@ -92,7 +92,10 @@ enum class Item : unsigned int {
 	Quiver,
 	Quick,
 	Potion,
-	Spell
+	Spell,
+	Broken,
+	Magic,
+	Unidentified
 };
 
 enum class Object : unsigned int {
