@@ -99,7 +99,7 @@ private:
 	std::vector<ItemEffect> effects;
 
 public:
-	Item(const std::string &filename, bool fullPath = false);
+	Item(const std::string& filename, bool fullPath = false);
 	unsigned int getTextID() const;
 	unsigned int getDescriptionID() const;
 	Color getColor() const;
@@ -147,39 +147,39 @@ public:
 	bool isFull() const;
 };
 
-static const String typeTextIDs[(size_t)(ItemType::count)] = {
-	String::empty,
-	String::Weapon,
-	String::Armor,
-	String::Helmet,
-	String::Gloves,
-	String::Cloak,
-	String::Boots,
-	String::Ring,
-	String::Amulet,
-	String::Quiver,
-	String::Quick,
+static const String::Item typeTextIDs[(size_t)(ItemType::count)] = {
+	String::Item::empty,
+	String::Item::Weapon,
+	String::Item::Armor,
+	String::Item::Helmet,
+	String::Item::Gloves,
+	String::Item::Cloak,
+	String::Item::Boots,
+	String::Item::Ring,
+	String::Item::Amulet,
+	String::Item::Quiver,
+	String::Item::Quick,
 };
 
-static const String categoryTextIDs[(size_t)(ItemCategory::count)] = {
-	String::empty,
-	String::Dagger,
-	String::ShortSword,
-	String::LongSword,
-	String::Staff,
-	String::Spear,
-	String::Club,
-	String::Axe,
-	String::Bow,
-	String::Crossbow,
-	String::Sling,
-	String::Clothing,
-	String::LeatherArmor,
-	String::ChainMail,
-	String::PlateArmor,
-	String::Robe,
-	String::Potion,
-	String::Spell,
+static const String::Item categoryTextIDs[(size_t)(ItemCategory::count)] = {
+	String::Item::empty,
+	String::Item::Dagger,
+	String::Item::ShortSword,
+	String::Item::LongSword,
+	String::Item::Staff,
+	String::Item::Spear,
+	String::Item::Club,
+	String::Item::Axe,
+	String::Item::Bow,
+	String::Item::Crossbow,
+	String::Item::Sling,
+	String::Item::Clothing,
+	String::Item::LeatherArmor,
+	String::Item::ChainMail,
+	String::Item::PlateArmor,
+	String::Item::Robe,
+	String::Item::Potion,
+	String::Item::Spell,
 };
 
 #endif // ITEM_HPP

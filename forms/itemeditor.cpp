@@ -67,8 +67,8 @@ void ItemEditor::updateApplicationTitle()
 
 void ItemEditor::prepareEditorValuesAndRanges()
 {
-	for (unsigned int index = 0; index < text.getContentSize(); ++index) {
-		QString listItem = QString::fromStdString(text[index]);
+	for (unsigned int index = 0; index < text.getContentSize(TextCategory::Item); ++index) {
+		QString listItem = QString::fromStdString(text[String::Item(index)]);
 		ui->textIDBox->insertItem(index, listItem);
 		ui->descriptionIDBox->insertItem(index, listItem);
 	}

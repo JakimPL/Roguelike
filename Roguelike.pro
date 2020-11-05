@@ -43,5 +43,5 @@ LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -ldl -lpthread
 
 DEFINES += \
 	COURIER_NEW \
-	CONVERT_TXT_TO_STR \
-	ITEM_EDITOR
+	#CONVERT_TXT_TO_STR \
+	#ITEM_EDITOR

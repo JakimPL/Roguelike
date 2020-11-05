@@ -1,0 +1,28 @@
+﻿
+Roguelike
+PŻ: 
+PM: 
+I - EKWIPUNEK, C - POSTAĆ, M - MAPA
+NOWY POZIOM!
+Następny poziom: 
+PD
+X: 
+, Y: 
+SIŁ
+ZRĘ
+WYT
+INT
+MĄD
+Złoto: 
+Plecak jest pusty.
+Obr
+SkA
+, poziom 
+Broń w użyciu: 
+Obrażenia: 
+Obrona: 
+Skut. ataku: 
+Skut. obrony: 
+Opóźnienie: 
+Prędkość: 
+Wymagany poziom: 

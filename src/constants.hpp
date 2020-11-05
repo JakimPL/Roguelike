@@ -50,7 +50,6 @@ static const char PATH_FONT[] = "data/NOTOMONO.TTF";
 #endif
 
 static const std::string FILENAME_PLAYER = "CHARACTER.CRE";
-static const std::string FILENAME_STRING = "DIALOGS";
 static const std::string PATH_DATA = "data/";
 static const std::string PATH_ARE = "ARE/";
 static const std::string PATH_ITM = "ITM/";

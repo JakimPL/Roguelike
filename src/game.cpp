@@ -51,40 +51,40 @@ void Game::drawGUI()
 	Position playerPosition = player.getPosition();
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
-	drawText(renderer, font, text[currentArea.getTextID()], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
+	drawText(renderer, font, text[ {TextCategory::Area, currentArea.getTextID()} ], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream nextLevelText;
-	nextLevelText << text[String::Next] << player.creature.getRemainingXP();
+	nextLevelText << text[String::General::Next] << player.creature.getRemainingXP();
 	drawText(renderer, font, nextLevelText.str(), COLOR_YELLOW, SCREEN_WIDTH / 2, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Center);
 
 	std::stringstream hpText;
-	hpText << text[String::HP] << player.creature.getCurrentHP() << "/" << player.creature.getMaxHP();
+	hpText << text[String::General::HP] << player.creature.getCurrentHP() << "/" << player.creature.getMaxHP();
 	drawText(renderer, font, hpText.str(), COLOR_RED, SCREEN_WIDTH - 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Right);
 
 	std::stringstream mpText;
-	mpText << text[String::HP] << player.creature.getCurrentMP() << "/" << player.creature.getMaxMP();
+	mpText << text[String::General::MP] << player.creature.getCurrentMP() << "/" << player.creature.getMaxMP();
 	drawText(renderer, font, mpText.str(), COLOR_BLUE, SCREEN_WIDTH - 2 * GUI_X_OFFSET, GUI_Y_OFFSET + 3 * TILE_HEIGHT / 2, Alignment::Right);
 
 	std::stringstream locationText;
-	locationText << text[String::X] << playerPosition.x << text[String::Y] << playerPosition.y;
+	locationText << text[String::General::X] << playerPosition.x << text[String::General::Y] << playerPosition.y;
 	drawText(renderer, font, locationText.str(), COLOR_YELLOW, SCREEN_WIDTH / 2, GUI_Y_OFFSET + 3 * TILE_HEIGHT / 2, Alignment::Center);
 
 	std::stringstream playerInfoText;
-	playerInfoText << player.getName() << text[String::level] << player.creature.getLevel();
+	playerInfoText << player.getName() << text[String::General::level] << player.creature.getLevel();
 	drawText(renderer, font, playerInfoText.str(), COLOR_WHITE, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream weaponInUseText;
-	weaponInUseText << text[String::WeaponInUse] << text[player.creature.getWeaponTextID()];
+	weaponInUseText << text[String::General::WeaponInUse] << text[ {TextCategory::Item, player.creature.getWeaponTextID()} ];
 	drawText(renderer, font, weaponInUseText.str(), COLOR_DGREEN, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream mapObjectText;
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
 	Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
-	drawText(renderer, font, text[objectTile.textID], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+	drawText(renderer, font, text[ {TextCategory::Object, objectTile.textID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream shortcutsText;
-	shortcutsText << text[String::SHORTCUTS];
+	shortcutsText << text[String::General::SHORTCUTS];
 	drawText(renderer, font, shortcutsText.str(), COLOR_BROWN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Right);
 
 	if (isGUIactive()) {
@@ -104,11 +104,11 @@ void Game::drawGUI()
 				}
 
 				Item* item = inventory.getBackpackItem(index + inventoryPage * INVENTORY_ITEMS_PER_PAGE);
-				drawText(renderer, font, text[item->getTextID()], item->getColor(), TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
+				drawText(renderer, font, text[ {TextCategory::Item, item->getTextID()} ], item->getColor(), TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
 				drawItemDescription(item);
 			}
 		} else {
-			drawText(renderer, font, text[String::EmptyBackpack], COLOR_BROWN, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + 0.5f * TILE_HEIGHT, Alignment::Left, Alignment::Center);
+			drawText(renderer, font, text[String::General::EmptyBackpack], COLOR_BROWN, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + 0.5f * TILE_HEIGHT, Alignment::Left, Alignment::Center);
 		}
 
 		break;
@@ -127,11 +127,11 @@ void Game::drawItemDescription(Item *item)
 	int line = 0;
 	const int xOffset = TAB_X_OFFSET + 3 * TAB_WIDTH / 4;
 	const int yOffset = TAB_Y_OFFSET + 0.5f * TILE_HEIGHT;
-	drawText(renderer, font, text[item->getTextID()], item->getColor(), xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+	drawText(renderer, font, text[ {TextCategory::Item, item->getTextID()} ], item->getColor(), xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 
 	std::stringstream descriptionText;
 	if (item->getDescriptionID() > 0) {
-		descriptionText << text[item->getDescriptionID()];
+		descriptionText << text[ {TextCategory::Item, item->getDescriptionID()} ];
 	} else {
 		switch (item->getType()) {
 		case ItemType::weapon:
@@ -154,27 +154,27 @@ void Game::drawItemDescription(Item *item)
 
 	if (item->getDamage() + item->getDamageDelta() > 0) {
 		std::stringstream attackText, attackRateText;
-		attackText << text[String::Damage] << item->getDamage() << "-" << item->getDamage() + item->getDamageDelta();
-		attackRateText << text[String::AttackRate] << item->getAttackRate();
+		attackText << text[String::General::Damage] << item->getDamage() << "-" << item->getDamage() + item->getDamageDelta();
+		attackRateText << text[String::General::AttackRate] << item->getAttackRate();
 		drawText(renderer, font, attackText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 		drawText(renderer, font, attackRateText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 	}
 	if (item->getDefense() + item->getDefenseRate() > 0) {
 		std::stringstream defenseText, defenseRateText;
-		defenseText << text[String::Defense] << item->getDefense();
-		defenseRateText << text[String::DefenseRate] << item->getDefenseRate();
+		defenseText << text[String::General::Defense] << item->getDefense();
+		defenseRateText << text[String::General::DefenseRate] << item->getDefenseRate();
 		drawText(renderer, font, defenseText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 		drawText(renderer, font, defenseRateText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 	}
 	if (item->getDelay() > 0) {
 		std::stringstream delayText;
-		delayText << text[(item->getType() == ItemType::weapon) ? String::Delay : String::Speed] << item->getDelay();
+		delayText << text[item->getType() == ItemType::weapon ? String::General::Delay : String::General::Speed] << item->getDelay();
 		drawText(renderer, font, delayText.str(), COLOR_BROWN, xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 	}
 
 	for (size_t abilityIndex = 0; abilityIndex < Ability::count; ++abilityIndex) {
 		Ability ability = Ability(abilityIndex);
-		drawText(renderer, font, text[size_t(String::STR) + abilityIndex], COLOR_WHITE, TAB_X_OFFSET + TAB_WIDTH / 2 + (abilityIndex - float(Ability::count - 1) / 2) * INVENTORY_ABILITIES_DISTANCE * TILE_WIDTH, TAB_Y_OFFSET + (0.5f + INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, Alignment::Center);
+		drawText(renderer, font, text[ {TextCategory::General, size_t(String::General::STR) + abilityIndex} ], COLOR_WHITE, TAB_X_OFFSET + TAB_WIDTH / 2 + (abilityIndex - float(Ability::count - 1) / 2) * INVENTORY_ABILITIES_DISTANCE * TILE_WIDTH, TAB_Y_OFFSET + (0.5f + INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, Alignment::Center);
 		drawText(renderer, font, STRING(player.creature.getAbilityValue(ability)), COLOR_WHITE, TAB_X_OFFSET + TAB_WIDTH / 2 + (ability - float(Ability::count - 1) / 2) * INVENTORY_ABILITIES_DISTANCE * TILE_WIDTH, TAB_Y_OFFSET + (1.5f + INVENTORY_ITEMS_PER_PAGE) * TILE_HEIGHT, Alignment::Center);
 
 		SDL_Color sdlColor = (item->getRequiredAbility(ability) > player.creature.getAbilityValue(ability) ? SDL_Color(COLOR_RED) : SDL_Color(COLOR_GREEN));

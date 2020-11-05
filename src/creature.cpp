@@ -93,7 +93,7 @@ int Creature::getAbilityValue(const Ability ability) const
 
 unsigned int Creature::getWeaponTextID()
 {
-	return (unsigned int)(String::Fist);
+	return (unsigned int)(String::Item::Fist);
 }
 
 bool Creature::saveToFile(const std::string&)

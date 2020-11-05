@@ -8,40 +8,45 @@
 #include "functions.hpp"
 #include "log.hpp"
 
+using namespace Functions;
+
 Text::Text()
 {
+	for (unsigned int category = 0; category < (unsigned int)(TextCategory::Count); ++category) {
 #ifdef CONVERT_TXT_TO_STR
-	convertFromTXTtoSTR(Functions::getPath(FILENAME_STRING, TXT), Functions::getPath(FILENAME_STRING, STR));
+		convertFromTXTtoSTR(TextCategory(category), getPath(FILENAME_STRING[category], TXT), getPath(FILENAME_STRING[category], STR));
 #endif
-	if (!loadContent(FILENAME_STRING)) {
-		std::string errorMessage = "Failed to open " + FILENAME_STRING + " dialog file";
-		_LogError(errorMessage);
-		throw std::runtime_error(errorMessage);
+		if (!loadContent(TextCategory(category), FILENAME_STRING[category])) {
+			std::string errorMessage = "Failed to open " + FILENAME_STRING[category] + " dialog file";
+			_LogError(errorMessage);
+			throw std::runtime_error(errorMessage);
+		}
 	}
 }
 
-bool Text::convertFromTXTtoSTR(const std::string& inputPath, const std::string& outputPath)
+bool Text::convertFromTXTtoSTR(TextCategory category, const std::string& inputPath, const std::string& outputPath)
 {
 	std::ifstream infile(inputPath);
 	std::ofstream outfile(outputPath);
 	if (infile.good()) {
-		content.clear();
+		std::vector<std::string>& currentContent = content[category];
+		currentContent.clear();
 		std::string line;
 		while (std::getline(infile, line)) {
-			content.push_back(line);
+			currentContent.push_back(line);
 		}
 		_LogInfo("Loaded " << inputPath << " file succesfully");
 		infile.close();
 		if (outfile.good()) {
 			outfile.write(headerSTR, SIZE_HEADER);
-			unsigned int size = static_cast<unsigned int>(content.size());
+			unsigned int size = static_cast<unsigned int>(currentContent.size());
 			outfile.write(reinterpret_cast<char*>(&size), SIZE_TABLE);
-			for (size_t it = 0; it < content.size(); ++it) {
-				unsigned short line_size = static_cast<unsigned short>(content[it].size());
+			for (size_t it = 0; it < currentContent.size(); ++it) {
+				unsigned short line_size = static_cast<unsigned short>(currentContent[it].size());
 				outfile.write(reinterpret_cast<char*>(&line_size), SIZE_ITEM);
 			}
-			for (size_t it = 0; it < content.size(); ++it) {
-				outfile.write(content[it].c_str(), static_cast<unsigned int>(content[it].size()));
+			for (size_t it = 0; it < currentContent.size(); ++it) {
+				outfile.write(currentContent[it].c_str(), static_cast<unsigned int>(currentContent[it].size()));
 			}
 			_LogInfo("Saved " << outputPath << " file succesfully");
 			outfile.close();
@@ -56,17 +61,17 @@ bool Text::convertFromTXTtoSTR(const std::string& inputPath, const std::string& 
 	}
 }
 
-bool Text::loadContent(const std::string& filename)
+bool Text::loadContent(TextCategory category, const std::string& filename)
 {
 	///TODO: error handling
-	std::string path = Functions::getPath(filename, STR);
+	std::string path = getPath(filename, STR);
 	_LogInfo("Opening " << path << " dialogs file");
 	std::ifstream resource(path);
 	if (resource.good()) {
 		bool success = true;
 		char resourceHeader[SIZE_HEADER + 1];
-		Functions::read(resource, resourceHeader, SIZE_HEADER);
-		if (Functions::compareHeaders(headerSTR, resourceHeader)) {
+		read(resource, resourceHeader, SIZE_HEADER);
+		if (compareHeaders(headerSTR, resourceHeader)) {
 			unsigned int tableSize;
 			resource.read(reinterpret_cast<char*>(&tableSize), SIZE_TABLE);
 			std::vector<short> itemSizes;
@@ -84,8 +89,8 @@ bool Text::loadContent(const std::string& filename)
 
 			for (unsigned int i = 0; i < tableSize; i++) {
 				char item[itemSizes[i] + 1];
-				Functions::read(resource, item, itemSizes[i]);
-				content.push_back(std::string(item));
+				read(resource, item, itemSizes[i]);
+				content[category].push_back(std::string(item));
 			}
 
 			_LogInfo("Dialog file " << filename << " opened successfully");
@@ -100,30 +105,45 @@ bool Text::loadContent(const std::string& filename)
 	}
 }
 
-const std::string Text::text(unsigned int id) const
+const std::string Text::text(TextCategory category, unsigned int id)
 {
 	std::string output;
 	try {
-		output = content.at(id);
+		output = content[category].at(id);
 	}  catch (std::out_of_range &) {
-		_LogError("Failed to load a text of id: " << id);
+		_LogError("Failed to load a text of id: " << id << " in " << FILENAME_STRING[(unsigned int)(category)]);
 		throw std::runtime_error("failed to load a text");
 	}
 
 	return output;
 }
 
-const std::string Text::operator[](String id) const
+const std::string Text::operator[](String::General element)
 {
-	return (*this)[(unsigned int)(id)];
+	return (*this)[ {TextCategory::General, (unsigned int)(element)} ];
 }
 
-const std::string Text::operator[](unsigned int id) const
+const std::string Text::operator[](String::Area element)
 {
-	return text(id);
+	return (*this)[ {TextCategory::Area, (unsigned int)(element)} ];
 }
 
-unsigned int Text::getContentSize() const
+const std::string Text::operator[](String::Item element)
 {
-	return content.size();
+	return (*this)[ {TextCategory::Item, (unsigned int)(element)} ];
+}
+
+const std::string Text::operator[](String::Object element)
+{
+	return (*this)[ {TextCategory::Object, (unsigned int)(element)} ];
+}
+
+const std::string Text::operator[](std::pair<TextCategory, unsigned int> element)
+{
+	return text(element.first, element.second);
+}
+
+unsigned int Text::getContentSize(TextCategory category)
+{
+	return content[category].size();
 }

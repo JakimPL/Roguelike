@@ -1,0 +1,29 @@
+
+Pięść
+Sztylet
+Krótki miecz 
+Długi miecz
+Kij
+Włócznia
+Pałka
+Topór
+Łuk
+Kusza
+Proca
+Koszula
+Skórzana zbroja
+Kolczuga
+Zbroja płytowa
+Szata
+Broń
+Pancerz
+Hełm
+Rękawice
+Płaszcz
+Buty
+Pierścień
+Amulet
+Amunicja
+Przedmiot szybkiego użycia
+Mikstura
+Zaklęcie
