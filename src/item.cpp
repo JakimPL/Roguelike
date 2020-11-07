@@ -255,8 +255,23 @@ void Inventory::dropItem(ItemType type)
 	stack[type] = nullptr;
 }
 
+void Inventory::dropItem(Item* item)
+{
+	if (item == nullptr) {
+		_LogError("Trying to drop NULL item!");
+		return;
+	}
+
+	stack[item->getType()] = nullptr;
+}
+
 void Inventory::equipItem(Item* item)
 {
+	if (item == nullptr) {
+		_LogError("Trying to equip NULL item!");
+		return;
+	}
+
 	stack[item->getType()] = item;
 }
 

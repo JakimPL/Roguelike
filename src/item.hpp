@@ -130,6 +130,7 @@ public:
 	bool addItem(const std::string& filename);
 	bool addItem(Item item);
 	void dropItem(ItemType type);
+	void dropItem(Item* item);
 	void equipItem(Item* item);
 
 	unsigned int getBackpackSize();

@@ -54,25 +54,34 @@ private:
 	Gender gender;
 	unsigned int state;
 	int level;
-	long xp;
+	long xpCurrent;
 	long xpNextLevel;
 	long xpValue;
 	long gold;
-	int hp;
+	int hpCurrent;
 	int hpMax;
 	int hpRegeneration;
-	int mp;
+	int hpBase;
+	int hpRegenerationBase;
+	int mpCurrent;
 	int mpMax;
 	int mpRegeneration;
-	int damage;
+	int mpBase;
+	int mpRegenerationBase;
+	int damageMin;
+	int damageMax;
+	int damageBase;
 	int attackRate;
+	int attackRateBase;
 	int defense;
+	int defenseBase;
 	int defenseRate;
+	int defenseRateBase;
 	int abilityPoints;
 	int abilities[Ability::count];
+	int abilitiesBase[Ability::count];
 	int resistance[(unsigned int)(Elementals::count)];
 	std::vector<CreatureEffect> effects;
-
 public:
 	Inventory inventory;
 
@@ -86,6 +95,7 @@ public:
 	bool equipItem(Item* item);
 	bool itemReqiuirementsSatisfied(Item* item);
 	bool isItemEquipped(Item* item);
+	void updateStats();
 
 	unsigned int getTextID() const;
 	Color getColor() const;
