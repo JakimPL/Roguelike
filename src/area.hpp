@@ -19,6 +19,7 @@ private:
 	std::vector<std::vector<Tile>> map;
 
 public:
+	Area();
 	Area(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);
 	unsigned int getNameID();

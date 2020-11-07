@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 OBJECTS_DIR = obj
 
 HEADERS += \
+	forms/areaeditor.hpp \
 	forms/itemeditor.hpp \
 	src/area.hpp \
 	src/color.hpp \
@@ -23,6 +24,7 @@ HEADERS += \
 
 SOURCES += \
 	main.cpp \
+	forms/areaeditor.cpp \
 	forms/itemeditor.cpp \
 	src/area.cpp \
 	src/creature.cpp \
@@ -37,10 +39,11 @@ SOURCES += \
 	src/timer.cpp
 	
 FORMS += \
+    forms/areaeditor.ui \
     forms/itemeditor.ui
 
 LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -lboost_program_options -ldl -lpthread
 
 DEFINES += \
 	COURIER_NEW \
-	CONVERT_TXT_TO_STR
+	#CONVERT_TXT_TO_STR

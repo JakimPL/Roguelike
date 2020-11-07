@@ -85,6 +85,7 @@ private:
 	std::vector<ItemEffect> effects;
 
 public:
+	Item();
 	Item(const std::string& filename, bool fullPath = false);
 	unsigned int getNameID() const;
 	unsigned int getDescriptionID() const;

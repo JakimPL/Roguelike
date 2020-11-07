@@ -123,6 +123,7 @@ enum class Mode {
 	Game,
 	Help,
 	Version,
+	AreaEditor,
 	ItemEditor
 };
 

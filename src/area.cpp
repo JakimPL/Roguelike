@@ -84,6 +84,14 @@ Area::Area(const std::string& filename, bool fullPath)
 	_LogInfo("File " << path << " opened successfully.");
 }
 
+Area::Area()
+{
+	nameID = 0;
+	width = 0;
+	height = 0;
+	std::vector<std::vector<Tile>> map;
+}
+
 unsigned int Area::getWidth()
 {
 	return width;

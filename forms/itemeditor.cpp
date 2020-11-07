@@ -1,12 +1,13 @@
 #include "itemeditor.hpp"
 #include "ui_itemeditor.h"
+#include "src/log.hpp"
 
 #include <iostream>
 #include <sstream>
 
 #include <QFileDialog>
 
-ItemEditor::ItemEditor(QWidget *parent) : QMainWindow(parent), item("DAGGER"), ui(new Ui::ItemEditor)
+ItemEditor::ItemEditor(QWidget *parent) : QMainWindow(parent), item(), ui(new Ui::ItemEditor)
 {
 	ui->setupUi(this);
 
@@ -17,6 +18,7 @@ ItemEditor::ItemEditor(QWidget *parent) : QMainWindow(parent), item("DAGGER"), u
 
 ItemEditor::~ItemEditor()
 {
+	_LogNone("Item editor ends");
 	delete ui;
 }
 
@@ -45,7 +47,7 @@ void ItemEditor::on_actionSave_triggered()
 
 void ItemEditor::on_actionSaveAs_triggered()
 {
-	currentPath = QFileDialog::getSaveFileName(this, tr("Save ITM file"), "./data/ITM/", tr("Item files (*.itm)"));
+	currentPath = QFileDialog::getSaveFileName(this, tr("Save ITM file"), "./data/ITM/", tr("Item files (*.ITM)"));
 	std::string path = currentPath.toStdString();
 	item.saveToFile(path, true);
 	updateApplicationTitle();

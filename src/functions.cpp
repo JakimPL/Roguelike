@@ -17,6 +17,7 @@ bpo::options_description addProgramDescription()
 	description.add_options()
 	("help,h",        "Shows the help message")
 	("version,v",     "Shows the version of the program")
+	("area-editor,a", "Runs Area Editor")
 	("item-editor,i", "Runs Item Editor");
 
 	return description;
@@ -88,6 +89,10 @@ Mode parseProgramArguments(int argc, char *argv[])
 	if (variablesMap.count("version")) {
 		PRINT("Version: " << VERSION);
 		return Mode::Version;
+	}
+
+	if (variablesMap.count("area-editor")) {
+		return Mode::AreaEditor;
 	}
 
 	if (variablesMap.count("item-editor")) {

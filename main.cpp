@@ -2,6 +2,7 @@
 #include "src/functions.hpp"
 #include "src/game.hpp"
 #include "src/log.hpp"
+#include "forms/areaeditor.hpp"
 #include "forms/itemeditor.hpp"
 
 #include <sstream>
@@ -17,12 +18,18 @@ int main(int argc, char *argv[])
 	case Mode::Version: {
 		return OK;
 	}
+	case Mode::AreaEditor: {
+		_LogNone("Area editor starts");
+		QApplication application(argc, argv);
+		AreaEditor areaEditor;
+		areaEditor.show();
+		return application.exec();
+	}
 	case Mode::ItemEditor: {
 		_LogNone("Item editor starts");
 		QApplication application(argc, argv);
 		ItemEditor itemEditor;
 		itemEditor.show();
-		_LogNone("Item editor ends");
 		return application.exec();
 	}
 	default: {

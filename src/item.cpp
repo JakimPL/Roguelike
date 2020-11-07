@@ -41,6 +41,29 @@ Item::Item(const std::string& filename, bool fullPath)
 	}
 }
 
+Item::Item()
+{
+	nameID = 0;
+	descriptionID = 0;
+	color = {255, 255, 255};
+	type = ItemType::miscellaneous;
+	category = ItemCategory::unused;
+	flag = ItemFlag::none;
+	price = 0;
+	damage = 0;
+	damageDelta = 0;
+	attackRate = 0;
+	delay = 0;
+	defense = 0;
+	defenseRate = 0;
+	requiredLevel = 0;
+
+	for (size_t abilityIndex = 0; abilityIndex < Ability::count; ++abilityIndex) {
+		Ability ability = Ability(abilityIndex);
+		requiredAbilities[ability] = 0;
+	}
+}
+
 unsigned int Item::getNameID() const
 {
 	return nameID;

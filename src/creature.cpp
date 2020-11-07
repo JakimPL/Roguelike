@@ -121,8 +121,8 @@ void Creature::updateStats()
 
 	hpMax = hpBase + abilities[Ability::constitution] + level * 2;
 	mpMax = mpBase + abilities[Ability::intelligence] / 2 + level * 2;
-	hpRegeneration = hpRegenerationBase + level / 3;
-	mpRegeneration = mpRegenerationBase + level / 4;
+	hpRegeneration = hpRegenerationBase + abilities[Ability::constitution] / 5 + level / 3;
+	mpRegeneration = mpRegenerationBase + abilities[Ability::intelligence] / 5 + level / 4;
 	defense = defenseBase + abilities[Ability::constitution] / 5 + 1;
 	defenseRate = defenseRateBase + abilities[Ability::dexterity] / 5 + 1;
 	damageMin = damageBase + abilities[Ability::strength] / 5;
