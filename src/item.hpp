@@ -62,12 +62,12 @@ enum class ItemFlag {
 };
 
 struct ItemEffect {
-	unsigned int textID;
+	unsigned int nameID;
 };
 
 struct Item {
 private:
-	unsigned int textID;
+	unsigned int nameID;
 	unsigned int descriptionID;
 	Color color;
 	ItemType type;
@@ -86,7 +86,7 @@ private:
 
 public:
 	Item(const std::string& filename, bool fullPath = false);
-	unsigned int getTextID() const;
+	unsigned int getNameID() const;
 	unsigned int getDescriptionID() const;
 	Color getColor() const;
 	ItemType getType() const;
@@ -102,7 +102,7 @@ public:
 	int getRequiredLevel() const;
 	int getRequiredAbility(const Ability ability) const;
 
-	void setTextID(unsigned int value);
+	void setNameID(unsigned int value);
 	void setDescriptionID(unsigned int value);
 	void setColor(Color value);
 	void setType(ItemType value);
@@ -141,7 +141,7 @@ public:
 	bool isFull() const;
 };
 
-static const String::Item typeTextIDs[(size_t)(ItemType::count)] = {
+static const String::Item typeNameIDs[(size_t)(ItemType::count)] = {
 	String::Item::empty,
 	String::Item::Weapon,
 	String::Item::Armor,
@@ -155,7 +155,7 @@ static const String::Item typeTextIDs[(size_t)(ItemType::count)] = {
 	String::Item::Quick
 };
 
-static const String::Item categoryTextIDs[(size_t)(ItemCategory::count)] = {
+static const String::Item categoryNameIDs[(size_t)(ItemCategory::count)] = {
 	String::Item::empty,
 	String::Item::Dagger,
 	String::Item::ShortSword,
@@ -176,7 +176,7 @@ static const String::Item categoryTextIDs[(size_t)(ItemCategory::count)] = {
 	String::Item::Spell
 };
 
-static const String::Item flagTextIDs[(size_t)(ItemFlag::count)] = {
+static const String::Item flagNameIDs[(size_t)(ItemFlag::count)] = {
 	String::Item::empty,
 	String::Item::Broken,
 	String::Item::Magic,

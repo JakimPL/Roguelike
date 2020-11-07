@@ -49,7 +49,7 @@ struct Position {
 };
 
 struct CreatureEffect {
-	unsigned int textID;
+	unsigned int nameID;
 };
 
 enum class Target {
@@ -63,7 +63,7 @@ enum class Target {
 };
 
 struct Character {
-	unsigned int textID;
+	unsigned int nameID;
 	long time;
 	int reputation;
 

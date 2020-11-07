@@ -14,7 +14,7 @@
    <string>Item Editor</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QComboBox" name="textIDBox">
+   <widget class="QComboBox" name="nameIDBox">
     <property name="geometry">
      <rect>
       <x>154</x>
@@ -272,7 +272,7 @@
      <number>999999999</number>
     </property>
    </widget>
-   <widget class="QLabel" name="textIDLabel">
+   <widget class="QLabel" name="nameIDLabel">
     <property name="geometry">
      <rect>
       <x>10</x>

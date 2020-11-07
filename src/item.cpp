@@ -11,7 +11,7 @@ Item::Item(const std::string& filename, bool fullPath)
 		char resourceHeader[SIZE_HEADER + 1];
 		Functions::read(resource, resourceHeader, SIZE_HEADER);
 		if (Functions::compareHeaders(headerITM, resourceHeader)) {
-			resource.read(reinterpret_cast<char*>(&textID), SIZE_INT);
+			resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
 			resource.read(reinterpret_cast<char*>(&type), SIZE_CHAR);
@@ -41,9 +41,9 @@ Item::Item(const std::string& filename, bool fullPath)
 	}
 }
 
-unsigned int Item::getTextID() const
+unsigned int Item::getNameID() const
 {
-	return textID;
+	return nameID;
 }
 
 unsigned int Item::getDescriptionID() const
@@ -116,9 +116,9 @@ int Item::getRequiredAbility(const Ability ability) const
 	return requiredAbilities[ability];
 }
 
-void Item::setTextID(unsigned int value)
+void Item::setNameID(unsigned int value)
 {
-	textID = value;
+	nameID = value;
 }
 
 void Item::setDescriptionID(unsigned int value)
@@ -197,7 +197,7 @@ bool Item::saveToFile(const std::string& filename, bool fullPath)
 	std::ofstream resource(path);
 	if (resource.good()) {
 		resource.write(headerITM, SIZE_HEADER);
-		resource.write(reinterpret_cast<char*>(&textID), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
 		resource.write(reinterpret_cast<char*>(&type), SIZE_CHAR);

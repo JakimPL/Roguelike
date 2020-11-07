@@ -69,22 +69,22 @@ void ItemEditor::prepareEditorValuesAndRanges()
 {
 	for (unsigned int index = 0; index < text.getContentSize(TextCategory::Item); ++index) {
 		QString listItem = QString::fromStdString(text[String::Item(index)]);
-		ui->textIDBox->insertItem(index, listItem);
+		ui->nameIDBox->insertItem(index, listItem);
 		ui->descriptionIDBox->insertItem(index, listItem);
 	}
 
 	for (unsigned int index = 0; index < (unsigned int)(ItemType::count); ++index) {
-		QString listItem = QString::fromStdString(text[typeTextIDs[index]]);
+		QString listItem = QString::fromStdString(text[typeNameIDs[index]]);
 		ui->typeBox->insertItem(index, listItem);
 	}
 
 	for (unsigned int index = 0; index < (unsigned int)(ItemCategory::count); ++index) {
-		QString listItem = QString::fromStdString(text[categoryTextIDs[index]]);
+		QString listItem = QString::fromStdString(text[categoryNameIDs[index]]);
 		ui->categoryBox->insertItem(index, listItem);
 	}
 
 	for (unsigned int index = 0; index < (unsigned int)(ItemFlag::count); ++index) {
-		QString listItem = QString::fromStdString(text[flagTextIDs[index]]);
+		QString listItem = QString::fromStdString(text[flagNameIDs[index]]);
 		ui->flagBox->insertItem(index, listItem);
 	}
 
@@ -95,7 +95,7 @@ void ItemEditor::prepareEditorValuesAndRanges()
 
 void ItemEditor::updateEditorValues()
 {
-	ui->textIDBox->setCurrentIndex(item.getTextID());
+	ui->nameIDBox->setCurrentIndex(item.getNameID());
 	ui->descriptionIDBox->setCurrentIndex(item.getDescriptionID());
 
 	Color color = item.getColor();
@@ -123,7 +123,7 @@ void ItemEditor::updateEditorValues()
 
 void ItemEditor::updateItemParameters()
 {
-	item.setTextID(ui->textIDBox->currentIndex());
+	item.setNameID(ui->nameIDBox->currentIndex());
 	item.setDescriptionID(ui->descriptionIDBox->currentIndex());
 
 	Color color = {(uint8_t)(ui->colorRedBox->value()), (uint8_t)(ui->colorGreenBox->value()), (uint8_t)(ui->colorBlueBox->value())};

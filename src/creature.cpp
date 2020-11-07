@@ -10,7 +10,7 @@ Creature::Creature(const std::string&)
 
 Creature::Creature()
 {
-	textID = 0;
+	nameID = 0;
 	color = {255, 255, 0};
 	letter = 'X';
 	race = Race::human;
@@ -142,9 +142,9 @@ void Creature::updateStats()
 	}
 }
 
-unsigned int Creature::getTextID() const
+unsigned int Creature::getNameID() const
 {
-	return textID;
+	return nameID;
 }
 
 char Creature::getLetter() const
@@ -242,11 +242,11 @@ int Creature::getAbilityValue(const Ability ability) const
 	return abilities[ability];
 }
 
-unsigned int Creature::getWeaponTextID()
+unsigned int Creature::getWeaponNameID()
 {
 	Item* weaponItem = inventory.getStackItem(ItemType::weapon);
 	if (weaponItem != nullptr) {
-		return weaponItem->getTextID();
+		return weaponItem->getNameID();
 	}
 
 	return (unsigned int)(String::Item::Fist);

@@ -51,7 +51,7 @@ void Game::drawGUI()
 	Position playerPosition = player.getPosition();
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
-	drawText(renderer, font, text[ {TextCategory::Area, currentArea.getTextID()} ], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
+	drawText(renderer, font, text[ {TextCategory::Area, currentArea.getNameID()} ], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream nextLevelText;
 	nextLevelText << text[String::General::Next] << player.creature.getXPRemaining();
@@ -74,14 +74,14 @@ void Game::drawGUI()
 	drawText(renderer, font, playerInfoText.str(), COLOR_WHITE, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 5 * TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream weaponInUseText;
-	weaponInUseText << text[String::General::WeaponInUse] << text[ {TextCategory::Item, player.creature.getWeaponTextID()} ];
+	weaponInUseText << text[String::General::WeaponInUse] << text[ {TextCategory::Item, player.creature.getWeaponNameID()} ];
 	drawText(renderer, font, weaponInUseText.str(), COLOR_DGREEN, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream mapObjectText;
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
 	Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
-	drawText(renderer, font, text[ {TextCategory::Object, objectTile.textID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+	drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream shortcutsText;
 	shortcutsText << text[String::General::SHORTCUTS];
@@ -189,7 +189,7 @@ void Game::drawInventory()
 
 			Item* item = inventory.getBackpackItem(index + inventoryPage * INVENTORY_ITEMS_PER_PAGE);
 			SDL_Color sdlColor = (player.creature.isItemEquipped(item) ? SDL_Color(COLOR_BLUE) : item->getColor());
-			drawText(renderer, font, text[ {TextCategory::Item, item->getTextID()} ], sdlColor, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
+			drawText(renderer, font, text[ {TextCategory::Item, item->getNameID()} ], sdlColor, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
 		}
 
 		Item* selectedItem = inventory.getBackpackItem(inventoryPosition);
@@ -208,7 +208,7 @@ void Game::drawItemDescription(Item *item)
 	int line = 0;
 	const int xOffset = TAB_X_OFFSET + 3 * TAB_WIDTH / 4;
 	const int yOffset = TAB_Y_OFFSET + 0.5f * TILE_HEIGHT;
-	drawText(renderer, font, text[ {TextCategory::Item, item->getTextID()} ], item->getColor(), xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
+	drawText(renderer, font, text[ {TextCategory::Item, item->getNameID()} ], item->getColor(), xOffset, yOffset + (TILE_HEIGHT * line++), Alignment::Center);
 
 	std::stringstream descriptionText;
 	if (item->getDescriptionID() > 0) {
@@ -218,10 +218,10 @@ void Game::drawItemDescription(Item *item)
 		case ItemType::weapon:
 		case ItemType::armor:
 		case ItemType::quick:
-			descriptionText << text[categoryTextIDs[(size_t)(item->getCategory())]];
+			descriptionText << text[categoryNameIDs[(size_t)(item->getCategory())]];
 			break;
 		default:
-			descriptionText << text[typeTextIDs[(size_t)(item->getType())]];
+			descriptionText << text[typeNameIDs[(size_t)(item->getType())]];
 			break;
 		}
 	}

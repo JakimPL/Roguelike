@@ -12,7 +12,7 @@ Area::Area(const std::string& filename, bool fullPath)
 		Functions::read(resource, resourceHeader, SIZE_HEADER);
 		if (Functions::compareHeaders(headerARE, resourceHeader)) {
 			// read map name, width and height
-			resource.read((char*)&textID, SIZE_INT);
+			resource.read((char*)&nameID, SIZE_INT);
 			resource.read((char*)&width, SIZE_INT);
 			resource.read((char*)&height, SIZE_INT);
 
@@ -20,13 +20,13 @@ Area::Area(const std::string& filename, bool fullPath)
 			std::vector<std::vector<char>> characterMap;
 			std::vector<std::vector<Color>> colorMap;
 			std::vector<std::vector<bool>> obstacleMap;
-			std::vector<std::vector<unsigned int>> textIDMap;
+			std::vector<std::vector<unsigned int>> nameIDMap;
 
 			// prepare map 2d vectors
 			characterMap.resize(height);
 			colorMap.resize(height);
 			obstacleMap.resize(height);
-			textIDMap.resize(height);
+			nameIDMap.resize(height);
 			map.resize(height);
 
 			///TODO: abstract version of block reading and error handling
@@ -57,19 +57,19 @@ Area::Area(const std::string& filename, bool fullPath)
 				}
 			}
 
-			// read tile textID map
+			// read tile nameID map
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
-					unsigned int textID;
-					resource.read(reinterpret_cast<char*>(&textID), SIZE_INT);
-					textIDMap[x].push_back(textID);
+					unsigned int nameID;
+					resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
+					nameIDMap[x].push_back(nameID);
 				}
 			}
 
 			// convert data to tile structure
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
-					Tile tile = {characterMap[x][y], colorMap[x][y], obstacleMap[x][y], textIDMap[x][y]};
+					Tile tile = {characterMap[x][y], colorMap[x][y], obstacleMap[x][y], nameIDMap[x][y]};
 					map[x].push_back(tile);
 				}
 			}
@@ -111,9 +111,9 @@ Tile Area::getTile(Position position)
 	return getTile(position.x, position.y);
 }
 
-unsigned int Area::getTextID()
+unsigned int Area::getNameID()
 {
-	return textID;
+	return nameID;
 }
 
 bool Area::saveToFile(const std::string&, bool)

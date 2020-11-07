@@ -47,7 +47,7 @@ enum class CreatureCharacter {
 
 struct Creature {
 private:
-	unsigned int textID;
+	unsigned int nameID;
 	char letter;
 	Color color;
 	Race race;
@@ -97,7 +97,7 @@ public:
 	bool isItemEquipped(Item* item);
 	void updateStats();
 
-	unsigned int getTextID() const;
+	unsigned int getNameID() const;
 	Color getColor() const;
 	char getLetter() const;
 	int getLevel() const;
@@ -117,7 +117,7 @@ public:
 	int getGold() const;
 	int getAbilityPoints() const;
 	int getAbilityValue(const Ability ability) const;
-	unsigned int getWeaponTextID();
+	unsigned int getWeaponNameID();
 };
 
 #endif // CREATURE_HPP
