@@ -1,5 +1,6 @@
 #include "creature.hpp"
 #include "color.hpp"
+#include "log.hpp"
 #include "text.hpp"
 
 Creature::Creature(const std::string&)
@@ -50,6 +51,64 @@ void Creature::assignPoint(Ability ability)
 		abilities[ability]++;
 		abilityPoints--;
 	}
+}
+
+bool Creature::equipItem(Item* item)
+{
+	if (item == nullptr) {
+		_LogError("Trying to equip NULL item!");
+		return false;
+	}
+
+	ItemType type = item->getType();
+	Item* currentItem = inventory.getStackItem(type);
+
+	if (currentItem == item) {
+		inventory.dropItem(type);
+		return false;
+	}
+
+	inventory.dropItem(type);
+	if (itemReqiuirementsSatisfied(item)) {
+		inventory.equipItem(item);
+		return true;
+	} else {
+		if (currentItem != nullptr) {
+			inventory.equipItem(currentItem);
+		}
+
+		return false;
+	}
+}
+
+bool Creature::equipItem(unsigned int index)
+{
+	return equipItem(inventory.getBackpackItem(index));
+}
+
+bool Creature::itemReqiuirementsSatisfied(Item* item)
+{
+	if (item == nullptr) {
+		return true;
+	}
+
+	if (item->getRequiredLevel() > level) {
+		return false;
+	}
+
+	for (size_t abilityIndex = 0; abilityIndex < Ability::count; ++abilityIndex) {
+		Ability ability = Ability(abilityIndex);
+		if (item->getRequiredAbility(ability) > getAbilityValue(ability)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool Creature::isItemEquipped(Item *item)
+{
+	return inventory.getStackItem(item->getType()) == item;
 }
 
 unsigned int Creature::getTextID() const

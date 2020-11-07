@@ -188,7 +188,8 @@ void Game::drawInventory()
 			}
 
 			Item* item = inventory.getBackpackItem(index + inventoryPage * INVENTORY_ITEMS_PER_PAGE);
-			drawText(renderer, font, text[ {TextCategory::Item, item->getTextID()} ], item->getColor(), TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
+			SDL_Color sdlColor = (player.creature.isItemEquipped(item) ? SDL_Color(COLOR_BLUE) : item->getColor());
+			drawText(renderer, font, text[ {TextCategory::Item, item->getTextID()} ], sdlColor, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + (0.5f + index) * TILE_HEIGHT, Alignment::Left, Alignment::Center);
 		}
 
 		Item* selectedItem = inventory.getBackpackItem(inventoryPosition);
@@ -197,6 +198,9 @@ void Game::drawInventory()
 		drawText(renderer, font, text[String::General::EmptyBackpack], COLOR_BROWN, TAB_X_OFFSET + 2 * SCALE, TAB_Y_OFFSET + 0.5f * TILE_HEIGHT, Alignment::Left, Alignment::Center);
 	}
 
+	std::stringstream goldText;
+	goldText << text[String::General::Gold] << player.creature.getGold();
+	drawText(renderer, font, goldText.str(), COLOR_YELLOW, TAB_X_OFFSET + TAB_WIDTH - 2 * SCALE, TAB_Y_OFFSET + TAB_HEIGHT - 0.5f * TILE_HEIGHT, Alignment::Right);
 }
 
 void Game::drawItemDescription(Item *item)
@@ -358,6 +362,9 @@ void Game::mainLoop()
 					}
 					if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6) or keyboard.isKey(SDLK_PAGEDOWN)) {
 						inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + INVENTORY_ITEMS_PER_PAGE);
+					}
+					if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
+						player.creature.equipItem(inventoryPosition);
 					}
 				}
 				break;

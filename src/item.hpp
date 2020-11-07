@@ -16,21 +16,6 @@ enum class Elementals : unsigned char {
 	count
 };
 
-enum class Stack : unsigned char {
-	unused,
-	weapon,
-	armor,
-	helmet,
-	gloves,
-	cloak,
-	boots,
-	ring,
-	amulet,
-	quiver,
-	quick,
-	count
-};
-
 enum class ItemType : unsigned char {
 	miscellaneous,
 	weapon,
@@ -139,13 +124,18 @@ public:
 struct Inventory {
 private:
 	std::vector<Item> backpack;
-	std::map<Stack, Item> stack;
+	std::map<ItemType, Item*> stack;
 
 public:
 	bool addItem(const std::string& filename);
 	bool addItem(Item item);
+	void dropItem(ItemType type);
+	void equipItem(Item* item);
+
 	unsigned int getBackpackSize();
 	Item* getBackpackItem(unsigned int index);
+	Item* getStackItem(ItemType type);
+
 	bool isEmpty() const;
 	bool isFull() const;
 };

@@ -191,7 +191,6 @@ void Item::setRequiredAbility(const Ability ability, unsigned int value)
 	requiredAbilities[ability] = value;
 }
 
-
 bool Item::saveToFile(const std::string& filename, bool fullPath)
 {
 	std::string path = fullPath ? filename : Functions::getPath(filename, ITM);
@@ -251,6 +250,16 @@ bool Inventory::addItem(Item item)
 	return false;
 }
 
+void Inventory::dropItem(ItemType type)
+{
+	stack[type] = nullptr;
+}
+
+void Inventory::equipItem(Item* item)
+{
+	stack[item->getType()] = item;
+}
+
 Item* Inventory::getBackpackItem(unsigned int index)
 {
 	if (index >= backpack.size()) {
@@ -260,6 +269,10 @@ Item* Inventory::getBackpackItem(unsigned int index)
 	}
 }
 
+Item* Inventory::getStackItem(ItemType type)
+{
+	return stack[type];
+}
 unsigned int Inventory::getBackpackSize()
 {
 	return backpack.size();

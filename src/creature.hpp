@@ -53,24 +53,24 @@ private:
 	Race race;
 	Gender gender;
 	unsigned int state;
-	unsigned int level;
-	unsigned long xp;
-	unsigned long xpNextLevel;
-	unsigned long xpValue;
-	unsigned long gold;
-	unsigned int hp;
-	unsigned int hpMax;
-	unsigned int hpRegeneration;
-	unsigned int mp;
-	unsigned int mpMax;
-	unsigned int mpRegeneration;
-	unsigned int damage;
-	unsigned int attackRate;
-	unsigned int defense;
-	unsigned int defenseRate;
-	unsigned int abilityPoints;
-	unsigned int abilities[Ability::count];
-	unsigned int resistance[(unsigned int)(Elementals::count)];
+	int level;
+	long xp;
+	long xpNextLevel;
+	long xpValue;
+	long gold;
+	int hp;
+	int hpMax;
+	int hpRegeneration;
+	int mp;
+	int mpMax;
+	int mpRegeneration;
+	int damage;
+	int attackRate;
+	int defense;
+	int defenseRate;
+	int abilityPoints;
+	int abilities[Ability::count];
+	int resistance[(unsigned int)(Elementals::count)];
 	std::vector<CreatureEffect> effects;
 
 public:
@@ -82,6 +82,10 @@ public:
 	bool saveToFile(const std::string& filename);
 
 	void assignPoint(Ability ability);
+	bool equipItem(unsigned int index);
+	bool equipItem(Item* item);
+	bool itemReqiuirementsSatisfied(Item* item);
+	bool isItemEquipped(Item* item);
 
 	unsigned int getTextID() const;
 	Color getColor() const;
