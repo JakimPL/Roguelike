@@ -5,6 +5,7 @@ OBJECTS_DIR = obj
 
 HEADERS += \
 	forms/areaeditor.hpp \
+	forms/creatureeditor.hpp \
 	forms/itemeditor.hpp \
 	src/area.hpp \
 	src/color.hpp \
@@ -25,6 +26,7 @@ HEADERS += \
 SOURCES += \
 	main.cpp \
 	forms/areaeditor.cpp \
+	forms/creatureeditor.cpp \
 	forms/itemeditor.cpp \
 	src/area.cpp \
 	src/creature.cpp \
@@ -40,6 +42,7 @@ SOURCES += \
 	
 FORMS += \
     forms/areaeditor.ui \
+    forms/creatureeditor.ui \
     forms/itemeditor.ui
 
 LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -lboost_program_options -ldl -lpthread

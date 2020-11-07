@@ -15,10 +15,11 @@ bpo::options_description addProgramDescription()
 {
 	bpo::options_description description(DESCRIPTION);
 	description.add_options()
-	("help,h",        "Shows the help message")
-	("version,v",     "Shows the version of the program")
-	("area-editor,a", "Runs Area Editor")
-	("item-editor,i", "Runs Item Editor");
+	("help,h",            "Shows the help message")
+	("version,v",         "Shows the version of the program")
+	("area-editor,a",     "Runs Area Editor")
+	("creature-editor,c", "Runs Creature Editor")
+	("item-editor,i",     "Runs Item Editor");
 
 	return description;
 }
@@ -93,6 +94,10 @@ Mode parseProgramArguments(int argc, char *argv[])
 
 	if (variablesMap.count("area-editor")) {
 		return Mode::AreaEditor;
+	}
+
+	if (variablesMap.count("creature-editor")) {
+		return Mode::CreatureEditor;
 	}
 
 	if (variablesMap.count("item-editor")) {

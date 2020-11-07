@@ -87,8 +87,8 @@ public:
 
 public:
 	Creature();
-	Creature(const std::string& filename);
-	bool saveToFile(const std::string& filename);
+	Creature(const std::string& filename, bool fullPath = false);
+	bool saveToFile(const std::string& filename, bool fullPath = false);
 
 	void assignPoint(Ability ability);
 	bool equipItem(unsigned int index);

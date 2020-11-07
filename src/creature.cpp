@@ -3,7 +3,7 @@
 #include "log.hpp"
 #include "text.hpp"
 
-Creature::Creature(const std::string&)
+Creature::Creature(const std::string&, bool)
 {
 
 }
@@ -252,7 +252,7 @@ unsigned int Creature::getWeaponNameID()
 	return (unsigned int)(String::Item::Fist);
 }
 
-bool Creature::saveToFile(const std::string&)
+bool Creature::saveToFile(const std::string&, bool)
 {
 	return false;
 }

@@ -17,7 +17,6 @@ AreaEditor::~AreaEditor()
 	delete ui;
 }
 
-
 void AreaEditor::on_actionOpen_triggered()
 {
 	currentPath = QFileDialog::getOpenFileName(this, tr("Open ARE file"), "./data/ARE/", tr("Item files (*.ARE)"));

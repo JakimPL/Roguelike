@@ -3,6 +3,7 @@
 #include "src/game.hpp"
 #include "src/log.hpp"
 #include "forms/areaeditor.hpp"
+#include "forms/creatureeditor.hpp"
 #include "forms/itemeditor.hpp"
 
 #include <sstream>
@@ -23,6 +24,13 @@ int main(int argc, char *argv[])
 		QApplication application(argc, argv);
 		AreaEditor areaEditor;
 		areaEditor.show();
+		return application.exec();
+	}
+	case Mode::CreatureEditor: {
+		_LogNone("CreatureEditor editor starts");
+		QApplication application(argc, argv);
+		CreatureEditor creatureEditor;
+		creatureEditor.show();
 		return application.exec();
 	}
 	case Mode::ItemEditor: {
