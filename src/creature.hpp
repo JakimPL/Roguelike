@@ -141,6 +141,29 @@ public:
 	int getAbilityPoints() const;
 	int getAbilityValue(const Ability ability) const;
 	unsigned int getWeaponNameID();
+
+	void setNameID(unsigned int value);
+	void setColor(Color value);
+	void setRace(Race value);
+	void setGender(Gender value);
+	void setAlignment(CreatureAlignment value);
+	void setState(State value);
+	void setLetter(char value);
+	void setLevel(unsigned int value);
+	void setXPCurrent(int value);
+	void setXPNextLevel(int value);
+	void setHP(int value);
+	void setMP(int value);
+	void setBaseHP(int value);
+	void setBaseMP(int value);
+	void setBaseHPRegeneration(int value);
+	void setBaseMPRegeneration(int value);
+	void setBaseDefense(int value);
+	void setBaseDefenseRate(int value);
+	void setBaseDamageMin(int value);
+	void setBaseDamageMax(int value);
+	void setBaseAttackRate(int value);
+	void setBaseAbilityValue(const Ability ability, int value);
 };
 
 #endif // CREATURE_HPP

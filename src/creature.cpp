@@ -367,6 +367,116 @@ unsigned int Creature::getWeaponNameID()
 	return (unsigned int)(String::Item::Fist);
 }
 
+void Creature::setNameID(unsigned int value)
+{
+	nameID = value;
+}
+
+void Creature::setColor(Color value)
+{
+	color = value;
+}
+
+void Creature::setRace(Race value)
+{
+	race = value;
+}
+
+void Creature::setGender(Gender value)
+{
+	gender = value;
+}
+
+void Creature::setAlignment(CreatureAlignment value)
+{
+	alignment = value;
+}
+
+void Creature::setState(State value)
+{
+	state = value;
+}
+
+void Creature::setLetter(char value)
+{
+	letter = value;
+}
+
+void Creature::setLevel(unsigned int value)
+{
+	level = value;
+}
+
+void Creature::setXPCurrent(int value)
+{
+	xpCurrent = value;
+}
+
+void Creature::setXPNextLevel(int value)
+{
+	xpNextLevel = value;
+}
+
+void Creature::setHP(int value)
+{
+	hpCurrent = value;
+}
+
+void Creature::setMP(int value)
+{
+	mpCurrent = value;
+}
+
+void Creature::setBaseHP(int value)
+{
+	hpBase = value;
+}
+
+void Creature::setBaseMP(int value)
+{
+	mpBase = value;
+}
+
+void Creature::setBaseHPRegeneration(int value)
+{
+	hpRegenerationBase = value;
+}
+
+void Creature::setBaseMPRegeneration(int value)
+{
+	mpRegenerationBase = value;
+}
+
+void Creature::setBaseDefense(int value)
+{
+	defenseBase = value;
+}
+
+void Creature::setBaseDefenseRate(int value)
+{
+	defenseRateBase = value;
+}
+
+void Creature::setBaseDamageMin(int value)
+{
+	damageMinBase = value;
+}
+
+void Creature::setBaseDamageMax(int value)
+{
+	damageMaxBase = value;
+}
+
+void Creature::setBaseAttackRate(int value)
+{
+	attackRateBase = value;
+}
+
+void Creature::setBaseAbilityValue(const Ability ability, int value)
+{
+	abilitiesBase[ability] = value;
+}
+
 bool Creature::saveToFile(const std::string& filename, bool fullPath)
 {
 	std::string path = fullPath ? filename : Functions::getPath(filename, CRE);

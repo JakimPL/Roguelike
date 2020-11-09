@@ -130,28 +130,29 @@ void CreatureEditor::updateEditorValues()
 
 void CreatureEditor::updateCreatureParameters()
 {
-	/*creature.setNameID(ui->nameIDBox->currentIndex());
-	creature.setDescriptionID(ui->descriptionIDBox->currentIndex());
+	creature.setNameID(ui->nameIDBox->currentIndex());
+
+	std::string letterString = ui->letterBox->text().toStdString();
+	if (!letterString.empty()) {
+		creature.setLetter(letterString[0]);
+	} else  {
+		creature.setLetter('X');
+	}
 
 	Color color = {(uint8_t)(ui->colorRedBox->value()), (uint8_t)(ui->colorGreenBox->value()), (uint8_t)(ui->colorBlueBox->value())};
 	creature.setColor(color);
-	creature.setType(ItemType(ui->typeBox->currentIndex()));
-	creature.setCategory(ItemCategory(ui->categoryBox->currentIndex()));
-	creature.setFlag(ItemFlag(ui->flagBox->currentIndex()));
-	creature.setPrice(ui->priceBox->value());
-	creature.setDamage(ui->damageBox->value());
-	creature.setDamageDelta(ui->damageDeltaBox->value());
-	creature.setAttackRate(ui->attackRateBox->value());
-	creature.setDelay(ui->delayBox->value());
-	creature.setDefense(ui->defenseBox->value());
-	creature.setDefenseRate(ui->defenseRateBox->value());
-	creature.setRequiredLevel(ui->requiredLevelBox->value());
+	creature.setRace(Race(ui->raceBox->currentIndex()));
+	creature.setGender(Gender(ui->genderBox->currentIndex()));
+	creature.setAlignment(CreatureAlignment(ui->alignmentBox->currentIndex()));
+	creature.setState(State(ui->stateBox->currentIndex()));
 
-	creature.setRequiredAbility(Ability::strength, ui->requiredStrengthBox->value());
-	creature.setRequiredAbility(Ability::dexterity, ui->requiredDexterityBox->value());
-	creature.setRequiredAbility(Ability::constitution, ui->requiredConstitutionBox->value());
-	creature.setRequiredAbility(Ability::intelligence, ui->requiredIntelligenceBox->value());
-	creature.setRequiredAbility(Ability::wisdom, ui->requiredWisdomBox->value());*/
+	creature.setLevel(ui->levelBox->value());
+	creature.setXPCurrent(ui->xpCurrentBox->value());
+	creature.setXPNextLevel(ui->xpNextLevelBox->value());
+	creature.setHP(ui->hpCurrentBox->value());
+	creature.setMP(ui->mpCurrentBox->value());
+
+	creature.updateStats();
 }
 
 void CreatureEditor::on_inventoryList_itemDoubleClicked(QListWidgetItem*)
