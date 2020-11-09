@@ -2,6 +2,7 @@
 #define ITEMEDITOR_HPP
 
 #include "src/item.hpp"
+#include "editorfunctions.hpp"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -35,4 +36,5 @@ private slots:
 private:
 	Ui::ItemEditor *ui;
 };
+
 #endif // ITEMEDITOR_HPP

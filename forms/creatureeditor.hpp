@@ -2,7 +2,7 @@
 #define CREATUREEDITOR_HPP
 
 #include "src/creature.hpp"
-#include "src/text.hpp"
+#include "editorfunctions.hpp"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -29,9 +29,11 @@ private slots:
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
 
+	void prepareEditorValuesAndRanges();
 	void updateApplicationTitle();
 
 private:
 	Ui::CreatureEditor *ui;
 };
+
 #endif // CREATUREEDITOR_HPP

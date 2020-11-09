@@ -13,8 +13,17 @@ enum class Race {
 	animal,
 	monster,
 	magic_being,
+	construct,
 	demigod,
 	god,
+	count
+};
+
+enum class Gender {
+	unknown,
+	male,
+	female,
+	nonbinary,
 	count
 };
 
@@ -32,15 +41,7 @@ enum class State {
 	count
 };
 
-enum class Gender {
-	unknown,
-	male,
-	female,
-	nonbinary,
-	count
-};
-
-enum class CreatureCharacter {
+enum class CreatureAlignment {
 	unknown,
 	good,
 	neutral,
@@ -55,7 +56,8 @@ private:
 	Color color;
 	Race race;
 	Gender gender;
-	unsigned int state;
+	CreatureAlignment alignment;
+	State state;
 	int level;
 	long xpCurrent;
 	long xpNextLevel;
@@ -122,18 +124,6 @@ public:
 	int getAbilityPoints() const;
 	int getAbilityValue(const Ability ability) const;
 	unsigned int getWeaponNameID();
-};
-
-static const String::General stateNameIDs[(size_t)(State::count)] = {
-	String::General::empty,
-	String::General::Dead,
-	String::General::Unconscious,
-	String::General::Paralyzed,
-	String::General::Sleeping,
-	String::General::Mute,
-	String::General::Frozen,
-	String::General::Panic,
-	String::General::Summoned
 };
 
 #endif // CREATURE_HPP

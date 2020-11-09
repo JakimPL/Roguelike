@@ -7,6 +7,8 @@
 
 #include <QFileDialog>
 
+using namespace EditorFunctions;
+
 ItemEditor::ItemEditor(QWidget *parent) : QMainWindow(parent), item(), ui(new Ui::ItemEditor)
 {
 	ui->setupUi(this);
@@ -69,30 +71,11 @@ void ItemEditor::updateApplicationTitle()
 
 void ItemEditor::prepareEditorValuesAndRanges()
 {
-	for (unsigned int index = 0; index < text.getContentSize(TextCategory::Item); ++index) {
-		QString listItem = QString::fromStdString(text[String::Item(index)]);
-		ui->nameIDBox->insertItem(index, listItem);
-		ui->descriptionIDBox->insertItem(index, listItem);
-	}
-
-	for (unsigned int index = 0; index < (unsigned int)(ItemType::count); ++index) {
-		QString listItem = QString::fromStdString(text[typeNameIDs[index]]);
-		ui->typeBox->insertItem(index, listItem);
-	}
-
-	for (unsigned int index = 0; index < (unsigned int)(ItemCategory::count); ++index) {
-		QString listItem = QString::fromStdString(text[categoryNameIDs[index]]);
-		ui->categoryBox->insertItem(index, listItem);
-	}
-
-	for (unsigned int index = 0; index < (unsigned int)(ItemFlag::count); ++index) {
-		QString listItem = QString::fromStdString(text[flagNameIDs[index]]);
-		ui->flagBox->insertItem(index, listItem);
-	}
-
-	ui->colorRedBox->setRange(0, 255);
-	ui->colorGreenBox->setRange(0, 255);
-	ui->colorBlueBox->setRange(0, 255);
+	prepareTextItems(&text, TextCategory::Item, ui->nameIDBox);
+	prepareTextItems(&text, TextCategory::Item, ui->descriptionIDBox);
+	prepareTextItems(&text, typeNameIDs, ui->typeBox);
+	prepareTextItems(&text, categoryNameIDs, ui->categoryBox);
+	prepareTextItems(&text, flagNameIDs, ui->flagBox);
 }
 
 void ItemEditor::updateEditorValues()

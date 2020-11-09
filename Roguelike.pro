@@ -6,6 +6,7 @@ OBJECTS_DIR = obj
 HEADERS += \
 	forms/areaeditor.hpp \
 	forms/creatureeditor.hpp \
+	forms/editorfunctions.hpp \
 	forms/itemeditor.hpp \
 	src/area.hpp \
 	src/color.hpp \
@@ -24,6 +25,7 @@ HEADERS += \
 
 
 SOURCES += \
+	forms/editorfunctions.cpp \
 	main.cpp \
 	forms/areaeditor.cpp \
 	forms/creatureeditor.cpp \

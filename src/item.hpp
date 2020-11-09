@@ -142,46 +142,4 @@ public:
 	bool isFull() const;
 };
 
-static const String::Item typeNameIDs[(size_t)(ItemType::count)] = {
-	String::Item::empty,
-	String::Item::Weapon,
-	String::Item::Armor,
-	String::Item::Helmet,
-	String::Item::Gloves,
-	String::Item::Cloak,
-	String::Item::Boots,
-	String::Item::Ring,
-	String::Item::Amulet,
-	String::Item::Quiver,
-	String::Item::Quick
-};
-
-static const String::Item categoryNameIDs[(size_t)(ItemCategory::count)] = {
-	String::Item::empty,
-	String::Item::Dagger,
-	String::Item::ShortSword,
-	String::Item::LongSword,
-	String::Item::Staff,
-	String::Item::Spear,
-	String::Item::Club,
-	String::Item::Axe,
-	String::Item::Bow,
-	String::Item::Crossbow,
-	String::Item::Sling,
-	String::Item::Clothing,
-	String::Item::LeatherArmor,
-	String::Item::ChainMail,
-	String::Item::PlateArmor,
-	String::Item::Robe,
-	String::Item::Potion,
-	String::Item::Spell
-};
-
-static const String::Item flagNameIDs[(size_t)(ItemFlag::count)] = {
-	String::Item::empty,
-	String::Item::Broken,
-	String::Item::Magic,
-	String::Item::Unidentified
-};
-
 #endif // ITEM_HPP

@@ -1,0 +1,27 @@
+
+Martwy
+Nieprzytomny
+Sparaliżowany
+Uciszony
+Zamrożony
+Spanikowany
+Przywołany
+Nieokreślona
+Człowiek
+Elf
+Gnom
+Krasnolud
+Ork
+Zwierzę
+Istota magiczna
+Konstrukt
+Półbóg
+Bóg
+Nieznana
+Mężczyzna
+Kobieta
+Niebinarna
+Dobry
+Neutralny
+Zły
+Julian

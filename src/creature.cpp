@@ -15,7 +15,8 @@ Creature::Creature()
 	letter = 'X';
 	race = Race::human;
 	gender = Gender::male;
-	state = 0;
+	alignment = CreatureAlignment::neutral;
+	state = State::none;
 	level = 1;
 	xpCurrent = 0;
 	xpNextLevel = 100;

@@ -2,7 +2,7 @@
 #define AREAEDITOR_HPP
 
 #include "src/area.hpp"
-#include "src/text.hpp"
+#include "editorfunctions.hpp"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE

@@ -218,10 +218,10 @@ void Game::drawItemDescription(Item *item)
 		case ItemType::weapon:
 		case ItemType::armor:
 		case ItemType::quick:
-			descriptionText << text[categoryNameIDs[(size_t)(item->getCategory())]];
+			//descriptionText << text[categoryNameIDs[(size_t)(item->getCategory())]];
 			break;
 		default:
-			descriptionText << text[typeNameIDs[(size_t)(item->getType())]];
+			//descriptionText << text[typeNameIDs[(size_t)(item->getType())]];
 			break;
 		}
 	}

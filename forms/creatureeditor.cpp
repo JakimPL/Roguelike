@@ -4,17 +4,30 @@
 
 #include <QFileDialog>
 
+using namespace EditorFunctions;
+
 CreatureEditor::CreatureEditor(QWidget *parent)	: QMainWindow(parent), creature(), ui(new Ui::CreatureEditor)
 {
 	ui->setupUi(this);
 
 	updateApplicationTitle();
+	prepareEditorValuesAndRanges();
 }
 
 CreatureEditor::~CreatureEditor()
 {
 	_LogNone("Creature editor ends");
 	delete ui;
+}
+
+void CreatureEditor::prepareEditorValuesAndRanges()
+{
+	ui->letterBox->setAlignment(Qt::AlignRight);
+	prepareTextItems(&text, TextCategory::General, ui->nameIDBox);
+	prepareTextItems(&text, raceNameIDs, ui->raceBox);
+	prepareTextItems(&text, genderNameIDs, ui->genderBox);
+	prepareTextItems(&text, alignmentNameIDs, ui->alignmentBox);
+	prepareTextItems(&text, stateNameIDs, ui->stateBox);
 }
 
 void CreatureEditor::on_actionOpen_triggered()

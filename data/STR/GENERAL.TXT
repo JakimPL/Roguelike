@@ -39,10 +39,3 @@ Zręczność:
 Kondycja: 
 Inteligencja: 
 Wiedza: 
-Martwy
-Nieprzytomny
-Sparaliżowany
-Uciszony
-Zamrożony
-Spanikowany
-Przywołany
