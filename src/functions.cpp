@@ -77,34 +77,39 @@ bpo::variables_map getVariablesMap(bpo::options_description description, int arg
 	return variablesMap;
 }
 
-Mode parseProgramArguments(int argc, char *argv[])
+std::vector<Mode> parseProgramArguments(int argc, char *argv[])
 {
+	std::vector<Mode> modes;
 	bpo::options_description description = addProgramDescription();
 	bpo::variables_map variablesMap = getVariablesMap(description, argc, argv);
 
 	if (variablesMap.count("help")) {
+		modes.push_back(Mode::Help);
 		PRINT(description);
-		return Mode::Help;
 	}
 
 	if (variablesMap.count("version")) {
 		PRINT("Version: " << VERSION);
-		return Mode::Version;
+		modes.push_back(Mode::Version);
 	}
 
 	if (variablesMap.count("area-editor")) {
-		return Mode::AreaEditor;
+		modes.push_back(Mode::AreaEditor);
 	}
 
 	if (variablesMap.count("creature-editor")) {
-		return Mode::CreatureEditor;
+		modes.push_back(Mode::CreatureEditor);
 	}
 
 	if (variablesMap.count("item-editor")) {
-		return Mode::ItemEditor;
+		modes.push_back(Mode::ItemEditor);
 	}
 
-	return Mode::Game;
+	if (modes.empty()) {
+		modes.push_back(Mode::Game);
+	}
+
+	return modes;
 }
 
 void read(std::ifstream& resource, char* string, unsigned int size)

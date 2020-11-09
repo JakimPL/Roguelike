@@ -112,13 +112,6 @@ enum Alignment {
 	Bottom = 2
 };
 
-enum ErrorCodes {
-	OK,
-	SDL_ERROR,
-	TTF_ERROR,
-	FONT_ERROR
-};
-
 enum class Mode {
 	Game,
 	Help,

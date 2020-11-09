@@ -82,6 +82,7 @@ private:
 	int abilitiesBase[Ability::count];
 	int resistance[(unsigned int)(Elementals::count)];
 	std::vector<CreatureEffect> effects;
+
 public:
 	Inventory inventory;
 

@@ -12,41 +12,48 @@
 
 int main(int argc, char *argv[])
 {
-	Mode mode = Functions::parseProgramArguments(argc, argv);
+	QApplication application(argc, argv);
+	std::vector<Mode> modes = Functions::parseProgramArguments(argc, argv);
 
-	switch (mode) {
-	case Mode::Help:
-	case Mode::Version: {
-		return OK;
+	for (Mode mode : modes) {
+		switch (mode) {
+		case Mode::Help:
+		case Mode::Version: {
+			break;
+		}
+		case Mode::AreaEditor: {
+			_LogNone("Area editor starts");
+			AreaEditor areaEditor;
+			areaEditor.show();
+			application.exec();
+			break;
+		}
+		case Mode::CreatureEditor: {
+			_LogNone("CreatureEditor editor starts");
+			CreatureEditor creatureEditor;
+			creatureEditor.show();
+			application.exec();
+			break;
+		}
+		case Mode::ItemEditor: {
+			_LogNone("Item editor starts");
+			ItemEditor itemEditor;
+			itemEditor.show();
+			application.exec();
+			break;
+		}
+		case Mode::Game: {
+			_LogNone("Game starts");
+			Game game;
+			game.mainLoop();
+			game.quit();
+			_LogNone("Game ends");
+			break;
+		}
+		default:
+			break;
+		}
 	}
-	case Mode::AreaEditor: {
-		_LogNone("Area editor starts");
-		QApplication application(argc, argv);
-		AreaEditor areaEditor;
-		areaEditor.show();
-		return application.exec();
-	}
-	case Mode::CreatureEditor: {
-		_LogNone("CreatureEditor editor starts");
-		QApplication application(argc, argv);
-		CreatureEditor creatureEditor;
-		creatureEditor.show();
-		return application.exec();
-	}
-	case Mode::ItemEditor: {
-		_LogNone("Item editor starts");
-		QApplication application(argc, argv);
-		ItemEditor itemEditor;
-		itemEditor.show();
-		return application.exec();
-	}
-	default: {
-		_LogNone("Game starts");
-		Game game;
-		game.mainLoop();
-		game.quit();
-		_LogNone("Game ends");
-		return OK;
-	}
-	}
+
+	return 0;
 }
