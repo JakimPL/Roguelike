@@ -42,15 +42,16 @@ Creature::Creature(const std::string& filename, bool fullPath)
 			}
 
 			// resistances and inventory to be implemented
+			updateStats();
+			_LogInfo("File " << path << " opened successfully.");
 		} else {
 			_LogError("Invalid creature file!");
 		}
-
-		resource.close();
-		_LogInfo("File " << path << " opened successfully.");
 	} else {
 		_LogError("Failed to open " << filename << " creature file!");
 	}
+
+	resource.close();
 }
 
 Creature::Creature()
@@ -369,6 +370,7 @@ bool Creature::saveToFile(const std::string& filename, bool fullPath)
 	std::string path = fullPath ? filename : Functions::getPath(filename, CRE);
 	std::ofstream resource(path);
 	if (resource.good()) {
+		resource.write(headerCRE, SIZE_HEADER);
 		resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&letter), SIZE_CHAR);
 		resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);

@@ -73,15 +73,16 @@ Area::Area(const std::string& filename, bool fullPath)
 					map[x].push_back(tile);
 				}
 			}
+
+			_LogInfo("File " << path << " opened successfully.");
 		} else {
 			_LogError("Invalid area file!");
 		}
-		resource.close();
 	} else {
 		_LogError("Failed to open " << filename << " area file!");
 	}
 
-	_LogInfo("File " << path << " opened successfully.");
+	resource.close();
 }
 
 Area::Area()

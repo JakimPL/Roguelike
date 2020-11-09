@@ -30,15 +30,15 @@ Item::Item(const std::string& filename, bool fullPath)
 			}
 
 			// effects to be implemented
+			_LogInfo("File " << path << " opened successfully.");
 		} else {
 			_LogError("Invalid item file!");
 		}
-
-		resource.close();
-		_LogInfo("File " << path << " opened successfully.");
 	} else {
 		_LogError("Failed to open " << filename << " item file!");
 	}
+
+	resource.close();
 }
 
 Item::Item()

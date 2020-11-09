@@ -43,6 +43,7 @@ void CreatureEditor::on_actionOpen_triggered()
 		Creature newCreature(path, true);
 		creature = newCreature;
 		updateApplicationTitle();
+		updateEditorValues();
 	}
 }
 
@@ -87,10 +88,10 @@ void CreatureEditor::updateEditorValues()
 	ui->colorRedBox->setValue(color.red);
 	ui->colorGreenBox->setValue(color.green);
 	ui->colorBlueBox->setValue(color.blue);
-	ui->raceBox->setCurrentIndex(int(creature.getRace()));
-	ui->genderBox->setCurrentIndex(int(creature.getGender()));
-	ui->alignmentBox->setCurrentIndex(int(creature.getAlignment()));
-	ui->stateBox->setCurrentIndex(int(creature.getState()));
+	ui->raceBox->setCurrentIndex((unsigned char)(creature.getRace()));
+	ui->genderBox->setCurrentIndex((unsigned char)(creature.getGender()));
+	ui->alignmentBox->setCurrentIndex((unsigned char)(creature.getAlignment()));
+	ui->stateBox->setCurrentIndex((unsigned char)(creature.getState()));
 
 	ui->levelBox->setValue(creature.getLevel());
 	ui->xpCurrentBox->setValue(creature.getXPCurrent());
