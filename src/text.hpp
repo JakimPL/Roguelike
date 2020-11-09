@@ -68,7 +68,15 @@ enum class General : unsigned int {
 	Dexterity,
 	Constitution,
 	Intelligence,
-	Wisdom
+	Wisdom,
+	Dead,
+	Unconscious,
+	Paralyzed,
+	Sleeping,
+	Mute,
+	Frozen,
+	Panic,
+	Summoned
 };
 
 enum class Area : unsigned int {
@@ -139,7 +147,5 @@ public:
 
 	unsigned int getContentSize(TextCategory category);
 };
-
-static std::vector<Text*> TextCounter;
 
 #endif

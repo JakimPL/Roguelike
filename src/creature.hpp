@@ -19,7 +19,10 @@ enum class Race {
 };
 
 enum class State {
+	none,
 	dead,
+	unconscious,
+	paralyzed,
 	sleeping,
 	mute,
 	frozen,
@@ -119,6 +122,18 @@ public:
 	int getAbilityPoints() const;
 	int getAbilityValue(const Ability ability) const;
 	unsigned int getWeaponNameID();
+};
+
+static const String::General stateNameIDs[(size_t)(State::count)] = {
+	String::General::empty,
+	String::General::Dead,
+	String::General::Unconscious,
+	String::General::Paralyzed,
+	String::General::Sleeping,
+	String::General::Mute,
+	String::General::Frozen,
+	String::General::Panic,
+	String::General::Summoned
 };
 
 #endif // CREATURE_HPP

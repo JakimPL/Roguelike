@@ -40,7 +40,7 @@ void CreatureEditor::on_actionSave_triggered()
 
 void CreatureEditor::on_actionSaveAs_triggered()
 {
-	currentPath = QFileDialog::getSaveFileName(this, tr("Save CRE file"), "./data/ARE/", tr("Creature files (*.CRE)"));
+	currentPath = QFileDialog::getSaveFileName(this, tr("Save CRE file"), "./data/CRE/", tr("Creature files (*.CRE)"));
 	std::string path = currentPath.toStdString();
 	creature.saveToFile(path, true);
 	updateApplicationTitle();

@@ -6,20 +6,810 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>572</width>
+    <height>596</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Creature Editor</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>551</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tabGeneral">
+     <attribute name="title">
+      <string>General</string>
+     </attribute>
+     <widget class="QLabel" name="raceLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>130</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Race:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="colorLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>90</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Color:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="letterLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Letter:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="nameIDLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Name ID:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="stateLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>170</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>State:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="levelLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>210</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Level:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="xpLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>250</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>XP:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="hpLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>290</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>HP:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mpLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>330</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>MP:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="damageLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>370</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Damage:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="attackRateLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>410</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Attack rate:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="defenseLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>450</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Defense:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="nameIDBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>10</y>
+        <width>391</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="raceBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>130</y>
+        <width>391</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="stateBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>170</y>
+        <width>391</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="colorGreenBox">
+      <property name="geometry">
+       <rect>
+        <x>277</x>
+        <y>90</y>
+        <width>124</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="colorBlueBox">
+      <property name="geometry">
+       <rect>
+        <x>411</x>
+        <y>90</y>
+        <width>124</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="colorRedBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>90</y>
+        <width>124</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="levelBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>210</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>1000</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="xpCurrentBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>250</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="xpNextLevelBox">
+      <property name="geometry">
+       <rect>
+        <x>365</x>
+        <y>250</y>
+        <width>170</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="xpNextLevelLabel">
+      <property name="geometry">
+       <rect>
+        <x>317</x>
+        <y>250</y>
+        <width>41</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Next:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="hpMaxBox">
+      <property name="geometry">
+       <rect>
+        <x>365</x>
+        <y>290</y>
+        <width>170</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="hpMaxLabel">
+      <property name="geometry">
+       <rect>
+        <x>317</x>
+        <y>290</y>
+        <width>41</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Max:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="hpCurrentBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>290</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="mpCurrentBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>330</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="mpMaxLabel">
+      <property name="geometry">
+       <rect>
+        <x>317</x>
+        <y>330</y>
+        <width>41</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Max:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="mpMaxBox">
+      <property name="geometry">
+       <rect>
+        <x>365</x>
+        <y>330</y>
+        <width>170</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="damageDeltaBox">
+      <property name="geometry">
+       <rect>
+        <x>365</x>
+        <y>370</y>
+        <width>170</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="damageDeltaLabel">
+      <property name="geometry">
+       <rect>
+        <x>317</x>
+        <y>370</y>
+        <width>41</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delta:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="damageBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>370</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="attackRateBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>410</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="defenseBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>450</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="defenseRateLabel">
+      <property name="geometry">
+       <rect>
+        <x>317</x>
+        <y>450</y>
+        <width>41</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Rate:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="defenseRateBox">
+      <property name="geometry">
+       <rect>
+        <x>365</x>
+        <y>450</y>
+        <width>170</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="textEdit">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>50</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="acceptRichText">
+       <bool>false</bool>
+      </property>
+      <property name="placeholderText">
+       <string>X</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tabAbilities">
+     <attribute name="title">
+      <string>Abilities</string>
+     </attribute>
+     <widget class="QLabel" name="wisdomLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>170</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Wisdom:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="intelligenceLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>130</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Intelligence:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="constitutionLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>90</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Constitution:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="dexterityLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Dexterity:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="strengthLabel">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>131</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Strength:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="strengthBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>10</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="dexterityBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>50</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="constitutionBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>90</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="intelligenceBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>130</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="wisdomBox">
+      <property name="geometry">
+       <rect>
+        <x>144</x>
+        <y>170</y>
+        <width>391</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>999999999</number>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tabInventory">
+     <attribute name="title">
+      <string>Inventory</string>
+     </attribute>
+     <widget class="QListView" name="listView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>531</width>
+        <height>201</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>572</width>
      <height>23</height>
     </rect>
    </property>

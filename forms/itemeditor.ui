@@ -43,6 +43,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>255</number>
     </property>
@@ -56,6 +59,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>255</number>
     </property>
@@ -68,6 +74,9 @@
       <width>124</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="maximum">
      <number>255</number>
@@ -112,6 +121,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>999999999</number>
     </property>
@@ -124,6 +136,9 @@
       <width>391</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="maximum">
      <number>999999999</number>
@@ -138,6 +153,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>999999999</number>
     </property>
@@ -150,6 +168,9 @@
       <width>391</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="maximum">
      <number>999999999</number>
@@ -164,6 +185,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>999999999</number>
     </property>
@@ -176,6 +200,9 @@
       <width>391</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="maximum">
      <number>999999999</number>
@@ -190,6 +217,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>999999999</number>
     </property>
@@ -202,6 +232,9 @@
       <width>391</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="maximum">
      <number>999999999</number>
@@ -216,6 +249,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>999999999</number>
     </property>
@@ -228,6 +264,9 @@
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="maximum">
      <number>999999999</number>
@@ -242,6 +281,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>999999999</number>
     </property>
@@ -255,6 +297,9 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
     <property name="maximum">
      <number>999999999</number>
     </property>
@@ -267,6 +312,9 @@
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="maximum">
      <number>999999999</number>
@@ -282,7 +330,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Text ID:</string>
+     <string>Name ID:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
