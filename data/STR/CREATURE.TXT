@@ -2,6 +2,7 @@
 Martwy
 Nieprzytomny
 Sparaliżowany
+Uśpiony
 Uciszony
 Zamrożony
 Spanikowany

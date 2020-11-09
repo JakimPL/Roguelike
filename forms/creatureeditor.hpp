@@ -31,6 +31,8 @@ private slots:
 
 	void prepareEditorValuesAndRanges();
 	void updateApplicationTitle();
+	void updateEditorValues();
+	void updateCreatureParameters();
 
 private:
 	Ui::CreatureEditor *ui;

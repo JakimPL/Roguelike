@@ -105,6 +105,10 @@ public:
 
 	unsigned int getNameID() const;
 	Color getColor() const;
+	Race getRace() const;
+	Gender getGender() const;
+	CreatureAlignment getAlignment() const;
+	State getState() const;
 	char getLetter() const;
 	int getLevel() const;
 	int getXPRemaining() const;

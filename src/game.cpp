@@ -122,8 +122,12 @@ void Game::drawCharacterInfo()
 	const int yOffset = TAB_Y_OFFSET + 0.5f * TILE_HEIGHT;
 
 	std::stringstream playerInfoText;
-	playerInfoText << player.getName() << text[String::General::level] << player.creature.getLevel();
+	playerInfoText << player.getName() << text[String::General::level] << player.creature.getLevel() << ". " << text[ {genderNameIDs.first, genderNameIDs.second[(unsigned int)(player.creature.getGender())]} ];
 	drawText(renderer, font, playerInfoText.str(), COLOR_WHITE, xOffset, yOffset + (TILE_HEIGHT * line++));
+
+	std::stringstream creatureInfoText;
+	creatureInfoText << text[String::General::Alignment] << text[ {alignmentNameIDs.first, alignmentNameIDs.second[(unsigned int)(player.creature.getAlignment())]} ];
+	drawText(renderer, font, creatureInfoText.str(), COLOR_WHITE, xOffset, yOffset + (TILE_HEIGHT * line++));
 
 	std::stringstream xpText;
 	xpText << text[String::General::Experience] << player.creature.getXPCurrent() << "/" << player.creature.getXPCurrent() + player.creature.getXPRemaining();
@@ -218,10 +222,10 @@ void Game::drawItemDescription(Item *item)
 		case ItemType::weapon:
 		case ItemType::armor:
 		case ItemType::quick:
-			//descriptionText << text[categoryNameIDs[(size_t)(item->getCategory())]];
+			descriptionText << text[ {categoryNameIDs.first, categoryNameIDs.second[(unsigned int)(item->getCategory())]} ];
 			break;
 		default:
-			//descriptionText << text[typeNameIDs[(size_t)(item->getType())]];
+			descriptionText << text[ {typeNameIDs.first, typeNameIDs.second[(unsigned int)(item->getType())] }];
 			break;
 		}
 	}

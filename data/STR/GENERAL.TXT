@@ -39,3 +39,4 @@ Zręczność:
 Kondycja: 
 Inteligencja: 
 Wiedza: 
+Charakter: 

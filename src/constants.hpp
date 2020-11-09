@@ -18,7 +18,8 @@
 #define COLOR_YELLOW  {224, 224, 0,   255}
 #define COLOR_MAGENTA {224, 0,   192, 255}
 #define COLOR_CYAN    {0,   224, 192, 255}
-#define COLOR_WHITE   {252, 255, 255, 255}
+#define COLOR_WHITE   {255, 255, 255, 255}
+#define COLOR_GRAY    {128, 128, 128, 128}
 
 #define COLOR_DRED    {128, 0,   0,   255}
 #define COLOR_DGREEN  {0,   128, 0,   255}

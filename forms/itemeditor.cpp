@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include <QFileDialog>
+#include <QLineEdit>
 
 using namespace EditorFunctions;
 
@@ -71,6 +72,9 @@ void ItemEditor::updateApplicationTitle()
 
 void ItemEditor::prepareEditorValuesAndRanges()
 {
+	/*ui->typeBox->lineEdit()->setAlignment(Qt::AlignRight);
+	ui->categoryBox->lineEdit()->setAlignment(Qt::AlignRight);
+	ui->flagBox->lineEdit()->setAlignment(Qt::AlignRight);*/
 	prepareTextItems(&text, TextCategory::Item, ui->nameIDBox);
 	prepareTextItems(&text, TextCategory::Item, ui->descriptionIDBox);
 	prepareTextItems(&text, typeNameIDs, ui->typeBox);

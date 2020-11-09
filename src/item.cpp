@@ -298,6 +298,12 @@ void Inventory::equipItem(Item* item)
 	stack[item->getType()] = item;
 }
 
+void Inventory::equipItem(unsigned int index)
+{
+	Item* item = getBackpackItem(index);
+	equipItem(item);
+}
+
 Item* Inventory::getBackpackItem(unsigned int index)
 {
 	if (index >= backpack.size()) {

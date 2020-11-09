@@ -71,6 +71,7 @@ enum General : unsigned int {
 	Constitution,
 	Intelligence,
 	Wisdom,
+	Alignment
 };
 
 enum Area : unsigned int {
@@ -108,7 +109,7 @@ enum Creature : unsigned int {
 };
 
 enum Item : unsigned int {
-	Fist,
+	Fist = 1,
 	Dagger,
 	ShortSword,
 	LongSword,

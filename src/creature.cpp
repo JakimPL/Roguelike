@@ -44,6 +44,7 @@ Creature::Creature()
 	inventory.addItem("LONGSWORD");
 	inventory.addItem("BROADSWORD");
 	inventory.addItem("LIGHTBLADE");
+	inventory.equipItem((unsigned int)(0));
 	updateStats();
 }
 
@@ -141,6 +142,26 @@ void Creature::updateStats()
 			attackRate += item->getAttackRate();
 		}
 	}
+}
+
+Race Creature::getRace() const
+{
+	return race;
+}
+
+Gender Creature::getGender() const
+{
+	return gender;
+}
+
+CreatureAlignment Creature::getAlignment() const
+{
+	return alignment;
+}
+
+State Creature::getState() const
+{
+	return state;
 }
 
 unsigned int Creature::getNameID() const
