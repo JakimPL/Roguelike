@@ -253,24 +253,24 @@ bool Item::saveToFile(const std::string& filename, bool fullPath)
 	}
 }
 
-bool Inventory::addItem(const std::string& filename)
+Item* Inventory::addItem(const std::string& filename)
 {
 	if (!isFull()) {
 		backpack.push_back(filename);
-		return true;
+		return getBackpackItem(getBackpackSize() - 1);
 	}
 
-	return false;
+	return nullptr;
 }
 
-bool Inventory::addItem(Item item)
+Item* Inventory::addItem(Item item)
 {
 	if (!isFull()) {
 		backpack.push_back(item);
-		return true;
+		return getBackpackItem(getBackpackSize() - 1);
 	}
 
-	return false;
+	return nullptr;
 }
 
 void Inventory::dropItem(ItemType type)

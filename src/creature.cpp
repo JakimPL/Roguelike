@@ -28,8 +28,9 @@ Creature::Creature()
 	mpCurrent = 24;
 	mpBase = 22;
 	mpRegenerationBase = 0;
-	damageBase = 1;
-	attackRateBase = 24;
+	damageMinBase = 1;
+	damageMaxBase = 1;
+	attackRateBase = 19;
 	defenseBase = 9;
 	defenseRateBase = 0;
 	abilityPoints = 10;
@@ -44,7 +45,6 @@ Creature::Creature()
 	inventory.addItem("LONGSWORD");
 	inventory.addItem("BROADSWORD");
 	inventory.addItem("LIGHTBLADE");
-	inventory.equipItem((unsigned int)(0));
 	updateStats();
 }
 
@@ -127,8 +127,8 @@ void Creature::updateStats()
 	mpRegeneration = mpRegenerationBase + abilities[Ability::intelligence] / 5 + level / 4;
 	defense = defenseBase + abilities[Ability::constitution] / 5 + 1;
 	defenseRate = defenseRateBase + abilities[Ability::dexterity] / 5 + 1;
-	damageMin = damageBase + abilities[Ability::strength] / 5;
-	damageMax = damageMin + abilities[Ability::strength] / 25 + 1;
+	damageMin = damageMinBase + abilities[Ability::strength] / 5;
+	damageMax = damageMaxBase + abilities[Ability::strength] / 25 + 1;
 	attackRate = attackRateBase + abilities[Ability::dexterity] / 4 + 1;
 
 	for (size_t typeIndex = 0; typeIndex < size_t(ItemType::count); ++typeIndex) {
@@ -142,6 +142,11 @@ void Creature::updateStats()
 			attackRate += item->getAttackRate();
 		}
 	}
+}
+
+Color Creature::getColor() const
+{
+	return color;
 }
 
 Race Creature::getRace() const
@@ -174,9 +179,49 @@ char Creature::getLetter() const
 	return letter;
 }
 
-Color Creature::getColor() const
+int Creature::getBaseHP() const
 {
-	return color;
+	return hpBase;
+}
+
+int Creature::getBaseMP() const
+{
+	return mpBase;
+}
+
+int Creature::getBaseHPRegeneration() const
+{
+	return hpRegenerationBase;
+}
+
+int Creature::getBaseMPRegeneration() const
+{
+	return mpRegenerationBase;
+}
+
+int Creature::getBaseDefense() const
+{
+	return defenseBase;
+}
+
+int Creature::getBaseDefenseRate() const
+{
+	return defenseRateBase;
+}
+
+int Creature::getBaseDamageMin() const
+{
+	return damageMinBase;
+}
+
+int Creature::getBaseDamageMax() const
+{
+	return damageMaxBase;
+}
+
+int Creature::getBaseAbilityValue(const Ability ability) const
+{
+	return abilitiesBase[ability];
 }
 
 int Creature::getLevel() const

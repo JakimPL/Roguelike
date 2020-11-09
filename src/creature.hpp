@@ -75,7 +75,8 @@ private:
 	int mpRegenerationBase;
 	int damageMin;
 	int damageMax;
-	int damageBase;
+	int damageMinBase;
+	int damageMaxBase;
 	int attackRate;
 	int attackRateBase;
 	int defense;
@@ -110,6 +111,18 @@ public:
 	CreatureAlignment getAlignment() const;
 	State getState() const;
 	char getLetter() const;
+
+	int getBaseHP() const;
+	int getBaseMP() const;
+	int getBaseHPRegeneration() const;
+	int getBaseMPRegeneration() const;
+	int getBaseDefense() const;
+	int getBaseDefenseRate() const;
+	int getBaseDamageMin() const;
+	int getBaseDamageMax() const;
+	int getBaseAttackRate() const;
+	int getBaseAbilityValue(const Ability ability) const;
+
 	int getLevel() const;
 	int getXPRemaining() const;
 	int getXPCurrent() const;

@@ -128,8 +128,8 @@ private:
 	std::map<ItemType, Item*> stack;
 
 public:
-	bool addItem(const std::string& filename);
-	bool addItem(Item item);
+	Item* addItem(const std::string& filename);
+	Item* addItem(Item item);
 	void dropItem(ItemType type);
 	void dropItem(Item* item);
 	void equipItem(Item* item);

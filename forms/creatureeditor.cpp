@@ -28,7 +28,7 @@ void CreatureEditor::prepareEditorValuesAndRanges()
 	ui->genderBox->lineEdit()->setAlignment(Qt::AlignRight);
 	ui->alignmentBox->lineEdit()->setAlignment(Qt::AlignRight);
 	ui->stateBox->lineEdit()->setAlignment(Qt::AlignRight);*/
-	prepareTextItems(&text, TextCategory::General, ui->nameIDBox);
+	prepareTextItems(&text, TextCategory::Creature, ui->nameIDBox);
 	prepareTextItems(&text, raceNameIDs, ui->raceBox);
 	prepareTextItems(&text, genderNameIDs, ui->genderBox);
 	prepareTextItems(&text, alignmentNameIDs, ui->alignmentBox);
