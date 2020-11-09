@@ -121,7 +121,9 @@ void CreatureEditor::updateEditorValues()
 		ui->inventoryList->addItem(QString::fromStdString(text[ {TextCategory::Item, item->getNameID()} ]));
 		if (creature.isItemEquipped(item)) {
 			QListWidgetItem* listItem = ui->inventoryList->item(index);
-			listItem->setForeground(QColor(COLOR_GRAY));
+			QFont listItemFont = listItem->font();
+			listItemFont.setWeight(QFont::Bold);
+			listItem->setFont(listItemFont);
 		}
 	}
 }
@@ -150,4 +152,14 @@ void CreatureEditor::updateCreatureParameters()
 	creature.setRequiredAbility(Ability::constitution, ui->requiredConstitutionBox->value());
 	creature.setRequiredAbility(Ability::intelligence, ui->requiredIntelligenceBox->value());
 	creature.setRequiredAbility(Ability::wisdom, ui->requiredWisdomBox->value());*/
+}
+
+void CreatureEditor::on_inventoryList_itemDoubleClicked(QListWidgetItem*)
+{
+	unsigned int index = ui->inventoryList->currentIndex().row();
+	if (!creature.equipItem(index)) {
+		_LogInfo(text[String::Item(creature.inventory.getBackpackItem(index)->getNameID())] << " item requirements has not been satisfied");
+	}
+
+	updateEditorValues();
 }

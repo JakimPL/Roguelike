@@ -4,6 +4,7 @@
 #include "src/creature.hpp"
 #include "editorfunctions.hpp"
 #include <QMainWindow>
+#include <QListWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -28,6 +29,7 @@ private slots:
 	void on_actionSave_triggered();
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
+	void on_inventoryList_itemDoubleClicked(QListWidgetItem* item);
 
 	void prepareEditorValuesAndRanges();
 	void updateApplicationTitle();

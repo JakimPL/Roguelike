@@ -124,6 +124,8 @@ bool Creature::equipItem(Item* item)
 				inventory.equipItem(currentItem);
 			}
 		}
+	} else {
+		success = true;
 	}
 
 	updateStats();
