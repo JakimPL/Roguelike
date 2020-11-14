@@ -77,11 +77,13 @@ void Game::drawGUI()
 	weaponInUseText << text[String::General::WeaponInUse] << text[ {TextCategory::Item, player.creature.getWeaponNameID()} ];
 	drawText(renderer, font, weaponInUseText.str(), COLOR_DGREEN, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT / 2, Alignment::Left);
 
-	std::stringstream mapObjectText;
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
-	Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
-	drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+	if (!currentArea.isTileOutside(playerPosition.x + dirX, playerPosition.y + dirY)) {
+		std::stringstream mapObjectText;
+		Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
+		drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+	}
 
 	std::stringstream shortcutsText;
 	shortcutsText << text[String::General::SHORTCUTS];
@@ -285,7 +287,27 @@ void Game::drawItemDescription(Item *item)
 
 void Game::drawMap()
 {
+	size_t width = currentArea.getWidth();
+	size_t height = currentArea.getHeight();
+	Position playerPosition = player.getPosition();
+	int xStart = std::max(0, -TAB_WIDTH / (2 * MAP_PIXEL_SIZE) + playerPosition.x);
+	int yStart = std::max(0, -TAB_HEIGHT / (2 * MAP_PIXEL_SIZE) + playerPosition.y);
+	size_t xEnd = std::min(int(width), TAB_WIDTH / (2 * MAP_PIXEL_SIZE) + playerPosition.x);
+	size_t yEnd = std::min(int(height), TAB_HEIGHT / (2 * MAP_PIXEL_SIZE) + playerPosition.y);
+	for (size_t y = yStart; y < yEnd; ++y) {
+		for (size_t x = xStart; x < xEnd; ++x) {
+			Tile tile = currentArea.getTile(x, y);
+			SDL_Color sdlColor = tile.color;
+			sdlColor.a = MAP_ALPHA;
 
+			if (tile.letter != '\0' and tile.letter != ' ') {
+				drawPixel(renderer, sdlColor, SCREEN_WIDTH / 2 + MAP_PIXEL_SIZE * (x - playerPosition.x), SCREEN_HEIGHT / 2 + MAP_PIXEL_SIZE * (y - playerPosition.y), MAP_PIXEL_SIZE);
+			}
+		}
+	}
+
+	Color playerColor = player.creature.getColor();
+	drawPixel(renderer, playerColor, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, MAP_PIXEL_SIZE);
 }
 
 bool Game::isGUIactive() const

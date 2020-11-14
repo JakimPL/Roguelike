@@ -26,13 +26,25 @@ void drawLetter(SDL_Renderer* renderer, TTF_Font* font, const char letter, const
 	SDL_DestroyTexture(textTexture);
 }
 
+void drawPixel(SDL_Renderer* renderer, const SDL_Color color, const unsigned short x, const unsigned short y, const unsigned short size)
+{
+	SDL_Rect pixelRectangle;
+	pixelRectangle.x = float(x) / SCALE;
+	pixelRectangle.y = float(y) / SCALE;
+	pixelRectangle.w = float(size) / SCALE;
+	pixelRectangle.h = float(size) / SCALE;
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderFillRect(renderer, &pixelRectangle);
+}
+
 void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned short x, const unsigned short y, const unsigned short w, const unsigned short h, const bool outline)
 {
 	SDL_Rect upperRectangle;
-	upperRectangle.x = x / SCALE;
-	upperRectangle.y = y / SCALE;
-	upperRectangle.w = w / SCALE;
-	upperRectangle.h = h / SCALE;
+	upperRectangle.x = float(x) / SCALE;
+	upperRectangle.y = float(y) / SCALE;
+	upperRectangle.w = float(w) / SCALE;
+	upperRectangle.h = float(h) / SCALE;
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	if (outline) {
@@ -44,8 +56,8 @@ void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned
 
 void drawText(SDL_Renderer* renderer, TTF_Font* font, const std::string& text, const SDL_Color color, const unsigned short x, const unsigned short y, const Alignment hAlign, const Alignment vAlign)
 {
-	int _x = x / SCALE;
-	int _y = y / SCALE;
+	float _x = float(x) / SCALE;
+	float _y = float(y) / SCALE;
 
 	std::stringstream textStream;
 	textStream << text;

@@ -23,11 +23,11 @@ Area::Area(const std::string& filename, bool fullPath)
 			std::vector<std::vector<unsigned int>> nameIDMap;
 
 			// prepare map 2d vectors
-			characterMap.resize(height);
-			colorMap.resize(height);
-			obstacleMap.resize(height);
-			nameIDMap.resize(height);
-			map.resize(height);
+			characterMap.resize(width);
+			colorMap.resize(width);
+			obstacleMap.resize(width);
+			nameIDMap.resize(width);
+			map.resize(width);
 
 			///TODO: abstract version of block reading and error handling
 			// read map characters
@@ -129,3 +129,14 @@ bool Area::saveToFile(const std::string&, bool)
 {
 	return false;
 }
+
+bool Area::isTileOutside(int x, int y) const
+{
+	return x < 0 or y < 0 or x >= int(width) or y >= int(height);
+}
+
+bool Area::isTileOutside(Position position) const
+{
+	return isTileOutside(position.x, position.y);
+}
+

@@ -18,7 +18,8 @@ Position Player::getPosition()
 void Player::move(Direction direction)
 {
 	position.direction = direction;
-	if (!currentArea->getTile(position + 1).obstacle) {
+	Position targetPosition = position + 1;
+	if (!currentArea->getTile(targetPosition).obstacle or currentArea->isTileOutside(targetPosition)) {
 		if (delay == 0) {
 			position.moveInDirection();
 			delay = 10;

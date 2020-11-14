@@ -35,6 +35,8 @@
 #define COLOR_PURPLE  {96,  0,   160, 255}
 #define COLOR_YGREEN  {192, 255, 32,  255}
 
+#define MAP_ALPHA 224
+
 static constexpr unsigned int SIZE_TABLE = 4;
 static constexpr unsigned int SIZE_HEADER = 3;
 static constexpr unsigned int SIZE_ITEM = 2;
@@ -75,7 +77,7 @@ static const std::string SUFFIX_CHR = ".CHR";
 static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
 
-static constexpr float FPS = 60.0f;
+static constexpr float FPS = 300.0f;
 static constexpr float SCALE = 1.5f;
 static constexpr bool FULLSCREEN = true;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
@@ -96,6 +98,8 @@ static constexpr unsigned int INVENTORY_SIZE = 30;
 static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT - 3;
 static constexpr int INVENTORY_ABILITIES_DISTANCE = 6;
 static constexpr unsigned int KEY_INPUT_DELAY = 8;
+
+static constexpr unsigned short MAP_PIXEL_SIZE = 2 * SCALE;
 
 enum Filetype {
 	NONE,
