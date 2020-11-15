@@ -18,6 +18,7 @@ HEADERS += \
 	src/item.hpp \
 	src/keyboard.hpp \
 	src/log.hpp \
+	src/message.hpp \
 	src/player.hpp \
 	src/structures.hpp \
 	src/text.hpp \
@@ -37,6 +38,7 @@ SOURCES += \
 	src/graphics.cpp \
 	src/item.cpp \
 	src/keyboard.cpp \
+	src/message.cpp \
 	src/player.cpp \
 	src/structures.cpp \
 	src/text.cpp \

@@ -289,7 +289,7 @@ void Game::drawMap()
 {
 	size_t width = currentArea.getWidth();
 	size_t height = currentArea.getHeight();
-	Position playerPosition = player.getPosition();
+	Position playerPosition = player.getPosition() + mapOffset;
 	int xStart = std::max(0, -TAB_WIDTH / (2 * MAP_PIXEL_SIZE) + playerPosition.x);
 	int yStart = std::max(0, -TAB_HEIGHT / (2 * MAP_PIXEL_SIZE) + playerPosition.y);
 	size_t xEnd = std::min(int(width), TAB_WIDTH / (2 * MAP_PIXEL_SIZE) + playerPosition.x);
@@ -307,7 +307,7 @@ void Game::drawMap()
 	}
 
 	Color playerColor = player.creature.getColor();
-	drawPixel(renderer, playerColor, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, MAP_PIXEL_SIZE);
+	drawPixel(renderer, playerColor, SCREEN_WIDTH / 2 - MAP_PIXEL_SIZE * mapOffset.x, SCREEN_HEIGHT / 2 - MAP_PIXEL_SIZE * mapOffset.y, MAP_PIXEL_SIZE);
 }
 
 bool Game::isGUIactive() const
@@ -349,6 +349,7 @@ void Game::mainLoop()
 			} else if (keyboard.isKeyPressed(SDLK_c)) {
 				openTab(GUI::Character);
 			} else if (keyboard.isKeyPressed(SDLK_m)) {
+				mapOffset = {0, 0, 0};
 				openTab(GUI::Map);
 			}
 
@@ -414,6 +415,15 @@ void Game::mainLoop()
 				}
 				break;
 			case GUI::Map:
+				for (unsigned int dir = 0; dir < COUNT; ++dir) {
+					Direction direction = Direction(dir);
+					if (keyboard.isKey(keyDirection[direction])) {
+						mapOffset.direction = direction;
+						mapOffset = mapOffset + 1;
+						break;
+					}
+				}
+
 				break;
 			}
 

@@ -46,6 +46,9 @@ struct Position {
 	void moveInDirection(int length = 1, Direction chosenDirection = COUNT);
 	void setDirection(Direction newDirection);
 	const Position operator +(int length) const;
+	const Position operator -(int length) const;
+	const Position operator +(Position position) const;
+	const Position operator -(Position position) const;
 };
 
 struct CreatureEffect {

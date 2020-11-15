@@ -3,6 +3,7 @@
 
 #include "area.hpp"
 #include "keyboard.hpp"
+#include "message.hpp"
 #include "player.hpp"
 #include "text.hpp"
 #include "timer.hpp"
@@ -26,16 +27,22 @@ private:
 	Text text;
 	Timer timer;
 	Keyboard keyboard;
-public:
 	Player player;
 	Area currentArea;
 	GUI activeTab = GUI::None;
+
 	unsigned int inventoryPage = 0;
 	int inventoryPosition = 0;
 	int characterInfoPosition = 0;
+	Position mapOffset = {0, 0, 0};
+
 public:
 	Game();
 
+	void mainLoop();
+	void quit();
+
+private:
 	void drawFrame();
 	void drawWorld();
 	void drawPlayer();
@@ -45,14 +52,10 @@ public:
 	void drawItemDescription(Item* item);
 	void drawMap();
 
-	bool isGUIactive() const;
-	void openTab(GUI tab);
-
-	void mainLoop();
-
 	void initializeFont();
 	void initializeGraphics();
-	void quit();
+	bool isGUIactive() const;
+	void openTab(GUI tab);
 };
 
 #endif // GAME_HPP
