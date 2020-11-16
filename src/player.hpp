@@ -4,8 +4,6 @@
 #include "area.hpp"
 #include "creature.hpp"
 
-class Game;
-
 class Player
 {
 private:
@@ -21,8 +19,8 @@ public:
 public:
 	Player(std::string initialName);
 
-	std::string getName();
-	Position getPosition();
+	std::string getName() const;
+	Position getPosition() const;
 	void setDirection(Direction direction);
 	void move(Direction direction);
 	void step();

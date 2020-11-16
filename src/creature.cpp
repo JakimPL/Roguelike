@@ -2,6 +2,7 @@
 #include "color.hpp"
 #include "functions.hpp"
 #include "log.hpp"
+#include "message.hpp"
 #include "text.hpp"
 
 Creature::Creature(const std::string& filename, bool fullPath)

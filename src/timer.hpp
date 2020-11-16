@@ -16,4 +16,6 @@ public:
 	void update();
 };
 
+static Timer timer;
+
 #endif // TIMER_HPP

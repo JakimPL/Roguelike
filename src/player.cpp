@@ -1,16 +1,16 @@
 #include "player.hpp"
 
-Player::Player(std::string initialName)
+Player::Player(std::string initialName) : name(initialName)
 {
-	name = initialName;
+
 }
 
-std::string Player::getName()
+std::string Player::getName() const
 {
 	return name;
 }
 
-Position Player::getPosition()
+Position Player::getPosition() const
 {
 	return position;
 }

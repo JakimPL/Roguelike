@@ -3,11 +3,11 @@
 
 #include <string>
 
-#define VERSION "0.1.0"
+#define VERSION "0.1.1"
 #define DESCRIPTION "Roguelike"
 #define PRINT(string) std::cout << string << std::endl
 
-#define GUI_RECTANGLE_COLOR {16,  16,  16,  224}
+#define GUI_RECTANGLE_COLOR {32,  32,  32,  192}
 #define GUI_INVENTORY_COLOR {0,   0,   160, 224}
 #define TARGET_COLOR   {64,  128, 224, 255}
 
@@ -32,6 +32,7 @@
 #define COLOR_LBLUE   {64,  64,  255, 255}
 
 #define COLOR_BROWN   {160, 96,  0,   255}
+#define COLOR_ORANGE  {255, 160, 0,   255}
 #define COLOR_PURPLE  {96,  0,   160, 255}
 #define COLOR_YGREEN  {192, 255, 32,  255}
 
@@ -100,6 +101,9 @@ static constexpr int INVENTORY_ABILITIES_DISTANCE = 6;
 static constexpr unsigned int KEY_INPUT_DELAY = 8;
 
 static constexpr unsigned short MAP_PIXEL_SIZE = 2 * SCALE;
+
+static constexpr float MESSAGE_DURATION = 3.0f;
+static constexpr unsigned int MAX_MESSAGES = 6;
 
 enum Filetype {
 	NONE,

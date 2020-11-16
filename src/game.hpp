@@ -8,7 +8,6 @@
 #include "text.hpp"
 #include "timer.hpp"
 
-#include <queue>
 #include <SDL2/SDL_ttf.h>
 
 enum class GUI : unsigned int {
@@ -24,11 +23,8 @@ private:
 	SDL_Renderer* renderer;
 	SDL_Window* window;
 	TTF_Font* font;
-	Text text;
-	Timer timer;
 	Keyboard keyboard;
 	Player player;
-	Area currentArea;
 	GUI activeTab = GUI::None;
 
 	unsigned int inventoryPage = 0;
@@ -38,6 +34,9 @@ private:
 
 public:
 	Game();
+	Text text;
+	Area currentArea;
+	Messages messages;
 
 	void mainLoop();
 	void quit();

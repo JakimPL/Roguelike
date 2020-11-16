@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "graphics.hpp"
 #include "log.hpp"
+#include "message.hpp"
 
 using namespace Graphics;
 
@@ -9,12 +10,12 @@ Game::Game() : player("Liop"), currentArea("MOONDALE")
 	initializeGraphics();
 	initializeFont();
 	player.currentArea = &currentArea;
+	messages = Messages(renderer, font);
 }
 
 void Game::drawFrame()
 {
 	SDL_RenderClear(renderer);
-	SDL_RenderSetScale(renderer, SCALE, SCALE);
 
 	drawWorld();
 	drawPlayer();
@@ -309,8 +310,7 @@ void Game::drawMap()
 	Color playerColor = player.creature.getColor();
 	int xPlayer = SCREEN_WIDTH / 2 - MAP_PIXEL_SIZE * mapOffset.x;
 	int yPlayer = SCREEN_HEIGHT / 2 - MAP_PIXEL_SIZE * mapOffset.y;
-	if (xPlayer >= SCREEN_WIDTH / 2 - TAB_WIDTH / 2 and xPlayer < SCREEN_WIDTH / 2 + TAB_WIDTH / 2
-		and yPlayer >= SCREEN_HEIGHT / 2 - TAB_HEIGHT / 2 and yPlayer < SCREEN_HEIGHT / 2 + TAB_HEIGHT / 2) {
+	if (xPlayer >= SCREEN_WIDTH / 2 - TAB_WIDTH / 2 and xPlayer < SCREEN_WIDTH / 2 + TAB_WIDTH / 2 and yPlayer >= SCREEN_HEIGHT / 2 - TAB_HEIGHT / 2 and yPlayer < SCREEN_HEIGHT / 2 + TAB_HEIGHT / 2) {
 		drawPixel(renderer, playerColor, SCREEN_WIDTH / 2 - MAP_PIXEL_SIZE * mapOffset.x, SCREEN_HEIGHT / 2 - MAP_PIXEL_SIZE * mapOffset.y, MAP_PIXEL_SIZE);
 	}
 }
@@ -396,7 +396,9 @@ void Game::mainLoop()
 						inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + INVENTORY_ITEMS_PER_PAGE);
 					}
 					if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
-						player.creature.equipItem(inventoryPosition);
+						if (!player.creature.equipItem(inventoryPosition)) {
+							messages.add(Message(text[String::Message::TooHighItemRequirements], COLOR_ORANGE));
+						}
 					}
 				}
 				break;
@@ -435,6 +437,7 @@ void Game::mainLoop()
 			keyboard.step();
 			player.step();
 			drawFrame();
+			messages.step();
 		}
 	}
 }
@@ -474,6 +477,8 @@ void Game::initializeGraphics()
 	}
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_RenderSetScale(renderer, SCALE, SCALE);
+	SDL_RenderPresent(renderer);
 
 	if (renderer == NULL) {
 		_LogError("Bad SDL object!");

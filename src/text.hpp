@@ -14,6 +14,7 @@ enum class TextCategory : unsigned int {
 	Area,
 	Creature,
 	Item,
+	Message,
 	Object,
 	Count
 };
@@ -23,6 +24,7 @@ static const std::string FILENAME_STRING[(unsigned int)(TextCategory::Count)] = 
 	"AREA",
 	"CREATURE",
 	"ITEM",
+	"MESSAGE",
 	"OBJECT",
 };
 
@@ -142,6 +144,10 @@ enum Item : unsigned int {
 	Unidentified
 };
 
+enum Message : unsigned int {
+	TooHighItemRequirements = 1
+};
+
 enum Object : unsigned int {
 	Ground = 1,
 	Sand,
@@ -166,6 +172,7 @@ public:
 	const std::string operator[](String::Area element);
 	const std::string operator[](String::Creature element);
 	const std::string operator[](String::Item element);
+	const std::string operator[](String::Message element);
 	const std::string operator[](String::Object element);
 	const std::string operator[](std::pair<TextCategory, unsigned int> element);
 

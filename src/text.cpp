@@ -139,6 +139,11 @@ const std::string Text::operator[](String::Item element)
 	return (*this)[ {TextCategory::Item, (unsigned int)(element)} ];
 }
 
+const std::string Text::operator[](String::Message element)
+{
+	return (*this)[ {TextCategory::Message, (unsigned int)(element)} ];
+}
+
 const std::string Text::operator[](String::Object element)
 {
 	return (*this)[ {TextCategory::Object, (unsigned int)(element)} ];
