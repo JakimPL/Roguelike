@@ -11,10 +11,10 @@ void prepareTextItems(Text* text, const TextCategory category, QComboBox* comboB
 	}
 }
 
-void prepareTextItems(Text* text, const std::pair<TextCategory, std::vector<unsigned int>>& pair, QComboBox* comboBox)
+void prepareTextItems(Text* text, const StringList& list, QComboBox* comboBox)
 {
-	for (size_t index = 0; index < pair.second.size(); ++index) {
-		QString listItem = QString::fromStdString((*text)[ {pair.first, (unsigned int)(pair.second[index])} ]);
+	for (size_t index = 0; index < list.size(); ++index) {
+		QString listItem = QString::fromStdString((*text)[list[index]]);
 		comboBox->insertItem(index, listItem);
 	}
 }

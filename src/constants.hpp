@@ -7,6 +7,8 @@
 #define DESCRIPTION "Roguelike"
 #define PRINT(string) std::cout << string << std::endl
 
+#define TEXT_CATEGORY_SIZE 1000000
+
 #define GUI_RECTANGLE_COLOR {32,  32,  32,  192}
 #define GUI_INVENTORY_COLOR {0,   0,   160, 224}
 #define TARGET_COLOR   {64,  128, 224, 255}

@@ -365,7 +365,7 @@ unsigned int Creature::getWeaponNameID()
 		return weaponItem->getNameID();
 	}
 
-	return (unsigned int)(String::Item::Fist);
+	return (unsigned long)(String::Fist) % TEXT_CATEGORY_SIZE;
 }
 
 void Creature::setNameID(unsigned int value)

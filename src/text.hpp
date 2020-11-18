@@ -28,11 +28,8 @@ static const std::string FILENAME_STRING[(unsigned int)(TextCategory::Count)] = 
 	"OBJECT",
 };
 
-namespace String
-{
-
-enum General : unsigned int {
-	empty,
+enum class String : unsigned long {
+	empty = 0,
 	Roguelike,
 	HP,
 	MP,
@@ -73,15 +70,11 @@ enum General : unsigned int {
 	Constitution,
 	Intelligence,
 	Wisdom,
-	Alignment
-};
+	Alignment,
 
-enum Area : unsigned int {
-	Moondale = 1
-};
+	Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 
-enum Creature : unsigned int {
-	Dead = 1,
+	Dead = (unsigned int)(TextCategory::Creature) * TEXT_CATEGORY_SIZE + 1,
 	Unconscious,
 	Paralyzed,
 	Sleeping,
@@ -107,11 +100,9 @@ enum Creature : unsigned int {
 	Good,
 	Neutral,
 	Evil,
-	Julian
-};
+	Julian,
 
-enum Item : unsigned int {
-	Fist = 1,
+	Fist = (unsigned int)(TextCategory::Item) * TEXT_CATEGORY_SIZE + 1,
 	Dagger,
 	ShortSword,
 	LongSword,
@@ -141,131 +132,112 @@ enum Item : unsigned int {
 	Spell,
 	Broken,
 	Magic,
-	Unidentified
-};
+	Unidentified,
 
-enum Message : unsigned int {
-	TooHighItemRequirements = 1
-};
+	TooHighItemRequirements = (unsigned int)(TextCategory::Message) * TEXT_CATEGORY_SIZE + 1,
 
-enum Object : unsigned int {
-	Ground = 1,
+	Ground = (unsigned int)(TextCategory::Object) * TEXT_CATEGORY_SIZE + 1,
 	Sand,
 	Water
 };
 
-}
-
 class Text
 {
 private:
-	std::map<TextCategory, std::vector<std::string>> content;
+	std::vector<std::vector<std::string>> content;
 	bool convertFromTXTtoSTR(TextCategory category, const std::string& inputPath, const std::string& outputPath);
 	bool loadContent(TextCategory category, const std::string& filename);
 
 public:
 	Text();
-	///TODO: more abstract version
-	const std::string text(TextCategory category, unsigned int id);
-
-	const std::string operator[](String::General element);
-	const std::string operator[](String::Area element);
-	const std::string operator[](String::Creature element);
-	const std::string operator[](String::Item element);
-	const std::string operator[](String::Message element);
-	const std::string operator[](String::Object element);
-	const std::string operator[](std::pair<TextCategory, unsigned int> element);
-
-	unsigned int getContentSize(TextCategory category);
+	unsigned int getContentSize(TextCategory category) const;
+	const std::string text(TextCategory category, unsigned int id) const;
+	const std::string operator[](String element);
+	const std::string operator[](std::pair<TextCategory, unsigned int> element) const;
 };
 
-static const std::pair<TextCategory, std::vector<unsigned int>> raceNameIDs = {TextCategory::Creature, {
-		String::Creature::Undefined,
-		String::Creature::Human,
-		String::Creature::Elf,
-		String::Creature::Gnome,
-		String::Creature::Dwarf,
-		String::Creature::Orc,
-		String::Creature::Animal,
-		String::Creature::MagicBeing,
-		String::Creature::Construct,
-		String::Creature::Demigod,
-		String::Creature::God
-	}
+typedef std::vector<String> StringList;
+
+static const StringList raceNameIDs = {
+	String::Undefined,
+	String::Human,
+	String::Elf,
+	String::Gnome,
+	String::Dwarf,
+	String::Orc,
+	String::Animal,
+	String::MagicBeing,
+	String::Construct,
+	String::Demigod,
+	String::God
 };
 
-static const std::pair<TextCategory, std::vector<unsigned int>> genderNameIDs = {TextCategory::Creature, {
-		String::Creature::Unknown,
-		String::Creature::Male,
-		String::Creature::Female,
-		String::Creature::Nonbinary
-	}
+static const StringList genderNameIDs = {
+	String::Unknown,
+	String::Male,
+	String::Female,
+	String::Nonbinary
 };
 
-static const std::pair<TextCategory, std::vector<unsigned int>> alignmentNameIDs = {TextCategory::Creature, {
-		String::Creature::Unknown,
-		String::Creature::Good,
-		String::Creature::Neutral,
-		String::Creature::Evil
-	}
+static const StringList alignmentNameIDs = {
+	String::Unknown,
+	String::Good,
+	String::Neutral,
+	String::Evil
 };
 
-static const std::pair<TextCategory, std::vector<unsigned int>> stateNameIDs = {TextCategory::Creature, {
-		String::General::empty,
-		String::Creature::Dead,
-		String::Creature::Unconscious,
-		String::Creature::Paralyzed,
-		String::Creature::Sleeping,
-		String::Creature::Mute,
-		String::Creature::Frozen,
-		String::Creature::Panic,
-		String::Creature::Summoned
-	}
+static const StringList stateNameIDs = {
+	String::empty,
+	String::Dead,
+	String::Unconscious,
+	String::Paralyzed,
+	String::Sleeping,
+	String::Mute,
+	String::Frozen,
+	String::Panic,
+	String::Summoned
 };
 
-static const std::pair<TextCategory, std::vector<unsigned int>> typeNameIDs = {TextCategory::Item, {
-		String::General::empty,
-		String::Item::Weapon,
-		String::Item::Armor,
-		String::Item::Helmet,
-		String::Item::Gloves,
-		String::Item::Cloak,
-		String::Item::Boots,
-		String::Item::Ring,
-		String::Item::Amulet,
-		String::Item::Quiver,
-		String::Item::Quick
-	}
+static const StringList typeNameIDs = {
+	String::empty,
+	String::Weapon,
+	String::Armor,
+	String::Helmet,
+	String::Gloves,
+	String::Cloak,
+	String::Boots,
+	String::Ring,
+	String::Amulet,
+	String::Quiver,
+	String::Quick
 };
 
-static const std::pair<TextCategory, std::vector<unsigned int>> categoryNameIDs = {TextCategory::Item, {
-		String::General::empty,
-		String::Item::Dagger,
-		String::Item::ShortSword,
-		String::Item::LongSword,
-		String::Item::Staff,
-		String::Item::Spear,
-		String::Item::Club,
-		String::Item::Axe,
-		String::Item::Bow,
-		String::Item::Crossbow,
-		String::Item::Sling,
-		String::Item::Clothing,
-		String::Item::LeatherArmor,
-		String::Item::ChainMail,
-		String::Item::PlateArmor,
-		String::Item::Robe,
-		String::Item::Potion,
-		String::Item::Spell
-	}
+static const StringList categoryNameIDs = {
+	String::empty,
+	String::Dagger,
+	String::ShortSword,
+	String::LongSword,
+	String::Staff,
+	String::Spear,
+	String::Club,
+	String::Axe,
+	String::Bow,
+	String::Crossbow,
+	String::Sling,
+	String::Clothing,
+	String::LeatherArmor,
+	String::ChainMail,
+	String::PlateArmor,
+	String::Robe,
+	String::Potion,
+	String::Spell
 };
 
-static const std::pair<TextCategory, std::vector<unsigned int>> flagNameIDs = {TextCategory::Item, {
-		String::General::empty,
-		String::Item::Broken,
-		String::Item::Magic,
-		String::Item::Unidentified
-	}
+static const StringList flagNameIDs = {
+	String::empty,
+	String::Broken,
+	String::Magic,
+	String::Unidentified
 };
 
 #endif

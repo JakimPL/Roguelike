@@ -159,7 +159,8 @@ void CreatureEditor::on_inventoryList_itemDoubleClicked(QListWidgetItem*)
 {
 	unsigned int index = ui->inventoryList->currentIndex().row();
 	if (!creature.equipItem(index)) {
-		_LogInfo(text[String::Item(creature.inventory.getBackpackItem(index)->getNameID())] << " item requirements has not been satisfied");
+		std::string itemName = text[ {TextCategory::Item, creature.inventory.getBackpackItem(index)->getNameID()} ];
+		_LogInfo(itemName << " item requirements has not been satisfied");
 	}
 
 	updateEditorValues();

@@ -12,6 +12,7 @@ using namespace Functions;
 
 Text::Text()
 {
+	content.resize(size_t(TextCategory::Count));
 	for (unsigned int category = 0; category < (unsigned int)(TextCategory::Count); ++category) {
 #ifdef CONVERT_TXT_TO_STR
 		convertFromTXTtoSTR(TextCategory(category), getPath(FILENAME_STRING[category], TXT), getPath(FILENAME_STRING[category], STR));
@@ -30,7 +31,7 @@ bool Text::convertFromTXTtoSTR(TextCategory category, const std::string& inputPa
 	std::ifstream infile(inputPath);
 	std::ofstream outfile(outputPath);
 	if (infile.good()) {
-		std::vector<std::string>& currentContent = content[category];
+		std::vector<std::string>& currentContent = content[size_t(category)];
 		currentContent.clear();
 		std::string line;
 		while (std::getline(infile, line)) {
@@ -91,7 +92,7 @@ bool Text::loadContent(TextCategory category, const std::string& filename)
 			for (unsigned int i = 0; i < tableSize; i++) {
 				char item[itemSizes[i] + 1];
 				read(resource, item, itemSizes[i]);
-				content[category].push_back(std::string(item));
+				content[size_t(category)].push_back(std::string(item));
 			}
 
 			_LogInfo("Dialog file " << filename << " opened successfully");
@@ -106,11 +107,16 @@ bool Text::loadContent(TextCategory category, const std::string& filename)
 	}
 }
 
-const std::string Text::text(TextCategory category, unsigned int id)
+unsigned int Text::getContentSize(TextCategory category) const
+{
+	return content[size_t(category)].size();
+}
+
+const std::string Text::text(TextCategory category, unsigned int id) const
 {
 	std::string output;
 	try {
-		output = content[category].at(id);
+		output = content[size_t(category)].at(id);
 	}  catch (std::out_of_range &) {
 		_LogError("Failed to load a text of id: " << id << " in " << FILENAME_STRING[(unsigned int)(category)]);
 		throw std::runtime_error("failed to load a text");
@@ -119,42 +125,14 @@ const std::string Text::text(TextCategory category, unsigned int id)
 	return output;
 }
 
-const std::string Text::operator[](String::General element)
+const std::string Text::operator[](String element)
 {
-	return (*this)[ {TextCategory::General, (unsigned int)(element)} ];
+	TextCategory category = TextCategory((unsigned long)(element) / TEXT_CATEGORY_SIZE);
+	unsigned int item = (unsigned long)(element) % TEXT_CATEGORY_SIZE;
+	return text(category, item);
 }
 
-const std::string Text::operator[](String::Area element)
-{
-	return (*this)[ {TextCategory::Area, (unsigned int)(element)} ];
-}
-
-const std::string Text::operator[](String::Creature element)
-{
-	return (*this)[ {TextCategory::Creature, (unsigned int)(element)} ];
-}
-
-const std::string Text::operator[](String::Item element)
-{
-	return (*this)[ {TextCategory::Item, (unsigned int)(element)} ];
-}
-
-const std::string Text::operator[](String::Message element)
-{
-	return (*this)[ {TextCategory::Message, (unsigned int)(element)} ];
-}
-
-const std::string Text::operator[](String::Object element)
-{
-	return (*this)[ {TextCategory::Object, (unsigned int)(element)} ];
-}
-
-const std::string Text::operator[](std::pair<TextCategory, unsigned int> element)
+const std::string Text::operator[](std::pair<TextCategory, unsigned int> element) const
 {
 	return text(element.first, element.second);
-}
-
-unsigned int Text::getContentSize(TextCategory category)
-{
-	return content[category].size();
 }
