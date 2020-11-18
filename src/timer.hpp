@@ -7,13 +7,14 @@
 
 struct Timer {
 private:
-	float fps = FPS;
+	float fps;
 	Uint32 start = 0;
 	Uint32 end = 0;
 	Uint32 delta = 0;
 public:
 	bool frame();
 	void update();
+	float getFPS() const;
 };
 
 static Timer timer;

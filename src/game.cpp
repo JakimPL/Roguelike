@@ -96,6 +96,11 @@ void Game::drawGUI()
 		drawText(renderer, font, newLevelText.str(), COLOR_LGREEN, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT / 2, Alignment::Right);
 	}
 
+	std::stringstream fpsText;
+	fpsText << text[String::FPS] << timer.getFPS();
+	drawText(renderer, font, fpsText.str(), COLOR_GRAY, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Right);
+
+
 	if (isGUIactive()) {
 		drawRectangle(renderer, COLOR_WHITE, TAB_X_OFFSET - 4 * SCALE, TAB_Y_OFFSET - 4 * SCALE, TAB_WIDTH + 8 * SCALE, TAB_HEIGHT + 8 * SCALE, true);
 		drawRectangle(renderer, GUI_RECTANGLE_COLOR, TAB_X_OFFSET, TAB_Y_OFFSET, TAB_WIDTH, TAB_HEIGHT);

@@ -40,3 +40,4 @@ Kondycja:
 Inteligencja: 
 Wiedza: 
 Charakter: 
+FPS: 

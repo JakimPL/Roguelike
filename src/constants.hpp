@@ -80,7 +80,7 @@ static const std::string SUFFIX_CHR = ".CHR";
 static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
 
-static constexpr float FPS = 300.0f;
+static constexpr float FPS = 40.0f;
 static constexpr float SCALE = 1.5f;
 static constexpr bool FULLSCREEN = true;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;

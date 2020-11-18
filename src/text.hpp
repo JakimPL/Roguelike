@@ -71,6 +71,7 @@ enum class String : unsigned long {
 	Intelligence,
 	Wisdom,
 	Alignment,
+	FPS,
 
 	Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 
