@@ -7,7 +7,7 @@
 
 using namespace Graphics;
 
-Game::Game() : player("Liop"), currentArea()
+Game::Game() : player("Liop"), currentArea("MOONDALE")
 {
 	initializeGraphics();
 	initializeFont();
@@ -19,7 +19,7 @@ void Game::drawFrame()
 {
 	SDL_RenderClear(renderer);
 
-	drawWorld();
+	redrawWorld();
 	drawPlayer();
 	drawGUI();
 
@@ -29,15 +29,22 @@ void Game::drawFrame()
 
 void Game::drawWorld()
 {
-	size_t width = currentArea.getWidth();
-	size_t height = currentArea.getHeight();
-	Position playerPosition = player.getPosition();
-	for (size_t y = 0; y < height; ++y) {
-		for (size_t x = 0; x < width; ++x) {
+	int width = currentArea.getWidth();
+	int height = currentArea.getHeight();
+
+	unsigned int realWidth = std::max(graphics.screenRectangle.w, width * TILE_WIDTH);
+	unsigned int realHeight = std::max(graphics.screenRectangle.h, height * TILE_HEIGHT);
+	graphics.worldTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, realWidth, realHeight);
+	SDL_SetRenderTarget(renderer, graphics.worldTexture);
+
+	for (int y = 0; y < height; ++y) {
+		for (int x = 0; x < width; ++x) {
 			Tile tile = currentArea.getTile(x, y);
-			drawLetter(renderer, font, tile.letter, tile.color, x - playerPosition.x + CENTER_X, y - playerPosition.y + CENTER_Y);
+			drawLetter(renderer, font, tile.letter, tile.color, x, y);
 		}
 	}
+
+	SDL_SetRenderTarget(renderer, NULL);
 }
 
 void Game::drawPlayer()
@@ -322,6 +329,23 @@ void Game::drawMap()
 	}
 }
 
+void Game::redrawWorld()
+{
+	Position playerPosition = player.getPosition();
+	graphics.worldRectangle.x = _TILE_WIDTH * (CENTER_X - playerPosition.x);
+	graphics.worldRectangle.y = _TILE_HEIGHT * (CENTER_Y - playerPosition.y);
+	SDL_RenderCopy(renderer, graphics.worldTexture, &graphics.screenRectangle, &graphics.worldRectangle);
+}
+
+void Game::redrawPlayer()
+{
+	Position playerPosition = player.getPosition();
+	int dirX = DIR_X(playerPosition.direction);
+	int dirY = DIR_Y(playerPosition.direction);
+	drawLetter(renderer, font, TARGET_CHAR, TARGET_COLOR, CENTER_X + dirX, CENTER_Y + dirY);
+	drawLetter(renderer, font, player.creature.getLetter(), player.creature.getColor(), CENTER_X, CENTER_Y);
+}
+
 bool Game::isGUIactive() const
 {
 	return (unsigned int)(activeTab) > 0;
@@ -340,6 +364,11 @@ void Game::mainLoop()
 {
 	bool quit = false;
 	SDL_Event event;
+
+	// draw world in advance
+	drawWorld();
+	drawPlayer();
+	SDL_SetRenderTarget(renderer, NULL);
 	while (!quit) {
 		timer.update();
 		if (timer.frame()) {
@@ -496,11 +525,19 @@ void Game::initializeGraphics()
 		_LogError("Too small inventory size!");
 		throw std::runtime_error("too small inventory size");
 	}
+
+	graphics.guiTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, screenWidth, screenHeight);
+	graphics.screenRectangle.w = screenWidth;
+	graphics.screenRectangle.h = screenHeight;
+	graphics.worldRectangle.w = screenWidth;
+	graphics.worldRectangle.h = screenHeight;
 }
 
 void Game::quit()
 {
 	TTF_Quit();
+	SDL_DestroyTexture(graphics.guiTexture);
+	SDL_DestroyTexture(graphics.worldTexture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

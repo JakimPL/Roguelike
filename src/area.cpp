@@ -88,16 +88,8 @@ Area::Area(const std::string& filename, bool fullPath)
 Area::Area()
 {
 	nameID = 0;
-	width = 80;
-	height = 80;
-
-	map.resize(width);
-	for (size_t row = 0; row < height; ++row) {
-		for (size_t column = 0; column < width; ++column) {
-			Tile tile = {'.', {128, 125, 145}, 0, 0};
-			map[column].push_back(tile);
-		}
-	}
+	width = 0;
+	height = 0;
 }
 
 unsigned int Area::getWidth() const

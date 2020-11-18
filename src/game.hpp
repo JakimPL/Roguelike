@@ -27,6 +27,13 @@ private:
 	Player player;
 	GUI activeTab = GUI::None;
 
+	struct {
+		SDL_Texture* worldTexture;
+		SDL_Texture* guiTexture;
+		SDL_Rect screenRectangle;
+		SDL_Rect worldRectangle;
+	} graphics;
+
 	unsigned int inventoryPage = 0;
 	int inventoryPosition = 0;
 	int characterInfoPosition = 0;
@@ -50,6 +57,9 @@ private:
 	void drawInventory();
 	void drawItemDescription(Item* item);
 	void drawMap();
+
+	void redrawWorld();
+	void redrawPlayer();
 
 	void initializeFont();
 	void initializeGraphics();

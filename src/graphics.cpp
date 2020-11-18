@@ -16,12 +16,15 @@ void drawLetter(SDL_Renderer* renderer, TTF_Font* font, const char letter, const
 	const char text[] = {letter};
 	SDL_Surface* textSurface = TTF_RenderText_Blended(font, text, color);
 	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
 	SDL_Rect textRectangle;
 	textRectangle.x = _TILE_WIDTH * x;
 	textRectangle.y = _TILE_HEIGHT * y;
 	textRectangle.w = _TILE_WIDTH;
 	textRectangle.h = _TILE_HEIGHT;
+
 	SDL_RenderCopy(renderer, textTexture, NULL, &textRectangle);
+	SDL_SetTextureBlendMode(textTexture, SDL_BLENDMODE_BLEND);
 	SDL_FreeSurface(textSurface);
 	SDL_DestroyTexture(textTexture);
 }
