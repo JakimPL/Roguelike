@@ -3,9 +3,11 @@
 #include "log.hpp"
 #include "message.hpp"
 
+#include <iomanip>
+
 using namespace Graphics;
 
-Game::Game() : player("Liop"), currentArea("MOONDALE")
+Game::Game() : player("Liop"), currentArea()
 {
 	initializeGraphics();
 	initializeFont();
@@ -97,7 +99,7 @@ void Game::drawGUI()
 	}
 
 	std::stringstream fpsText;
-	fpsText << text[String::FPS] << timer.getFPS();
+	fpsText << text[String::FPS] << std::setprecision(2) << std::fixed << timer.getFPS();
 	drawText(renderer, font, fpsText.str(), COLOR_GRAY, SCREEN_WIDTH - 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Right);
 
 

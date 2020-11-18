@@ -23,11 +23,11 @@ public:
 	Area(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);
 
-	unsigned int getNameID();
-	unsigned int getHeight();
-	unsigned int getWidth();
-	Tile getTile(unsigned int x, unsigned int y);
-	Tile getTile(Position position);
+	unsigned int getNameID() const;
+	unsigned int getHeight() const;
+	unsigned int getWidth() const;
+	Tile getTile(unsigned int x, unsigned int y) const;
+	Tile getTile(Position position) const;
 
 	bool isTileOutside(int x, int y) const;
 	bool isTileOutside(Position position) const;

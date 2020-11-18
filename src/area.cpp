@@ -88,22 +88,29 @@ Area::Area(const std::string& filename, bool fullPath)
 Area::Area()
 {
 	nameID = 0;
-	width = 0;
-	height = 0;
-	std::vector<std::vector<Tile>> map;
+	width = 80;
+	height = 80;
+
+	map.resize(width);
+	for (size_t row = 0; row < height; ++row) {
+		for (size_t column = 0; column < width; ++column) {
+			Tile tile = {'.', {128, 125, 145}, 0, 0};
+			map[column].push_back(tile);
+		}
+	}
 }
 
-unsigned int Area::getWidth()
+unsigned int Area::getWidth() const
 {
 	return width;
 }
 
-unsigned int Area::getHeight()
+unsigned int Area::getHeight() const
 {
 	return height;
 }
 
-Tile Area::getTile(unsigned int x, unsigned int y)
+Tile Area::getTile(unsigned int x, unsigned int y) const
 {
 	Tile tile;
 	try {
@@ -115,12 +122,12 @@ Tile Area::getTile(unsigned int x, unsigned int y)
 	return tile;
 }
 
-Tile Area::getTile(Position position)
+Tile Area::getTile(Position position) const
 {
 	return getTile(position.x, position.y);
 }
 
-unsigned int Area::getNameID()
+unsigned int Area::getNameID() const
 {
 	return nameID;
 }
