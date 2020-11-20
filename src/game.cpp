@@ -18,25 +18,19 @@ Game::Game() : player("Liop"), currentArea("MOONDALE")
 void Game::drawFrame()
 {
 	SDL_RenderClear(renderer);
-
+	drawRectangle(renderer, COLOR_BLACK, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	redrawWorld();
-	drawPlayer();
-	drawGUI();
+	redrawGUI();
 
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderPresent(renderer);
 }
 
 void Game::drawWorld()
 {
-	int width = currentArea.getWidth();
-	int height = currentArea.getHeight();
-
-	unsigned int realWidth = std::max(graphics.screenRectangle.w, width * TILE_WIDTH);
-	unsigned int realHeight = std::max(graphics.screenRectangle.h, height * TILE_HEIGHT);
-	graphics.worldTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, realWidth, realHeight);
 	SDL_SetRenderTarget(renderer, graphics.worldTexture);
 
+	int width = currentArea.getWidth();
+	int height = currentArea.getHeight();
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
 			Tile tile = currentArea.getTile(x, y);
@@ -49,15 +43,25 @@ void Game::drawWorld()
 
 void Game::drawPlayer()
 {
+	SDL_SetRenderTarget(renderer, graphics.objectsTexture);
+	SDL_RenderSetScale(renderer, SCALE, SCALE);
+	SDL_RenderClear(renderer);
+
 	Position playerPosition = player.getPosition();
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
 	drawLetter(renderer, font, TARGET_CHAR, TARGET_COLOR, CENTER_X + dirX, CENTER_Y + dirY);
 	drawLetter(renderer, font, player.creature.getLetter(), player.creature.getColor(), CENTER_X, CENTER_Y);
+
+	SDL_SetRenderTarget(renderer, NULL);
 }
 
 void Game::drawGUI()
 {
+	SDL_SetRenderTarget(renderer, graphics.guiTexture);
+	SDL_RenderSetScale(renderer, SCALE, SCALE);
+	SDL_RenderClear(renderer);
+
 	Position playerPosition = player.getPosition();
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
@@ -130,6 +134,8 @@ void Game::drawGUI()
 	default:
 		break;
 	}
+
+	SDL_SetRenderTarget(renderer, NULL);
 }
 
 void Game::drawCharacterInfo()
@@ -335,15 +341,12 @@ void Game::redrawWorld()
 	graphics.worldRectangle.x = _TILE_WIDTH * (CENTER_X - playerPosition.x);
 	graphics.worldRectangle.y = _TILE_HEIGHT * (CENTER_Y - playerPosition.y);
 	SDL_RenderCopy(renderer, graphics.worldTexture, &graphics.screenRectangle, &graphics.worldRectangle);
+	SDL_RenderCopy(renderer, graphics.objectsTexture, NULL, NULL);
 }
 
-void Game::redrawPlayer()
+void Game::redrawGUI()
 {
-	Position playerPosition = player.getPosition();
-	int dirX = DIR_X(playerPosition.direction);
-	int dirY = DIR_Y(playerPosition.direction);
-	drawLetter(renderer, font, TARGET_CHAR, TARGET_COLOR, CENTER_X + dirX, CENTER_Y + dirY);
-	drawLetter(renderer, font, player.creature.getLetter(), player.creature.getColor(), CENTER_X, CENTER_Y);
+	SDL_RenderCopy(renderer, graphics.guiTexture, NULL, NULL);
 }
 
 bool Game::isGUIactive() const
@@ -368,11 +371,13 @@ void Game::mainLoop()
 	// draw world in advance
 	drawWorld();
 	drawPlayer();
-	SDL_SetRenderTarget(renderer, NULL);
+	drawGUI();
 	while (!quit) {
 		timer.update();
 		if (timer.frame()) {
+			bool update = false;
 			while (SDL_PollEvent(&event) != 0) {
+				update = true;
 				switch (event.type) {
 				case SDL_KEYDOWN:
 				case SDL_KEYUP: {
@@ -472,6 +477,12 @@ void Game::mainLoop()
 
 			keyboard.step();
 			player.step();
+
+			if (update) {
+				drawPlayer();
+				drawGUI();
+			}
+
 			drawFrame();
 			messages.step();
 		}
@@ -526,17 +537,32 @@ void Game::initializeGraphics()
 		throw std::runtime_error("too small inventory size");
 	}
 
-	graphics.guiTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, screenWidth, screenHeight);
 	graphics.screenRectangle.w = screenWidth;
 	graphics.screenRectangle.h = screenHeight;
 	graphics.worldRectangle.w = screenWidth;
 	graphics.worldRectangle.h = screenHeight;
+
+	int width = currentArea.getWidth();
+	int height = currentArea.getHeight();
+
+	unsigned int realWidth = std::max(graphics.screenRectangle.w, width * TILE_WIDTH);
+	unsigned int realHeight = std::max(graphics.screenRectangle.h, height * TILE_HEIGHT);
+	graphics.worldTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, realWidth, realHeight);
+	graphics.messagesTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, screenWidth, screenHeight);
+	graphics.objectsTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, screenWidth, screenHeight);
+	graphics.guiTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, screenWidth, screenHeight);
+	SDL_SetTextureBlendMode(graphics.messagesTexture, SDL_BLENDMODE_ADD);
+	SDL_SetTextureBlendMode(graphics.objectsTexture, SDL_BLENDMODE_ADD);
+	SDL_SetTextureBlendMode(graphics.worldTexture, SDL_BLENDMODE_NONE);
+	SDL_SetTextureBlendMode(graphics.guiTexture, SDL_BLENDMODE_ADD);
 }
 
 void Game::quit()
 {
 	TTF_Quit();
 	SDL_DestroyTexture(graphics.guiTexture);
+	SDL_DestroyTexture(graphics.messagesTexture);
+	SDL_DestroyTexture(graphics.objectsTexture);
 	SDL_DestroyTexture(graphics.worldTexture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);

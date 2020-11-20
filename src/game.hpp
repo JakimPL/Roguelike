@@ -28,8 +28,10 @@ private:
 	GUI activeTab = GUI::None;
 
 	struct {
-		SDL_Texture* worldTexture;
 		SDL_Texture* guiTexture;
+		SDL_Texture* messagesTexture;
+		SDL_Texture* objectsTexture;
+		SDL_Texture* worldTexture;
 		SDL_Rect screenRectangle;
 		SDL_Rect worldRectangle;
 	} graphics;
@@ -59,7 +61,7 @@ private:
 	void drawMap();
 
 	void redrawWorld();
-	void redrawPlayer();
+	void redrawGUI();
 
 	void initializeFont();
 	void initializeGraphics();
