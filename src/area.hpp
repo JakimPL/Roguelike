@@ -32,6 +32,8 @@ public:
 	void setNameID(unsigned int value);
 	void setHeight(unsigned int value);
 	void setWidth(unsigned int value);
+	void setTile(unsigned int x, unsigned int y, Tile tile);
+	void setTile(Position position, Tile tile);
 
 	bool isTileOutside(int x, int y) const;
 	bool isTileOutside(Position position) const;

@@ -44,11 +44,12 @@ struct Position {
 	int x, y;
 	unsigned int direction : 3;
 	void moveInDirection(int length = 1, Direction chosenDirection = COUNT);
-	void setDirection(Direction newDirection);
 	const Position operator +(int length) const;
 	const Position operator -(int length) const;
 	const Position operator +(Position position) const;
 	const Position operator -(Position position) const;
+
+	Position(int _x = 0, int _y = 0, int dir = 4);
 };
 
 struct CreatureEffect {

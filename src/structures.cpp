@@ -9,6 +9,11 @@ void Position::moveInDirection(int length, Direction chosenDirection)
 	y += length * DIR_Y(dir);
 }
 
+Position::Position(int _x, int _y, int dir) : x(_x), y(_y), direction(dir)
+{
+
+}
+
 const Position Position::operator +(int length) const
 {
 	Position newPosition(*this);

@@ -7,7 +7,7 @@
 
 using namespace EditorFunctions;
 
-CreatureEditor::CreatureEditor(QWidget *parent)	: QMainWindow(parent), creature(), ui(new Ui::CreatureEditor)
+CreatureEditor::CreatureEditor(QWidget* parent) : QMainWindow(parent), creature(), ui(new Ui::CreatureEditor)
 {
 	ui->setupUi(this);
 

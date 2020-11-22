@@ -12,26 +12,34 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 {
 	if (qEvent->type() == QEvent::KeyPress) {
 		QKeyEvent* event = static_cast<QKeyEvent*>(qEvent);
+		if (event->key() == Qt::Key_Escape) {
+			on_actionExit_triggered();
+		}
 		if (event->key() == Qt::Key_Left) {
-
+			selectorPosition.x = std::max(0, selectorPosition.x - 1);
 		}
 		if (event->key() == Qt::Key_Right) {
-
+			selectorPosition.x = std::max(0, std::min(selectorPosition.x + 1, int(area.getWidth()) - 1));
 		}
 		if (event->key() == Qt::Key_Up) {
-
+			selectorPosition.y = std::max(0, selectorPosition.y - 1);
 		}
 		if (event->key() == Qt::Key_Down) {
-
+			selectorPosition.y = std::max(0, std::min(selectorPosition.y + 1, int(area.getHeight()) - 1));
+		}
+		if (event->key() == Qt::Key_Space or event->key() == Qt::Key_Enter) {
+			area.setTile(selectorPosition, currentTile);
+			setTile(selectorPosition, currentTile);
 		}
 
+		selector->setPos(selectorPosition.x * _TILE_WIDTH, selectorPosition.y * _TILE_HEIGHT);
 		return true;
 	}
 
 	return QObject::eventFilter(qObject, qEvent);
 }
 
-AreaEditor::AreaEditor(QWidget *parent)	: QMainWindow(parent), area(), ui(new Ui::AreaEditor)
+AreaEditor::AreaEditor(QWidget* parent) : QMainWindow(parent), area(), ui(new Ui::AreaEditor)
 {
 	ui->setupUi(this);
 
@@ -90,8 +98,10 @@ void AreaEditor::on_actionExit_triggered()
 
 void AreaEditor::clearEditorElements()
 {
-	for (auto pointer : textTiles) {
-		delete pointer;
+	for (auto vector : textTiles) {
+		for (auto pointer : vector) {
+			delete pointer;
+		}
 	}
 
 	textTiles.clear();
@@ -101,29 +111,37 @@ void AreaEditor::drawWorld()
 {
 	clearEditorElements();
 
+	textTiles.resize(area.getWidth());
 	for (unsigned int y = 0; y < area.getHeight(); ++y) {
 		for (unsigned int x = 0; x < area.getWidth(); ++x) {
-			QGraphicsTextItem *textItem = new QGraphicsTextItem;
-			QFont font = QFont("Courier");
-			font.setStyleHint(QFont::Monospace);
+			QGraphicsTextItem* textItem = new QGraphicsTextItem;
+			textTiles[x].push_back(textItem);
 
-			Tile tile = area.getTile(x, y);
-			textItem->setDefaultTextColor(tile.color);
-			textItem->setPlainText(QString(tile.letter));
-			textItem->setPos(x * _TILE_WIDTH, y * _TILE_HEIGHT);
-			textItem->setFont(font);
+			Position position(x, y);
+			Tile tile = area.getTile(position);
+			setTile(position, tile);
 
 			graphicsScene->addItem(textItem);
-			textTiles.push_back(textItem);
 		}
 	}
 
+}
+
+void AreaEditor::setTile(Position position, Tile& tile)
+{
+	textTiles[position.x][position.y]->setDefaultTextColor(tile.color);
+	textTiles[position.x][position.y]->setPlainText(QString(tile.letter));
+	textTiles[position.x][position.y]->setPos(position.x * _TILE_WIDTH, position.y * _TILE_HEIGHT);
+	textTiles[position.x][position.y]->setFont(font);
 }
 
 void AreaEditor::prepareEditorElements()
 {
 	selectorPosition.x = 0;
 	selectorPosition.y = 0;
+
+	font = QFont("Courier");
+	font.setStyleHint(QFont::Monospace);
 
 	selector = new QGraphicsRectItem(0, 0, _TILE_WIDTH, _TILE_HEIGHT);
 	selector->setBrush(Qt::yellow);

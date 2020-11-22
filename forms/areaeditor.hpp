@@ -21,10 +21,11 @@ class AreaEditor : public QMainWindow
 	Q_OBJECT
 
 public:
-	std::vector<QGraphicsTextItem*> textTiles;
+	std::vector<std::vector<QGraphicsTextItem*>> textTiles;
 	QGraphicsScene* graphicsScene;
 	QGraphicsRectItem* selector;
 	QString currentPath;
+	QFont font;
 	Text text;
 	Area area;
 	Tile currentTile;
@@ -40,6 +41,7 @@ private slots:
 	void on_actionExit_triggered();
 
 	void drawWorld();
+	void setTile(Position position, Tile& tile);
 	void clearEditorElements();
 	void prepareEditorElements();
 	void prepareEditorValuesAndRanges();

@@ -11,7 +11,7 @@
 
 using namespace EditorFunctions;
 
-ItemEditor::ItemEditor(QWidget *parent) : QMainWindow(parent), item(), ui(new Ui::ItemEditor)
+ItemEditor::ItemEditor(QWidget* parent) : QMainWindow(parent), item(), ui(new Ui::ItemEditor)
 {
 	ui->setupUi(this);
 
