@@ -12,16 +12,21 @@ Game::Game() : player("Liop"), currentArea("MOONDALE")
 	initializeGraphics();
 	initializeFont();
 	player.currentArea = &currentArea;
-	messages = Messages(renderer, font);
+	messages = Messages(renderer, graphics.messagesTexture, font);
 }
 
 void Game::drawFrame()
 {
 	SDL_RenderClear(renderer);
-	drawRectangle(renderer, COLOR_BLACK, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	redrawWorld();
-	redrawGUI();
 
+	if (!isGUIactive()) {
+		redrawWorld();
+	}
+
+	redrawGUI();
+	redrawMessages();
+
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderPresent(renderer);
 }
 
@@ -61,6 +66,7 @@ void Game::drawGUI()
 	SDL_SetRenderTarget(renderer, graphics.guiTexture);
 	SDL_RenderSetScale(renderer, SCALE, SCALE);
 	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	Position playerPosition = player.getPosition();
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
@@ -135,6 +141,7 @@ void Game::drawGUI()
 		break;
 	}
 
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_SetRenderTarget(renderer, NULL);
 }
 
@@ -349,6 +356,11 @@ void Game::redrawGUI()
 	SDL_RenderCopy(renderer, graphics.guiTexture, NULL, NULL);
 }
 
+void Game::redrawMessages()
+{
+	SDL_RenderCopy(renderer, graphics.messagesTexture, NULL, NULL);
+}
+
 bool Game::isGUIactive() const
 {
 	return (unsigned int)(activeTab) > 0;
@@ -375,7 +387,6 @@ void Game::mainLoop()
 	while (!quit) {
 		timer.update();
 		if (timer.frame()) {
-			bool update = false;
 			while (SDL_PollEvent(&event) != 0) {
 				update = true;
 				switch (event.type) {
@@ -553,7 +564,7 @@ void Game::initializeGraphics()
 	graphics.guiTexture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, screenWidth, screenHeight);
 	SDL_SetTextureBlendMode(graphics.messagesTexture, SDL_BLENDMODE_ADD);
 	SDL_SetTextureBlendMode(graphics.objectsTexture, SDL_BLENDMODE_ADD);
-	SDL_SetTextureBlendMode(graphics.worldTexture, SDL_BLENDMODE_NONE);
+	SDL_SetTextureBlendMode(graphics.worldTexture, SDL_BLENDMODE_ADD);
 	SDL_SetTextureBlendMode(graphics.guiTexture, SDL_BLENDMODE_ADD);
 }
 

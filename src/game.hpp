@@ -26,6 +26,7 @@ private:
 	Keyboard keyboard;
 	Player player;
 	GUI activeTab = GUI::None;
+	bool update = true;
 
 	struct {
 		SDL_Texture* guiTexture;
@@ -36,6 +37,7 @@ private:
 		SDL_Rect worldRectangle;
 	} graphics;
 
+	unsigned long turn = 0;
 	unsigned int inventoryPage = 0;
 	int inventoryPosition = 0;
 	int characterInfoPosition = 0;
@@ -62,6 +64,7 @@ private:
 
 	void redrawWorld();
 	void redrawGUI();
+	void redrawMessages();
 
 	void initializeFont();
 	void initializeGraphics();

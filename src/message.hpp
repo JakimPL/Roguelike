@@ -25,10 +25,11 @@ public:
 class Messages : std::vector<Message>
 {
 	SDL_Renderer* renderer;
+	SDL_Texture* texture;
 	TTF_Font* font;
 public:
 	Messages();
-	Messages(SDL_Renderer* sdlRenderer, TTF_Font* ttfFont);
+	Messages(SDL_Renderer* sdlRenderer, SDL_Texture* sdlTexture, TTF_Font* ttfFont);
 	void add(Message message);
 	void step();
 };

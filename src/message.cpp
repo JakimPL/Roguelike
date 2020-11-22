@@ -18,9 +18,6 @@ void Message::draw(SDL_Renderer* renderer, TTF_Font* font, int index)
 	drawRectangle(renderer, COLOR_WHITE, SCREEN_WIDTH / 2 - 0.5f * TILE_WIDTH * size - 4 * SCALE, (4.0f + 1.5f * index) * TILE_HEIGHT - 4 * SCALE, TILE_WIDTH * size + 8 * SCALE, TILE_HEIGHT + 8 * SCALE, true);
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, SCREEN_WIDTH / 2 - 0.5f * TILE_WIDTH * size, (4.0f + 1.5f * index) * TILE_HEIGHT, TILE_WIDTH * size, TILE_HEIGHT);
 	drawText(renderer, font, text, color, SCREEN_WIDTH / 2, (4.5f + 1.5f * index) * TILE_HEIGHT, Alignment::Center, Alignment::Center);
-
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderPresent(renderer);
 }
 
 bool Message::step()
@@ -38,7 +35,7 @@ Messages::Messages()
 	SDL_RenderSetScale(renderer, SCALE, SCALE);
 }
 
-Messages::Messages(SDL_Renderer* sdlRenderer, TTF_Font* ttfFont) : renderer(sdlRenderer), font(ttfFont)
+Messages::Messages(SDL_Renderer* sdlRenderer, SDL_Texture* sdlTexture, TTF_Font* ttfFont) : renderer(sdlRenderer), texture(sdlTexture), font(ttfFont)
 {
 	SDL_RenderSetScale(renderer, SCALE, SCALE);
 }
@@ -54,6 +51,10 @@ void Messages::add(Message message)
 
 void Messages::step()
 {
+	SDL_SetRenderTarget(renderer, texture);
+	SDL_RenderSetScale(renderer, SCALE, SCALE);
+	SDL_RenderClear(renderer);
+
 	int items = size();
 	for (int index = items - 1; index >= 0; --index) {
 		Message* message = &at(index);
@@ -62,4 +63,7 @@ void Messages::step()
 			erase(begin() + index);
 		}
 	}
+
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderTarget(renderer, NULL);
 }

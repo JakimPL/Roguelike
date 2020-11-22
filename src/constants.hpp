@@ -34,7 +34,7 @@
 #define COLOR_LBLUE   {64,  64,  255, 255}
 
 #define COLOR_BROWN   {160, 96,  0,   255}
-#define COLOR_ORANGE  {255, 160, 0,   255}
+#define COLOR_ORANGE  {224, 96,  0,   255}
 #define COLOR_PURPLE  {96,  0,   160, 255}
 #define COLOR_YGREEN  {192, 255, 32,  255}
 
@@ -80,7 +80,7 @@ static const std::string SUFFIX_CHR = ".CHR";
 static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
 
-static constexpr float FPS = 125.0f;
+static constexpr float FPS = 120.0f;
 static constexpr float SCALE = 1.5f;
 static constexpr bool FULLSCREEN = true;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
