@@ -1,5 +1,6 @@
 #include "itemeditor.hpp"
 #include "ui_itemeditor.h"
+#include "editorfunctions.hpp"
 #include "src/log.hpp"
 
 #include <iostream>
@@ -14,6 +15,7 @@ ItemEditor::ItemEditor(QWidget *parent) : QMainWindow(parent), item(), ui(new Ui
 {
 	ui->setupUi(this);
 
+	globalApplicationSettings(this);
 	prepareEditorValuesAndRanges();
 	updateApplicationTitle();
 	updateEditorValues();

@@ -29,6 +29,10 @@ public:
 	Tile getTile(unsigned int x, unsigned int y) const;
 	Tile getTile(Position position) const;
 
+	void setNameID(unsigned int value);
+	void setHeight(unsigned int value);
+	void setWidth(unsigned int value);
+
 	bool isTileOutside(int x, int y) const;
 	bool isTileOutside(Position position) const;
 };

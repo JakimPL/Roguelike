@@ -2,7 +2,7 @@
 #define CREATUREEDITOR_HPP
 
 #include "src/creature.hpp"
-#include "editorfunctions.hpp"
+#include "src/text.hpp"
 #include <QMainWindow>
 #include <QListWidget>
 

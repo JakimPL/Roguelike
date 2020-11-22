@@ -92,6 +92,11 @@ Area::Area()
 	height = 0;
 }
 
+bool Area::saveToFile(const std::string&, bool)
+{
+	return false;
+}
+
 unsigned int Area::getWidth() const
 {
 	return width;
@@ -100,6 +105,21 @@ unsigned int Area::getWidth() const
 unsigned int Area::getHeight() const
 {
 	return height;
+}
+
+void Area::setNameID(unsigned int value)
+{
+	nameID = value;
+}
+
+void Area::setHeight(unsigned int value)
+{
+	height = value;
+}
+
+void Area::setWidth(unsigned int value)
+{
+	width = value;
 }
 
 Tile Area::getTile(unsigned int x, unsigned int y) const
@@ -122,11 +142,6 @@ Tile Area::getTile(Position position) const
 unsigned int Area::getNameID() const
 {
 	return nameID;
-}
-
-bool Area::saveToFile(const std::string&, bool)
-{
-	return false;
 }
 
 bool Area::isTileOutside(int x, int y) const

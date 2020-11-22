@@ -2,7 +2,7 @@
 #define AREAEDITOR_HPP
 
 #include "src/area.hpp"
-#include "editorfunctions.hpp"
+#include "src/text.hpp"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -29,7 +29,10 @@ private slots:
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
 
+	void prepareEditorValuesAndRanges();
 	void updateApplicationTitle();
+	void updateEditorValues();
+	void updateAreaParameters();
 
 private:
 	Ui::AreaEditor *ui;

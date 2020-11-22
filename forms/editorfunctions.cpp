@@ -3,6 +3,13 @@
 namespace EditorFunctions
 {
 
+void globalApplicationSettings(QWidget* widget)
+{
+	const QRect geometry = widget->geometry();
+	QSize size = geometry.size();
+	widget->setFixedSize(size);
+}
+
 void prepareTextItems(Text* text, const TextCategory category, QComboBox* comboBox)
 {
 	for (unsigned int index = 0; index < text->getContentSize(category); ++index) {

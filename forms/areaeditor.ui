@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,11 +18,114 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>531</width>
-      <height>361</height>
+      <y>180</y>
+      <width>1001</width>
+      <height>541</height>
      </rect>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="areaDataBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1001</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Area Information</string>
+    </property>
+    <widget class="QLabel" name="widthLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>67</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Width:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="heightLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>67</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Height:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="nameIDLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>67</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Name ID:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="nameIDBox">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>37</y>
+       <width>901</width>
+       <height>30</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="widthBox">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>77</y>
+       <width>901</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="maximum">
+      <number>999999999</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="heightBox">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>117</y>
+       <width>901</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="maximum">
+      <number>999999999</number>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -30,7 +133,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1024</width>
      <height>23</height>
     </rect>
    </property>
@@ -46,7 +149,11 @@
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+  </widget>
   <action name="actionOpen">
    <property name="text">
     <string>Otwórz</string>

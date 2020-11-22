@@ -64,6 +64,45 @@ Item::Item()
 	}
 }
 
+bool Item::saveToFile(const std::string& filename, bool fullPath)
+{
+	std::string path = fullPath ? filename : Functions::getPath(filename, ITM);
+	std::ofstream resource(path);
+	if (resource.good()) {
+		resource.write(headerITM, SIZE_HEADER);
+		resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
+		resource.write(reinterpret_cast<char*>(&type), SIZE_CHAR);
+		resource.write(reinterpret_cast<char*>(&category), SIZE_CHAR);
+		resource.write(reinterpret_cast<char*>(&flag), SIZE_CHAR);
+		resource.write(reinterpret_cast<char*>(&price), SIZE_LONG);
+		resource.write(reinterpret_cast<char*>(&damage), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&damageDelta), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&attackRate), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&defense), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
+		for (size_t ability = 0; ability < Ability::count; ++ability) {
+			resource.write(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);
+		}
+
+		unsigned int size = effects.size();
+		resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
+		for (size_t it = 0; it < size; ++it) {
+			// to be implemented
+		}
+
+		_LogInfo("Saved " << path << " file succesfully");
+		resource.close();
+		return true;
+	} else {
+		_LogError("Failed to save " << path << " file!");
+		return false;
+	}
+}
+
 unsigned int Item::getNameID() const
 {
 	return nameID;
@@ -212,45 +251,6 @@ void Item::setRequiredLevel(unsigned int value)
 void Item::setRequiredAbility(const Ability ability, unsigned int value)
 {
 	requiredAbilities[ability] = value;
-}
-
-bool Item::saveToFile(const std::string& filename, bool fullPath)
-{
-	std::string path = fullPath ? filename : Functions::getPath(filename, ITM);
-	std::ofstream resource(path);
-	if (resource.good()) {
-		resource.write(headerITM, SIZE_HEADER);
-		resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
-		resource.write(reinterpret_cast<char*>(&type), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&category), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&flag), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&price), SIZE_LONG);
-		resource.write(reinterpret_cast<char*>(&damage), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&damageDelta), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&attackRate), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&defense), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
-		for (size_t ability = 0; ability < Ability::count; ++ability) {
-			resource.write(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);
-		}
-
-		unsigned int size = effects.size();
-		resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
-		for (size_t it = 0; it < size; ++it) {
-			// to be implemented
-		}
-
-		_LogInfo("Saved " << path << " file succesfully");
-		resource.close();
-		return true;
-	} else {
-		_LogError("Failed to save " << path << " file!");
-		return false;
-	}
 }
 
 Item* Inventory::addItem(const std::string& filename)

@@ -1,13 +1,18 @@
 #include "areaeditor.hpp"
 #include "ui_areaeditor.h"
+#include "editorfunctions.hpp"
 #include "src/log.hpp"
 
 #include <QFileDialog>
+
+using namespace EditorFunctions;
 
 AreaEditor::AreaEditor(QWidget *parent)	: QMainWindow(parent), area(), ui(new Ui::AreaEditor)
 {
 	ui->setupUi(this);
 
+	globalApplicationSettings(this);
+	prepareEditorValuesAndRanges();
 	updateApplicationTitle();
 }
 
@@ -25,6 +30,7 @@ void AreaEditor::on_actionOpen_triggered()
 		Area newArea(path, true);
 		area = newArea;
 		updateApplicationTitle();
+		updateEditorValues();
 	}
 }
 
@@ -32,6 +38,7 @@ void AreaEditor::on_actionSave_triggered()
 {
 	if (currentPath.size() > 0) {
 		std::string path = currentPath.toStdString();
+		updateAreaParameters();
 		area.saveToFile(path, true);
 	} else {
 		on_actionSaveAs_triggered();
@@ -49,6 +56,25 @@ void AreaEditor::on_actionSaveAs_triggered()
 void AreaEditor::on_actionExit_triggered()
 {
 	this->close();
+}
+
+void AreaEditor::prepareEditorValuesAndRanges()
+{
+	prepareTextItems(&text, TextCategory::Area, ui->nameIDBox);
+}
+
+void AreaEditor::updateAreaParameters()
+{
+	area.setNameID(ui->nameIDBox->currentIndex());
+	area.setWidth(ui->widthBox->value());
+	area.setHeight(ui->heightBox->value());
+}
+
+void AreaEditor::updateEditorValues()
+{
+	ui->nameIDBox->setCurrentIndex(area.getNameID());
+	ui->widthBox->setValue(area.getWidth());
+	ui->heightBox->setValue(area.getHeight());
 }
 
 void AreaEditor::updateApplicationTitle()

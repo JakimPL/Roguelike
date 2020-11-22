@@ -1,5 +1,6 @@
 #include "creatureeditor.hpp"
 #include "ui_creatureeditor.h"
+#include "editorfunctions.hpp"
 #include "src/log.hpp"
 
 #include <QFileDialog>
@@ -10,6 +11,7 @@ CreatureEditor::CreatureEditor(QWidget *parent)	: QMainWindow(parent), creature(
 {
 	ui->setupUi(this);
 
+	globalApplicationSettings(this);
 	prepareEditorValuesAndRanges();
 	updateApplicationTitle();
 	updateEditorValues();
@@ -19,20 +21,6 @@ CreatureEditor::~CreatureEditor()
 {
 	_LogNone("Creature editor ends");
 	delete ui;
-}
-
-void CreatureEditor::prepareEditorValuesAndRanges()
-{
-	ui->letterBox->setAlignment(Qt::AlignRight);
-	/*ui->raceBox->lineEdit()->setAlignment(Qt::AlignRight);
-	ui->genderBox->lineEdit()->setAlignment(Qt::AlignRight);
-	ui->alignmentBox->lineEdit()->setAlignment(Qt::AlignRight);
-	ui->stateBox->lineEdit()->setAlignment(Qt::AlignRight);*/
-	prepareTextItems(&text, TextCategory::Creature, ui->nameIDBox);
-	prepareTextItems(&text, raceNameIDs, ui->raceBox);
-	prepareTextItems(&text, genderNameIDs, ui->genderBox);
-	prepareTextItems(&text, alignmentNameIDs, ui->alignmentBox);
-	prepareTextItems(&text, stateNameIDs, ui->stateBox);
 }
 
 void CreatureEditor::on_actionOpen_triggered()
@@ -51,6 +39,7 @@ void CreatureEditor::on_actionSave_triggered()
 {
 	if (currentPath.size() > 0) {
 		std::string path = currentPath.toStdString();
+		updateCreatureParameters();
 		creature.saveToFile(path, true);
 	} else {
 		on_actionSaveAs_triggered();
@@ -68,6 +57,20 @@ void CreatureEditor::on_actionSaveAs_triggered()
 void CreatureEditor::on_actionExit_triggered()
 {
 	this->close();
+}
+
+void CreatureEditor::prepareEditorValuesAndRanges()
+{
+	ui->letterBox->setAlignment(Qt::AlignRight);
+	/*ui->raceBox->lineEdit()->setAlignment(Qt::AlignRight);
+	ui->genderBox->lineEdit()->setAlignment(Qt::AlignRight);
+	ui->alignmentBox->lineEdit()->setAlignment(Qt::AlignRight);
+	ui->stateBox->lineEdit()->setAlignment(Qt::AlignRight);*/
+	prepareTextItems(&text, TextCategory::Creature, ui->nameIDBox);
+	prepareTextItems(&text, raceNameIDs, ui->raceBox);
+	prepareTextItems(&text, genderNameIDs, ui->genderBox);
+	prepareTextItems(&text, alignmentNameIDs, ui->alignmentBox);
+	prepareTextItems(&text, stateNameIDs, ui->stateBox);
 }
 
 void CreatureEditor::updateApplicationTitle()
