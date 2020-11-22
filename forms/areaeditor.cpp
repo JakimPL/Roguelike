@@ -4,6 +4,7 @@
 #include "src/log.hpp"
 
 #include <QFileDialog>
+#include <QGraphicsItem>
 
 using namespace EditorFunctions;
 
@@ -14,11 +15,15 @@ AreaEditor::AreaEditor(QWidget *parent)	: QMainWindow(parent), area(), ui(new Ui
 	globalApplicationSettings(this);
 	prepareEditorValuesAndRanges();
 	updateApplicationTitle();
+	prepareEditorElements();
+	drawWorld();
 }
 
 AreaEditor::~AreaEditor()
 {
 	_LogNone("Area editor ends");
+
+	clearEditorElements();
 	delete ui;
 }
 
@@ -31,6 +36,7 @@ void AreaEditor::on_actionOpen_triggered()
 		area = newArea;
 		updateApplicationTitle();
 		updateEditorValues();
+		drawWorld();
 	}
 }
 
@@ -56,6 +62,44 @@ void AreaEditor::on_actionSaveAs_triggered()
 void AreaEditor::on_actionExit_triggered()
 {
 	this->close();
+}
+
+void AreaEditor::clearEditorElements()
+{
+	for (auto pointer : textTiles) {
+		delete pointer;
+	}
+
+	textTiles.clear();
+}
+
+void AreaEditor::drawWorld()
+{
+	clearEditorElements();
+
+	for (unsigned int y = 0; y < area.getHeight(); ++y) {
+		for (unsigned int x = 0; x < area.getWidth(); ++x) {
+			QGraphicsTextItem *textItem = new QGraphicsTextItem;
+			QFont font = QFont("Courier");
+			font.setStyleHint(QFont::Monospace);
+
+			Tile tile = area.getTile(x, y);
+			textItem->setDefaultTextColor(tile.color);
+			textItem->setPlainText(QString(tile.letter));
+			textItem->setPos(x * _TILE_WIDTH, y * _TILE_HEIGHT);
+			textItem->setFont(font);
+
+			graphicsScene->addItem(textItem);
+			textTiles.push_back(textItem);
+		}
+	}
+
+}
+
+void AreaEditor::prepareEditorElements()
+{
+	graphicsScene = new QGraphicsScene(ui->areaView);
+	ui->areaView->setScene(graphicsScene);
 }
 
 void AreaEditor::prepareEditorValuesAndRanges()

@@ -3,7 +3,9 @@
 
 #include "src/area.hpp"
 #include "src/text.hpp"
+
 #include <QMainWindow>
+#include <QGraphicsScene>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -17,6 +19,8 @@ class AreaEditor : public QMainWindow
 	Q_OBJECT
 
 public:
+	std::vector<QGraphicsTextItem*> textTiles;
+	QGraphicsScene* graphicsScene;
 	QString currentPath;
 	Text text;
 	Area area;
@@ -29,6 +33,9 @@ private slots:
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
 
+	void drawWorld();
+	void clearEditorElements();
+	void prepareEditorElements();
 	void prepareEditorValuesAndRanges();
 	void updateApplicationTitle();
 	void updateEditorValues();
