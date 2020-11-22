@@ -102,7 +102,6 @@ unsigned int Area::getNameID() const
 	return nameID;
 }
 
-
 unsigned int Area::getWidth() const
 {
 	return width;

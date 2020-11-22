@@ -14,6 +14,16 @@ Position::Position(int _x, int _y, int dir) : x(_x), y(_y), direction(dir)
 
 }
 
+bool Position::operator ==(Position position) const
+{
+	return (position.x == x and position.y == y);
+}
+
+bool Position::operator !=(Position position) const
+{
+	return !((*this) == position);
+}
+
 const Position Position::operator +(int length) const
 {
 	Position newPosition(*this);

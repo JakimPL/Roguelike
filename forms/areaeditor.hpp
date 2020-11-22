@@ -40,8 +40,11 @@ private slots:
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
 
-	void drawWorld();
+	Color getColor() const;
+	char getLetter(std::string string = "") const;
 	void setTile(Position position, Tile& tile);
+
+	void drawWorld();
 	void clearEditorElements();
 	void prepareEditorElements();
 	void prepareEditorValuesAndRanges();

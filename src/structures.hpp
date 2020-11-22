@@ -44,6 +44,9 @@ struct Position {
 	int x, y;
 	unsigned int direction : 3;
 	void moveInDirection(int length = 1, Direction chosenDirection = COUNT);
+
+	bool operator ==(Position position) const;
+	bool operator !=(Position position) const;
 	const Position operator +(int length) const;
 	const Position operator -(int length) const;
 	const Position operator +(Position position) const;

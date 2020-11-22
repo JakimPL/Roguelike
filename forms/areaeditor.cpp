@@ -11,25 +11,36 @@ using namespace EditorFunctions;
 bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 {
 	if (qEvent->type() == QEvent::KeyPress) {
+		Position oldPosition(selectorPosition);
 		QKeyEvent* event = static_cast<QKeyEvent*>(qEvent);
 		if (event->key() == Qt::Key_Escape) {
 			on_actionExit_triggered();
-		}
-		if (event->key() == Qt::Key_Left) {
+		} else if (event->key() == Qt::Key_Left) {
 			selectorPosition.x = std::max(0, selectorPosition.x - 1);
-		}
-		if (event->key() == Qt::Key_Right) {
+		} else if (event->key() == Qt::Key_Right) {
 			selectorPosition.x = std::max(0, std::min(selectorPosition.x + 1, int(area.getWidth()) - 1));
-		}
-		if (event->key() == Qt::Key_Up) {
+		} else if (event->key() == Qt::Key_Up) {
 			selectorPosition.y = std::max(0, selectorPosition.y - 1);
-		}
-		if (event->key() == Qt::Key_Down) {
+		} else if (event->key() == Qt::Key_Down) {
 			selectorPosition.y = std::max(0, std::min(selectorPosition.y + 1, int(area.getHeight()) - 1));
-		}
-		if (event->key() == Qt::Key_Space or event->key() == Qt::Key_Enter) {
+		} else if (event->key() == Qt::Key_Space or event->key() == Qt::Key_Enter) {
+			currentTile.obstacle = ui->obstacleBox->isChecked();
+			currentTile.nameID = ui->nameIDBox->currentIndex();
+			currentTile.letter = getLetter();
+			currentTile.color = getColor();
 			area.setTile(selectorPosition, currentTile);
 			setTile(selectorPosition, currentTile);
+		} else {
+			ui->letterBox->setText(QString(event->key()));
+		}
+
+		if (selectorPosition != oldPosition) {
+			try {
+				std::string objectTypeString = text[ {TextCategory::Object, currentTile.nameID} ];
+				ui->statusbar->showMessage(QString::fromStdString(objectTypeString));
+			}  catch (...) {
+
+			}
 		}
 
 		selector->setPos(selectorPosition.x * _TILE_WIDTH, selectorPosition.y * _TILE_HEIGHT);
@@ -39,7 +50,7 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 	return QObject::eventFilter(qObject, qEvent);
 }
 
-AreaEditor::AreaEditor(QWidget* parent) : QMainWindow(parent), area(), ui(new Ui::AreaEditor)
+AreaEditor::AreaEditor(QWidget* parent) : QMainWindow(parent), area("MOONDALE"), ui(new Ui::AreaEditor)
 {
 	ui->setupUi(this);
 
@@ -107,6 +118,27 @@ void AreaEditor::clearEditorElements()
 	textTiles.clear();
 }
 
+Color AreaEditor::getColor() const
+{
+	Color color = {(uint8_t)(ui->colorRedBox->value()), (uint8_t)(ui->colorGreenBox->value()), (uint8_t)(ui->colorBlueBox->value())};
+	return color;
+}
+
+char AreaEditor::getLetter(std::string string) const
+{
+	char letter = '\0';
+
+	if (string.empty()) {
+		string = ui->letterBox->text().toStdString();
+	}
+
+	if (!string.empty()) {
+		letter = string[0];
+	}
+
+	return letter;
+}
+
 void AreaEditor::drawWorld()
 {
 	clearEditorElements();
@@ -137,6 +169,9 @@ void AreaEditor::setTile(Position position, Tile& tile)
 
 void AreaEditor::prepareEditorElements()
 {
+	ui->widthBox->setValue(area.getWidth());
+	ui->heightBox->setValue(area.getHeight());
+
 	selectorPosition.x = 0;
 	selectorPosition.y = 0;
 
@@ -160,14 +195,8 @@ void AreaEditor::prepareEditorValuesAndRanges()
 	prepareTextItems(&text, TextCategory::Area, ui->nameIDBox);
 	prepareTextItems(&text, TextCategory::Object, ui->objectNameIDBox);
 
-	std::string letter = ui->letterBox->text().toStdString();
-
-	if (letter.size() > 0) {
-		currentTile.letter = letter[0];
-	} else {
-		currentTile.letter = '\0';
-	}
-	currentTile.color = {0, 255, 128};
+	currentTile.letter = getLetter();
+	currentTile.color = getColor();
 }
 
 void AreaEditor::updateAreaParameters()
