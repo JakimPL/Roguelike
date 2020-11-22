@@ -8,6 +8,29 @@
 
 using namespace EditorFunctions;
 
+bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
+{
+	if (qEvent->type() == QEvent::KeyPress) {
+		QKeyEvent* event = static_cast<QKeyEvent*>(qEvent);
+		if (event->key() == Qt::Key_Left) {
+
+		}
+		if (event->key() == Qt::Key_Right) {
+
+		}
+		if (event->key() == Qt::Key_Up) {
+
+		}
+		if (event->key() == Qt::Key_Down) {
+
+		}
+
+		return true;
+	}
+
+	return QObject::eventFilter(qObject, qEvent);
+}
+
 AreaEditor::AreaEditor(QWidget *parent)	: QMainWindow(parent), area(), ui(new Ui::AreaEditor)
 {
 	ui->setupUi(this);
@@ -24,6 +47,7 @@ AreaEditor::~AreaEditor()
 	_LogNone("Area editor ends");
 
 	clearEditorElements();
+	delete selector;
 	delete ui;
 }
 
@@ -98,13 +122,34 @@ void AreaEditor::drawWorld()
 
 void AreaEditor::prepareEditorElements()
 {
+	selectorPosition.x = 0;
+	selectorPosition.y = 0;
+
+	selector = new QGraphicsRectItem(0, 0, _TILE_WIDTH, _TILE_HEIGHT);
+	selector->setBrush(Qt::yellow);
+
 	graphicsScene = new QGraphicsScene(ui->areaView);
+	graphicsScene->addItem(selector);
+	graphicsScene->setFocus();
 	ui->areaView->setScene(graphicsScene);
+
+	installEventFilter(this);
+	graphicsScene->installEventFilter(this);
 }
 
 void AreaEditor::prepareEditorValuesAndRanges()
 {
 	prepareTextItems(&text, TextCategory::Area, ui->nameIDBox);
+	prepareTextItems(&text, TextCategory::Object, ui->objectNameIDBox);
+
+	std::string letter = ui->letterBox->text().toStdString();
+
+	if (letter.size() > 0) {
+		currentTile.letter = letter[0];
+	} else {
+		currentTile.letter = '\0';
+	}
+	currentTile.color = {0, 255, 128};
 }
 
 void AreaEditor::updateAreaParameters()

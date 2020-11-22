@@ -20,7 +20,7 @@ public:
 	QString currentPath;
 	Text text;
 	Item item;
-	ItemEditor(QWidget *parent = nullptr);
+	ItemEditor(QWidget* parent = nullptr);
 	~ItemEditor();
 
 private slots:

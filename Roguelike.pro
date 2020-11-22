@@ -49,7 +49,7 @@ FORMS += \
     forms/creatureeditor.ui \
     forms/itemeditor.ui
 
-LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -lboost_program_options -ldl -lpthread
+LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -lboost_program_options -ldl -lpthread 
 
 DEFINES += \
 	COURIER_NEW \

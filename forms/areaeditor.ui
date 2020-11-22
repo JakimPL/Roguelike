@@ -23,13 +23,16 @@
       <height>521</height>
      </rect>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
    </widget>
    <widget class="QGroupBox" name="areaDataBox">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1001</width>
+      <width>491</width>
       <height>161</height>
      </rect>
     </property>
@@ -89,7 +92,7 @@
       <rect>
        <x>90</x>
        <y>37</y>
-       <width>901</width>
+       <width>381</width>
        <height>30</height>
       </rect>
      </property>
@@ -99,7 +102,7 @@
       <rect>
        <x>90</x>
        <y>77</y>
-       <width>901</width>
+       <width>381</width>
        <height>31</height>
       </rect>
      </property>
@@ -115,7 +118,7 @@
       <rect>
        <x>90</x>
        <y>117</y>
-       <width>901</width>
+       <width>381</width>
        <height>31</height>
       </rect>
      </property>
@@ -124,6 +127,112 @@
      </property>
      <property name="maximum">
       <number>999999999</number>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="editorToolsBox">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>10</y>
+      <width>491</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Editor Tools</string>
+    </property>
+    <widget class="QLabel" name="letterLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>67</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Sign:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="letterBox">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>37</y>
+       <width>381</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="maxLength">
+      <number>1</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="placeholderText">
+      <string>.</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="obstacleBox">
+     <property name="geometry">
+      <rect>
+       <x>375</x>
+       <y>117</y>
+       <width>94</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>Obstacle:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="objectNameIDLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>67</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Name ID:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="objectNameIDBox">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>77</y>
+       <width>381</width>
+       <height>30</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="colorLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>67</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Color:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </widget>

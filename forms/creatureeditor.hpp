@@ -21,7 +21,7 @@ public:
 	QString currentPath;
 	Text text;
 	Creature creature;
-	CreatureEditor(QWidget *parent = nullptr);
+	CreatureEditor(QWidget* parent = nullptr);
 	~CreatureEditor();
 
 private slots:

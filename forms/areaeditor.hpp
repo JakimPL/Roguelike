@@ -4,12 +4,14 @@
 #include "src/area.hpp"
 #include "src/text.hpp"
 
+#include <QKeyEvent>
 #include <QMainWindow>
 #include <QGraphicsScene>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
+
 class AreaEditor;
 }
 QT_END_NAMESPACE
@@ -21,12 +23,16 @@ class AreaEditor : public QMainWindow
 public:
 	std::vector<QGraphicsTextItem*> textTiles;
 	QGraphicsScene* graphicsScene;
+	QGraphicsRectItem* selector;
 	QString currentPath;
 	Text text;
 	Area area;
-	AreaEditor(QWidget *parent = nullptr);
+	Tile currentTile;
+	Position selectorPosition;
+	AreaEditor(QWidget* parent = nullptr);
 	~AreaEditor();
 
+	bool eventFilter(QObject* qObject, QEvent* qEvent);
 private slots:
 	void on_actionOpen_triggered();
 	void on_actionSave_triggered();

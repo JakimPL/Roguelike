@@ -4,6 +4,8 @@
 #include "src/text.hpp"
 
 #include <QComboBox>
+#include <QEvent>
+#include <QKeyEvent>
 
 namespace EditorFunctions
 {
