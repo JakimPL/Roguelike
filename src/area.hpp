@@ -30,8 +30,7 @@ public:
 	Tile getTile(Position position) const;
 
 	void setNameID(unsigned int value);
-	void setHeight(unsigned int value);
-	void setWidth(unsigned int value);
+	void setDimensions(unsigned int w, unsigned int h);
 	void setTile(unsigned int x, unsigned int y, Tile tile);
 	void setTile(Position position, Tile tile);
 

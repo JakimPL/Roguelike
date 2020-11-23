@@ -23,20 +23,24 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			selectorPosition.y = std::max(0, selectorPosition.y - 1);
 		} else if (event->key() == Qt::Key_Down) {
 			selectorPosition.y = std::max(0, std::min(selectorPosition.y + 1, int(area.getHeight()) - 1));
-		} else if (event->key() == Qt::Key_Space or event->key() == Qt::Key_Enter) {
+		} else if (event->key() == Qt::Key_Return) {
 			currentTile.obstacle = ui->obstacleBox->isChecked();
 			currentTile.nameID = ui->nameIDBox->currentIndex();
-			currentTile.letter = getLetter();
+			currentTile.letter = getLetter(ui->letterBox->text().toStdString());
 			currentTile.color = getColor();
+			std::cout << ui->letterBox->text().toStdString() << "\n";
 			area.setTile(selectorPosition, currentTile);
 			setTile(selectorPosition, currentTile);
-		} else {
-			ui->letterBox->setText(QString(event->key()));
+		} else if (event->key() == Qt::Key_Space) {
+			Tile emptyTile = TILE_EMPTY;
+			area.setTile(selectorPosition, emptyTile);
+			setTile(selectorPosition, emptyTile);
 		}
 
 		if (selectorPosition != oldPosition) {
 			try {
-				std::string objectTypeString = text[ {TextCategory::Object, currentTile.nameID} ];
+				Tile tile = area.getTile(selectorPosition);
+				std::string objectTypeString = text.text(TextCategory::Object, tile.nameID);
 				ui->statusbar->showMessage(QString::fromStdString(objectTypeString));
 			}  catch (...) {
 
@@ -107,6 +111,19 @@ void AreaEditor::on_actionExit_triggered()
 	this->close();
 }
 
+void AreaEditor::on_resizeButton_clicked()
+{
+	int width = ui->widthBox->value();
+	int height = ui->heightBox->value();
+
+	if (width > 0 and height > 0) {
+		area.setDimensions(width, height);
+		drawWorld();
+	} else {
+		_LogError("Area width/height cannot be 0!");
+	}
+}
+
 void AreaEditor::clearEditorElements()
 {
 	for (auto vector : textTiles) {
@@ -128,12 +145,9 @@ char AreaEditor::getLetter(std::string string) const
 {
 	char letter = '\0';
 
-	if (string.empty()) {
-		string = ui->letterBox->text().toStdString();
-	}
-
 	if (!string.empty()) {
 		letter = string[0];
+		std::cout << letter << "\n";
 	}
 
 	return letter;
@@ -195,15 +209,14 @@ void AreaEditor::prepareEditorValuesAndRanges()
 	prepareTextItems(&text, TextCategory::Area, ui->nameIDBox);
 	prepareTextItems(&text, TextCategory::Object, ui->objectNameIDBox);
 
-	currentTile.letter = getLetter();
+	currentTile.nameID = 0;
+	currentTile.letter = getLetter(ui->letterBox->text().toStdString());
 	currentTile.color = getColor();
 }
 
 void AreaEditor::updateAreaParameters()
 {
 	area.setNameID(ui->nameIDBox->currentIndex());
-	area.setWidth(ui->widthBox->value());
-	area.setHeight(ui->heightBox->value());
 }
 
 void AreaEditor::updateEditorValues()

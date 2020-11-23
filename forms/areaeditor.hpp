@@ -39,6 +39,7 @@ private slots:
 	void on_actionSave_triggered();
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
+	void on_resizeButton_clicked();
 
 	Color getColor() const;
 	char getLetter(std::string string = "") const;

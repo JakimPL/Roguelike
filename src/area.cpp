@@ -17,59 +17,22 @@ Area::Area(const std::string& filename, bool fullPath)
 			resource.read((char*)&height, SIZE_INT);
 
 			map.clear();
-			std::vector<std::vector<char>> characterMap;
-			std::vector<std::vector<Color>> colorMap;
-			std::vector<std::vector<bool>> obstacleMap;
-			std::vector<std::vector<unsigned int>> nameIDMap;
-
-			// prepare map 2d vectors
-			characterMap.resize(width);
-			colorMap.resize(width);
-			obstacleMap.resize(width);
-			nameIDMap.resize(width);
 			map.resize(width);
 
-			///TODO: abstract version of block reading and error handling
 			// read map characters
 			for (unsigned int y = 0; y < height; ++y) {
 				for (unsigned int x = 0; x < width; ++x) {
-					char character;
-					resource.read(reinterpret_cast<char*>(&character), SIZE_CHAR);
-					characterMap[x].push_back(character);
-				}
-			}
-
-			// read map colors
-			for (unsigned int y = 0; y < height; ++y) {
-				for (unsigned int x = 0; x < width; ++x) {
+					char letter;
 					Color color;
-					resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
-					colorMap[x].push_back(color);
-				}
-			}
-
-			// read obstacle map
-			for (unsigned int y = 0; y < height; ++y) {
-				for (unsigned int x = 0; x < width; ++x) {
 					bool obstacle;
-					resource.read(reinterpret_cast<char*>(&obstacle), SIZE_CHAR);
-					obstacleMap[x].push_back(obstacle);
-				}
-			}
-
-			// read tile nameID map
-			for (unsigned int y = 0; y < height; ++y) {
-				for (unsigned int x = 0; x < width; ++x) {
 					unsigned int nameID;
-					resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
-					nameIDMap[x].push_back(nameID);
-				}
-			}
 
-			// convert data to tile structure
-			for (unsigned int y = 0; y < height; ++y) {
-				for (unsigned int x = 0; x < width; ++x) {
-					Tile tile = {characterMap[x][y], colorMap[x][y], obstacleMap[x][y], nameIDMap[x][y]};
+					resource.read(reinterpret_cast<char*>(&letter), SIZE_CHAR);
+					resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
+					resource.read(reinterpret_cast<char*>(&obstacle), SIZE_CHAR);
+					resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
+
+					Tile tile = {letter, color, obstacle, nameID};
 					map[x].push_back(tile);
 				}
 			}
@@ -92,9 +55,34 @@ Area::Area()
 	height = 0;
 }
 
-bool Area::saveToFile(const std::string&, bool)
+bool Area::saveToFile(const std::string& filename, bool fullPath)
 {
-	return false;
+	std::string path = fullPath ? filename : Functions::getPath(filename, ARE);
+	std::ofstream resource(path);
+	if (resource.good()) {
+		resource.write(headerARE, SIZE_HEADER);
+		resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&width), SIZE_INT);
+		resource.write(reinterpret_cast<char*>(&height), SIZE_INT);
+
+		// write characters
+		for (unsigned int y = 0; y < height; ++y) {
+			for (unsigned int x = 0; x < width; ++x) {
+				Tile tile = getTile(x, y);
+				resource.write(reinterpret_cast<char*>(&tile.letter), SIZE_CHAR);
+				resource.write(reinterpret_cast<char*>(&tile.color), SIZE_COLOR);
+				resource.write(reinterpret_cast<char*>(&tile.obstacle), SIZE_CHAR);
+				resource.write(reinterpret_cast<char*>(&tile.nameID), SIZE_INT);
+			}
+		}
+
+		_LogInfo("Saved " << path << " file succesfully");
+		resource.close();
+		return true;
+	} else {
+		_LogError("Failed to save " << path << " file!");
+		return false;
+	}
 }
 
 unsigned int Area::getNameID() const
@@ -134,14 +122,18 @@ void Area::setNameID(unsigned int value)
 	nameID = value;
 }
 
-void Area::setHeight(unsigned int value)
+void Area::setDimensions(unsigned int w, unsigned int h)
 {
-	height = value;
-}
+	width = w;
+	height = h;
+	map.clear();
+	map.resize(width);
 
-void Area::setWidth(unsigned int value)
-{
-	width = value;
+	for (unsigned int y = 0; y < height; ++y) {
+		for (unsigned int x = 0; x < width; ++x) {
+			map[x].push_back(TILE_EMPTY);
+		}
+	}
 }
 
 void Area::setTile(unsigned int x, unsigned int y, Tile tile)
@@ -163,4 +155,3 @@ bool Area::isTileOutside(Position position) const
 {
 	return isTileOutside(position.x, position.y);
 }
-

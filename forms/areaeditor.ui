@@ -102,7 +102,7 @@
       <rect>
        <x>90</x>
        <y>77</y>
-       <width>381</width>
+       <width>251</width>
        <height>31</height>
       </rect>
      </property>
@@ -124,7 +124,7 @@
       <rect>
        <x>90</x>
        <y>117</y>
-       <width>381</width>
+       <width>251</width>
        <height>31</height>
       </rect>
      </property>
@@ -136,6 +136,19 @@
      </property>
      <property name="maximum">
       <number>999999999</number>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="resizeButton">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>80</y>
+       <width>121</width>
+       <height>65</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Resize</string>
      </property>
     </widget>
    </widget>
@@ -183,7 +196,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="placeholderText">
-      <string>.</string>
+      <string/>
      </property>
     </widget>
     <widget class="QCheckBox" name="obstacleBox">

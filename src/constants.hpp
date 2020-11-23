@@ -40,6 +40,8 @@
 
 #define MAP_ALPHA 224
 
+#define TILE_EMPTY {'\0', {0, 0, 0}, 0, 0}
+
 static constexpr unsigned int SIZE_TABLE = 4;
 static constexpr unsigned int SIZE_HEADER = 3;
 static constexpr unsigned int SIZE_ITEM = 2;
