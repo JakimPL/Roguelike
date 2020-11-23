@@ -23,7 +23,9 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			selectorPosition.y = std::max(0, selectorPosition.y - 1);
 		} else if (event->key() == Qt::Key_Down) {
 			selectorPosition.y = std::max(0, std::min(selectorPosition.y + 1, int(area.getHeight()) - 1));
-		} else if (event->key() == Qt::Key_Return) {
+		}
+
+		if (event->key() == Qt::Key_Return) {
 			setEditorTile();
 			area.setTile(selectorPosition, currentTile);
 			setTile(selectorPosition, currentTile);
@@ -111,7 +113,7 @@ void AreaEditor::on_actionExit_triggered()
 void AreaEditor::on_copyButton_clicked()
 {
 	currentTile = area.getTile(selectorPosition);
-	ui->nameIDBox->setCurrentIndex(currentTile.nameID);
+	ui->objectNameIDBox->setCurrentIndex(currentTile.nameID);
 	ui->obstacleBox->setChecked(currentTile.obstacle);
 
 	std::string letterString;
@@ -199,7 +201,7 @@ void AreaEditor::setTile(Position position, Tile& tile)
 {
 	textTiles[position.x][position.y]->setDefaultTextColor(tile.color);
 	textTiles[position.x][position.y]->setPlainText(QString(tile.letter));
-	textTiles[position.x][position.y]->setPos(position.x * _TILE_WIDTH, position.y * _TILE_HEIGHT);
+	textTiles[position.x][position.y]->setPos(position.x * _TILE_WIDTH - 2, position.y * _TILE_HEIGHT - 2);
 	textTiles[position.x][position.y]->setFont(font);
 
 	QColor qColor;
@@ -248,7 +250,7 @@ void AreaEditor::prepareEditorValuesAndRanges()
 void AreaEditor::setEditorTile()
 {
 	currentTile.obstacle = ui->obstacleBox->isChecked();
-	currentTile.nameID = ui->nameIDBox->currentIndex();
+	currentTile.nameID = ui->objectNameIDBox->currentIndex();
 	currentTile.letter = getLetter(ui->letterBox->text().toStdString());
 	currentTile.color = getColor();
 }
