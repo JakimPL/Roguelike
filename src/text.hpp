@@ -139,7 +139,9 @@ enum class String : unsigned long {
 
 	Ground = (unsigned int)(TextCategory::Object) * TEXT_CATEGORY_SIZE + 1,
 	Sand,
-	Water
+	Water,
+	Wall,
+	Road
 };
 
 class Text

@@ -2,3 +2,5 @@
 Ziemia
 Piasek
 Woda
+Ściana
+Ścieżka

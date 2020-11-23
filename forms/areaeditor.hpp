@@ -22,6 +22,7 @@ class AreaEditor : public QMainWindow
 
 public:
 	std::vector<std::vector<QGraphicsTextItem*>> textTiles;
+	std::vector<std::vector<QGraphicsRectItem*>> rectTiles;
 	QGraphicsScene* graphicsScene;
 	QGraphicsRectItem* selector;
 	QString currentPath;
@@ -39,6 +40,7 @@ private slots:
 	void on_actionSave_triggered();
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
+	void on_copyButton_clicked();
 	void on_resizeButton_clicked();
 
 	Color getColor() const;
@@ -49,6 +51,7 @@ private slots:
 	void clearEditorElements();
 	void prepareEditorElements();
 	void prepareEditorValuesAndRanges();
+	void setEditorTile();
 	void updateApplicationTitle();
 	void updateEditorValues();
 	void updateAreaParameters();

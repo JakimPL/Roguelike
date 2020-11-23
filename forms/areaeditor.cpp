@@ -24,11 +24,7 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 		} else if (event->key() == Qt::Key_Down) {
 			selectorPosition.y = std::max(0, std::min(selectorPosition.y + 1, int(area.getHeight()) - 1));
 		} else if (event->key() == Qt::Key_Return) {
-			currentTile.obstacle = ui->obstacleBox->isChecked();
-			currentTile.nameID = ui->nameIDBox->currentIndex();
-			currentTile.letter = getLetter(ui->letterBox->text().toStdString());
-			currentTile.color = getColor();
-			std::cout << ui->letterBox->text().toStdString() << "\n";
+			setEditorTile();
 			area.setTile(selectorPosition, currentTile);
 			setTile(selectorPosition, currentTile);
 		} else if (event->key() == Qt::Key_Space) {
@@ -62,6 +58,7 @@ AreaEditor::AreaEditor(QWidget* parent) : QMainWindow(parent), area("MOONDALE"),
 	prepareEditorValuesAndRanges();
 	updateApplicationTitle();
 	prepareEditorElements();
+	updateEditorValues();
 	drawWorld();
 }
 
@@ -111,6 +108,21 @@ void AreaEditor::on_actionExit_triggered()
 	this->close();
 }
 
+void AreaEditor::on_copyButton_clicked()
+{
+	currentTile = area.getTile(selectorPosition);
+	ui->nameIDBox->setCurrentIndex(currentTile.nameID);
+	ui->obstacleBox->setChecked(currentTile.obstacle);
+
+	std::string letterString;
+	letterString.push_back(currentTile.letter);
+	ui->letterBox->setText(QString::fromStdString(letterString));
+
+	ui->colorRedBox->setValue(currentTile.color.red);
+	ui->colorGreenBox->setValue(currentTile.color.green);
+	ui->colorBlueBox->setValue(currentTile.color.blue);
+}
+
 void AreaEditor::on_resizeButton_clicked()
 {
 	int width = ui->widthBox->value();
@@ -132,7 +144,14 @@ void AreaEditor::clearEditorElements()
 		}
 	}
 
+	for (auto vector : rectTiles) {
+		for (auto pointer : vector) {
+			delete pointer;
+		}
+	}
+
 	textTiles.clear();
+	rectTiles.clear();
 }
 
 Color AreaEditor::getColor() const
@@ -147,7 +166,6 @@ char AreaEditor::getLetter(std::string string) const
 
 	if (!string.empty()) {
 		letter = string[0];
-		std::cout << letter << "\n";
 	}
 
 	return letter;
@@ -158,16 +176,20 @@ void AreaEditor::drawWorld()
 	clearEditorElements();
 
 	textTiles.resize(area.getWidth());
+	rectTiles.resize(area.getWidth());
 	for (unsigned int y = 0; y < area.getHeight(); ++y) {
 		for (unsigned int x = 0; x < area.getWidth(); ++x) {
 			QGraphicsTextItem* textItem = new QGraphicsTextItem;
+			QGraphicsRectItem* rectItem = new QGraphicsRectItem(0, 0, _TILE_WIDTH, _TILE_HEIGHT);
 			textTiles[x].push_back(textItem);
+			rectTiles[x].push_back(rectItem);
 
 			Position position(x, y);
 			Tile tile = area.getTile(position);
 			setTile(position, tile);
 
 			graphicsScene->addItem(textItem);
+			graphicsScene->addItem(rectItem);
 		}
 	}
 
@@ -179,6 +201,18 @@ void AreaEditor::setTile(Position position, Tile& tile)
 	textTiles[position.x][position.y]->setPlainText(QString(tile.letter));
 	textTiles[position.x][position.y]->setPos(position.x * _TILE_WIDTH, position.y * _TILE_HEIGHT);
 	textTiles[position.x][position.y]->setFont(font);
+
+	QColor qColor;
+	rectTiles[position.x][position.y]->setPos(position.x * _TILE_WIDTH, position.y * _TILE_HEIGHT);
+	if (tile.obstacle) {
+		qColor = Qt::red;
+		qColor.setAlphaF(0.5f);
+	} else {
+		qColor = Qt::black;
+		qColor.setAlphaF(0.0f);
+	}
+
+	rectTiles[position.x][position.y]->setBrush(qColor);
 }
 
 void AreaEditor::prepareEditorElements()
@@ -208,8 +242,13 @@ void AreaEditor::prepareEditorValuesAndRanges()
 {
 	prepareTextItems(&text, TextCategory::Area, ui->nameIDBox);
 	prepareTextItems(&text, TextCategory::Object, ui->objectNameIDBox);
+	setEditorTile();
+}
 
-	currentTile.nameID = 0;
+void AreaEditor::setEditorTile()
+{
+	currentTile.obstacle = ui->obstacleBox->isChecked();
+	currentTile.nameID = ui->nameIDBox->currentIndex();
 	currentTile.letter = getLetter(ui->letterBox->text().toStdString());
 	currentTile.color = getColor();
 }
