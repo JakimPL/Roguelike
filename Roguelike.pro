@@ -14,8 +14,10 @@ HEADERS += \
 	src/creature.hpp \
 	src/functions.hpp \
 	src/game.hpp \
+	src/gameobject.hpp \
 	src/graphics.hpp \
 	src/item.hpp \
+	src/itemobject.hpp \
 	src/keyboard.hpp \
 	src/log.hpp \
 	src/message.hpp \
@@ -26,17 +28,19 @@ HEADERS += \
 
 
 SOURCES += \
-	forms/editorfunctions.cpp \
 	main.cpp \
 	forms/areaeditor.cpp \
 	forms/creatureeditor.cpp \
+	forms/editorfunctions.cpp \
 	forms/itemeditor.cpp \
 	src/area.cpp \
 	src/creature.cpp \
 	src/functions.cpp \
 	src/game.cpp \
+	src/gameobject.cpp \
 	src/graphics.cpp \
 	src/item.cpp \
+	src/itemobject.cpp \
 	src/keyboard.cpp \
 	src/message.cpp \
 	src/player.cpp \

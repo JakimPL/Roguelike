@@ -1,40 +1,24 @@
 #include "player.hpp"
 
-Player::Player(std::string initialName) : name(initialName)
+Player::Player(Creature initialCreature, std::string initialName) : creature(initialCreature)
 {
+	name = initialName;
+	movable = true;
 
+	color = creature.getColor();
+	letter = creature.getLetter();
+}
+
+Player::Player(std::string initialName) : creature()
+{
+	name = initialName;
+	movable = true;
+
+	color = creature.getColor();
+	letter = creature.getLetter();
 }
 
 std::string Player::getName() const
 {
 	return name;
-}
-
-Position Player::getPosition() const
-{
-	return position;
-}
-
-void Player::move(Direction direction)
-{
-	position.direction = direction;
-	Position targetPosition = position + 1;
-	if (!currentArea->getTile(targetPosition).obstacle or currentArea->isTileOutside(targetPosition)) {
-		if (delay == 0) {
-			position.moveInDirection();
-			delay = 10;
-		}
-	}
-}
-
-void Player::setDirection(Direction direction)
-{
-	position.direction = direction;
-}
-
-void Player::step()
-{
-	if (delay > 0) {
-		delay--;
-	}
 }
