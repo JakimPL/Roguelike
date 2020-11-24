@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include "graphics.hpp"
+#include "itemobject.hpp"
 #include "log.hpp"
 #include "message.hpp"
 
@@ -13,6 +14,7 @@ Game::Game() : player("Liop"), currentArea("MOONDALE")
 	initializeFont();
 	player.currentArea = &currentArea;
 	messages = Messages(renderer, graphics.messagesTexture, font);
+	ItemObject(Item("DAGGER"), {10, 10});
 }
 
 void Game::drawFrame()

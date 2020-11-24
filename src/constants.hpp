@@ -38,10 +38,7 @@
 #define COLOR_PURPLE  {96,  0,   160, 255}
 #define COLOR_YGREEN  {192, 255, 32,  255}
 
-#define MAP_ALPHA 224
-
 #define TILE_EMPTY {'\0', {0, 0, 0}, 0, 0}
-#define ITEM_LETTER '?'
 
 static constexpr unsigned int SIZE_TABLE = 4;
 static constexpr unsigned int SIZE_HEADER = 3;
@@ -84,6 +81,7 @@ static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
 
 static constexpr float FPS = 120.0f;
+static constexpr unsigned int DELAY = 10;
 static constexpr float SCALE = 1.5f;
 static constexpr bool FULLSCREEN = true;
 static constexpr int GUI_X_OFFSET = 8 * SCALE;
@@ -106,9 +104,12 @@ static constexpr int INVENTORY_ABILITIES_DISTANCE = 6;
 static constexpr unsigned int KEY_INPUT_DELAY = 8;
 
 static constexpr unsigned short MAP_PIXEL_SIZE = 2 * SCALE;
+static constexpr unsigned char MAP_ALPHA = 224;
 
 static constexpr float MESSAGE_DURATION = 3.0f;
 static constexpr unsigned int MAX_MESSAGES = 6;
+
+static constexpr char ITEM_LETTER = '?';
 
 enum Filetype {
 	NONE,

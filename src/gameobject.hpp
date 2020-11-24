@@ -7,10 +7,12 @@ class GameObject
 {
 protected:
 	unsigned int nameID = 0;
-	Position position = {0, 0, SOUTH};
 	unsigned int delay = 0;
-	bool movable = false;
 
+	bool movable = false;
+	bool solid = false;
+
+	Position position = {0, 0, SOUTH};
 	Color color;
 	char letter;
 
@@ -25,5 +27,7 @@ public:
 	void move(Direction direction);
 	void step();
 };
+
+static std::vector<GameObject*> gameObjects;
 
 #endif // GAMEOBJECT_HPP

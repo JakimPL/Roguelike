@@ -1,8 +1,9 @@
 #include "gameobject.hpp"
+#include "constants.hpp"
 
 GameObject::GameObject()
 {
-
+	gameObjects.push_back(this);
 }
 
 Position GameObject::getPosition() const
@@ -18,7 +19,7 @@ void GameObject::move(Direction direction)
 		if (!currentArea->getTile(targetPosition).obstacle or currentArea->isTileOutside(targetPosition)) {
 			if (delay == 0) {
 				position.moveInDirection();
-				delay = 10;
+				delay = DELAY;
 			}
 		}
 	}
