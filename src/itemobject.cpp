@@ -1,8 +1,9 @@
 #include "itemobject.hpp"
 #include "text.hpp"
 
-ItemObject::ItemObject(Item initialItem, Position initialPosition) : item(initialItem)
+ItemObject::ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition) : GameObject(gameObjects), item(initialItem)
 {
+	solid = true;
 	position = initialPosition;
 	nameID = item.getNameID();
 	color = item.getColor();

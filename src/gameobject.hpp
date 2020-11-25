@@ -6,6 +6,7 @@
 class GameObject
 {
 protected:
+	std::vector<GameObject*>& objects;
 	unsigned int nameID = 0;
 	unsigned int delay = 0;
 
@@ -20,14 +21,22 @@ public:
 	Area* currentArea;
 
 public:
-	GameObject();
+	GameObject(std::vector<GameObject*>& gameObjects);
 
+	unsigned int getNameID() const;
+	Color getColor() const;
+	char getLetter() const;
 	Position getPosition() const;
+	bool isPositionFree(int x, int y) const;
+	bool isPositionFree(Position position) const;
+	std::vector<GameObject*> isPositionTaken(int x, int y) const;
+	std::vector<GameObject*> isPositionTaken(Position position) const;
+
 	void setDirection(Direction direction);
 	void move(Direction direction);
 	void step();
 };
 
-static std::vector<GameObject*> gameObjects;
+typedef std::vector<GameObject*> GameObjects;
 
 #endif // GAMEOBJECT_HPP

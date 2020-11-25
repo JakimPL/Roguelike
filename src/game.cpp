@@ -8,13 +8,13 @@
 
 using namespace Graphics;
 
-Game::Game() : player("Liop"), currentArea("MOONDALE")
+Game::Game() : currentArea("MOONDALE"), player(gameObjects, "Liop")
 {
 	initializeGraphics();
 	initializeFont();
 	player.currentArea = &currentArea;
 	messages = Messages(renderer, graphics.messagesTexture, font);
-	ItemObject(Item("DAGGER"), {10, 10});
+	ItemObject(gameObjects, Item("DAGGER"), {10, 10});
 }
 
 void Game::drawFrame()
@@ -48,17 +48,23 @@ void Game::drawWorld()
 	SDL_SetRenderTarget(renderer, NULL);
 }
 
-void Game::drawPlayer()
+void Game::drawObjects()
 {
 	SDL_SetRenderTarget(renderer, graphics.objectsTexture);
 	SDL_RenderSetScale(renderer, SCALE, SCALE);
 	SDL_RenderClear(renderer);
 
 	Position playerPosition = player.getPosition();
+	for (GameObject* object : gameObjects) {
+		Position objectPosition = object->getPosition();
+		int realX = objectPosition.x - playerPosition.x + CENTER_X;
+		int realY = objectPosition.y - playerPosition.y + CENTER_Y;
+		drawLetter(renderer, font, object->getLetter(), object->getColor(), realX, realY);
+	}
+
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
 	drawLetter(renderer, font, TARGET_CHAR, TARGET_COLOR, CENTER_X + dirX, CENTER_Y + dirY);
-	drawLetter(renderer, font, player.creature.getLetter(), player.creature.getColor(), CENTER_X, CENTER_Y);
 
 	SDL_SetRenderTarget(renderer, NULL);
 }
@@ -102,9 +108,15 @@ void Game::drawGUI()
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
 	if (!currentArea.isTileOutside(playerPosition.x + dirX, playerPosition.y + dirY)) {
-		std::stringstream mapObjectText;
-		Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
-		drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+		GameObjects objects = player.isPositionTaken(playerPosition.x + dirX, playerPosition.y + dirY);
+		if (!objects.empty()) {
+			GameObject* object = objects[0];
+			std::cout << text[ {TextCategory::Object, object->getNameID()} ] << "\n";
+			drawText(renderer, font, text[ {TextCategory::Object, object->getNameID()} ], object->getColor(), 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+		} else {
+			Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
+			drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+		}
 	}
 
 	std::stringstream shortcutsText;
@@ -384,7 +396,7 @@ void Game::mainLoop()
 
 	// draw world in advance
 	drawWorld();
-	drawPlayer();
+	drawObjects();
 	drawGUI();
 	while (!quit) {
 		timer.update();
@@ -489,10 +501,13 @@ void Game::mainLoop()
 			}
 
 			keyboard.step();
-			player.step();
+
+			for (GameObject* object : gameObjects) {
+				object->step();
+			}
 
 			if (update) {
-				drawPlayer();
+				drawObjects();
 				drawGUI();
 			}
 

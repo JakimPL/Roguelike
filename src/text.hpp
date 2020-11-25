@@ -141,7 +141,8 @@ enum class String : unsigned long {
 	Sand,
 	Water,
 	Wall,
-	Road
+	Road,
+	Item,
 };
 
 class Text

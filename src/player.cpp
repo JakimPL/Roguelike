@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-Player::Player(Creature initialCreature, std::string initialName) : creature(initialCreature)
+Player::Player(GameObjects& gameObjects, Creature initialCreature, std::string initialName) : GameObject(gameObjects), creature(initialCreature)
 {
 	name = initialName;
 	movable = true;
@@ -9,7 +9,7 @@ Player::Player(Creature initialCreature, std::string initialName) : creature(ini
 	letter = creature.getLetter();
 }
 
-Player::Player(std::string initialName) : creature()
+Player::Player(GameObjects& gameObjects, std::string initialName) : GameObject(gameObjects), creature()
 {
 	name = initialName;
 	movable = true;

@@ -24,7 +24,6 @@ private:
 	SDL_Window* window;
 	TTF_Font* font;
 	Keyboard keyboard;
-	Player player;
 	GUI activeTab = GUI::None;
 	bool update = true;
 
@@ -48,6 +47,8 @@ public:
 	Text text;
 	Area currentArea;
 	Messages messages;
+	GameObjects gameObjects;
+	Player player;
 
 	void mainLoop();
 	void quit();
@@ -55,7 +56,7 @@ public:
 private:
 	void drawFrame();
 	void drawWorld();
-	void drawPlayer();
+	void drawObjects();
 	void drawGUI();
 	void drawCharacterInfo();
 	void drawInventory();

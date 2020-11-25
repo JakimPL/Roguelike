@@ -4,3 +4,4 @@ Piasek
 Woda
 Ściana
 Ścieżka
+Przedmiot

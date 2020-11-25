@@ -10,7 +10,7 @@ public:
 	Item item;
 
 public:
-	ItemObject(Item initialItem, Position initialPosition);
+	ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition);
 };
 
 #endif // ITEMOBJECT_HPP
