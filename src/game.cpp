@@ -111,8 +111,7 @@ void Game::drawGUI()
 		GameObjects objects = player.isPositionTaken(playerPosition.x + dirX, playerPosition.y + dirY);
 		if (!objects.empty()) {
 			GameObject* object = objects[0];
-			std::cout << text[ {TextCategory::Object, object->getNameID()} ] << "\n";
-			drawText(renderer, font, text[ {TextCategory::Object, object->getNameID()} ], object->getColor(), 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
+			drawText(renderer, font, text[String::Item], object->getColor(), 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
 		} else {
 			Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
 			drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);

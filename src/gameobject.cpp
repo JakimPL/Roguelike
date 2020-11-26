@@ -34,14 +34,14 @@ GameObjects GameObject::isPositionTaken(int x, int y) const
 
 GameObjects GameObject::isPositionTaken(Position position) const
 {
-	GameObjects objects;
+	GameObjects objectsAtPosition;
 	for (GameObject* object : objects) {
 		if (object->position == position) {
-			objects.push_back(object);
+			objectsAtPosition.push_back(object);
 		}
 	}
 
-	return objects;
+	return objectsAtPosition;
 }
 
 unsigned int GameObject::getNameID() const
