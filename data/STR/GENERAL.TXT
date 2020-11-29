@@ -42,3 +42,4 @@ Wiedza:
 Charakter: 
 FPS: 
 Dodano do ekwipunku: 
+Ekwipunek jest pełny!

@@ -56,6 +56,7 @@ static constexpr char headerCHR[SIZE_HEADER + 1] = {'C', 'H', 'R', '\0'};
 
 static const std::string FILENAME_PLAYER = "CHARACTER.CRE";
 static const std::string PATH_DATA = "data/";
+static const std::string PATH_INI = "options.ini";
 static const std::string PATH_ARE = "ARE/";
 static const std::string PATH_ITM = "ITM/";
 static const std::string PATH_CRE = "CRE/";

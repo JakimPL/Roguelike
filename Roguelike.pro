@@ -21,6 +21,7 @@ HEADERS += \
 	src/keyboard.hpp \
 	src/log.hpp \
 	src/message.hpp \
+	src/options.hpp \
 	src/player.hpp \
 	src/structures.hpp \
 	src/text.hpp \
@@ -43,6 +44,7 @@ SOURCES += \
 	src/itemobject.cpp \
 	src/keyboard.cpp \
 	src/message.cpp \
+	src/options.cpp \
 	src/player.cpp \
 	src/structures.cpp \
 	src/text.cpp \
@@ -53,7 +55,7 @@ FORMS += \
     forms/creatureeditor.ui \
     forms/itemeditor.ui
 
-LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -lboost_program_options -ldl -lpthread 
+LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -lboost_program_options -lboost_filesystem -ldl -lpthread 
 
 DEFINES += \
 	COURIER_NEW \

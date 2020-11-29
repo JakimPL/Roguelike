@@ -10,7 +10,7 @@ bool Keyboard::isKey(SDL_Keycode keyCode)
 {
 	if (keyInputDelay == 0) {
 		if (keyState[keyCode]) {
-			keyInputDelay = KEY_INPUT_DELAY;
+			keyInputDelay = options.game.keyInputDelay;
 			return true;
 		} else {
 			return false;

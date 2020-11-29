@@ -54,14 +54,14 @@ static constexpr unsigned char MAP_ALPHA = 224;
 static constexpr float MESSAGE_DURATION = 3.0f;
 static constexpr unsigned int MAX_MESSAGES = 6;
 
-/*struct Options {
-	struct Global {
+struct Options {
+	struct General {
 		float fps                        = FPS;
 		float scale                      = SCALE;
 		bool fullscreen                  = FULLSCREEN;
 		int screenWidth                  = SCREEN_WIDTH;
 		int screenHeight                 = SCREEN_HEIGHT;
-	} global;
+	} general;
 	struct Game {
 		unsigned int delay               = DELAY;
 		unsigned int keyInputDelay       = KEY_INPUT_DELAY;
@@ -71,8 +71,10 @@ static constexpr unsigned int MAX_MESSAGES = 6;
 	struct GUI {
 		int guiXOffset                   = GUI_X_OFFSET * SCALE;
 		int guiYOffset                   = GUI_Y_OFFSET * SCALE;
+		int tileBaseWidth                = _TILE_WIDTH;
+		int tileBaseHeight               = _TILE_HEIGHT;
 		int tileWidth                    = _TILE_WIDTH * SCALE;
-		int tileHeight                   = _TILE_WIDTH * SCALE;
+		int tileHeight                   = _TILE_HEIGHT * SCALE;
 		int centerX                      = CENTER_X;
 		int centerY                      = CENTER_Y;
 		int tabXOffset                   = TAB_X_OFFSET;
@@ -96,6 +98,8 @@ static constexpr unsigned int MAX_MESSAGES = 6;
 
 	void save(const std::string& filename);
 	void load(const std::string& filename);
-};*/
+};
+
+static Options options;
 
 #endif // OPTIONS_HPP

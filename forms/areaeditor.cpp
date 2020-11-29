@@ -2,6 +2,7 @@
 #include "ui_areaeditor.h"
 #include "editorfunctions.hpp"
 #include "src/log.hpp"
+#include "src/options.hpp"
 
 #include <QFileDialog>
 #include <QGraphicsItem>
@@ -45,7 +46,7 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			}
 		}
 
-		selector->setPos(selectorPosition.x * _TILE_WIDTH, selectorPosition.y * _TILE_HEIGHT);
+		selector->setPos(selectorPosition.x * options.gui.tileBaseWidth, selectorPosition.y * options.gui.tileBaseHeight);
 		return true;
 	}
 
@@ -182,7 +183,7 @@ void AreaEditor::drawWorld()
 	for (unsigned int y = 0; y < area.getHeight(); ++y) {
 		for (unsigned int x = 0; x < area.getWidth(); ++x) {
 			QGraphicsTextItem* textItem = new QGraphicsTextItem;
-			QGraphicsRectItem* rectItem = new QGraphicsRectItem(0, 0, _TILE_WIDTH, _TILE_HEIGHT);
+			QGraphicsRectItem* rectItem = new QGraphicsRectItem(0, 0, options.gui.tileBaseWidth, options.gui.tileBaseHeight);
 			textTiles[x].push_back(textItem);
 			rectTiles[x].push_back(rectItem);
 
@@ -201,11 +202,11 @@ void AreaEditor::setTile(Position position, Tile& tile)
 {
 	textTiles[position.x][position.y]->setDefaultTextColor(tile.color);
 	textTiles[position.x][position.y]->setPlainText(QString(tile.letter));
-	textTiles[position.x][position.y]->setPos(position.x * _TILE_WIDTH - 2, position.y * _TILE_HEIGHT - 2);
+	textTiles[position.x][position.y]->setPos(position.x * options.gui.tileBaseWidth - 2, position.y * options.gui.tileBaseHeight - 2);
 	textTiles[position.x][position.y]->setFont(font);
 
 	QColor qColor;
-	rectTiles[position.x][position.y]->setPos(position.x * _TILE_WIDTH, position.y * _TILE_HEIGHT);
+	rectTiles[position.x][position.y]->setPos(position.x * options.gui.tileBaseWidth, position.y * options.gui.tileBaseHeight);
 	if (tile.obstacle) {
 		qColor = Qt::red;
 		qColor.setAlphaF(0.5f);
@@ -228,7 +229,7 @@ void AreaEditor::prepareEditorElements()
 	font = QFont("Courier");
 	font.setStyleHint(QFont::Monospace);
 
-	selector = new QGraphicsRectItem(0, 0, _TILE_WIDTH, _TILE_HEIGHT);
+	selector = new QGraphicsRectItem(0, 0, options.gui.tileBaseWidth, options.gui.tileBaseHeight);
 	selector->setBrush(Qt::yellow);
 
 	graphicsScene = new QGraphicsScene(ui->areaView);

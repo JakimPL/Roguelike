@@ -2,6 +2,7 @@
 #include "color.hpp"
 #include "constants.hpp"
 #include "log.hpp"
+#include "options.hpp"
 
 #include <array>
 #include <cstring>
@@ -75,6 +76,21 @@ bpo::variables_map getVariablesMap(bpo::options_description description, int arg
 	}
 
 	return variablesMap;
+}
+
+void loadOptions(const std::string& filename)
+{
+	try {
+		if (!bfs::exists(filename)) {
+			options.save(filename);
+			_LogInfo("Options saved to " << filename << " file");
+		} else {
+			options.load(filename);
+			_LogInfo("Options loaded from " << filename << " file");
+		}
+	} catch (std::exception &exception) {
+		_LogError(exception.what() << "; loading default settings");
+	}
 }
 
 std::vector<Mode> parseProgramArguments(int argc, char *argv[])

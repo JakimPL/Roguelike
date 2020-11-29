@@ -18,7 +18,7 @@ private:
 	float duration;
 
 public:
-	Message(std::string messageText, SDL_Color messageColor = COLOR_WHITE, float time = MESSAGE_DURATION);
+	Message(std::string messageText, SDL_Color messageColor = COLOR_WHITE, float time = options.messages.duration);
 	void draw(SDL_Renderer* renderer, TTF_Font* font, int index);
 	bool step();
 };
@@ -31,7 +31,7 @@ class Messages : std::vector<Message>
 public:
 	Messages();
 	Messages(SDL_Renderer* sdlRenderer, SDL_Texture* sdlTexture, TTF_Font* ttfFont);
-	void add(std::string messageText, SDL_Color messageColor = COLOR_WHITE, float time = MESSAGE_DURATION);
+	void add(std::string messageText, SDL_Color messageColor = COLOR_WHITE, float time = options.messages.duration);
 	void add(Message message);
 	void step();
 };

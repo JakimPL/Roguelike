@@ -78,7 +78,7 @@ void GameObject::move(Direction direction)
 		if (isPositionFree(targetPosition)) {
 			if (delay == 0) {
 				position.moveInDirection();
-				delay = DELAY;
+				delay = options.game.delay;
 			}
 		}
 	}

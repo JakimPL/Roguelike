@@ -2,7 +2,7 @@
 
 bool Timer::frame()
 {
-	if (delta >= 1000.0f / FPS) {
+	if (delta >= 1000.0f / options.general.fps) {
 		fps = 1000.0f / delta;
 		end = start;
 		return true;

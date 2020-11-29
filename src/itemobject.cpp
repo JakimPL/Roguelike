@@ -9,5 +9,5 @@ ItemObject::ItemObject(GameObjects& gameObjects, Item initialItem, Position init
 	position = initialPosition;
 	nameID = item.getNameID();
 	color = item.getColor();
-	letter = ITEM_LETTER;
+	letter = options.game.itemLetter;
 }

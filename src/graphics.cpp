@@ -19,10 +19,10 @@ void drawLetter(SDL_Renderer* renderer, TTF_Font* font, const char letter, const
 	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
 	SDL_Rect textRectangle;
-	textRectangle.x = _TILE_WIDTH * x;
-	textRectangle.y = _TILE_HEIGHT * y;
-	textRectangle.w = _TILE_WIDTH;
-	textRectangle.h = _TILE_HEIGHT;
+	textRectangle.x = options.gui.tileBaseWidth * x;
+	textRectangle.y = options.gui.tileBaseHeight * y;
+	textRectangle.w = options.gui.tileBaseWidth;
+	textRectangle.h = options.gui.tileBaseHeight;
 
 	SDL_RenderCopy(renderer, textTexture, NULL, &textRectangle);
 	SDL_SetTextureBlendMode(textTexture, SDL_BLENDMODE_BLEND);
@@ -33,10 +33,10 @@ void drawLetter(SDL_Renderer* renderer, TTF_Font* font, const char letter, const
 void drawPixel(SDL_Renderer* renderer, const SDL_Color color, const unsigned short x, const unsigned short y, const unsigned short size)
 {
 	SDL_Rect pixelRectangle;
-	pixelRectangle.x = float(x) / SCALE;
-	pixelRectangle.y = float(y) / SCALE;
-	pixelRectangle.w = float(size) / SCALE;
-	pixelRectangle.h = float(size) / SCALE;
+	pixelRectangle.x = float(x) / options.general.scale;
+	pixelRectangle.y = float(y) / options.general.scale;
+	pixelRectangle.w = float(size) / options.general.scale;
+	pixelRectangle.h = float(size) / options.general.scale;
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(renderer, &pixelRectangle);
@@ -45,10 +45,10 @@ void drawPixel(SDL_Renderer* renderer, const SDL_Color color, const unsigned sho
 void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned short x, const unsigned short y, const unsigned short w, const unsigned short h, const bool outline)
 {
 	SDL_Rect upperRectangle;
-	upperRectangle.x = float(x) / SCALE;
-	upperRectangle.y = float(y) / SCALE;
-	upperRectangle.w = float(w) / SCALE;
-	upperRectangle.h = float(h) / SCALE;
+	upperRectangle.x = float(x) / options.general.scale;
+	upperRectangle.y = float(y) / options.general.scale;
+	upperRectangle.w = float(w) / options.general.scale;
+	upperRectangle.h = float(h) / options.general.scale;
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	if (outline) {
@@ -60,8 +60,8 @@ void drawRectangle(SDL_Renderer* renderer, const SDL_Color color, const unsigned
 
 void drawText(SDL_Renderer* renderer, TTF_Font* font, const std::string& text, const SDL_Color color, const unsigned short x, const unsigned short y, const Alignment hAlign, const Alignment vAlign)
 {
-	float _x = float(x) / SCALE;
-	float _y = float(y) / SCALE;
+	float _x = float(x) / options.general.scale;
+	float _y = float(y) / options.general.scale;
 
 	std::stringstream textStream;
 	textStream << text;
