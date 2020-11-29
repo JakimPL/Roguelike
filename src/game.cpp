@@ -8,17 +8,21 @@
 
 using namespace Graphics;
 
-Game::Game() : currentArea("MOONDALE"), player(gameObjects, Creature(), "Liop", &currentArea)
+Game::Game() : player(gameObjects, Creature(), "Liop", nullptr)
 {
+	currentArea = new Area("MOONDALE");
+	player.currentArea = currentArea;
+
 	initializeGraphics();
 	initializeFont();
-	messages = Messages(renderer, graphics.messagesTexture, font);
 
+	messages = Messages(renderer, graphics.messagesTexture, font);
 	new ItemObject(gameObjects, Item("DAGGER"), {10, 10});
 }
 
 Game::~Game()
 {
+	delete currentArea;
 	for (GameObject* object : gameObjects) {
 		delete object;
 	}
@@ -43,11 +47,11 @@ void Game::drawWorld()
 {
 	SDL_SetRenderTarget(renderer, graphics.worldTexture);
 
-	int width = currentArea.getWidth();
-	int height = currentArea.getHeight();
+	int width = currentArea->getWidth();
+	int height = currentArea->getHeight();
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
-			Tile tile = currentArea.getTile(x, y);
+			Tile tile = currentArea->getTile(x, y);
 			drawLetter(renderer, font, tile.letter, tile.color, x, y);
 		}
 	}
@@ -86,7 +90,7 @@ void Game::drawGUI()
 	Position playerPosition = player.getPosition();
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, GUI_Y_OFFSET, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
 	drawRectangle(renderer, GUI_RECTANGLE_COLOR, GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - 3 * TILE_HEIGHT, SCREEN_WIDTH - 2 * GUI_X_OFFSET, TILE_HEIGHT * 3);
-	drawText(renderer, font, text[ {TextCategory::Area, currentArea.getNameID()} ], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
+	drawText(renderer, font, text[ {TextCategory::Area, currentArea->getNameID()} ], COLOR_WHITE, 2 * GUI_X_OFFSET, GUI_Y_OFFSET + TILE_HEIGHT / 2, Alignment::Left);
 
 	std::stringstream nextLevelText;
 	nextLevelText << text[String::Next] << player.creature.getXPRemaining();
@@ -114,13 +118,13 @@ void Game::drawGUI()
 
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
-	if (!currentArea.isTileOutside(playerPosition.x + dirX, playerPosition.y + dirY)) {
+	if (!currentArea->isTileOutside(playerPosition.x + dirX, playerPosition.y + dirY)) {
 		GameObjects objects = player.isPositionTaken(playerPosition.x + dirX, playerPosition.y + dirY);
 		if (!objects.empty()) {
 			GameObject* object = objects[0];
 			drawText(renderer, font, text[String::Item], object->getColor(), 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
 		} else {
-			Tile objectTile = currentArea.getTile(playerPosition.x + dirX, playerPosition.y + dirY);
+			Tile objectTile = currentArea->getTile(playerPosition.x + dirX, playerPosition.y + dirY);
 			drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * GUI_X_OFFSET, SCREEN_HEIGHT - GUI_Y_OFFSET - TILE_HEIGHT / 2, Alignment::Left);
 		}
 	}
@@ -335,8 +339,8 @@ void Game::drawItemDescription(Item *item)
 
 void Game::drawMap()
 {
-	size_t width = currentArea.getWidth();
-	size_t height = currentArea.getHeight();
+	size_t width = currentArea->getWidth();
+	size_t height = currentArea->getHeight();
 	Position playerPosition = player.getPosition() + mapOffset;
 	int xStart = std::max(0, -TAB_WIDTH / (2 * MAP_PIXEL_SIZE) + playerPosition.x);
 	int yStart = std::max(0, -TAB_HEIGHT / (2 * MAP_PIXEL_SIZE) + playerPosition.y);
@@ -344,7 +348,7 @@ void Game::drawMap()
 	int yEnd = std::min(int(height), TAB_HEIGHT / (2 * MAP_PIXEL_SIZE) + playerPosition.y);
 	for (int y = yStart; y < yEnd; ++y) {
 		for (int x = xStart; x < xEnd; ++x) {
-			Tile tile = currentArea.getTile(x, y);
+			Tile tile = currentArea->getTile(x, y);
 			SDL_Color sdlColor = tile.color;
 			sdlColor.a = MAP_ALPHA;
 
@@ -576,8 +580,14 @@ void Game::initializeGraphics()
 	graphics.worldRectangle.w = screenWidth;
 	graphics.worldRectangle.h = screenHeight;
 
-	int width = currentArea.getWidth();
-	int height = currentArea.getHeight();
+	int width = 0;
+	int height = 0;
+	if (currentArea != nullptr) {
+		width = currentArea->getWidth();
+		height = currentArea->getHeight();
+	}  else {
+		_LogError("An uninitialized area during graphic initialization!");
+	}
 
 	unsigned int realWidth = std::max(graphics.screenRectangle.w, width * TILE_WIDTH);
 	unsigned int realHeight = std::max(graphics.screenRectangle.h, height * TILE_HEIGHT);
