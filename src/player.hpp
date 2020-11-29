@@ -14,8 +14,7 @@ public:
 	Creature creature;
 
 public:
-	Player(GameObjects& gameObjects, std::string initialName);
-	Player(GameObjects& gameObjects, Creature initialCreature, std::string initialName);
+	Player(GameObjects& gameObjects, Creature initialCreature, std::string initialName, Area* initialArea);
 
 	std::string getName() const;
 };

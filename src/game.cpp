@@ -8,12 +8,20 @@
 
 using namespace Graphics;
 
-Game::Game() : currentArea("MOONDALE"), player(gameObjects, "Liop")
+Game::Game() : currentArea("MOONDALE"), player(gameObjects, Creature(), "Liop", &currentArea)
 {
 	initializeGraphics();
 	initializeFont();
-	player.currentArea = &currentArea;
 	messages = Messages(renderer, graphics.messagesTexture, font);
+
+	new ItemObject(gameObjects, Item("DAGGER"), {10, 10});
+}
+
+Game::~Game()
+{
+	for (GameObject* object : gameObjects) {
+		delete object;
+	}
 }
 
 void Game::drawFrame()

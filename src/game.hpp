@@ -44,6 +44,7 @@ private:
 
 public:
 	Game();
+	~Game();
 	Text text;
 	Area currentArea;
 	Messages messages;
