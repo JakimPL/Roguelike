@@ -3,6 +3,19 @@
 
 #include "area.hpp"
 
+enum class ObjectType {
+	None,
+	Player,
+	Item,
+	NPC,
+};
+
+class GameObject;
+
+struct GameObjects : public std::vector<GameObject*> {
+	void deleteObject(GameObject* object);
+};
+
 class GameObject
 {
 protected:
@@ -18,10 +31,12 @@ protected:
 	char letter;
 
 public:
+	ObjectType type = ObjectType::None;
 	Area* currentArea;
 
 public:
-	GameObject(std::vector<GameObject*>& gameObjects);
+	GameObject(GameObjects& gameObjects);
+	virtual ~GameObject();
 
 	unsigned int getNameID() const;
 	Color getColor() const;
@@ -29,14 +44,12 @@ public:
 	Position getPosition() const;
 	bool isPositionFree(int x, int y) const;
 	bool isPositionFree(Position position) const;
-	std::vector<GameObject*> isPositionTaken(int x, int y) const;
-	std::vector<GameObject*> isPositionTaken(Position position) const;
+	GameObjects isPositionTaken(int x, int y) const;
+	GameObjects isPositionTaken(Position position) const;
 
 	void setDirection(Direction direction);
 	void move(Direction direction);
 	void step();
 };
-
-typedef std::vector<GameObject*> GameObjects;
 
 #endif // GAMEOBJECT_HPP

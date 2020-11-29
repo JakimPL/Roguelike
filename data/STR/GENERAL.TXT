@@ -41,3 +41,4 @@ Inteligencja:
 Wiedza: 
 Charakter: 
 FPS: 
+Dodano do ekwipunku: 

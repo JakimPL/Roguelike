@@ -2,6 +2,7 @@
 
 Player::Player(GameObjects& gameObjects, Creature initialCreature, std::string initialName, Area* initialArea) : GameObject(gameObjects), creature(initialCreature)
 {
+	type = ObjectType::Player;
 	name = initialName;
 	movable = true;
 

@@ -7,6 +7,11 @@ GameObject::GameObject(GameObjects& gameObjects) : objects(gameObjects)
 	gameObjects.push_back(this);
 }
 
+GameObject::~GameObject()
+{
+
+}
+
 bool GameObject::isPositionFree(int x, int y) const
 {
 	return isPositionFree({x, y});
@@ -87,5 +92,14 @@ void GameObject::step()
 {
 	if (delay > 0) {
 		delay--;
+	}
+}
+
+void GameObjects::deleteObject(GameObject* object)
+{
+	std::vector<GameObject*>::iterator position = std::find(begin(), end(), object);
+	if (position != end()) {
+		erase(position);
+		delete object;
 	}
 }

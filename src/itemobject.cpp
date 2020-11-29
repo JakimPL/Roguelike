@@ -3,6 +3,7 @@
 
 ItemObject::ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition) : GameObject(gameObjects), item(initialItem)
 {
+	type = ObjectType::Item;
 	solid = true;
 	position = initialPosition;
 	nameID = item.getNameID();

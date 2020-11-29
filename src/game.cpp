@@ -26,7 +26,7 @@ Game::~Game()
 	delete currentArea;
 	for (GameObject* object : gameObjects) {
 		if (object != &player) {
-			delete object;
+			gameObjects.deleteObject(object);
 		}
 	}
 }
@@ -457,6 +457,27 @@ void Game::mainLoop()
 						}
 						break;
 					}
+
+					if (keyboard.isKeyPressed(SDLK_LCTRL)) {
+						GameObjects objects = player.isPositionTaken(player.getPosition() + 1);
+						if (!objects.empty()) {
+							GameObject* object = objects[0];
+							switch (object->type) {
+							case ObjectType::Item: {
+								ItemObject* itemObject = (ItemObject*)object;
+								if (!player.creature.inventory.isFull()) {
+									Item item = itemObject->item;
+									player.creature.inventory.addItem(item);
+									messages->add(text[String::AddedItem] + text[ {TextCategory::Item, item.getNameID()} ], COLOR_WHITE);
+									gameObjects.deleteObject(object);
+								}
+								break;
+							}
+							default:
+								break;
+							}
+						}
+					}
 				}
 
 				break;
@@ -480,6 +501,7 @@ void Game::mainLoop()
 						}
 					}
 				}
+
 				break;
 			case GUI::Character:
 				if (player.creature.getAbilityPoints() > 0) {
@@ -499,6 +521,7 @@ void Game::mainLoop()
 						player.creature.assignPoint(Ability(characterInfoPosition));
 					}
 				}
+
 				break;
 			case GUI::Map:
 				for (unsigned int dir = 0; dir < COUNT; ++dir) {
