@@ -47,7 +47,7 @@ public:
 	~Game();
 	Text text;
 	Area* currentArea;
-	Messages messages;
+	Messages* messages;
 	GameObjects gameObjects;
 	Player player;
 

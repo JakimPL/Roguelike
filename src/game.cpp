@@ -16,15 +16,18 @@ Game::Game() : player(gameObjects, Creature(), "Liop", nullptr)
 	initializeGraphics();
 	initializeFont();
 
-	messages = Messages(renderer, graphics.messagesTexture, font);
+	messages = new Messages(renderer, graphics.messagesTexture, font);
 	new ItemObject(gameObjects, Item("DAGGER"), {10, 10});
 }
 
 Game::~Game()
 {
+	delete messages;
 	delete currentArea;
 	for (GameObject* object : gameObjects) {
-		delete object;
+		if (object != &player) {
+			delete object;
+		}
 	}
 }
 
@@ -473,7 +476,7 @@ void Game::mainLoop()
 					}
 					if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
 						if (!player.creature.equipItem(inventoryPosition)) {
-							messages.add(text[String::TooHighItemRequirements], COLOR_ORANGE);
+							messages->add(text[String::TooHighItemRequirements], COLOR_ORANGE);
 						}
 					}
 				}
@@ -522,7 +525,7 @@ void Game::mainLoop()
 			}
 
 			drawFrame();
-			messages.step();
+			messages->step();
 		}
 	}
 }
