@@ -3,6 +3,7 @@
 #include "itemobject.hpp"
 #include "log.hpp"
 #include "message.hpp"
+#include "options.hpp"
 
 #include <iomanip>
 
@@ -78,7 +79,7 @@ void Game::drawObjects()
 
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
-	drawLetter(renderer, font, TARGET_CHAR, TARGET_COLOR, CENTER_X + dirX, CENTER_Y + dirY);
+	drawLetter(renderer, font, TARGET_LETTER, TARGET_COLOR, CENTER_X + dirX, CENTER_Y + dirY);
 
 	SDL_SetRenderTarget(renderer, NULL);
 }
@@ -470,6 +471,8 @@ void Game::mainLoop()
 									player.creature.inventory.addItem(item);
 									messages->add(text[String::AddedItem] + text[ {TextCategory::Item, item.getNameID()} ], COLOR_WHITE);
 									gameObjects.deleteObject(object);
+								} else {
+									messages->add(text[String::BackpackIsFull], COLOR_LRED);
 								}
 								break;
 							}

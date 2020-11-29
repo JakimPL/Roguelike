@@ -3,6 +3,7 @@
 
 #include "constants.hpp"
 #include "color.hpp"
+#include "options.hpp"
 
 #include <string>
 #include <vector>

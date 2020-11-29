@@ -1,4 +1,5 @@
 #include "itemobject.hpp"
+#include "options.hpp"
 #include "text.hpp"
 
 ItemObject::ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition) : GameObject(gameObjects), item(initialItem)

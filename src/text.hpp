@@ -73,6 +73,7 @@ enum class String : unsigned long {
 	Alignment,
 	FPS,
 	AddedItem,
+	BackpackIsFull,
 
 	Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 

@@ -1,6 +1,7 @@
 #include "item.hpp"
 #include "functions.hpp"
 #include "log.hpp"
+#include "options.hpp"
 
 Item::Item(const std::string& filename, bool fullPath)
 {

@@ -1,4 +1,5 @@
 #include "keyboard.hpp"
+#include "options.hpp"
 
 bool Keyboard::getKeyState(SDL_Keycode keyCode)
 {

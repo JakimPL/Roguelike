@@ -1,5 +1,6 @@
 #include "graphics.hpp"
 #include "color.hpp"
+#include "options.hpp"
 
 #include <sstream>
 

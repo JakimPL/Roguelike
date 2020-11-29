@@ -1,6 +1,7 @@
 #include "gameobject.hpp"
 #include "constants.hpp"
 #include "log.hpp"
+#include "options.hpp"
 
 GameObject::GameObject(GameObjects& gameObjects) : objects(gameObjects)
 {
