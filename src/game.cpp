@@ -14,7 +14,6 @@ Game::Game() : currentArea("MOONDALE"), player(gameObjects, "Liop")
 	initializeFont();
 	player.currentArea = &currentArea;
 	messages = Messages(renderer, graphics.messagesTexture, font);
-	ItemObject(gameObjects, Item("DAGGER"), {10, 10});
 }
 
 void Game::drawFrame()
@@ -462,7 +461,7 @@ void Game::mainLoop()
 					}
 					if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
 						if (!player.creature.equipItem(inventoryPosition)) {
-							messages.add(Message(text[String::TooHighItemRequirements], COLOR_ORANGE));
+							messages.add(text[String::TooHighItemRequirements], COLOR_ORANGE);
 						}
 					}
 				}

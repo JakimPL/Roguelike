@@ -5,7 +5,7 @@
 
 using namespace Graphics;
 
-Message::Message(std::string message, SDL_Color messageColor, float time) : text(message), color(messageColor)
+Message::Message(std::string messageText, SDL_Color messageColor, float time) : text(messageText), color(messageColor)
 {
 	duration = time;
 	_LogMessage(text);
@@ -38,6 +38,11 @@ Messages::Messages()
 Messages::Messages(SDL_Renderer* sdlRenderer, SDL_Texture* sdlTexture, TTF_Font* ttfFont) : renderer(sdlRenderer), texture(sdlTexture), font(ttfFont)
 {
 	SDL_RenderSetScale(renderer, SCALE, SCALE);
+}
+
+void Messages::add(std::string messageText, SDL_Color messageColor, float time)
+{
+	add(Message(messageText, messageColor, time));
 }
 
 void Messages::add(Message message)
