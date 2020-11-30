@@ -1,6 +1,26 @@
 #include "options.hpp"
+#include "log.hpp"
+
+#include <boost/filesystem.hpp>
+
+namespace bfs = boost::filesystem;
 
 #include <iostream>
+
+Options::Options(const std::string& filename)
+{
+	try {
+		if (bfs::exists(filename)) {
+			load(filename);
+			_LogInfo("Options loaded from " << filename << " file");
+		} else {
+			save(filename);
+			_LogInfo("Options saved to " << filename << " file");
+		}
+	} catch (std::exception &exception) {
+		_LogError(exception.what() << "; loading default settings");
+	}
+}
 
 void Options::save(const std::string& filename)
 {
@@ -71,5 +91,5 @@ void Options::load(const std::string& filename)
 	gui.tabWidth = general.screenWidth - 2 * gui.guiXOffset - 4 * gui.tileWidth;
 	gui.tabHeight = general.screenHeight - 2 * gui.guiYOffset - 8 * gui.tileHeight;
 
-	inventory.itemsPerPage = (general.screenHeight - 2 * gui.guiYOffset - 8 * gui.tabHeight) / gui.tileHeight - 3;
+	inventory.itemsPerPage = (general.screenHeight - 2 * gui.guiYOffset - 8 * gui.tileHeight) / gui.tileHeight - 3;
 }

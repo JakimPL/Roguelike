@@ -2,7 +2,6 @@
 #include "src/functions.hpp"
 #include "src/game.hpp"
 #include "src/log.hpp"
-#include "src/options.hpp"
 #include "forms/areaeditor.hpp"
 #include "forms/creatureeditor.hpp"
 #include "forms/itemeditor.hpp"
@@ -15,7 +14,6 @@ int main(int argc, char *argv[])
 {
 	QApplication application(argc, argv);
 	std::vector<Mode> modes = Functions::parseProgramArguments(argc, argv);
-	Functions::loadOptions(PATH_INI);
 
 	for (Mode mode : modes) {
 		switch (mode) {

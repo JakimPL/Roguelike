@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "functions.hpp"
 #include "graphics.hpp"
 #include "itemobject.hpp"
 #include "log.hpp"

@@ -14,10 +14,10 @@ Message::Message(std::string messageText, SDL_Color messageColor, float time) : 
 void Message::draw(SDL_Renderer* renderer, TTF_Font* font, int index)
 {
 	unsigned int size = text.size();
-	drawRectangle(renderer, COLOR_BLACK, SCREEN_WIDTH / 2 - 0.5f * TILE_WIDTH * size - 4 * options.general.scale, (4.0f + 1.5f * index) * TILE_HEIGHT - 4 * options.general.scale, TILE_WIDTH * size + 8 * SCALE, TILE_HEIGHT + 8 * options.general.scale, false);
-	drawRectangle(renderer, COLOR_WHITE, SCREEN_WIDTH / 2 - 0.5f * TILE_WIDTH * size - 4 * options.general.scale, (4.0f + 1.5f * index) * TILE_HEIGHT - 4 * options.general.scale, TILE_WIDTH * size + 8 * SCALE, TILE_HEIGHT + 8 * options.general.scale, true);
-	drawRectangle(renderer, GUI_RECTANGLE_COLOR, SCREEN_WIDTH / 2 - 0.5f * TILE_WIDTH * size, (4.0f + 1.5f * index) * TILE_HEIGHT, TILE_WIDTH * size, TILE_HEIGHT);
-	drawText(renderer, font, text, color, SCREEN_WIDTH / 2, (4.5f + 1.5f * index) * TILE_HEIGHT, Alignment::Center, Alignment::Center);
+	drawRectangle(renderer, COLOR_BLACK, options.general.screenWidth / 2 - 0.5f * options.gui.tileWidth * size - 4 * options.general.scale, (4.0f + 1.5f * index) * options.gui.tileHeight - 4 * options.general.scale, options.gui.tileWidth * size + 8 * SCALE, options.gui.tileHeight + 8 * options.general.scale, false);
+	drawRectangle(renderer, COLOR_WHITE, options.general.screenWidth / 2 - 0.5f * options.gui.tileWidth * size - 4 * options.general.scale, (4.0f + 1.5f * index) * options.gui.tileHeight - 4 * options.general.scale, options.gui.tileWidth * size + 8 * SCALE, options.gui.tileHeight + 8 * options.general.scale, true);
+	drawRectangle(renderer, GUI_RECTANGLE_COLOR, options.general.screenWidth / 2 - 0.5f * options.gui.tileWidth * size, (4.0f + 1.5f * index) * options.gui.tileHeight, options.gui.tileWidth * size, options.gui.tileHeight);
+	drawText(renderer, font, text, color, options.general.screenWidth / 2, (4.5f + 1.5f * index) * options.gui.tileHeight, Alignment::Center, Alignment::Center);
 }
 
 bool Message::step()

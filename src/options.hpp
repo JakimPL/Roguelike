@@ -96,10 +96,11 @@ struct Options {
 		unsigned int maxMessages         = MAX_MESSAGES;
 	} messages;
 
+	Options(const std::string& filename);
 	void save(const std::string& filename);
 	void load(const std::string& filename);
 };
 
-static Options options;
+static Options options(PATH_INI);
 
 #endif // OPTIONS_HPP
