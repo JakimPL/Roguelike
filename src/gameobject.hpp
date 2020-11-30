@@ -2,6 +2,7 @@
 #define GAMEOBJECT_HPP
 
 #include "area.hpp"
+#include "text.hpp"
 
 enum class ObjectType {
 	None,
@@ -50,6 +51,8 @@ public:
 	void setDirection(Direction direction);
 	void move(Direction direction);
 	void step();
+
+	virtual TextPair getText();
 };
 
 #endif // GAMEOBJECT_HPP

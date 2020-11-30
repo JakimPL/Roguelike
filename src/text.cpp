@@ -127,12 +127,18 @@ const std::string Text::text(TextCategory category, unsigned int id) const
 
 const std::string Text::operator[](String element)
 {
-	TextCategory category = TextCategory((unsigned long)(element) / TEXT_CATEGORY_SIZE);
-	unsigned int item = (unsigned long)(element) % TEXT_CATEGORY_SIZE;
-	return text(category, item);
+	TextPair textPair = Text::makeTextPair(element);
+	return text(textPair.first, textPair.second);
 }
 
-const std::string Text::operator[](std::pair<TextCategory, unsigned int> element) const
+const std::string Text::operator[](TextPair element) const
 {
 	return text(element.first, element.second);
+}
+
+TextPair Text::makeTextPair(String element)
+{
+	TextCategory category = TextCategory((unsigned long)(element) / TEXT_CATEGORY_SIZE);
+	unsigned int item = (unsigned long)(element) % TEXT_CATEGORY_SIZE;
+	return {category, item};
 }

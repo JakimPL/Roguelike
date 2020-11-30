@@ -333,6 +333,11 @@ int Creature::getXPCurrent() const
 	return xpCurrent;
 }
 
+int Creature::getXPValue() const
+{
+	return xpValue;
+}
+
 int Creature::getHPCurrent() const
 {
 	return hpCurrent;
@@ -461,6 +466,11 @@ void Creature::setXPCurrent(int value)
 void Creature::setXPNextLevel(int value)
 {
 	xpNextLevel = value;
+}
+
+void Creature::setXPValue(unsigned int value)
+{
+	xpValue = value;
 }
 
 void Creature::setHP(int value)

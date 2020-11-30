@@ -11,3 +11,8 @@ ItemObject::ItemObject(GameObjects& gameObjects, Item initialItem, Position init
 	color = item.getColor();
 	letter = options.game.itemLetter;
 }
+
+TextPair ItemObject::getText()
+{
+	return Text::makeTextPair(String::Item);
+}

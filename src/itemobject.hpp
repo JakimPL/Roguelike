@@ -11,6 +11,8 @@ public:
 
 public:
 	ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition);
+
+	TextPair getText() override;
 };
 
 #endif // ITEMOBJECT_HPP

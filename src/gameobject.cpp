@@ -96,6 +96,11 @@ void GameObject::step()
 	}
 }
 
+TextPair GameObject::getText()
+{
+	return {TextCategory::General, 0};
+}
+
 void GameObjects::deleteObject(GameObject* object)
 {
 	std::vector<GameObject*>::iterator position = std::find(begin(), end(), object);

@@ -21,6 +21,7 @@ HEADERS += \
 	src/keyboard.hpp \
 	src/log.hpp \
 	src/message.hpp \
+	src/npc.hpp \
 	src/options.hpp \
 	src/player.hpp \
 	src/structures.hpp \
@@ -44,6 +45,7 @@ SOURCES += \
 	src/itemobject.cpp \
 	src/keyboard.cpp \
 	src/message.cpp \
+	src/npc.cpp \
 	src/options.cpp \
 	src/player.cpp \
 	src/structures.cpp \

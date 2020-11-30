@@ -50,6 +50,7 @@ void CreatureEditor::on_actionSaveAs_triggered()
 {
 	currentPath = QFileDialog::getSaveFileName(this, tr("Save CRE file"), "./data/CRE/", tr("Creature files (*.CRE)"));
 	std::string path = currentPath.toStdString();
+	updateCreatureParameters();
 	creature.saveToFile(path, true);
 	updateApplicationTitle();
 }
@@ -95,6 +96,7 @@ void CreatureEditor::updateEditorValues()
 	ui->genderBox->setCurrentIndex((unsigned char)(creature.getGender()));
 	ui->alignmentBox->setCurrentIndex((unsigned char)(creature.getAlignment()));
 	ui->stateBox->setCurrentIndex((unsigned char)(creature.getState()));
+	ui->xpValueBox->setValue(creature.getXPValue());
 
 	ui->levelBox->setValue(creature.getLevel());
 	ui->xpCurrentBox->setValue(creature.getXPCurrent());
@@ -148,12 +150,27 @@ void CreatureEditor::updateCreatureParameters()
 	creature.setGender(Gender(ui->genderBox->currentIndex()));
 	creature.setAlignment(CreatureAlignment(ui->alignmentBox->currentIndex()));
 	creature.setState(State(ui->stateBox->currentIndex()));
+	creature.setXPValue(ui->xpValueBox->value());
 
 	creature.setLevel(ui->levelBox->value());
 	creature.setXPCurrent(ui->xpCurrentBox->value());
 	creature.setXPNextLevel(ui->xpNextLevelBox->value());
 	creature.setHP(ui->hpCurrentBox->value());
 	creature.setMP(ui->mpCurrentBox->value());
+
+	creature.setBaseHP(ui->hpMaxBox->value() - creature.getHPMax() + creature.getBaseHP());
+	creature.setBaseMP(ui->mpMaxBox->value() - creature.getMPMax() + creature.getBaseMP());
+	creature.setBaseHPRegeneration(ui->hpRegenerationBox->value() - creature.getHPRegeneration() + creature.getBaseHPRegeneration());
+	creature.setBaseMPRegeneration(ui->mpRegenerationBox->value() - creature.getMPRegeneration() + creature.getBaseMPRegeneration());
+	creature.setBaseDamageMin(ui->damageBox->value() - creature.getDamageMin() + creature.getBaseDamageMin());
+	creature.setBaseDefense(ui->defenseBox->value() - creature.getDefense() + creature.getBaseDefense());
+	creature.setBaseDefenseRate(ui->defenseRateBox->value() - creature.getDefenseRate() + creature.getBaseDefenseRate());
+
+	creature.setBaseAbilityValue(Ability::strength, ui->strengthBox->value() - creature.getAbilityValue(Ability::strength) + creature.getBaseAbilityValue(Ability::strength));
+	creature.setBaseAbilityValue(Ability::dexterity, ui->dexterityBox->value() - creature.getAbilityValue(Ability::dexterity) + creature.getBaseAbilityValue(Ability::dexterity));
+	creature.setBaseAbilityValue(Ability::constitution, ui->constitutionBox->value() - creature.getAbilityValue(Ability::constitution) + creature.getBaseAbilityValue(Ability::constitution));
+	creature.setBaseAbilityValue(Ability::intelligence, ui->intelligenceBox->value() - creature.getAbilityValue(Ability::intelligence) + creature.getBaseAbilityValue(Ability::intelligence));
+	creature.setBaseAbilityValue(Ability::wisdom, ui->wisdomBox->value() - creature.getAbilityValue(Ability::wisdom) + creature.getBaseAbilityValue(Ability::wisdom));
 
 	creature.updateStats();
 }

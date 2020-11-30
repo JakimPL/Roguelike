@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#define TEXT_CATEGORY_SIZE 1000000
 #define STRING(value) std::to_string(value)
 
 #include "constants.hpp"
@@ -147,6 +148,9 @@ enum class String : unsigned long {
 	Item,
 };
 
+typedef std::vector<String> StringList;
+typedef std::pair<TextCategory, unsigned int> TextPair;
+
 class Text
 {
 private:
@@ -159,10 +163,10 @@ public:
 	unsigned int getContentSize(TextCategory category) const;
 	const std::string text(TextCategory category, unsigned int id) const;
 	const std::string operator[](String element);
-	const std::string operator[](std::pair<TextCategory, unsigned int> element) const;
-};
+	const std::string operator[](TextPair element) const;
 
-typedef std::vector<String> StringList;
+	static TextPair makeTextPair(String element);
+};
 
 static const StringList raceNameIDs = {
 	String::Undefined,

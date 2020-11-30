@@ -126,6 +126,7 @@ public:
 	int getLevel() const;
 	int getXPRemaining() const;
 	int getXPCurrent() const;
+	int getXPValue() const;
 	int getHPCurrent() const;
 	int getHPMax() const;
 	int getHPRegeneration() const;
@@ -152,6 +153,7 @@ public:
 	void setLevel(unsigned int value);
 	void setXPCurrent(int value);
 	void setXPNextLevel(int value);
+	void setXPValue(unsigned int value);
 	void setHP(int value);
 	void setMP(int value);
 	void setBaseHP(int value);

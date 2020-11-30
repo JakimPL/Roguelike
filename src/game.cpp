@@ -4,6 +4,7 @@
 #include "itemobject.hpp"
 #include "log.hpp"
 #include "message.hpp"
+#include "npc.hpp"
 #include "options.hpp"
 
 #include <iomanip>
@@ -20,6 +21,7 @@ Game::Game() : player(gameObjects, Creature(), "Liop", nullptr)
 
 	messages = new Messages(renderer, graphics.messagesTexture, font);
 	new ItemObject(gameObjects, Item("DAGGER"), {10, 10});
+	new NPC(gameObjects, Creature("JULIAN"), {13, 10}, currentArea);
 }
 
 Game::~Game()
@@ -127,7 +129,8 @@ void Game::drawGUI()
 		GameObjects objects = player.isPositionTaken(playerPosition.x + dirX, playerPosition.y + dirY);
 		if (!objects.empty()) {
 			GameObject* object = objects[0];
-			drawText(renderer, font, text[String::Item], object->getColor(), 2 * options.gui.guiXOffset, options.general.screenHeight - options.gui.guiYOffset - options.gui.tileHeight / 2, Alignment::Left);
+			TextPair textPair = object->getText();
+			drawText(renderer, font, text[textPair], object->getColor(), 2 * options.gui.guiXOffset, options.general.screenHeight - options.gui.guiYOffset - options.gui.tileHeight / 2, Alignment::Left);
 		} else {
 			Tile objectTile = currentArea->getTile(playerPosition.x + dirX, playerPosition.y + dirY);
 			drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * options.gui.guiXOffset, options.general.screenHeight - options.gui.guiYOffset - options.gui.tileHeight / 2, Alignment::Left);
