@@ -146,6 +146,7 @@ enum class String : unsigned long {
 	Wall,
 	Road,
 	Item,
+	Door
 };
 
 typedef std::vector<String> StringList;

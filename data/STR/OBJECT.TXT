@@ -5,3 +5,4 @@ Woda
 Ściana
 Ścieżka
 Przedmiot
+Drzwi

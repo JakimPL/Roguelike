@@ -12,6 +12,7 @@ HEADERS += \
 	src/color.hpp \
 	src/constants.hpp \
 	src/creature.hpp \
+	src/door.hpp \
 	src/functions.hpp \
 	src/game.hpp \
 	src/gameobject.hpp \
@@ -37,6 +38,7 @@ SOURCES += \
 	forms/itemeditor.cpp \
 	src/area.cpp \
 	src/creature.cpp \
+	src/door.cpp \
 	src/functions.cpp \
 	src/game.cpp \
 	src/gameobject.cpp \

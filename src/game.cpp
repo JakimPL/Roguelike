@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "door.hpp"
 #include "functions.hpp"
 #include "graphics.hpp"
 #include "itemobject.hpp"
@@ -21,7 +22,8 @@ Game::Game() : player(gameObjects, Creature(), "Liop", nullptr)
 
 	messages = new Messages(renderer, graphics.messagesTexture, font);
 	new ItemObject(gameObjects, Item("DAGGER"), {10, 10});
-	new NPC(gameObjects, Creature("JULIAN"), {13, 10}, currentArea);
+	//new NPC(gameObjects, Creature("JULIAN"), {13, 10}, currentArea);
+	new Door(gameObjects, {128, 128, 128}, false, {15, 15}, currentArea);
 }
 
 Game::~Game()

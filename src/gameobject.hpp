@@ -9,6 +9,7 @@ enum class ObjectType {
 	Player,
 	Item,
 	NPC,
+	Door
 };
 
 class GameObject;

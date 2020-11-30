@@ -32,6 +32,7 @@ static constexpr unsigned int DELAY = 10;
 static constexpr unsigned int KEY_INPUT_DELAY = 8;
 static constexpr char TARGET_LETTER = u'¤';
 static constexpr char ITEM_LETTER = '?';
+static constexpr char DOOR_LETTER[2] = {'-', '|'};
 
 static constexpr int GUI_X_OFFSET = 8;
 static constexpr int GUI_Y_OFFSET = 8;
@@ -67,6 +68,8 @@ struct Options {
 		unsigned int keyInputDelay       = KEY_INPUT_DELAY;
 		char targetLetter                = TARGET_LETTER;
 		char itemLetter                  = ITEM_LETTER;
+		char doorHorizontalLetter        = DOOR_LETTER[0];
+		char doorVerticalLetter          = DOOR_LETTER[1];
 	} game;
 	struct GUI {
 		int guiXOffset                   = GUI_X_OFFSET * SCALE;
