@@ -75,6 +75,7 @@ enum class String : unsigned long {
 	FPS,
 	AddedItem,
 	BackpackIsFull,
+	Closed,
 
 	Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 

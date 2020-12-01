@@ -22,7 +22,7 @@ Game::Game() : player(gameObjects, Creature(), "Liop", nullptr)
 
 	messages = new Messages(renderer, graphics.messagesTexture, font);
 	new ItemObject(gameObjects, Item("DAGGER"), {10, 10});
-	//new NPC(gameObjects, Creature("JULIAN"), {13, 10}, currentArea);
+	new NPC(gameObjects, Creature("JULIAN"), {13, 10}, currentArea);
 	new Door(gameObjects, {128, 128, 128}, false, {15, 15}, currentArea);
 }
 
@@ -481,6 +481,12 @@ void Game::mainLoop()
 									messages->add(text[String::BackpackIsFull], COLOR_LRED);
 								}
 								break;
+							}
+							case ObjectType::Door: {
+								Door* door = (Door*)object;
+								if (door->toggle()) {
+									messages->add(text[String::Closed], door->getColor());
+								}
 							}
 							default:
 								break;

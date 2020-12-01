@@ -5,11 +5,26 @@ Door::Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation
 {
 	type = ObjectType::Door;
 	movable = false;
-	solid = !open;
 	position = initialPosition;
 	color = initialColor;
-	letter = ((!open) != (!orientation) ? options.game.doorHorizontalLetter : options.game.doorVerticalLetter);
+	update();
 	currentArea = initialArea;
+}
+
+bool Door::toggle()
+{
+	if (!locked) {
+		open = !open;
+		update();
+	}
+
+	return locked;
+}
+
+void Door::update()
+{
+	solid = !open;
+	letter = ((!open) != (!orientation) ? options.game.doorHorizontalLetter : options.game.doorVerticalLetter);
 }
 
 TextPair Door::getText()
