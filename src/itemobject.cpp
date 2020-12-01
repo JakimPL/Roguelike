@@ -16,3 +16,13 @@ TextPair ItemObject::getText()
 {
 	return Text::makeTextPair(String::Item);
 }
+
+bool ItemObject::load(std::ifstream& resource)
+{
+	return false;
+}
+
+bool ItemObject::save(std::ofstream& resource)
+{
+	return false;
+}

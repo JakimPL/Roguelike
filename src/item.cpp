@@ -5,7 +5,7 @@
 
 Item::Item(const std::string& filename, bool fullPath)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, ITM);
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ITM);
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
@@ -67,7 +67,7 @@ Item::Item()
 
 bool Item::saveToFile(const std::string& filename, bool fullPath)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, ITM);
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ITM);
 	std::ofstream resource(path);
 	if (resource.good()) {
 		resource.write(headerITM, SIZE_HEADER);

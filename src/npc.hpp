@@ -15,6 +15,8 @@ public:
 	NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, Area* initialArea);
 
 	TextPair getText() override;
+	bool load(std::ifstream& resource) override;
+	bool save(std::ofstream& resource) override;
 };
 
 #endif // NPC_HPP

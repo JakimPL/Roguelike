@@ -101,6 +101,26 @@ TextPair GameObject::getText()
 	return {TextCategory::General, 0};
 }
 
+bool GameObject::load(std::ifstream& resource)
+{
+	resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
+	resource.read(reinterpret_cast<char*>(&delay), SIZE_INT);
+	resource.read(reinterpret_cast<char*>(&movable), SIZE_CHAR);
+	resource.read(reinterpret_cast<char*>(&movable), SIZE_CHAR);
+	resource.read(reinterpret_cast<char*>(&position), SIZE_POSITION);
+	return true;
+}
+
+bool GameObject::save(std::ofstream& resource)
+{
+	resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&movable), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&movable), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&position), SIZE_POSITION);
+	return true;
+}
+
 void GameObjects::deleteObject(GameObject* object)
 {
 	std::vector<GameObject*>::iterator position = std::find(begin(), end(), object);

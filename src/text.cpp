@@ -15,7 +15,7 @@ Text::Text()
 	content.resize(size_t(TextCategory::Count));
 	for (unsigned int category = 0; category < (unsigned int)(TextCategory::Count); ++category) {
 #ifdef CONVERT_TXT_TO_STR
-		convertFromTXTtoSTR(TextCategory(category), getPath(FILENAME_STRING[category], TXT), getPath(FILENAME_STRING[category], STR));
+		convertFromTXTtoSTR(TextCategory(category), getPath(FILENAME_STRING[category], Filetype::TXT), getPath(FILENAME_STRING[category], Filetype::STR));
 #else
 		if (!loadContent(TextCategory(category), FILENAME_STRING[category])) {
 			std::string errorMessage = "Failed to open " + FILENAME_STRING[category] + " dialog file";
@@ -66,7 +66,7 @@ bool Text::convertFromTXTtoSTR(TextCategory category, const std::string& inputPa
 bool Text::loadContent(TextCategory category, const std::string& filename)
 {
 	///TODO: error handling
-	std::string path = getPath(filename, STR);
+	std::string path = getPath(filename, Filetype::STR);
 	_LogInfo("Opening " << path << " dialogs file");
 	std::ifstream resource(path);
 	if (resource.good()) {

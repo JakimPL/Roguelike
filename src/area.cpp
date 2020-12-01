@@ -4,7 +4,7 @@
 
 Area::Area(const std::string& filename, bool fullPath)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, ARE);
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ARE);
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
@@ -57,7 +57,7 @@ Area::Area()
 
 bool Area::saveToFile(const std::string& filename, bool fullPath)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, ARE);
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ARE);
 	std::ofstream resource(path);
 	if (resource.good()) {
 		resource.write(headerARE, SIZE_HEADER);

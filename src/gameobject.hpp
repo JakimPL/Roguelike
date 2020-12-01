@@ -54,6 +54,8 @@ public:
 	void step();
 
 	virtual TextPair getText();
+	virtual bool load(std::ifstream& resource);
+	virtual bool save(std::ofstream& resource);
 };
 
 #endif // GAMEOBJECT_HPP

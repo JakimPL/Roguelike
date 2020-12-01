@@ -7,7 +7,7 @@
 
 Creature::Creature(const std::string& filename, bool fullPath)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, CRE);
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::CRE);
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
@@ -97,7 +97,7 @@ Creature::Creature()
 
 bool Creature::saveToFile(const std::string& filename, bool fullPath)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, CRE);
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::CRE);
 	std::ofstream resource(path);
 	if (resource.good()) {
 		resource.write(headerCRE, SIZE_HEADER);

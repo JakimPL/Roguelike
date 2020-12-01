@@ -1,7 +1,7 @@
 #include "door.hpp"
 #include "options.hpp"
 
-Door::Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation, Position initialPosition, Area* initialArea) : GameObject(gameObjects), orientation(initialOrientation)
+Door::Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation, bool initialLocked, Position initialPosition, Area* initialArea) : GameObject(gameObjects), orientation(initialOrientation), locked(initialLocked)
 {
 	type = ObjectType::Door;
 	movable = false;

@@ -43,10 +43,11 @@
 static constexpr unsigned int SIZE_TABLE = 4;
 static constexpr unsigned int SIZE_HEADER = 3;
 static constexpr unsigned int SIZE_ITEM = 2;
-static constexpr unsigned int SIZE_CHAR = 1;
-static constexpr unsigned int SIZE_COLOR = 3;
+static constexpr unsigned int SIZE_CHAR = sizeof(char);
+static constexpr unsigned int SIZE_COLOR = 3 * SIZE_CHAR;
 static constexpr unsigned int SIZE_INT = sizeof(unsigned int);
 static constexpr unsigned int SIZE_LONG = sizeof(unsigned long);
+static constexpr unsigned int SIZE_POSITION = 2 * sizeof(int) + 1;
 
 static constexpr char headerARE[SIZE_HEADER + 1] = {'A', 'R', 'E', '\0'};
 static constexpr char headerSTR[SIZE_HEADER + 1] = {'S', 'T', 'R', '\0'};
@@ -54,7 +55,6 @@ static constexpr char headerCRE[SIZE_HEADER + 1] = {'C', 'R', 'E', '\0'};
 static constexpr char headerITM[SIZE_HEADER + 1] = {'I', 'T', 'M', '\0'};
 static constexpr char headerCHR[SIZE_HEADER + 1] = {'C', 'H', 'R', '\0'};
 
-static const std::string FILENAME_PLAYER = "CHARACTER.CRE";
 static const std::string PATH_DATA = "data/";
 static const std::string PATH_INI = "options.ini";
 static const std::string PATH_ARE = "ARE/";
@@ -69,7 +69,7 @@ static const std::string SUFFIX_CHR = ".CHR";
 static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
 
-enum Filetype {
+enum class Filetype {
 	NONE,
 	ARE,
 	CHR,

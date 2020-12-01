@@ -34,22 +34,22 @@ const std::string getPath(const std::string& filename, Filetype filetype)
 {
 	std::string path;
 	switch (filetype) {
-	case ARE:
+	case Filetype::ARE:
 		path = PATH_DATA + PATH_ARE + filename + SUFFIX_ARE;
 		break;
-	case CHR:
+	case Filetype::CHR:
 		path = PATH_DATA + PATH_CHR + filename + SUFFIX_CHR;
 		break;
-	case CRE:
+	case Filetype::CRE:
 		path = PATH_DATA + PATH_CRE + filename + SUFFIX_CRE;
 		break;
-	case ITM:
+	case Filetype::ITM:
 		path = PATH_DATA + PATH_ITM + filename + SUFFIX_ITM;
 		break;
-	case STR:
+	case Filetype::STR:
 		path = PATH_DATA + PATH_STR + filename + SUFFIX_STR;
 		break;
-	case TXT:
+	case Filetype::TXT:
 		path = PATH_DATA + PATH_STR + filename + SUFFIX_TXT;
 		break;
 	default:

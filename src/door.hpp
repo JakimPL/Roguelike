@@ -16,7 +16,7 @@ private:
 	bool open = false;
 
 public:
-	Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation, Position initialPosition, Area* initialArea);
+	Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation, bool initialLocked, Position initialPosition, Area* initialArea);
 	bool toggle();
 	void update();
 
