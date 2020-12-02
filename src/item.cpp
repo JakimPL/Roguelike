@@ -5,16 +5,7 @@
 
 Item::Item(const std::string& filename, bool fullPath)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ITM);
-	_LogInfo("Opening " << path << " area file");
-	std::ifstream resource(path, std::ios::in | std::ios::binary);
-	if (resource.good()) {
-		load(resource);
-	} else {
-		_LogError("Failed to open " << filename << " item file!");
-	}
-
-	resource.close();
+	loadFromFile(filename, fullPath);
 }
 
 Item::Item()
@@ -38,6 +29,23 @@ Item::Item()
 		Ability ability = Ability(abilityIndex);
 		requiredAbilities[ability] = 0;
 	}
+}
+
+bool Item::loadFromFile(const std::string &filename, bool fullPath)
+{
+	bool success;
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ITM);
+	_LogInfo("Opening " << path << " area file");
+	std::ifstream resource(path, std::ios::in | std::ios::binary);
+	if (resource.good()) {
+		success = load(resource);
+	} else {
+		_LogError("Failed to open " << filename << " item file!");
+		success = false;
+	}
+
+	resource.close();
+	return success;
 }
 
 bool Item::saveToFile(const std::string& filename, bool fullPath)

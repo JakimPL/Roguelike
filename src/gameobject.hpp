@@ -1,7 +1,8 @@
 #ifndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
 
-#include "area.hpp"
+#include "color.hpp"
+#include "structures.hpp"
 #include "text.hpp"
 
 enum class ObjectType {
@@ -34,7 +35,6 @@ protected:
 
 public:
 	ObjectType type = ObjectType::None;
-	Area* currentArea;
 
 public:
 	GameObject(GameObjects& gameObjects);
@@ -44,13 +44,11 @@ public:
 	Color getColor() const;
 	char getLetter() const;
 	Position getPosition() const;
-	bool isPositionFree(int x, int y) const;
-	bool isPositionFree(Position position) const;
-	GameObjects isPositionTaken(int x, int y) const;
-	GameObjects isPositionTaken(Position position) const;
+	bool isSolid() const;
 
 	void setDirection(Direction direction);
 	void move(Direction direction);
+	void move();
 	void step();
 
 	virtual TextPair getText();

@@ -2,25 +2,33 @@
 #include "functions.hpp"
 #include "log.hpp"
 
-Area::Area(const std::string& filename, bool fullPath)
+Area::Area(GameObjects& gameObjects, const std::string& filename, bool fullPath) : areaObjects(gameObjects)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ARE);
-	_LogInfo("Opening " << path << " area file");
-	std::ifstream resource(path, std::ios::in | std::ios::binary);
-	if (resource.good()) {
-		load(resource);
-	} else {
-		_LogError("Failed to open " << filename << " area file!");
-	}
-
-	resource.close();
+	loadFromFile(filename, fullPath);
 }
 
-Area::Area()
+Area::Area(GameObjects& gameObjects) : areaObjects(gameObjects)
 {
 	nameID = 0;
 	width = 0;
 	height = 0;
+}
+
+bool Area::loadFromFile(const std::string& filename, bool fullPath)
+{
+	bool success;
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ARE);
+	_LogInfo("Opening " << path << " area file");
+	std::ifstream resource(path, std::ios::in | std::ios::binary);
+	if (resource.good()) {
+		success = load(resource);
+	} else {
+		_LogError("Failed to open " << filename << " area file!");
+		success = false;
+	}
+
+	resource.close();
+	return success;
 }
 
 bool Area::saveToFile(const std::string& filename, bool fullPath)
@@ -100,6 +108,10 @@ void Area::save(std::ofstream& resource)
 			resource.write(reinterpret_cast<char*>(&tile.nameID), SIZE_INT);
 		}
 	}
+
+	for (GameObject* object : areaObjects) {
+
+	}
 }
 
 unsigned int Area::getWidth() const
@@ -156,6 +168,43 @@ void Area::setTile(unsigned int x, unsigned int y, Tile tile)
 void Area::setTile(Position position, Tile tile)
 {
 	map[position.x][position.y] = tile;
+}
+
+bool Area::isPositionFree(int x, int y) const
+{
+	return isPositionFree({x, y});
+}
+
+bool Area::isPositionFree(Position position) const
+{
+	if (!isTileOutside(position) and getTile(position).obstacle) {
+		return false;
+	}
+
+	for (GameObject* object : areaObjects) {
+		if (object->isSolid() and object->getPosition() == position) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+GameObjects Area::isPositionTaken(int x, int y) const
+{
+	return isPositionTaken({x, y});
+}
+
+GameObjects Area::isPositionTaken(Position position) const
+{
+	GameObjects objectsAtPosition;
+	for (GameObject* object : areaObjects) {
+		if (object->getPosition() == position) {
+			objectsAtPosition.push_back(object);
+		}
+	}
+
+	return objectsAtPosition;
 }
 
 bool Area::isTileOutside(int x, int y) const

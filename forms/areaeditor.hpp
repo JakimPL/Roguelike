@@ -21,6 +21,7 @@ class AreaEditor : public QMainWindow
 	Q_OBJECT
 
 public:
+	GameObjects gameObjects;
 	std::vector<std::vector<QGraphicsTextItem*>> textTiles;
 	std::vector<std::vector<QGraphicsRectItem*>> rectTiles;
 	QGraphicsScene* graphicsScene;

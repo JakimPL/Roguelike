@@ -12,21 +12,17 @@
 
 using namespace Graphics;
 
-Game::Game() : player(gameObjects, Creature(),
+Game::Game() : player(gameObjects, Creature(), STARTING_POSITION, "Liop")
 {
-	30, 30, Direction::SOUTH
-}, "Liop", nullptr)
-{
-	currentArea = new Area("MOONDALE");
-	player.currentArea = currentArea;
+	currentArea = new Area(gameObjects, "MOONDALE");
 
 	initializeGraphics();
 	initializeFont();
 
 	messages = new Messages(renderer, graphics.messagesTexture, font);
 	new ItemObject(gameObjects, Item("DAGGER"), {10, 10});
-	new NPC(gameObjects, Creature("JULIAN"), {13, 10}, currentArea);
-	new Door(gameObjects, {128, 128, 128}, false, true, {15, 15}, currentArea);
+	new NPC(gameObjects, Creature("JULIAN"), {13, 10});
+	new Door(gameObjects, {128, 128, 128}, false, true, {15, 15});
 }
 
 Game::~Game()
@@ -131,7 +127,7 @@ void Game::drawGUI()
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
 	if (!currentArea->isTileOutside(playerPosition.x + dirX, playerPosition.y + dirY)) {
-		GameObjects objects = player.isPositionTaken(playerPosition.x + dirX, playerPosition.y + dirY);
+		GameObjects objects = currentArea->isPositionTaken(playerPosition.x + dirX, playerPosition.y + dirY);
 		if (!objects.empty()) {
 			GameObject* object = objects[0];
 			TextPair textPair = object->getText();
@@ -463,13 +459,16 @@ void Game::mainLoop()
 						if (keyboard.getKeyState(SDLK_LSHIFT)) {
 							player.setDirection(direction);
 						} else {
-							player.move(direction);
+							player.setDirection(direction);
+							if (currentArea->isPositionFree(player.getPosition() + 1)) {
+								player.move();
+							}
 						}
 						break;
 					}
 
 					if (keyboard.isKeyPressed(SDLK_LCTRL)) {
-						GameObjects objects = player.isPositionTaken(player.getPosition() + 1);
+						GameObjects objects = currentArea->isPositionTaken(player.getPosition() + 1);
 						if (!objects.empty()) {
 							GameObject* object = objects[0];
 							switch (object->type) {

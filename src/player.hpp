@@ -10,13 +10,16 @@ private:
 	std::string name;
 
 public:
-	Character character;
 	Creature creature;
 
 public:
-	Player(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, std::string initialName, Area* initialArea);
+	Player(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, std::string initialName);
 
 	std::string getName() const;
+
+	TextPair getText() override;
+	void load(std::ifstream& resource) override;
+	void save(std::ofstream& resource) override;
 };
 
 #endif // PLAYER_HPP

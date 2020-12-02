@@ -7,16 +7,7 @@
 
 Creature::Creature(const std::string& filename, bool fullPath)
 {
-	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::CRE);
-	_LogInfo("Opening " << path << " area file");
-	std::ifstream resource(path, std::ios::in | std::ios::binary);
-	if (resource.good()) {
-		load(resource);
-	} else {
-		_LogError("Failed to open " << filename << " creature file!");
-	}
-
-	resource.close();
+	loadFromFile(filename, fullPath);
 }
 
 Creature::Creature()
@@ -57,6 +48,23 @@ Creature::Creature()
 	inventory.addItem("BROADSWORD");
 	inventory.addItem("LIGHTBLADE");
 	updateStats();
+}
+
+bool Creature::loadFromFile(const std::string& filename, bool fullPath)
+{
+	bool success;
+	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::CRE);
+	_LogInfo("Opening " << path << " area file");
+	std::ifstream resource(path, std::ios::in | std::ios::binary);
+	if (resource.good()) {
+		success = load(resource);
+	} else {
+		_LogError("Failed to open " << filename << " creature file!");
+		success = false;
+	}
+
+	resource.close();
+	return success;
 }
 
 bool Creature::saveToFile(const std::string& filename, bool fullPath)

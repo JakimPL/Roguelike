@@ -1,6 +1,6 @@
 #include "npc.hpp"
 
-NPC::NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, Area* initialArea) : GameObject(gameObjects), creature(initialCreature)
+NPC::NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPosition) : GameObject(gameObjects), creature(initialCreature)
 {
 	type = ObjectType::NPC;
 	movable = true;
@@ -9,7 +9,6 @@ NPC::NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPos
 	nameID = creature.getNameID();
 	color = creature.getColor();
 	letter = creature.getLetter();
-	currentArea = initialArea;
 }
 
 TextPair NPC::getText()
@@ -19,10 +18,10 @@ TextPair NPC::getText()
 
 void NPC::load(std::ifstream& resource)
 {
-
+	creature.load(resource);
 }
 
 void NPC::save(std::ofstream& resource)
 {
-
+	creature.save(resource);
 }

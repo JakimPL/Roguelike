@@ -119,6 +119,7 @@ public:
 	void setRequiredLevel(unsigned int value);
 	void setRequiredAbility(const Ability ability, unsigned int value);
 
+	bool loadFromFile(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);
 	bool load(std::ifstream& resource);
 	void save(std::ofstream& resource);

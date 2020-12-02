@@ -166,6 +166,7 @@ public:
 	void setBaseAttackRate(int value);
 	void setBaseAbilityValue(const Ability ability, int value);
 
+	bool loadFromFile(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);
 	bool load(std::ifstream& resource);
 	void save(std::ofstream& resource);

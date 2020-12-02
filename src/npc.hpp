@@ -12,7 +12,7 @@ public:
 	Creature creature;
 
 public:
-	NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, Area* initialArea);
+	NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPosition);
 
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;

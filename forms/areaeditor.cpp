@@ -53,7 +53,7 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 	return QObject::eventFilter(qObject, qEvent);
 }
 
-AreaEditor::AreaEditor(QWidget* parent) : QMainWindow(parent), area("MOONDALE"), ui(new Ui::AreaEditor)
+AreaEditor::AreaEditor(QWidget* parent) : QMainWindow(parent), area(gameObjects, "MOONDALE"), ui(new Ui::AreaEditor)
 {
 	ui->setupUi(this);
 
@@ -79,8 +79,7 @@ void AreaEditor::on_actionOpen_triggered()
 	currentPath = QFileDialog::getOpenFileName(this, tr("Open ARE file"), "./data/ARE/", tr("Item files (*.ARE)"));
 	if (currentPath.size() > 0) {
 		std::string path = currentPath.toStdString();
-		Area newArea(path, true);
-		area = newArea;
+		area.loadFromFile(path, true);
 		updateApplicationTitle();
 		updateEditorValues();
 		drawWorld();

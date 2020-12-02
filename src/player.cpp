@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-Player::Player(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, std::string initialName, Area* initialArea) : GameObject(gameObjects), creature(initialCreature)
+Player::Player(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, std::string initialName) : GameObject(gameObjects), creature(initialCreature)
 {
 	type = ObjectType::Player;
 	name = initialName;
@@ -8,10 +8,24 @@ Player::Player(GameObjects& gameObjects, Creature initialCreature, Position init
 	position = initialPosition;
 	color = creature.getColor();
 	letter = creature.getLetter();
-	currentArea = initialArea;
 }
 
 std::string Player::getName() const
 {
 	return name;
+}
+
+TextPair Player::getText()
+{
+	return Text::makeTextPair(String::empty);
+}
+
+void Player::load(std::ifstream& resource)
+{
+	creature.load(resource);
+}
+
+void Player::save(std::ofstream& resource)
+{
+	creature.save(resource);
 }

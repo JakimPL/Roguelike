@@ -13,43 +13,6 @@ GameObject::~GameObject()
 
 }
 
-bool GameObject::isPositionFree(int x, int y) const
-{
-	return isPositionFree({x, y});
-}
-
-bool GameObject::isPositionFree(Position position) const
-{
-	if (!currentArea->isTileOutside(position) and currentArea->getTile(position).obstacle) {
-		return false;
-	}
-
-	for (GameObject* object : objects) {
-		if (object->solid and object->position == position) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-GameObjects GameObject::isPositionTaken(int x, int y) const
-{
-	return isPositionTaken({x, y});
-}
-
-GameObjects GameObject::isPositionTaken(Position position) const
-{
-	GameObjects objectsAtPosition;
-	for (GameObject* object : objects) {
-		if (object->position == position) {
-			objectsAtPosition.push_back(object);
-		}
-	}
-
-	return objectsAtPosition;
-}
-
 unsigned int GameObject::getNameID() const
 {
 	return nameID;
@@ -70,18 +33,26 @@ Position GameObject::getPosition() const
 	return position;
 }
 
+bool GameObject::isSolid() const
+{
+	return solid;
+}
+
 void GameObject::move(Direction direction)
 {
 	if (movable) {
 		position.direction = direction;
-		Position targetPosition = position + 1;
-		if (isPositionFree(targetPosition)) {
-			if (delay == 0) {
-				position.moveInDirection();
-				delay = options.game.delay;
-			}
+
+		if (delay == 0) {
+			position.moveInDirection();
+			delay = options.game.delay;
 		}
 	}
+}
+
+void GameObject::move()
+{
+	move(Direction(position.direction));
 }
 
 void GameObject::setDirection(Direction direction)
@@ -106,8 +77,10 @@ void GameObject::load(std::ifstream& resource)
 	resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
 	resource.read(reinterpret_cast<char*>(&delay), SIZE_INT);
 	resource.read(reinterpret_cast<char*>(&movable), SIZE_CHAR);
-	resource.read(reinterpret_cast<char*>(&movable), SIZE_CHAR);
+	resource.read(reinterpret_cast<char*>(&solid), SIZE_CHAR);
 	resource.read(reinterpret_cast<char*>(&position), SIZE_POSITION);
+	resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
+	resource.read(reinterpret_cast<char*>(&letter), SIZE_CHAR);
 }
 
 void GameObject::save(std::ofstream& resource)
@@ -115,8 +88,10 @@ void GameObject::save(std::ofstream& resource)
 	resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
 	resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
 	resource.write(reinterpret_cast<char*>(&movable), SIZE_CHAR);
-	resource.write(reinterpret_cast<char*>(&movable), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&solid), SIZE_CHAR);
 	resource.write(reinterpret_cast<char*>(&position), SIZE_POSITION);
+	resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
+	resource.write(reinterpret_cast<char*>(&letter), SIZE_CHAR);
 }
 
 void GameObjects::deleteObject(GameObject* object)
