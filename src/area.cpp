@@ -8,39 +8,7 @@ Area::Area(const std::string& filename, bool fullPath)
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
-		char resourceHeader[SIZE_HEADER + 1];
-		Functions::read(resource, resourceHeader, SIZE_HEADER);
-		if (Functions::compareHeaders(headerARE, resourceHeader)) {
-			// read map name, width and height
-			resource.read((char*)&nameID, SIZE_INT);
-			resource.read((char*)&width, SIZE_INT);
-			resource.read((char*)&height, SIZE_INT);
-
-			map.clear();
-			map.resize(width);
-
-			// read map characters
-			for (unsigned int y = 0; y < height; ++y) {
-				for (unsigned int x = 0; x < width; ++x) {
-					char letter;
-					Color color;
-					bool obstacle;
-					unsigned int nameID;
-
-					resource.read(reinterpret_cast<char*>(&letter), SIZE_CHAR);
-					resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
-					resource.read(reinterpret_cast<char*>(&obstacle), SIZE_CHAR);
-					resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
-
-					Tile tile = {letter, color, obstacle, nameID};
-					map[x].push_back(tile);
-				}
-			}
-
-			_LogInfo("File " << path << " opened successfully.");
-		} else {
-			_LogError("Invalid area file!");
-		}
+		load(resource);
 	} else {
 		_LogError("Failed to open " << filename << " area file!");
 	}
@@ -60,21 +28,7 @@ bool Area::saveToFile(const std::string& filename, bool fullPath)
 	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ARE);
 	std::ofstream resource(path);
 	if (resource.good()) {
-		resource.write(headerARE, SIZE_HEADER);
-		resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&width), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&height), SIZE_INT);
-
-		// write characters
-		for (unsigned int y = 0; y < height; ++y) {
-			for (unsigned int x = 0; x < width; ++x) {
-				Tile tile = getTile(x, y);
-				resource.write(reinterpret_cast<char*>(&tile.letter), SIZE_CHAR);
-				resource.write(reinterpret_cast<char*>(&tile.color), SIZE_COLOR);
-				resource.write(reinterpret_cast<char*>(&tile.obstacle), SIZE_CHAR);
-				resource.write(reinterpret_cast<char*>(&tile.nameID), SIZE_INT);
-			}
-		}
+		save(resource);
 
 		_LogInfo("Saved " << path << " file succesfully");
 		resource.close();
@@ -88,6 +42,64 @@ bool Area::saveToFile(const std::string& filename, bool fullPath)
 unsigned int Area::getNameID() const
 {
 	return nameID;
+}
+
+bool Area::load(std::ifstream& resource)
+{
+	char resourceHeader[SIZE_HEADER + 1];
+	Functions::read(resource, resourceHeader, SIZE_HEADER);
+	if (Functions::compareHeaders(headerARE, resourceHeader)) {
+		// read map name, width and height
+		resource.read((char*)&nameID, SIZE_INT);
+		resource.read((char*)&width, SIZE_INT);
+		resource.read((char*)&height, SIZE_INT);
+
+		map.clear();
+		map.resize(width);
+
+		// read map characters
+		for (unsigned int y = 0; y < height; ++y) {
+			for (unsigned int x = 0; x < width; ++x) {
+				char letter;
+				Color color;
+				bool obstacle;
+				unsigned int nameID;
+
+				resource.read(reinterpret_cast<char*>(&letter), SIZE_CHAR);
+				resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
+				resource.read(reinterpret_cast<char*>(&obstacle), SIZE_CHAR);
+				resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
+
+				Tile tile = {letter, color, obstacle, nameID};
+				map[x].push_back(tile);
+			}
+		}
+
+		_LogInfo("File opened successfully.");
+		return true;
+	} else {
+		_LogError("Invalid area file!");
+		return false;
+	}
+}
+
+void Area::save(std::ofstream& resource)
+{
+	resource.write(headerARE, SIZE_HEADER);
+	resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&width), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&height), SIZE_INT);
+
+	// write characters
+	for (unsigned int y = 0; y < height; ++y) {
+		for (unsigned int x = 0; x < width; ++x) {
+			Tile tile = getTile(x, y);
+			resource.write(reinterpret_cast<char*>(&tile.letter), SIZE_CHAR);
+			resource.write(reinterpret_cast<char*>(&tile.color), SIZE_COLOR);
+			resource.write(reinterpret_cast<char*>(&tile.obstacle), SIZE_CHAR);
+			resource.write(reinterpret_cast<char*>(&tile.nameID), SIZE_INT);
+		}
+	}
 }
 
 unsigned int Area::getWidth() const

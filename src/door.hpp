@@ -21,6 +21,8 @@ public:
 	void update();
 
 	TextPair getText() override;
+	void load(std::ifstream& resource) override;
+	void save(std::ofstream& resource) override;
 };
 
 #endif // NPC_HPP

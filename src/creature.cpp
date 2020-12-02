@@ -11,43 +11,7 @@ Creature::Creature(const std::string& filename, bool fullPath)
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
-		char resourceHeader[SIZE_HEADER + 1];
-		Functions::read(resource, resourceHeader, SIZE_HEADER);
-		if (Functions::compareHeaders(headerCRE, resourceHeader)) {
-			resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&letter), SIZE_CHAR);
-			resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
-			resource.read(reinterpret_cast<char*>(&race), SIZE_CHAR);
-			resource.read(reinterpret_cast<char*>(&gender), SIZE_CHAR);
-			resource.read(reinterpret_cast<char*>(&alignment), SIZE_CHAR);
-			resource.read(reinterpret_cast<char*>(&state), SIZE_CHAR);
-			resource.read(reinterpret_cast<char*>(&level), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&xpCurrent), SIZE_LONG);
-			resource.read(reinterpret_cast<char*>(&xpNextLevel), SIZE_LONG);
-			resource.read(reinterpret_cast<char*>(&xpValue), SIZE_LONG);
-			resource.read(reinterpret_cast<char*>(&gold), SIZE_LONG);
-			resource.read(reinterpret_cast<char*>(&hpCurrent), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&hpBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&hpRegenerationBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&mpCurrent), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&mpBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&mpRegenerationBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&damageMinBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&damageMaxBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&attackRateBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&defenseBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&defenseRateBase), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&abilityPoints), SIZE_INT);
-			for (size_t ability = 0; ability < Ability::count; ++ability) {
-				resource.read(reinterpret_cast<char*>(&abilitiesBase[ability]), SIZE_INT);
-			}
-
-			// resistances and inventory to be implemented
-			updateStats();
-			_LogInfo("File " << path << " opened successfully.");
-		} else {
-			_LogError("Invalid creature file!");
-		}
+		load(resource);
 	} else {
 		_LogError("Failed to open " << filename << " creature file!");
 	}
@@ -100,36 +64,7 @@ bool Creature::saveToFile(const std::string& filename, bool fullPath)
 	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::CRE);
 	std::ofstream resource(path);
 	if (resource.good()) {
-		resource.write(headerCRE, SIZE_HEADER);
-		resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&letter), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
-		resource.write(reinterpret_cast<char*>(&race), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&gender), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&alignment), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&state), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&level), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&xpCurrent), SIZE_LONG);
-		resource.write(reinterpret_cast<char*>(&xpNextLevel), SIZE_LONG);
-		resource.write(reinterpret_cast<char*>(&xpValue), SIZE_LONG);
-		resource.write(reinterpret_cast<char*>(&gold), SIZE_LONG);
-		resource.write(reinterpret_cast<char*>(&hpCurrent), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&hpBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&hpRegenerationBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&mpCurrent), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&mpBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&mpRegenerationBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&damageMinBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&damageMaxBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&attackRateBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&defenseBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&defenseRateBase), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&abilityPoints), SIZE_INT);
-		for (size_t ability = 0; ability < Ability::count; ++ability) {
-			resource.write(reinterpret_cast<char*>(&abilitiesBase[ability]), SIZE_INT);
-		}
-
-		// resistances and inventory to be implemented
+		save(resource);
 
 		_LogInfo("Saved " << path << " file succesfully");
 		resource.close();
@@ -138,6 +73,83 @@ bool Creature::saveToFile(const std::string& filename, bool fullPath)
 		_LogError("Failed to save " << path << " file!");
 		return false;
 	}
+}
+
+bool Creature::load(std::ifstream& resource)
+{
+	char resourceHeader[SIZE_HEADER + 1];
+	Functions::read(resource, resourceHeader, SIZE_HEADER);
+	if (Functions::compareHeaders(headerCRE, resourceHeader)) {
+		resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&letter), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
+		resource.read(reinterpret_cast<char*>(&race), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&gender), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&alignment), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&state), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&level), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&xpCurrent), SIZE_LONG);
+		resource.read(reinterpret_cast<char*>(&xpNextLevel), SIZE_LONG);
+		resource.read(reinterpret_cast<char*>(&xpValue), SIZE_LONG);
+		resource.read(reinterpret_cast<char*>(&gold), SIZE_LONG);
+		resource.read(reinterpret_cast<char*>(&hpCurrent), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&hpBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&hpRegenerationBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&mpCurrent), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&mpBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&mpRegenerationBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&damageMinBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&damageMaxBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&attackRateBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&defenseBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&defenseRateBase), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&abilityPoints), SIZE_INT);
+		for (size_t ability = 0; ability < Ability::count; ++ability) {
+			resource.read(reinterpret_cast<char*>(&abilitiesBase[ability]), SIZE_INT);
+		}
+
+		// resistances and inventory to be implemented
+		updateStats();
+		_LogInfo("File opened successfully.");
+		return true;
+	} else {
+		_LogError("Invalid creature file!");
+		return false;
+	}
+}
+
+void Creature::save(std::ofstream& resource)
+{
+	resource.write(headerCRE, SIZE_HEADER);
+	resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&letter), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
+	resource.write(reinterpret_cast<char*>(&race), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&gender), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&alignment), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&state), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&level), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&xpCurrent), SIZE_LONG);
+	resource.write(reinterpret_cast<char*>(&xpNextLevel), SIZE_LONG);
+	resource.write(reinterpret_cast<char*>(&xpValue), SIZE_LONG);
+	resource.write(reinterpret_cast<char*>(&gold), SIZE_LONG);
+	resource.write(reinterpret_cast<char*>(&hpCurrent), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&hpBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&hpRegenerationBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&mpCurrent), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&mpBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&mpRegenerationBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&damageMinBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&damageMaxBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&attackRateBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&defenseBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&defenseRateBase), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&abilityPoints), SIZE_INT);
+	for (size_t ability = 0; ability < Ability::count; ++ability) {
+		resource.write(reinterpret_cast<char*>(&abilitiesBase[ability]), SIZE_INT);
+	}
+
+	// resistances and inventory to be implemented
 }
 
 void Creature::assignPoint(Ability ability)

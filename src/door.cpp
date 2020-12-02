@@ -31,3 +31,13 @@ TextPair Door::getText()
 {
 	return Text::makeTextPair(String::Door);
 }
+
+void Door::load(std::ifstream& resource)
+{
+
+}
+
+void Door::save(std::ofstream& resource)
+{
+
+}

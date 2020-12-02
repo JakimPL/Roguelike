@@ -17,12 +17,12 @@ TextPair ItemObject::getText()
 	return Text::makeTextPair(String::Item);
 }
 
-bool ItemObject::load(std::ifstream& resource)
+void ItemObject::load(std::ifstream& resource)
 {
-	return false;
+	item.load(resource);
 }
 
-bool ItemObject::save(std::ofstream& resource)
+void ItemObject::save(std::ofstream& resource)
 {
-	return false;
+	item.save(resource);
 }

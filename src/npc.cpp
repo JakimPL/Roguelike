@@ -17,12 +17,12 @@ TextPair NPC::getText()
 	return {TextCategory::Creature, nameID};
 }
 
-bool NPC::load(std::ifstream& resource)
+void NPC::load(std::ifstream& resource)
 {
-	return false;
+
 }
 
-bool NPC::save(std::ofstream& resource)
+void NPC::save(std::ofstream& resource)
 {
-	return false;
+
 }

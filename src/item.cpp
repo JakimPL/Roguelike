@@ -9,32 +9,7 @@ Item::Item(const std::string& filename, bool fullPath)
 	_LogInfo("Opening " << path << " area file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
-		char resourceHeader[SIZE_HEADER + 1];
-		Functions::read(resource, resourceHeader, SIZE_HEADER);
-		if (Functions::compareHeaders(headerITM, resourceHeader)) {
-			resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
-			resource.read(reinterpret_cast<char*>(&type), SIZE_CHAR);
-			resource.read(reinterpret_cast<char*>(&category), SIZE_CHAR);
-			resource.read(reinterpret_cast<char*>(&flag), SIZE_CHAR);
-			resource.read(reinterpret_cast<char*>(&price), SIZE_LONG);
-			resource.read(reinterpret_cast<char*>(&damage), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&damageDelta), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&attackRate), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&delay), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&defense), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
-			resource.read(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
-			for (size_t ability = 0; ability < Ability::count; ++ability) {
-				resource.read(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);
-			}
-
-			// effects to be implemented
-			_LogInfo("File " << path << " opened successfully.");
-		} else {
-			_LogError("Invalid item file!");
-		}
+		load(resource);
 	} else {
 		_LogError("Failed to open " << filename << " item file!");
 	}
@@ -70,37 +45,73 @@ bool Item::saveToFile(const std::string& filename, bool fullPath)
 	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ITM);
 	std::ofstream resource(path);
 	if (resource.good()) {
-		resource.write(headerITM, SIZE_HEADER);
-		resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
-		resource.write(reinterpret_cast<char*>(&type), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&category), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&flag), SIZE_CHAR);
-		resource.write(reinterpret_cast<char*>(&price), SIZE_LONG);
-		resource.write(reinterpret_cast<char*>(&damage), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&damageDelta), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&attackRate), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&defense), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
-		resource.write(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
-		for (size_t ability = 0; ability < Ability::count; ++ability) {
-			resource.write(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);
-		}
-
-		unsigned int size = effects.size();
-		resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
-		for (size_t it = 0; it < size; ++it) {
-			// to be implemented
-		}
-
+		save(resource);
 		_LogInfo("Saved " << path << " file succesfully");
 		resource.close();
 		return true;
 	} else {
 		_LogError("Failed to save " << path << " file!");
 		return false;
+	}
+}
+
+bool Item::load(std::ifstream& resource)
+{
+	char resourceHeader[SIZE_HEADER + 1];
+	Functions::read(resource, resourceHeader, SIZE_HEADER);
+	if (Functions::compareHeaders(headerITM, resourceHeader)) {
+		resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
+		resource.read(reinterpret_cast<char*>(&type), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&category), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&flag), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&price), SIZE_LONG);
+		resource.read(reinterpret_cast<char*>(&damage), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&damageDelta), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&attackRate), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&delay), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&defense), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
+		resource.read(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
+		for (size_t ability = 0; ability < Ability::count; ++ability) {
+			resource.read(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);
+		}
+
+		// effects to be implemented
+		_LogInfo("File opened successfully.");
+		return true;
+	} else {
+		_LogError("Invalid item file!");
+		return false;
+	}
+}
+
+void Item::save(std::ofstream& resource)
+{
+	resource.write(headerITM, SIZE_HEADER);
+	resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&descriptionID), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
+	resource.write(reinterpret_cast<char*>(&type), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&category), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&flag), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&price), SIZE_LONG);
+	resource.write(reinterpret_cast<char*>(&damage), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&damageDelta), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&attackRate), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&defense), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&defenseRate), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&requiredLevel), SIZE_INT);
+	for (size_t ability = 0; ability < Ability::count; ++ability) {
+		resource.write(reinterpret_cast<char*>(&requiredAbilities[ability]), SIZE_INT);
+	}
+
+	unsigned int size = effects.size();
+	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
+	for (size_t it = 0; it < size; ++it) {
+		// to be implemented
 	}
 }
 

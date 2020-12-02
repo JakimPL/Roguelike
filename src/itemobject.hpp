@@ -13,8 +13,8 @@ public:
 	ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition);
 
 	TextPair getText() override;
-	bool load(std::ifstream& resource) override;
-	bool save(std::ofstream& resource) override;
+	void load(std::ifstream& resource) override;
+	void save(std::ofstream& resource) override;
 };
 
 #endif // ITEMOBJECT_HPP

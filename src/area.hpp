@@ -21,7 +21,6 @@ private:
 public:
 	Area();
 	Area(const std::string& filename, bool fullPath = false);
-	bool saveToFile(const std::string& filename, bool fullPath = false);
 
 	unsigned int getNameID() const;
 	unsigned int getHeight() const;
@@ -36,6 +35,10 @@ public:
 
 	bool isTileOutside(int x, int y) const;
 	bool isTileOutside(Position position) const;
+
+	bool saveToFile(const std::string& filename, bool fullPath = false);
+	bool load(std::ifstream& resource);
+	void save(std::ofstream& resource);
 };
 
 #endif // AREA_HPP

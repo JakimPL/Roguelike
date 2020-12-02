@@ -120,6 +120,8 @@ public:
 	void setRequiredAbility(const Ability ability, unsigned int value);
 
 	bool saveToFile(const std::string& filename, bool fullPath = false);
+	bool load(std::ifstream& resource);
+	void save(std::ofstream& resource);
 };
 
 struct Inventory {
