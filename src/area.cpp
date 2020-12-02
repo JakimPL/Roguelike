@@ -177,7 +177,7 @@ bool Area::isPositionFree(int x, int y) const
 
 bool Area::isPositionFree(Position position) const
 {
-	if (!isTileOutside(position) and getTile(position).obstacle) {
+	if (isTileOutside(position) or getTile(position).obstacle) {
 		return false;
 	}
 

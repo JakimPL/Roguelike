@@ -55,6 +55,9 @@ public:
 	void quit();
 
 private:
+	int clampX(int x);
+	int clampY(int y);
+
 	void drawFrame();
 	void drawWorld();
 	void drawObjects();

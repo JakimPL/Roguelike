@@ -36,6 +36,16 @@ Game::~Game()
 	}
 }
 
+int Game::clampX(int x)
+{
+	return std::min(0, std::max(options.general.screenWidth / (2 * options.gui.tileBaseWidth) - int(currentArea->getWidth()), x));
+}
+
+int Game::clampY(int y)
+{
+	return std::min(3, std::max(options.general.screenHeight / (2 * options.gui.tileBaseHeight) - int(currentArea->getHeight() + 3), y));
+}
+
 void Game::drawFrame()
 {
 	SDL_RenderClear(renderer);
@@ -74,16 +84,19 @@ void Game::drawObjects()
 	SDL_RenderClear(renderer);
 
 	Position playerPosition = player.getPosition();
+	int x = clampX(options.gui.centerX - playerPosition.x);
+	int y = clampY(options.gui.centerY - playerPosition.y);
+
 	for (GameObject* object : gameObjects) {
 		Position objectPosition = object->getPosition();
-		int realX = objectPosition.x - playerPosition.x + options.gui.centerX;
-		int realY = objectPosition.y - playerPosition.y + options.gui.centerY;
+		int realX = objectPosition.x + x;
+		int realY = objectPosition.y + y;
 		drawLetter(renderer, font, object->getLetter(), object->getColor(), realX, realY);
 	}
 
 	int dirX = DIR_X(playerPosition.direction);
 	int dirY = DIR_Y(playerPosition.direction);
-	drawLetter(renderer, font, options.game.targetLetter, TARGET_COLOR, options.gui.centerX + dirX, options.gui.centerY + dirY);
+	drawLetter(renderer, font, options.game.targetLetter, TARGET_COLOR, playerPosition.x + x + dirX, playerPosition.y + y + dirY);
 
 	SDL_SetRenderTarget(renderer, NULL);
 }
@@ -378,8 +391,10 @@ void Game::drawMap()
 void Game::redrawWorld()
 {
 	Position playerPosition = player.getPosition();
-	graphics.worldRectangle.x = options.gui.tileBaseWidth * (options.gui.centerX - playerPosition.x);
-	graphics.worldRectangle.y = options.gui.tileBaseHeight * (options.gui.centerY - playerPosition.y);
+	int x = clampX(options.gui.centerX - playerPosition.x);
+	int y = clampY(options.gui.centerY - playerPosition.y);
+	graphics.worldRectangle.x = options.gui.tileBaseWidth * x;
+	graphics.worldRectangle.y = options.gui.tileBaseHeight * y;
 	SDL_RenderCopy(renderer, graphics.worldTexture, &graphics.screenRectangle, &graphics.worldRectangle);
 	SDL_RenderCopy(renderer, graphics.objectsTexture, NULL, NULL);
 }
@@ -461,7 +476,7 @@ void Game::mainLoop()
 						} else {
 							player.setDirection(direction);
 							if (currentArea->isPositionFree(player.getPosition() + 1)) {
-								player.move();
+								player.move(direction);
 							}
 						}
 						break;
