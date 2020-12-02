@@ -23,6 +23,12 @@ struct Color {
 		QColor qColor = {r, g, b, 255};
 		return qColor;
 	};
+	bool operator==(Color rhs) const
+	{
+		return red == rhs.red and
+			   green == rhs.green and
+			   blue == rhs.blue;
+	};
 };
 
 #endif // COLOR_HPP

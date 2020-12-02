@@ -20,6 +20,9 @@ public:
 	bool toggle();
 	void update();
 
+	bool getOrientation() const;
+	void setOrientation(bool newOrientation);
+
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;
 	void save(std::ofstream& resource) override;

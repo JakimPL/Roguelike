@@ -110,7 +110,7 @@ void Area::save(std::ofstream& resource)
 	}
 
 	for (GameObject* object : areaObjects) {
-
+		object->save(resource);
 	}
 }
 

@@ -10,6 +10,14 @@ struct Tile {
 	Color color;
 	bool obstacle;
 	unsigned int nameID;
+
+	bool operator==(Tile rhs) const
+	{
+		return letter == rhs.letter and
+			   color == rhs.color and
+			   obstacle == rhs.obstacle and
+			   nameID == rhs.nameID;
+	};
 };
 
 struct Area {

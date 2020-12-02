@@ -1,6 +1,7 @@
 #include "areaeditor.hpp"
 #include "ui_areaeditor.h"
 #include "editorfunctions.hpp"
+#include "src/door.hpp"
 #include "src/log.hpp"
 #include "src/options.hpp"
 
@@ -194,7 +195,6 @@ void AreaEditor::drawWorld()
 			graphicsScene->addItem(rectItem);
 		}
 	}
-
 }
 
 void AreaEditor::setTile(Position position, Tile& tile)

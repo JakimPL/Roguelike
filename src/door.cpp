@@ -26,6 +26,16 @@ void Door::update()
 	letter = ((!open) != (!orientation) ? options.game.doorHorizontalLetter : options.game.doorVerticalLetter);
 }
 
+bool Door::getOrientation() const
+{
+	return orientation;
+}
+
+void Door::setOrientation(bool newOrientation)
+{
+	orientation = newOrientation;
+}
+
 TextPair Door::getText()
 {
 	return Text::makeTextPair(String::Door);
