@@ -54,7 +54,7 @@ bool Creature::loadFromFile(const std::string& filename, bool fullPath)
 {
 	bool success;
 	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::CRE);
-	_LogInfo("Opening " << path << " area file");
+	_LogInfo("Opening " << path << " creature file");
 	std::ifstream resource(path, std::ios::in | std::ios::binary);
 	if (resource.good()) {
 		success = load(resource);

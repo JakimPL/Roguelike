@@ -25,7 +25,7 @@ bool Area::loadFromFile(const std::string& filename, bool fullPath)
 	bool success;
 	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ARE);
 	_LogInfo("Opening " << path << " area file");
-	std::ifstream resource(path, std::ios::in | std::ios::binary);
+	std::ifstream resource(path, std::ios::in);
 	if (resource.good()) {
 		success = load(resource);
 	} else {

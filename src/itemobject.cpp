@@ -16,6 +16,7 @@ ItemObject::ItemObject(GameObjects& gameObjects, std::ifstream& resource) : Game
 {
 	type = ObjectType::Item;
 	load(resource);
+	item = Item(resourceName);
 }
 
 TextPair ItemObject::getText()
@@ -25,14 +26,19 @@ TextPair ItemObject::getText()
 
 void ItemObject::load(std::ifstream& resource)
 {
+	GameObject::load(resource);
 	unsigned int size;
 	resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
-	resource.read(reinterpret_cast<char*>(&resourceName), size);
+	char resourceChar[size];
+	resource.read(reinterpret_cast<char*>(&resourceChar), size);
+	resourceName = resourceChar;
 }
 
 void ItemObject::save(std::ofstream& resource)
 {
+	GameObject::save(resource);
 	unsigned int size = resourceName.size();
+	const char* resourceChar = resourceName.c_str();
 	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
-	resource.write(reinterpret_cast<char*>(&resourceName), size);
+	resource.write(resourceChar, size);
 }

@@ -15,6 +15,7 @@ NPC::NPC(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObj
 {
 	type = ObjectType::NPC;
 	load(resource);
+	creature = Creature(resourceName);
 }
 
 TextPair NPC::getText()
@@ -24,14 +25,18 @@ TextPair NPC::getText()
 
 void NPC::load(std::ifstream& resource)
 {
+	GameObject::load(resource);
 	unsigned int size;
 	resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
-	resource.read(reinterpret_cast<char*>(&resourceName), size);
+	char resourceChar[size];
+	resourceName = resourceChar;
 }
 
 void NPC::save(std::ofstream& resource)
 {
+	GameObject::save(resource);
 	unsigned int size = resourceName.size();
+	const char* resourceChar = resourceName.c_str();
 	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
-	resource.write(reinterpret_cast<char*>(&resourceName), size);
+	resource.write(resourceChar, size);
 }
