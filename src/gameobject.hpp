@@ -5,7 +5,7 @@
 #include "structures.hpp"
 #include "text.hpp"
 
-enum class ObjectType {
+enum class ObjectType : unsigned char {
 	None,
 	Player,
 	Item,
@@ -17,6 +17,7 @@ class GameObject;
 
 struct GameObjects : public std::vector<GameObject*> {
 	void deleteObject(GameObject* object);
+	void deleteObjects();
 };
 
 class GameObject

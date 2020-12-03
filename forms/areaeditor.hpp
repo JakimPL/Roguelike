@@ -22,6 +22,7 @@ class AreaEditor : public QMainWindow
 
 public:
 	GameObjects gameObjects;
+	std::map<GameObject*, QGraphicsTextItem*> textObjects;
 	std::vector<std::vector<QGraphicsTextItem*>> textTiles;
 	std::vector<std::vector<QGraphicsRectItem*>> rectTiles;
 	QGraphicsScene* graphicsScene;
@@ -46,6 +47,7 @@ private slots:
 
 	Color getColor() const;
 	char getLetter(std::string string = "") const;
+	void setObject(GameObject* object);
 	void setTile(Position position, Tile& tile);
 
 	void drawWorld();
@@ -56,6 +58,7 @@ private slots:
 	void updateApplicationTitle();
 	void updateEditorValues();
 	void updateAreaParameters();
+	void updateObjects();
 
 private:
 	Ui::AreaEditor *ui;

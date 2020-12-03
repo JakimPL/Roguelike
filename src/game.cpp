@@ -20,9 +20,6 @@ Game::Game() : player(gameObjects, Creature(), STARTING_POSITION, "Liop")
 	initializeFont();
 
 	messages = new Messages(renderer, graphics.messagesTexture, font);
-	new ItemObject(gameObjects, Item("DAGGER"), {10, 10});
-	new NPC(gameObjects, Creature("JULIAN"), {13, 10});
-	new Door(gameObjects, {128, 128, 128}, false, true, {15, 15});
 }
 
 Game::~Game()

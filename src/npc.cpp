@@ -11,6 +11,12 @@ NPC::NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPos
 	letter = creature.getLetter();
 }
 
+NPC::NPC(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObjects)
+{
+	type = ObjectType::NPC;
+	load(resource);
+}
+
 TextPair NPC::getText()
 {
 	return {TextCategory::Creature, nameID};

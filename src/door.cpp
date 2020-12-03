@@ -10,6 +10,13 @@ Door::Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation
 	update();
 }
 
+Door::Door(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObjects)
+{
+	type = ObjectType::Door;
+	load(resource);
+	update();
+}
+
 bool Door::toggle()
 {
 	if (!locked) {
@@ -43,6 +50,7 @@ TextPair Door::getText()
 
 void Door::load(std::ifstream& resource)
 {
+	GameObject::load(resource);
 	resource.read(reinterpret_cast<char*>(&orientation), SIZE_CHAR);
 	resource.read(reinterpret_cast<char*>(&locked), SIZE_CHAR);
 	resource.read(reinterpret_cast<char*>(&open), SIZE_CHAR);
@@ -50,6 +58,7 @@ void Door::load(std::ifstream& resource)
 
 void Door::save(std::ofstream& resource)
 {
+	GameObject::save(resource);
 	resource.write(reinterpret_cast<char*>(&orientation), SIZE_CHAR);
 	resource.write(reinterpret_cast<char*>(&locked), SIZE_CHAR);
 	resource.write(reinterpret_cast<char*>(&open), SIZE_CHAR);

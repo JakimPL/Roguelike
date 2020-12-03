@@ -17,6 +17,8 @@ private:
 
 public:
 	Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation, bool initialLocked, Position initialPosition);
+	Door(GameObjects& gameObjects, std::ifstream& resource);
+
 	bool toggle();
 	void update();
 

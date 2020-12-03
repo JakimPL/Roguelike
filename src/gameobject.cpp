@@ -1,6 +1,5 @@
 #include "gameobject.hpp"
 #include "constants.hpp"
-#include "log.hpp"
 #include "options.hpp"
 
 GameObject::GameObject(GameObjects& gameObjects) : objects(gameObjects)
@@ -85,6 +84,7 @@ void GameObject::load(std::ifstream& resource)
 
 void GameObject::save(std::ofstream& resource)
 {
+	resource.write(reinterpret_cast<char*>(&type), SIZE_CHAR);
 	resource.write(reinterpret_cast<char*>(&nameID), SIZE_INT);
 	resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
 	resource.write(reinterpret_cast<char*>(&movable), SIZE_CHAR);
@@ -100,5 +100,14 @@ void GameObjects::deleteObject(GameObject* object)
 	if (position != end()) {
 		erase(position);
 		delete object;
+	}
+}
+
+void GameObjects::deleteObjects()
+{
+	for (GameObject* object : *this) {
+		if (object->type != ObjectType::Player) {
+			deleteObject(object);
+		}
 	}
 }

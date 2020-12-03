@@ -35,6 +35,18 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			Tile emptyTile = TILE_EMPTY;
 			area.setTile(selectorPosition, emptyTile);
 			setTile(selectorPosition, emptyTile);
+		} else if (event->key() == Qt::Key_D) {
+			if (area.getTile(selectorPosition) == Tile(TILE_EMPTY)) {
+				GameObjects objects = area.isPositionTaken(selectorPosition);
+				if (objects.empty()) {
+					new Door(gameObjects, getColor(), false, false, selectorPosition);
+					updateObjects();
+				} else if (objects[0]->type == ObjectType::Door) {
+					Door* door = (Door*)(objects[0]);
+					door->setOrientation(1 - door->getOrientation());
+					updateObjects();
+				}
+			}
 		}
 
 		if (selectorPosition != oldPosition) {
@@ -141,6 +153,10 @@ void AreaEditor::on_resizeButton_clicked()
 
 void AreaEditor::clearEditorElements()
 {
+	for (auto pair : textObjects) {
+		delete pair.second;
+	}
+
 	for (auto vector : textTiles) {
 		for (auto pointer : vector) {
 			delete pointer;
@@ -153,6 +169,7 @@ void AreaEditor::clearEditorElements()
 		}
 	}
 
+	textObjects.clear();
 	textTiles.clear();
 	rectTiles.clear();
 }
@@ -195,6 +212,22 @@ void AreaEditor::drawWorld()
 			graphicsScene->addItem(rectItem);
 		}
 	}
+
+	for (GameObject* object : gameObjects) {
+		QGraphicsTextItem* textItem = new QGraphicsTextItem;
+		textObjects[object] = textItem;
+		setObject(object);
+		graphicsScene->addItem(textItem);
+	}
+}
+
+void AreaEditor::setObject(GameObject* object)
+{
+	Position position = object->getPosition();
+	textObjects[object]->setDefaultTextColor(object->getColor());
+	textObjects[object]->setPlainText(QString(object->getLetter()));
+	textObjects[object]->setPos(position.x * options.gui.tileBaseWidth - 2, position.y * options.gui.tileBaseHeight - 2);
+	textObjects[object]->setFont(font);
 }
 
 void AreaEditor::setTile(Position position, Tile& tile)
@@ -273,5 +306,19 @@ void AreaEditor::updateApplicationTitle()
 		QWidget::setWindowTitle("Area Editor (" + currentPath + ")");
 	} else {
 		QWidget::setWindowTitle("Area Editor");
+	}
+}
+
+void AreaEditor::updateObjects()
+{
+	for (auto pair : textObjects) {
+		delete pair.second;
+	}
+
+	for (GameObject* object : gameObjects) {
+		QGraphicsTextItem* textItem = new QGraphicsTextItem;
+		textObjects[object] = textItem;
+		setObject(object);
+		graphicsScene->addItem(textItem);
 	}
 }

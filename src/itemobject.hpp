@@ -11,6 +11,7 @@ public:
 
 public:
 	ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition);
+	ItemObject(GameObjects& gameObjects, std::ifstream& resource);
 
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;

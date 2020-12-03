@@ -12,6 +12,12 @@ ItemObject::ItemObject(GameObjects& gameObjects, Item initialItem, Position init
 	letter = options.game.itemLetter;
 }
 
+ItemObject::ItemObject(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObjects)
+{
+	type = ObjectType::Item;
+	load(resource);
+}
+
 TextPair ItemObject::getText()
 {
 	return Text::makeTextPair(String::Item);

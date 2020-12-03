@@ -2,6 +2,10 @@
 #include "functions.hpp"
 #include "log.hpp"
 
+#include "door.hpp"
+#include "itemobject.hpp"
+#include "npc.hpp"
+
 Area::Area(GameObjects& gameObjects, const std::string& filename, bool fullPath) : areaObjects(gameObjects)
 {
 	loadFromFile(filename, fullPath);
@@ -16,6 +20,8 @@ Area::Area(GameObjects& gameObjects) : areaObjects(gameObjects)
 
 bool Area::loadFromFile(const std::string& filename, bool fullPath)
 {
+	areaObjects.deleteObjects();
+
 	bool success;
 	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::ARE);
 	_LogInfo("Opening " << path << " area file");
@@ -83,6 +89,27 @@ bool Area::load(std::ifstream& resource)
 			}
 		}
 
+		unsigned int size;
+		resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
+		for (unsigned int index = 0; index < size; ++index) {
+			ObjectType type;
+			resource.read(reinterpret_cast<char*>(&type), SIZE_CHAR);
+
+			switch (type) {
+			case ObjectType::Item:
+				new ItemObject(areaObjects, resource);
+				break;
+			case ObjectType::NPC:
+				new NPC(areaObjects, resource);
+				break;
+			case ObjectType::Door:
+				new Door(areaObjects, resource);
+				break;
+			default:
+				break;
+			}
+		}
+
 		_LogInfo("File opened successfully.");
 		return true;
 	} else {
@@ -109,6 +136,8 @@ void Area::save(std::ofstream& resource)
 		}
 	}
 
+	unsigned int size = areaObjects.size();
+	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
 	for (GameObject* object : areaObjects) {
 		object->save(resource);
 	}
