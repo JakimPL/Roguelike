@@ -1,4 +1,5 @@
 #include "itemobject.hpp"
+#include "functions.hpp"
 #include "options.hpp"
 #include "text.hpp"
 
@@ -29,8 +30,9 @@ void ItemObject::load(std::ifstream& resource)
 	GameObject::load(resource);
 	unsigned int size;
 	resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
-	char resourceChar[size];
-	resource.read(reinterpret_cast<char*>(&resourceChar), size);
+
+	char resourceChar[size + 1];
+	Functions::read(resource, resourceChar, size);
 	resourceName = resourceChar;
 }
 

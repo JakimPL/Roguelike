@@ -1,10 +1,12 @@
 #include "areaeditor.hpp"
 #include "ui_areaeditor.h"
 #include "editorfunctions.hpp"
-#include "src/door.hpp"
-#include "src/itemobject.hpp"
 #include "src/log.hpp"
 #include "src/options.hpp"
+
+#include "src/door.hpp"
+#include "src/itemobject.hpp"
+#include "src/npc.hpp"
 
 #include <QInputDialog>
 #include <QFileDialog>
@@ -60,6 +62,13 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			QString resourceName = QInputDialog::getText(this, tr("Input ITEM resource name:"), tr("Item name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
 			if (ok and !resourceName.isEmpty()) {
 				new ItemObject(gameObjects, resourceName.toStdString(), selectorPosition);
+				updateObjects();
+			}
+		} else if (event->key() == Qt::Key_N) {
+			bool ok;
+			QString resourceName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
+			if (ok and !resourceName.isEmpty()) {
+				new NPC(gameObjects, resourceName.toStdString(), selectorPosition);
 				updateObjects();
 			}
 		}

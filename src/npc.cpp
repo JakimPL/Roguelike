@@ -1,4 +1,5 @@
 #include "npc.hpp"
+#include "functions.hpp"
 
 NPC::NPC(GameObjects& gameObjects, std::string initialResourceName, Position initialPosition) : GameObject(gameObjects), resourceName(initialResourceName), creature(resourceName)
 {
@@ -28,7 +29,9 @@ void NPC::load(std::ifstream& resource)
 	GameObject::load(resource);
 	unsigned int size;
 	resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
-	char resourceChar[size];
+
+	char resourceChar[size + 1];
+	Functions::read(resource, resourceChar, size);
 	resourceName = resourceChar;
 }
 
