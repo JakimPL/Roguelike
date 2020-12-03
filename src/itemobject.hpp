@@ -7,10 +7,11 @@
 class ItemObject : public GameObject
 {
 public:
+	std::string resourceName;
 	Item item;
 
 public:
-	ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition);
+	ItemObject(GameObjects& gameObjects, std::string resourceName, Position initialPosition);
 	ItemObject(GameObjects& gameObjects, std::ifstream& resource);
 
 	TextPair getText() override;

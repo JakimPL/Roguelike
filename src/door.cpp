@@ -41,6 +41,7 @@ bool Door::getOrientation() const
 void Door::setOrientation(bool newOrientation)
 {
 	orientation = newOrientation;
+	update();
 }
 
 TextPair Door::getText()

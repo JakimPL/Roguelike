@@ -2,7 +2,7 @@
 #include "options.hpp"
 #include "text.hpp"
 
-ItemObject::ItemObject(GameObjects& gameObjects, Item initialItem, Position initialPosition) : GameObject(gameObjects), item(initialItem)
+ItemObject::ItemObject(GameObjects& gameObjects, std::string initialResourceName, Position initialPosition) : GameObject(gameObjects), resourceName(initialResourceName), item(initialResourceName)
 {
 	type = ObjectType::Item;
 	solid = true;
@@ -25,10 +25,14 @@ TextPair ItemObject::getText()
 
 void ItemObject::load(std::ifstream& resource)
 {
-	item.load(resource);
+	unsigned int size;
+	resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
+	resource.read(reinterpret_cast<char*>(&resourceName), size);
 }
 
 void ItemObject::save(std::ofstream& resource)
 {
-	item.save(resource);
+	unsigned int size = resourceName.size();
+	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&resourceName), size);
 }

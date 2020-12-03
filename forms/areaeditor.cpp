@@ -2,9 +2,11 @@
 #include "ui_areaeditor.h"
 #include "editorfunctions.hpp"
 #include "src/door.hpp"
+#include "src/itemobject.hpp"
 #include "src/log.hpp"
 #include "src/options.hpp"
 
+#include <QInputDialog>
 #include <QFileDialog>
 #include <QGraphicsItem>
 
@@ -35,6 +37,12 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			Tile emptyTile = TILE_EMPTY;
 			area.setTile(selectorPosition, emptyTile);
 			setTile(selectorPosition, emptyTile);
+
+			GameObjects objects = area.isPositionTaken(selectorPosition);
+			for (GameObject* object : objects) {
+				gameObjects.deleteObject(object);
+			}
+			updateObjects();
 		} else if (event->key() == Qt::Key_D) {
 			if (area.getTile(selectorPosition) == Tile(TILE_EMPTY)) {
 				GameObjects objects = area.isPositionTaken(selectorPosition);
@@ -46,6 +54,13 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 					door->setOrientation(1 - door->getOrientation());
 					updateObjects();
 				}
+			}
+		} else if (event->key() == Qt::Key_I) {
+			bool ok;
+			QString resourceName = QInputDialog::getText(this, tr("Input ITEM resource name:"), tr("Item name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
+			if (ok and !resourceName.isEmpty()) {
+				new ItemObject(gameObjects, resourceName.toStdString(), selectorPosition);
+				updateObjects();
 			}
 		}
 
@@ -314,6 +329,8 @@ void AreaEditor::updateObjects()
 	for (auto pair : textObjects) {
 		delete pair.second;
 	}
+
+	textObjects.clear();
 
 	for (GameObject* object : gameObjects) {
 		QGraphicsTextItem* textItem = new QGraphicsTextItem;

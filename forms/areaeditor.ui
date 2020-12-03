@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>180</y>
-      <width>1001</width>
+      <width>771</width>
       <height>521</height>
      </rect>
     </property>
@@ -325,6 +325,45 @@
      </property>
      <property name="text">
       <string>Copy tile</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="objectInfoBox">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>180</y>
+      <width>221</width>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Object Info</string>
+    </property>
+    <widget class="QPushButton" name="copyObjectButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>440</y>
+       <width>201</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Copy object</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pasteObjectButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>480</y>
+       <width>201</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Paste object</string>
      </property>
     </widget>
    </widget>

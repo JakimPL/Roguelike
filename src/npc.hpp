@@ -9,10 +9,11 @@ class NPC : public GameObject
 private:
 
 public:
+	std::string resourceName;
 	Creature creature;
 
 public:
-	NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPosition);
+	NPC(GameObjects& gameObjects, std::string initialResourceName, Position initialPosition);
 	NPC(GameObjects& gameObjects, std::ifstream& resource);
 
 	TextPair getText() override;

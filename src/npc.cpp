@@ -1,6 +1,6 @@
 #include "npc.hpp"
 
-NPC::NPC(GameObjects& gameObjects, Creature initialCreature, Position initialPosition) : GameObject(gameObjects), creature(initialCreature)
+NPC::NPC(GameObjects& gameObjects, std::string initialResourceName, Position initialPosition) : GameObject(gameObjects), resourceName(initialResourceName), creature(resourceName)
 {
 	type = ObjectType::NPC;
 	movable = true;
@@ -24,10 +24,14 @@ TextPair NPC::getText()
 
 void NPC::load(std::ifstream& resource)
 {
-	creature.load(resource);
+	unsigned int size;
+	resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
+	resource.read(reinterpret_cast<char*>(&resourceName), size);
 }
 
 void NPC::save(std::ofstream& resource)
 {
-	creature.save(resource);
+	unsigned int size = resourceName.size();
+	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&resourceName), size);
 }
