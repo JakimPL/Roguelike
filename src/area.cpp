@@ -44,11 +44,11 @@ bool Area::saveToFile(const std::string& filename, bool fullPath)
 	if (resource.good()) {
 		save(resource);
 
-		_LogInfo("Saved " << path << " file succesfully");
+		_LogInfo("Saved " << path << " area file succesfully");
 		resource.close();
 		return true;
 	} else {
-		_LogError("Failed to save " << path << " file!");
+		_LogError("Failed to save " << path << " area file!");
 		return false;
 	}
 }

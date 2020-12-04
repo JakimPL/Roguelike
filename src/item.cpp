@@ -54,11 +54,11 @@ bool Item::saveToFile(const std::string& filename, bool fullPath)
 	std::ofstream resource(path);
 	if (resource.good()) {
 		save(resource);
-		_LogInfo("Saved " << path << " file succesfully");
+		_LogInfo("Saved " << path << " item file succesfully");
 		resource.close();
 		return true;
 	} else {
-		_LogError("Failed to save " << path << " file!");
+		_LogError("Failed to save " << path << " item file!");
 		return false;
 	}
 }

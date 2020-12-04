@@ -4,6 +4,7 @@
 #include "log.hpp"
 #include "message.hpp"
 #include "options.hpp"
+#include "store.hpp"
 
 #include "objects/door.hpp"
 #include "objects/itemobject.hpp"
@@ -21,6 +22,8 @@ Game::Game() : player(gameObjects, Creature(), STARTING_POSITION, "Liop")
 	initializeFont();
 
 	messages = new Messages(renderer, graphics.messagesTexture, font);
+	Store store = Store({"DAGGER", "SHORTSWORD", "LONGSWORD", "BROADSWORD"});
+	store.saveToFile("JULIAN");
 }
 
 Game::~Game()

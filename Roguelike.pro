@@ -20,6 +20,7 @@ HEADERS += \
 	src/log.hpp \
 	src/message.hpp \
 	src/options.hpp \
+	src/store.hpp \
 	src/structures.hpp \
 	src/text.hpp \
 	src/timer.hpp \
@@ -44,6 +45,7 @@ SOURCES += \
 	src/keyboard.cpp \
 	src/message.cpp \
 	src/options.cpp \
+	src/store.cpp \
 	src/structures.cpp \
 	src/text.cpp \
 	src/timer.cpp \

@@ -46,6 +46,9 @@ const std::string getPath(const std::string& filename, Filetype filetype)
 	case Filetype::ITM:
 		path = PATH_DATA + PATH_ITM + filename + SUFFIX_ITM;
 		break;
+	case Filetype::STO:
+		path = PATH_DATA + PATH_STO + filename + SUFFIX_STO;
+		break;
 	case Filetype::STR:
 		path = PATH_DATA + PATH_STR + filename + SUFFIX_STR;
 		break;
