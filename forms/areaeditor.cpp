@@ -66,11 +66,17 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			}
 		} else if (event->key() == Qt::Key_N) {
 			bool ok;
-			QString resourceName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
-			if (ok and !resourceName.isEmpty()) {
-				new NPC(gameObjects, resourceName.toStdString(), selectorPosition);
-				updateObjects();
+			QString creatureName;
+			QString storeName;
+			creatureName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
+			if (ok) {
+				storeName = QInputDialog::getText(this, tr("Input STORE resource name:"), tr("Store name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
+				if (ok and !creatureName.isEmpty()) {
+					new NPC(gameObjects, creatureName.toStdString(), storeName.toStdString(), selectorPosition);
+					updateObjects();
+				}
 			}
+
 		}
 
 		if (selectorPosition != oldPosition) {

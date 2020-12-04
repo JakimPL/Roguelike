@@ -2,6 +2,11 @@
 #include "functions.hpp"
 #include "log.hpp"
 
+Store::Store()
+{
+
+}
+
 Store::Store(const std::vector<std::string> resourceList)
 {
 	resourceNames = resourceList;
@@ -52,14 +57,16 @@ bool Store::load(std::ifstream& resource)
 		unsigned int size;
 		resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
 		resourceNames.clear();
+		inventory.clear();
 		for (size_t index = 0; index < size; ++index) {
 			unsigned int itemSize;
 			resource.read(reinterpret_cast<char*>(&itemSize), SIZE_INT);
 			resourceNames.push_back(Functions::readString(resource, itemSize));
+			inventory.addItem(resourceNames[index]);
 		}
 
 		// effects to be implemented
-		_LogInfo("File opened successfully.");
+		_LogInfo("Store file opened successfully.");
 		return true;
 	} else {
 		_LogError("Invalid store file!");

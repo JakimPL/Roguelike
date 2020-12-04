@@ -6,7 +6,7 @@
 ItemObject::ItemObject(GameObjects& gameObjects, std::string initialResourceName, Position initialPosition) : GameObject(gameObjects), resourceName(initialResourceName), item(initialResourceName)
 {
 	type = ObjectType::Item;
-	solid = true;
+	solid = false;
 	position = initialPosition;
 	nameID = item.getNameID();
 	color = item.getColor();

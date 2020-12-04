@@ -14,7 +14,8 @@ enum class GUI : unsigned int {
 	None,
 	Inventory,
 	Character,
-	Map
+	Map,
+	Store
 };
 
 class Game
@@ -66,6 +67,7 @@ private:
 	void drawInventory();
 	void drawItemDescription(Item* item);
 	void drawMap();
+	void drawStore();
 
 	void redrawWorld();
 	void redrawGUI();

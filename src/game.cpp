@@ -22,8 +22,6 @@ Game::Game() : player(gameObjects, Creature(), STARTING_POSITION, "Liop")
 	initializeFont();
 
 	messages = new Messages(renderer, graphics.messagesTexture, font);
-	Store store = Store({"DAGGER", "SHORTSWORD", "LONGSWORD", "BROADSWORD"});
-	store.saveToFile("JULIAN");
 }
 
 Game::~Game()
@@ -181,9 +179,14 @@ void Game::drawGUI()
 		drawCharacterInfo();
 		break;
 	}
-	case GUI::Map:
+	case GUI::Map: {
 		drawMap();
 		break;
+	}
+	case GUI::Store: {
+		drawStore();
+		break;
+	}
 	default:
 		break;
 	}
@@ -389,6 +392,11 @@ void Game::drawMap()
 	}
 }
 
+void Game::drawStore()
+{
+
+}
+
 void Game::redrawWorld()
 {
 	Position playerPosition = player.getPosition();
@@ -505,6 +513,14 @@ void Game::mainLoop()
 								if (door->toggle()) {
 									messages->add(text[String::Closed], door->getColor());
 								}
+								break;
+							}
+							case ObjectType::NPC: {
+								NPC* npc = (NPC*)object;
+								if (!npc->store.inventory.isEmpty()) {
+									openTab(GUI::Store);
+								}
+								break;
 							}
 							default:
 								break;
@@ -566,6 +582,8 @@ void Game::mainLoop()
 					}
 				}
 
+				break;
+			case GUI::Store:
 				break;
 			}
 

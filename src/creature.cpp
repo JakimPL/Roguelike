@@ -74,11 +74,11 @@ bool Creature::saveToFile(const std::string& filename, bool fullPath)
 	if (resource.good()) {
 		save(resource);
 
-		_LogInfo("Saved " << path << " file succesfully");
+		_LogInfo("Saved " << path << " creature file succesfully");
 		resource.close();
 		return true;
 	} else {
-		_LogError("Failed to save " << path << " file!");
+		_LogError("Failed to save " << path << " creature file!");
 		return false;
 	}
 }
@@ -118,7 +118,7 @@ bool Creature::load(std::ifstream& resource)
 
 		// resistances and inventory to be implemented
 		updateStats();
-		_LogInfo("File opened successfully.");
+		_LogInfo("Creature file opened successfully.");
 		return true;
 	} else {
 		_LogError("Invalid creature file!");

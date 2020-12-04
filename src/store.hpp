@@ -5,11 +5,12 @@
 
 struct Store {
 	std::vector<std::string> resourceNames;
-	Inventory store;
+	Inventory inventory;
 
 public:
+	Store();
 	Store(const std::vector<std::string> resourceList);
-	Store(const std::string& filename, bool fullPath);
+	Store(const std::string& filename, bool fullPath = false);
 
 	bool loadFromFile(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);

@@ -133,6 +133,7 @@ private:
 public:
 	Item* addItem(const std::string& filename);
 	Item* addItem(Item item);
+	void clear();
 	void dropItem(ItemType type);
 	void dropItem(Item* item);
 	void equipItem(Item* item);

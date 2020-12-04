@@ -110,7 +110,7 @@ bool Area::load(std::ifstream& resource)
 			}
 		}
 
-		_LogInfo("File opened successfully.");
+		_LogInfo("Area file opened successfully.");
 		return true;
 	} else {
 		_LogError("Invalid area file!");

@@ -87,7 +87,7 @@ bool Item::load(std::ifstream& resource)
 		}
 
 		// effects to be implemented
-		_LogInfo("File opened successfully.");
+		_LogInfo("Item file opened successfully.");
 		return true;
 	} else {
 		_LogError("Invalid item file!");
@@ -291,6 +291,14 @@ Item* Inventory::addItem(Item item)
 	}
 
 	return nullptr;
+}
+
+void Inventory::clear()
+{
+	stack.clear();
+	while (!backpack.empty()) {
+		backpack.pop_back();
+	}
 }
 
 void Inventory::dropItem(ItemType type)
