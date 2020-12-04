@@ -1,5 +1,5 @@
 #include "npc.hpp"
-#include "functions.hpp"
+#include "src/functions.hpp"
 
 NPC::NPC(GameObjects& gameObjects, std::string initialResourceName, Position initialPosition) : GameObject(gameObjects), resourceName(initialResourceName), creature(resourceName)
 {

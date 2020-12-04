@@ -3,7 +3,7 @@
 
 #include "structures.hpp"
 #include "color.hpp"
-#include "gameobject.hpp"
+#include "objects/gameobject.hpp"
 
 struct Tile {
 	char letter;

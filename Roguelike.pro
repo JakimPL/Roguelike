@@ -12,23 +12,22 @@ HEADERS += \
 	src/color.hpp \
 	src/constants.hpp \
 	src/creature.hpp \
-	src/door.hpp \
 	src/functions.hpp \
 	src/game.hpp \
-	src/gameobject.hpp \
 	src/graphics.hpp \
 	src/item.hpp \
-	src/itemobject.hpp \
 	src/keyboard.hpp \
 	src/log.hpp \
 	src/message.hpp \
-	src/npc.hpp \
 	src/options.hpp \
-	src/player.hpp \
 	src/structures.hpp \
 	src/text.hpp \
-	src/timer.hpp
-
+	src/timer.hpp \
+	src/objects/door.hpp \
+	src/objects/gameobject.hpp \
+	src/objects/itemobject.hpp \
+	src/objects/npc.hpp \
+	src/objects/player.hpp
 
 SOURCES += \
 	main.cpp \
@@ -38,21 +37,21 @@ SOURCES += \
 	forms/itemeditor.cpp \
 	src/area.cpp \
 	src/creature.cpp \
-	src/door.cpp \
 	src/functions.cpp \
 	src/game.cpp \
-	src/gameobject.cpp \
 	src/graphics.cpp \
 	src/item.cpp \
-	src/itemobject.cpp \
 	src/keyboard.cpp \
 	src/message.cpp \
-	src/npc.cpp \
 	src/options.cpp \
-	src/player.cpp \
 	src/structures.cpp \
 	src/text.cpp \
-	src/timer.cpp
+	src/timer.cpp \
+	src/objects/door.cpp \
+	src/objects/gameobject.cpp \
+	src/objects/itemobject.cpp \
+	src/objects/npc.cpp \
+	src/objects/player.cpp
 	
 FORMS += \
     forms/areaeditor.ui \

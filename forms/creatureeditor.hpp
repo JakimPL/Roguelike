@@ -3,6 +3,7 @@
 
 #include "src/creature.hpp"
 #include "src/text.hpp"
+
 #include <QMainWindow>
 #include <QListWidget>
 

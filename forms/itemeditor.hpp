@@ -3,6 +3,7 @@
 
 #include "src/item.hpp"
 #include "src/text.hpp"
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE

@@ -1,8 +1,8 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "creature.hpp"
 #include "gameobject.hpp"
+#include "src/creature.hpp"
 
 class Player : public GameObject
 {

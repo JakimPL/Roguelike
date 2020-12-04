@@ -4,9 +4,9 @@
 #include "src/log.hpp"
 #include "src/options.hpp"
 
-#include "src/door.hpp"
-#include "src/itemobject.hpp"
-#include "src/npc.hpp"
+#include "src/objects/door.hpp"
+#include "src/objects/itemobject.hpp"
+#include "src/objects/npc.hpp"
 
 #include <QInputDialog>
 #include <QFileDialog>

@@ -2,7 +2,7 @@
 #define ITEMOBJECT_HPP
 
 #include "gameobject.hpp"
-#include "item.hpp"
+#include "src/item.hpp"
 
 class ItemObject : public GameObject
 {

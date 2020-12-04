@@ -1,12 +1,13 @@
 #include "game.hpp"
-#include "door.hpp"
 #include "functions.hpp"
 #include "graphics.hpp"
-#include "itemobject.hpp"
 #include "log.hpp"
 #include "message.hpp"
-#include "npc.hpp"
 #include "options.hpp"
+
+#include "objects/door.hpp"
+#include "objects/itemobject.hpp"
+#include "objects/npc.hpp"
 
 #include <iomanip>
 

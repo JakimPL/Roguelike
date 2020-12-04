@@ -1,9 +1,9 @@
 #ifndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
 
-#include "color.hpp"
-#include "structures.hpp"
-#include "text.hpp"
+#include "src/color.hpp"
+#include "src/structures.hpp"
+#include "src/text.hpp"
 
 enum class ObjectType : unsigned char {
 	None,

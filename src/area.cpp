@@ -2,9 +2,9 @@
 #include "functions.hpp"
 #include "log.hpp"
 
-#include "door.hpp"
-#include "itemobject.hpp"
-#include "npc.hpp"
+#include "objects/door.hpp"
+#include "objects/itemobject.hpp"
+#include "objects/npc.hpp"
 
 Area::Area(GameObjects& gameObjects, const std::string& filename, bool fullPath) : areaObjects(gameObjects)
 {

@@ -1,5 +1,5 @@
 #include "door.hpp"
-#include "options.hpp"
+#include "src/options.hpp"
 
 Door::Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation, bool initialLocked, Position initialPosition) : GameObject(gameObjects), orientation(initialOrientation), locked(initialLocked)
 {

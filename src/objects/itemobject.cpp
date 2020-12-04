@@ -1,7 +1,7 @@
 #include "itemobject.hpp"
-#include "functions.hpp"
-#include "options.hpp"
-#include "text.hpp"
+#include "src/functions.hpp"
+#include "src/options.hpp"
+#include "src/text.hpp"
 
 ItemObject::ItemObject(GameObjects& gameObjects, std::string initialResourceName, Position initialPosition) : GameObject(gameObjects), resourceName(initialResourceName), item(initialResourceName)
 {

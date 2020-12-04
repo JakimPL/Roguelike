@@ -1,8 +1,8 @@
 #ifndef NPC_HPP
 #define NPC_HPP
 
-#include "creature.hpp"
 #include "gameobject.hpp"
+#include "src/creature.hpp"
 
 class NPC : public GameObject
 {

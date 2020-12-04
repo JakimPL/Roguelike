@@ -4,9 +4,9 @@
 #include "area.hpp"
 #include "keyboard.hpp"
 #include "message.hpp"
-#include "player.hpp"
 #include "text.hpp"
 #include "timer.hpp"
+#include "objects/player.hpp"
 
 #include <SDL2/SDL_ttf.h>
 
