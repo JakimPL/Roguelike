@@ -48,6 +48,7 @@ static constexpr int TAB_HEIGHT = SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HE
 static constexpr unsigned int INVENTORY_SIZE = 30;
 static constexpr int INVENTORY_ABILITIES_DISTANCE = 6;
 static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT - 3;
+static constexpr int INVENTORY_STORE_ITEMS_PER_PAGE = INVENTORY_ITEMS_PER_PAGE - 3;
 
 static constexpr unsigned short MAP_PIXEL_SIZE = 2 * SCALE;
 static constexpr unsigned char MAP_ALPHA = 224;
@@ -89,6 +90,7 @@ struct Options {
 		unsigned int size                = INVENTORY_SIZE;
 		unsigned short abilitiesDistance = INVENTORY_ABILITIES_DISTANCE;
 		int itemsPerPage                 = INVENTORY_ITEMS_PER_PAGE;
+		int storeItemsPerPage            = INVENTORY_STORE_ITEMS_PER_PAGE;
 	} inventory;
 	struct Map {
 		unsigned short pixelSize         = MAP_PIXEL_SIZE;

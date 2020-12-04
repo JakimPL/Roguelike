@@ -42,11 +42,6 @@ Creature::Creature()
 	abilitiesBase[intelligence] = 0;
 	abilitiesBase[wisdom] = 0;
 	effects = {};
-	inventory.addItem("DAGGER");
-	inventory.addItem("SHORTSWORD");
-	inventory.addItem("LONGSWORD");
-	inventory.addItem("BROADSWORD");
-	inventory.addItem("LIGHTBLADE");
 	updateStats();
 }
 

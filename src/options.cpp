@@ -92,4 +92,5 @@ void Options::load(const std::string& filename)
 	gui.tabHeight = general.screenHeight - 2 * gui.guiYOffset - 8 * gui.tileHeight;
 
 	inventory.itemsPerPage = (general.screenHeight - 2 * gui.guiYOffset - 8 * gui.tileHeight) / gui.tileHeight - 3;
+	inventory.storeItemsPerPage = inventory.itemsPerPage - 3;
 }

@@ -262,40 +262,42 @@ void Game::drawCharacterInfo()
 void Game::drawInventory()
 {
 	Inventory& inventory = player.creature.inventory;
-	if (!inventory.isEmpty()) {
-		bool activeStore = (activeTab == GUI::Store and storeTab);
+	bool activeStore = (activeTab == GUI::Store and storeTab);
+	inventoryPage = inventoryPosition / options.inventory.itemsPerPage;
+	if (activeStore) {
+		storePage = storePosition / options.inventory.storeItemsPerPage;
+	}
 
-		inventoryPage = inventoryPosition / options.inventory.itemsPerPage;
-		if (activeStore) {
-			storePage = storePosition / options.inventory.itemsPerPage;
+	int offset = options.gui.tabWidth / 2 * activeStore;
+	int position = (activeStore ? storePosition : inventoryPosition);
+
+	if (!inventory.isEmpty() or activeStore) {
+		drawRectangle(renderer, GUI_INVENTORY_COLOR, options.gui.tabXOffset + offset, options.gui.tabYOffset + (position % (activeStore ? options.inventory.storeItemsPerPage : options.inventory.itemsPerPage)) * options.gui.tileHeight, options.gui.tabWidth / 2, options.gui.tileHeight);
+	}
+
+	for (unsigned int index = 0; int(index) < options.inventory.itemsPerPage; ++index) {
+		if (index + inventoryPage * options.inventory.itemsPerPage >= inventory.getBackpackSize()) {
+			break;
 		}
 
-		int offset = options.gui.tabWidth / 2 * activeStore;
-		int position = (activeStore ? storePosition : inventoryPosition);
-		drawRectangle(renderer, GUI_INVENTORY_COLOR, options.gui.tabXOffset + offset, options.gui.tabYOffset + (position % options.inventory.itemsPerPage) * options.gui.tileHeight, options.gui.tabWidth / 2, options.gui.tileHeight);
+		Item* item = inventory.getBackpackItem(index + inventoryPage * options.inventory.itemsPerPage);
+		SDL_Color sdlColor = (player.creature.isItemEquipped(item) ? SDL_Color(COLOR_BLUE) : item->getColor());
+		drawText(renderer, font, text[ {TextCategory::Item, item->getNameID()} ], sdlColor, options.gui.tabXOffset + 2 * options.general.scale, options.gui.tabYOffset + (0.5f + index) * options.gui.tileHeight, Alignment::Left, Alignment::Center);
+	}
 
-		for (unsigned int index = 0; int(index) < options.inventory.itemsPerPage; ++index) {
-			if (index + inventoryPage * options.inventory.itemsPerPage >= inventory.getBackpackSize()) {
+	if (activeTab == GUI::Store) {
+		for (unsigned int index = 0; int(index) < options.inventory.storeItemsPerPage; ++index) {
+			if (index + storePage * options.inventory.storeItemsPerPage >= currentStore->inventory.getBackpackSize()) {
 				break;
 			}
 
-			Item* item = inventory.getBackpackItem(index + inventoryPage * options.inventory.itemsPerPage);
-			SDL_Color sdlColor = (player.creature.isItemEquipped(item) ? SDL_Color(COLOR_BLUE) : item->getColor());
-			drawText(renderer, font, text[ {TextCategory::Item, item->getNameID()} ], sdlColor, options.gui.tabXOffset + 2 * options.general.scale, options.gui.tabYOffset + (0.5f + index) * options.gui.tileHeight, Alignment::Left, Alignment::Center);
+			Item* item = currentStore->inventory.getBackpackItem(index + storePage * options.inventory.storeItemsPerPage);
+			drawText(renderer, font, text[ {TextCategory::Item, item->getNameID()} ], item->getColor(), options.gui.tabXOffset + options.gui.tabWidth - 2 * options.general.scale, options.gui.tabYOffset + (0.5f + index) * options.gui.tileHeight, Alignment::Right, Alignment::Center);
 		}
+	}
 
-		if (activeTab == GUI::Store) {
-			for (unsigned int index = 0; int(index) < options.inventory.itemsPerPage; ++index) {
-				if (index + storePage * options.inventory.itemsPerPage >= currentStore->inventory.getBackpackSize()) {
-					break;
-				}
-
-				Item* item = currentStore->inventory.getBackpackItem(index + storePage * options.inventory.itemsPerPage);
-				drawText(renderer, font, text[ {TextCategory::Item, item->getNameID()} ], item->getColor(), options.gui.tabXOffset + options.gui.tabWidth - 2 * options.general.scale, options.gui.tabYOffset + (0.5f + index) * options.gui.tileHeight, Alignment::Right, Alignment::Center);
-			}
-		}
-
-		Item* selectedItem = inventory.getBackpackItem(inventoryPosition);
+	if (!inventory.isEmpty() or activeStore) {
+		Item* selectedItem = activeStore ? currentStore->inventory.getBackpackItem(storePosition) : inventory.getBackpackItem(inventoryPosition);
 		drawItemDescription(selectedItem);
 	} else {
 		drawText(renderer, font, text[String::EmptyBackpack], COLOR_BROWN, options.gui.tabXOffset + 2 * options.general.scale, options.gui.tabYOffset + 0.5f * options.gui.tileHeight, Alignment::Left, Alignment::Center);
@@ -360,19 +362,19 @@ void Game::drawItemDescription(Item *item)
 			delayText << text[item->getType() == ItemType::weapon ? String::Delay : String::Speed] << item->getDelay();
 			drawText(renderer, font, delayText.str(), COLOR_BROWN, xOffset, yOffset + (options.gui.tileHeight * line++), Alignment::Center);
 		}
-
-		drawText(renderer, font, text[String::Def], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 - 2 * options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-		drawText(renderer, font, text[String::DefRate], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 - options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-		drawText(renderer, font, text[String::AttMin], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-		drawText(renderer, font, text[String::AttMax], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 + options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-		drawText(renderer, font, text[String::Acc], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 + 2 * options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-
-		drawText(renderer, font, STRING(player.creature.getDefense()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 - 2 * options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-		drawText(renderer, font, STRING(player.creature.getDefenseRate()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 - options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-		drawText(renderer, font, STRING(player.creature.getDamageMin()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-		drawText(renderer, font, STRING(player.creature.getDamageMax()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 + options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
-		drawText(renderer, font, STRING(player.creature.getAttackRate()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 + 2 * options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
 	}
+
+	drawText(renderer, font, text[String::Def], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 - 2 * options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+	drawText(renderer, font, text[String::DefRate], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 - options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+	drawText(renderer, font, text[String::AttMin], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+	drawText(renderer, font, text[String::AttMax], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 + options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+	drawText(renderer, font, text[String::Acc], COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 + 2 * options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-1.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+
+	drawText(renderer, font, STRING(player.creature.getDefense()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 - 2 * options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+	drawText(renderer, font, STRING(player.creature.getDefenseRate()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 - options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+	drawText(renderer, font, STRING(player.creature.getDamageMin()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+	drawText(renderer, font, STRING(player.creature.getDamageMax()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 + options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
+	drawText(renderer, font, STRING(player.creature.getAttackRate()), COLOR_BROWN, options.gui.tabXOffset + 3 * options.gui.tabWidth / 4 + 2 * options.inventory.abilitiesDistance * options.gui.tileWidth, options.gui.tabYOffset + (-0.5f + options.inventory.itemsPerPage) * options.gui.tileHeight, Alignment::Center);
 
 	for (size_t abilityIndex = 0; abilityIndex < Ability::count; ++abilityIndex) {
 		Ability ability = Ability(abilityIndex);
@@ -607,36 +609,39 @@ void Game::mainLoop()
 
 				break;
 			case GUI::Store:
-				if (!player.creature.inventory.isEmpty()) {
-					int& position = (storeTab ? storePosition : inventoryPosition);
-					if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
-						position = std::max(0, position - 1);
-					}
-					if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
-						int max = (storeTab ? currentStore->inventory : player.creature.inventory).getBackpackSize() - 1;
-						position = std::min(max, position + 1);
-					}
-					if (keyboard.isKey(SDLK_PAGEUP)) {
-						position = std::max(0, inventoryPosition - options.inventory.itemsPerPage);
-					}
-					if (keyboard.isKey(SDLK_PAGEDOWN)) {
-						int max = (storeTab ? currentStore->inventory : player.creature.inventory).getBackpackSize() - 1;
-						position = std::min(max, inventoryPosition + options.inventory.itemsPerPage);
-					}
-					if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4)) {
-						storeTab = false;
-					}
-					if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6)) {
-						storeTab = true;
-					}
-					if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
-						if (storeTab) {
-						} else {
-						}
-					}
-				} else {
+				if (player.creature.inventory.isEmpty()) {
 					storeTab = true;
 				}
+
+				int& position = (storeTab ? storePosition : inventoryPosition);
+				if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
+					position = std::max(0, position - 1);
+				}
+				if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
+					int max = (storeTab ? currentStore->inventory : player.creature.inventory).getBackpackSize() - 1;
+					position = std::min(max, position + 1);
+				}
+				if (keyboard.isKey(SDLK_PAGEUP)) {
+					position = std::max(0, inventoryPosition - options.inventory.itemsPerPage);
+				}
+				if (keyboard.isKey(SDLK_PAGEDOWN)) {
+					int max = (storeTab ? currentStore->inventory : player.creature.inventory).getBackpackSize() - 1;
+					position = std::min(max, inventoryPosition + options.inventory.itemsPerPage);
+				}
+				if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4)) {
+					if (!player.creature.inventory.isEmpty()) {
+						storeTab = false;
+					}
+				}
+				if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6)) {
+					storeTab = true;
+				}
+				if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
+					if (storeTab) {
+					} else {
+					}
+				}
+
 				break;
 			}
 
