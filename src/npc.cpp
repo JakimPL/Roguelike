@@ -29,17 +29,13 @@ void NPC::load(std::ifstream& resource)
 	GameObject::load(resource);
 	unsigned int size;
 	resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
-
-	char resourceChar[size + 1];
-	Functions::read(resource, resourceChar, size);
-	resourceName = resourceChar;
+	resourceName = Functions::readString(resource, size);
 }
 
 void NPC::save(std::ofstream& resource)
 {
 	GameObject::save(resource);
 	unsigned int size = resourceName.size();
-	const char* resourceChar = resourceName.c_str();
 	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
-	resource.write(resourceChar, size);
+	resource.write(resourceName.c_str(), size);
 }

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tabGeneral">
      <attribute name="title">
@@ -1022,6 +1022,39 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>nameIDBox</tabstop>
+  <tabstop>letterBox</tabstop>
+  <tabstop>colorRedBox</tabstop>
+  <tabstop>colorGreenBox</tabstop>
+  <tabstop>colorBlueBox</tabstop>
+  <tabstop>raceBox</tabstop>
+  <tabstop>genderBox</tabstop>
+  <tabstop>alignmentBox</tabstop>
+  <tabstop>stateBox</tabstop>
+  <tabstop>xpValueBox</tabstop>
+  <tabstop>levelBox</tabstop>
+  <tabstop>xpCurrentBox</tabstop>
+  <tabstop>xpNextLevelBox</tabstop>
+  <tabstop>hpCurrentBox</tabstop>
+  <tabstop>hpMaxBox</tabstop>
+  <tabstop>mpCurrentBox</tabstop>
+  <tabstop>mpMaxBox</tabstop>
+  <tabstop>hpRegenerationBox</tabstop>
+  <tabstop>mpRegenerationBox</tabstop>
+  <tabstop>damageBox</tabstop>
+  <tabstop>damageDeltaBox</tabstop>
+  <tabstop>attackRateBox</tabstop>
+  <tabstop>defenseBox</tabstop>
+  <tabstop>defenseRateBox</tabstop>
+  <tabstop>strengthBox</tabstop>
+  <tabstop>dexterityBox</tabstop>
+  <tabstop>constitutionBox</tabstop>
+  <tabstop>intelligenceBox</tabstop>
+  <tabstop>wisdomBox</tabstop>
+  <tabstop>inventoryList</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

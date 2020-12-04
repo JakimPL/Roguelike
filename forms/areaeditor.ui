@@ -415,6 +415,22 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>nameIDBox</tabstop>
+  <tabstop>widthBox</tabstop>
+  <tabstop>heightBox</tabstop>
+  <tabstop>areaView</tabstop>
+  <tabstop>resizeButton</tabstop>
+  <tabstop>letterBox</tabstop>
+  <tabstop>obstacleBox</tabstop>
+  <tabstop>colorRedBox</tabstop>
+  <tabstop>colorGreenBox</tabstop>
+  <tabstop>colorBlueBox</tabstop>
+  <tabstop>objectNameIDBox</tabstop>
+  <tabstop>copyButton</tabstop>
+  <tabstop>copyObjectButton</tabstop>
+  <tabstop>pasteObjectButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -6,3 +6,5 @@ Woda
 Ścieżka
 Przedmiot
 Drzwi
+Most
+Podłoga

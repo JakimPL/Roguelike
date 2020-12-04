@@ -119,4 +119,12 @@ void read(std::ifstream& resource, char* string, unsigned int size)
 	string[size] = '\0';
 }
 
+std::string readString(std::ifstream& resource, unsigned int size)
+{
+	char string[size + 1];
+	read(resource, string, size);
+	return string;
+
+}
+
 }
