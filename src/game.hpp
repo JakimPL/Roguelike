@@ -4,6 +4,7 @@
 #include "area.hpp"
 #include "keyboard.hpp"
 #include "message.hpp"
+#include "store.hpp"
 #include "text.hpp"
 #include "timer.hpp"
 #include "objects/player.hpp"
@@ -40,7 +41,10 @@ private:
 	unsigned long turn = 0;
 	unsigned int inventoryPage = 0;
 	int inventoryPosition = 0;
+	unsigned int storePage = 0;
+	int storePosition = 0;
 	int characterInfoPosition = 0;
+	bool storeTab = false;
 	Position mapOffset = {0, 0, 0};
 
 public:
@@ -48,6 +52,7 @@ public:
 	~Game();
 	Text text;
 	Area* currentArea;
+	Store* currentStore;
 	Messages* messages;
 	GameObjects gameObjects;
 	Player player;
