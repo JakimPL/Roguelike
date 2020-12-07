@@ -44,3 +44,5 @@ FPS:
 Dodano do ekwipunku: 
 Ekwipunek jest pełny!
 Zamknięte!
+Za mało złota!
+Sprzedano: 

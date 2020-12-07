@@ -76,6 +76,8 @@ enum class String : unsigned long {
 	AddedItem,
 	BackpackIsFull,
 	Closed,
+	NotEnoughGold,
+	SoldItem,
 
 	Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 

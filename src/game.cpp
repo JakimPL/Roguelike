@@ -12,6 +12,7 @@
 #include <iomanip>
 
 using namespace Graphics;
+using namespace Functions;
 
 Game::Game() : player(gameObjects, Creature(), STARTING_POSITION, "Liop")
 {
@@ -638,7 +639,26 @@ void Game::mainLoop()
 				}
 				if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
 					if (storeTab) {
+						if (!player.creature.inventory.isFull()) {
+							Item* item = currentStore->inventory.getBackpackItem(storePosition);
+							int price = item->getPrice();
+							if (price <= player.creature.getGold()) {
+								player.creature.inventory.addItem(*item);
+								player.creature.takeGold(price);
+								messages->add(text[String::AddedItem] + text[ {TextCategory::Item, item->getNameID()} ], COLOR_WHITE);
+							} else {
+								messages->add(text[String::NotEnoughGold], COLOR_LRED);
+							}
+						} else {
+							messages->add(text[String::BackpackIsFull], COLOR_LRED);
+						}
 					} else {
+						Item* item = player.creature.inventory.getBackpackItem(inventoryPosition);
+						int price = item->getPrice();
+						messages->add(text[String::SoldItem] + text[ {TextCategory::Item, item->getNameID()} ], COLOR_WHITE);
+						player.creature.inventory.removeItem(inventoryPosition);
+						inventoryPosition = std::max(0, std::min(int(player.creature.inventory.getBackpackSize() - 1), inventoryPosition));
+						player.creature.addGold(price);
 					}
 				}
 

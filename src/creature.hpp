@@ -166,6 +166,9 @@ public:
 	void setBaseAttackRate(int value);
 	void setBaseAbilityValue(const Ability ability, int value);
 
+	void addGold(int amount);
+	void takeGold(int amount);
+
 	bool loadFromFile(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);
 	bool load(std::ifstream& resource);

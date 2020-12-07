@@ -138,6 +138,7 @@ public:
 	void dropItem(Item* item);
 	void equipItem(Item* item);
 	void equipItem(unsigned int index);
+	void removeItem(unsigned int index);
 
 	unsigned int getBackpackSize();
 	Item* getBackpackItem(unsigned int index);

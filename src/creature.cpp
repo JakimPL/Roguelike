@@ -23,7 +23,7 @@ Creature::Creature()
 	xpCurrent = 0;
 	xpNextLevel = 100;
 	xpValue = 0;
-	gold = 50;
+	gold = 5000;
 	hpCurrent = 30;
 	hpBase = 28;
 	hpRegenerationBase = 1;
@@ -546,4 +546,14 @@ void Creature::setBaseAttackRate(int value)
 void Creature::setBaseAbilityValue(const Ability ability, int value)
 {
 	abilitiesBase[ability] = value;
+}
+
+void Creature::addGold(int amount)
+{
+	gold += amount;
+}
+
+void Creature::takeGold(int amount)
+{
+	gold -= amount;
 }
