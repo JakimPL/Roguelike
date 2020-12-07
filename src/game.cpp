@@ -559,16 +559,16 @@ void Game::mainLoop()
 			case GUI::Inventory:
 				if (!player.creature.inventory.isEmpty()) {
 					if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
-						inventoryPosition = std::max(0, inventoryPosition - 1);
+						decrease(inventoryPosition);
 					}
 					if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
-						inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + 1);
+						increase(inventoryPosition, player.creature.inventory.getBackpackSize() - 1);
 					}
 					if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
-						inventoryPosition = std::max(0, inventoryPosition - options.inventory.itemsPerPage);
+						subtract(inventoryPosition, options.inventory.itemsPerPage);
 					}
 					if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6) or keyboard.isKey(SDLK_PAGEDOWN)) {
-						inventoryPosition = std::min((int)(player.creature.inventory.getBackpackSize()) - 1, inventoryPosition + options.inventory.itemsPerPage);
+						add(inventoryPosition, options.inventory.itemsPerPage, player.creature.inventory.getBackpackSize() - 1);
 					}
 					if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
 						if (!player.creature.equipItem(inventoryPosition)) {
@@ -581,10 +581,10 @@ void Game::mainLoop()
 			case GUI::Character:
 				if (player.creature.getAbilityPoints() > 0) {
 					if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
-						characterInfoPosition = std::max(0, characterInfoPosition - 1);
+						decrease(characterInfoPosition);
 					}
 					if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
-						characterInfoPosition = std::min((int)(Ability::count) - 1, characterInfoPosition + 1);
+						increase(characterInfoPosition, (int)(Ability::count) - 1);
 					}
 					if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
 						characterInfoPosition = 0;
@@ -616,18 +616,18 @@ void Game::mainLoop()
 
 				int& position = (storeTab ? storePosition : inventoryPosition);
 				if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
-					position = std::max(0, position - 1);
+					decrease(position);
 				}
 				if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
 					int max = (storeTab ? currentStore->inventory : player.creature.inventory).getBackpackSize() - 1;
-					position = std::min(max, position + 1);
+					increase(position, max);
 				}
 				if (keyboard.isKey(SDLK_PAGEUP)) {
-					position = std::max(0, inventoryPosition - options.inventory.itemsPerPage);
+					subtract(inventoryPosition, options.inventory.itemsPerPage);
 				}
 				if (keyboard.isKey(SDLK_PAGEDOWN)) {
 					int max = (storeTab ? currentStore->inventory : player.creature.inventory).getBackpackSize() - 1;
-					position = std::min(max, inventoryPosition + options.inventory.itemsPerPage);
+					add(inventoryPosition, options.inventory.itemsPerPage, max);
 				}
 				if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4)) {
 					if (!player.creature.inventory.isEmpty()) {
@@ -657,7 +657,7 @@ void Game::mainLoop()
 						int price = item->getPrice();
 						messages->add(text[String::SoldItem] + text[ {TextCategory::Item, item->getNameID()} ], COLOR_WHITE);
 						player.creature.inventory.removeItem(inventoryPosition);
-						inventoryPosition = std::max(0, std::min(int(player.creature.inventory.getBackpackSize() - 1), inventoryPosition));
+						clamp(inventoryPosition, 0, player.creature.inventory.getBackpackSize() - 1);
 						player.creature.addGold(price);
 					}
 				}

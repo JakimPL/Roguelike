@@ -335,7 +335,10 @@ void Inventory::equipItem(unsigned int index)
 void Inventory::removeItem(unsigned int index)
 {
 	if (backpack.begin() + index < backpack.end()) {
-		dropItem(backpack[index].getType());
+		ItemType type = backpack[index].getType();
+		if (&backpack[index] == stack[type]) {
+			dropItem(type);
+		}
 		backpack.erase(backpack.begin() + index);
 	} else {
 		_LogError("Bad inventory index!");
