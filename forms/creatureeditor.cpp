@@ -121,10 +121,10 @@ void CreatureEditor::updateEditorValues()
 
 	size_t backpackSize = creature.inventory.getBackpackSize();
 	ui->inventoryList->clear();
-	for (size_t index = 0; index < backpackSize; ++index) {
+	for (unsigned int index = 0; index < backpackSize; ++index) {
 		Item* item = creature.inventory.getBackpackItem(index);
 		ui->inventoryList->addItem(QString::fromStdString(text[ {TextCategory::Item, item->getNameID()} ]));
-		if (creature.isItemEquipped(item)) {
+		if (creature.isItemEquipped(index)) {
 			QListWidgetItem* listItem = ui->inventoryList->item(index);
 			QFont listItemFont = listItem->font();
 			listItemFont.setWeight(QFont::Bold);

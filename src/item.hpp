@@ -125,24 +125,28 @@ public:
 	void save(std::ofstream& resource);
 };
 
+typedef std::vector<Item> Backpack;
+typedef std::map<ItemType, int> Stack;
+
 struct Inventory {
 private:
-	std::vector<Item> backpack;
-	std::map<ItemType, Item*> stack;
+	Backpack backpack;
+	Stack stack;
 
 public:
-	Item* addItem(const std::string& filename);
-	Item* addItem(Item item);
+	Inventory();
+
+	unsigned int addItem(const std::string& filename);
+	unsigned int addItem(Item item);
 	void clear();
 	void dropItem(ItemType type);
 	void dropItem(Item* item);
-	void equipItem(Item* item);
-	void equipItem(unsigned int index);
-	void removeItem(unsigned int index);
+	void equipItem(int index);
+	void removeItem(int index);
 
 	unsigned int getBackpackSize();
-	Item* getBackpackItem(unsigned int index);
-	Item* getStackItem(ItemType type);
+	Item* getBackpackItem(int index);
+	int getStackItemIndex(ItemType type);
 
 	bool isEmpty() const;
 	bool isFull() const;

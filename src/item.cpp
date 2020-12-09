@@ -273,24 +273,31 @@ void Item::setRequiredAbility(const Ability ability, unsigned int value)
 	requiredAbilities[ability] = value;
 }
 
-Item* Inventory::addItem(const std::string& filename)
+Inventory::Inventory()
+{
+	for (unsigned int type = 0; type < (unsigned int)(ItemType::count); ++type) {
+		stack[ItemType(type)] = -1;
+	}
+}
+
+unsigned int Inventory::addItem(const std::string& filename)
 {
 	if (!isFull()) {
 		backpack.push_back(filename);
-		return getBackpackItem(getBackpackSize() - 1);
+		return getBackpackSize() - 1;
 	}
 
-	return nullptr;
+	return -1;
 }
 
-Item* Inventory::addItem(Item item)
+unsigned int Inventory::addItem(Item item)
 {
 	if (!isFull()) {
 		backpack.push_back(item);
-		return getBackpackItem(getBackpackSize() - 1);
+		return getBackpackSize() - 1;
 	}
 
-	return nullptr;
+	return -1;
 }
 
 void Inventory::clear()
@@ -303,7 +310,7 @@ void Inventory::clear()
 
 void Inventory::dropItem(ItemType type)
 {
-	stack[type] = nullptr;
+	stack[type] = -1;
 }
 
 void Inventory::dropItem(Item* item)
@@ -313,48 +320,45 @@ void Inventory::dropItem(Item* item)
 		return;
 	}
 
-	stack[item->getType()] = nullptr;
+	stack[item->getType()] = -1;
 }
 
-void Inventory::equipItem(Item* item)
-{
-	if (item == nullptr) {
-		_LogError("Trying to equip NULL item!");
-		return;
-	}
-
-	stack[item->getType()] = item;
-}
-
-void Inventory::equipItem(unsigned int index)
+void Inventory::equipItem(int index)
 {
 	Item* item = getBackpackItem(index);
-	equipItem(item);
+	stack[item->getType()] = index;
 }
 
-void Inventory::removeItem(unsigned int index)
+void Inventory::removeItem(int index)
 {
-	if (backpack.begin() + index < backpack.end()) {
+	if (size_t(index) < getBackpackSize()) {
 		ItemType type = backpack[index].getType();
-		if (&backpack[index] == stack[type]) {
+		if (index == stack[type]) {
 			dropItem(type);
 		}
+
+		for (unsigned int itemType = 0; itemType < (unsigned int)(ItemType::count); ++itemType) {
+			if (stack[ItemType(itemType) ] > index) {
+				stack[ItemType(itemType) ]--;
+			}
+		}
+
 		backpack.erase(backpack.begin() + index);
 	} else {
 		_LogError("Bad inventory index!");
 	}
 }
 
-Item* Inventory::getBackpackItem(unsigned int index)
+Item* Inventory::getBackpackItem(int index)
 {
-	if (index >= backpack.size()) {
+	if (size_t(index) >= backpack.size()) {
 		return nullptr;
 	} else {
 		return &backpack[index];
 	}
 }
 
-Item* Inventory::getStackItem(ItemType type)
+int Inventory::getStackItemIndex(ItemType type)
 {
 	return stack[type];
 }

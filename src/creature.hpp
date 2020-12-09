@@ -97,10 +97,9 @@ public:
 	Creature(const std::string& filename, bool fullPath = false);
 
 	void assignPoint(Ability ability);
-	bool equipItem(unsigned int index);
-	bool equipItem(Item* item);
+	bool equipItem(int index);
 	bool itemReqiuirementsSatisfied(Item* item);
-	bool isItemEquipped(Item* item);
+	bool isItemEquipped(int index);
 	void updateStats();
 
 	unsigned int getNameID() const;

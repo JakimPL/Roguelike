@@ -164,25 +164,22 @@ void Creature::assignPoint(Ability ability)
 	}
 }
 
-bool Creature::equipItem(Item* item)
+bool Creature::equipItem(int index)
 {
 	bool success = false;
-	if (item == nullptr) {
-		_LogError("Trying to equip NULL item!");
-		return false;
-	}
 
+	Item* item = inventory.getBackpackItem(index);
 	ItemType type = item->getType();
-	Item* currentItem = inventory.getStackItem(type);
+	int currentItemIndex = inventory.getStackItemIndex(type);
 
 	inventory.dropItem(type);
-	if (currentItem != item) {
+	if (index != currentItemIndex) {
 		if (itemReqiuirementsSatisfied(item)) {
-			inventory.equipItem(item);
+			inventory.equipItem(index);
 			success = true;
 		} else {
-			if (currentItem != nullptr) {
-				inventory.equipItem(currentItem);
+			if (currentItemIndex != -1) {
+				inventory.equipItem(currentItemIndex);
 			}
 		}
 	} else {
@@ -191,11 +188,6 @@ bool Creature::equipItem(Item* item)
 
 	updateStats();
 	return success;
-}
-
-bool Creature::equipItem(unsigned int index)
-{
-	return equipItem(inventory.getBackpackItem(index));
 }
 
 bool Creature::itemReqiuirementsSatisfied(Item* item)
@@ -218,9 +210,10 @@ bool Creature::itemReqiuirementsSatisfied(Item* item)
 	return true;
 }
 
-bool Creature::isItemEquipped(Item *item)
+bool Creature::isItemEquipped(int index)
 {
-	return inventory.getStackItem(item->getType()) == item;
+	Item* item = inventory.getBackpackItem(index);
+	return inventory.getStackItemIndex(item->getType()) == index;
 }
 
 void Creature::updateStats()
@@ -242,7 +235,8 @@ void Creature::updateStats()
 
 	for (size_t typeIndex = 0; typeIndex < size_t(ItemType::count); ++typeIndex) {
 		ItemType type = ItemType(typeIndex);
-		Item* item = inventory.getStackItem(type);
+		int index = inventory.getStackItemIndex(type);
+		Item* item = inventory.getBackpackItem(index);
 		if (item != nullptr and type != ItemType::quick and type != ItemType::quiver) {
 			defense += item->getDefense();
 			defenseRate += item->getDefenseRate();
@@ -425,8 +419,9 @@ int Creature::getAbilityValue(const Ability ability) const
 
 unsigned int Creature::getWeaponNameID()
 {
-	Item* weaponItem = inventory.getStackItem(ItemType::weapon);
-	if (weaponItem != nullptr) {
+	int index = inventory.getStackItemIndex(ItemType::weapon);
+	if (index != -1) {
+		Item* weaponItem = inventory.getBackpackItem(index);
 		return weaponItem->getNameID();
 	}
 

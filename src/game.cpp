@@ -281,8 +281,9 @@ void Game::drawInventory()
 			break;
 		}
 
-		Item* item = inventory.getBackpackItem(index + inventoryPage * options.inventory.itemsPerPage);
-		SDL_Color sdlColor = (player.creature.isItemEquipped(item) ? SDL_Color(COLOR_BLUE) : item->getColor());
+		int realIndex = index + inventoryPage * options.inventory.itemsPerPage;
+		Item* item = inventory.getBackpackItem(realIndex);
+		SDL_Color sdlColor = (player.creature.isItemEquipped(realIndex) ? SDL_Color(COLOR_BLUE) : item->getColor());
 		drawText(renderer, font, text[ {TextCategory::Item, item->getNameID()} ], sdlColor, options.gui.tabXOffset + 2 * options.general.scale, options.gui.tabYOffset + (0.5f + index) * options.gui.tileHeight, Alignment::Left, Alignment::Center);
 	}
 
