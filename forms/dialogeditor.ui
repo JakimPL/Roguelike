@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>786</width>
-    <height>482</height>
+    <width>1024</width>
+    <height>634</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>154</x>
       <y>20</y>
-      <width>621</width>
+      <width>851</width>
       <height>31</height>
      </rect>
     </property>
@@ -51,8 +51,8 @@
      <rect>
       <x>20</x>
       <y>70</y>
-      <width>751</width>
-      <height>361</height>
+      <width>991</width>
+      <height>511</height>
      </rect>
     </property>
     <property name="title">
@@ -64,7 +64,7 @@
        <x>10</x>
        <y>30</y>
        <width>231</width>
-       <height>281</height>
+       <height>411</height>
       </rect>
      </property>
     </widget>
@@ -73,12 +73,12 @@
       <rect>
        <x>250</x>
        <y>30</y>
-       <width>491</width>
-       <height>321</height>
+       <width>731</width>
+       <height>471</height>
       </rect>
      </property>
      <property name="title">
-      <string>Dialog line options:</string>
+      <string>Dialog line options</string>
      </property>
      <widget class="QLabel" name="dialogIDLabel">
       <property name="geometry">
@@ -101,7 +101,7 @@
        <rect>
         <x>90</x>
         <y>40</y>
-        <width>391</width>
+        <width>631</width>
         <height>31</height>
        </rect>
       </property>
@@ -133,17 +133,367 @@
        <rect>
         <x>90</x>
         <y>80</y>
-        <width>391</width>
+        <width>631</width>
         <height>30</height>
        </rect>
       </property>
+     </widget>
+     <widget class="QListWidget" name="responsesList">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>120</y>
+        <width>231</width>
+        <height>291</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addResponseButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>420</y>
+        <width>111</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="removeResponseButton">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>420</y>
+        <width>111</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>130</y>
+        <width>471</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Response options:</string>
+      </property>
+      <widget class="QLabel" name="responseTextIDLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>101</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Text ID:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="responseIDLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>101</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Response ID:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="responseIDBox">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>40</y>
+         <width>341</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="maximum">
+        <number>999999999</number>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="responseTextIDBox">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>80</y>
+         <width>341</width>
+         <height>30</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTabWidget" name="responseWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>451</width>
+         <height>201</height>
+        </rect>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="conditionTab">
+        <attribute name="title">
+         <string>Condition</string>
+        </attribute>
+        <widget class="QLabel" name="variableIDLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>10</y>
+           <width>101</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Variable ID:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="variableIDBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>10</y>
+           <width>281</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+        </widget>
+        <widget class="QLabel" name="comparisonLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>50</y>
+           <width>101</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Comparison:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comparisonBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>50</y>
+           <width>281</width>
+           <height>30</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="compareValueBox">
+         <property name="geometry">
+          <rect>
+           <x>230</x>
+           <y>130</y>
+           <width>211</width>
+           <height>28</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::RightToLeft</enum>
+         </property>
+         <property name="text">
+          <string>Compare with a raw value:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="targetLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>90</y>
+           <width>131</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Target Variable ID:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="targetBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>90</y>
+           <width>281</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="ActionTab">
+        <attribute name="title">
+         <string>Action</string>
+        </attribute>
+        <widget class="QLabel" name="nextDialogIDLabel">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>131</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Next dialog ID:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="nextDialogIDBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>10</y>
+           <width>281</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="minimum">
+          <number>-1</number>
+         </property>
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+         <property name="value">
+          <number>-1</number>
+         </property>
+        </widget>
+        <widget class="QLabel" name="globalVariableIDLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>50</y>
+           <width>101</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Variable ID:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="globalVariableIDBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>50</y>
+           <width>281</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="minimum">
+          <number>-1</number>
+         </property>
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+         <property name="value">
+          <number>-1</number>
+         </property>
+        </widget>
+        <widget class="QLabel" name="setValueLabel">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>90</y>
+           <width>101</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Set value:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="setValueBox">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>90</y>
+           <width>281</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="minimum">
+          <number>-999999999</number>
+         </property>
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+        </widget>
+       </widget>
+      </widget>
      </widget>
     </widget>
     <widget class="QPushButton" name="addButton">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>320</y>
+       <y>450</y>
        <width>111</width>
        <height>30</height>
       </rect>
@@ -156,7 +506,7 @@
      <property name="geometry">
       <rect>
        <x>130</x>
-       <y>320</y>
+       <y>450</y>
        <width>111</width>
        <height>30</height>
       </rect>
@@ -172,7 +522,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>786</width>
+     <width>1024</width>
      <height>23</height>
     </rect>
    </property>
