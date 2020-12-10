@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include "area.hpp"
+#include "globalvariables.hpp"
 #include "keyboard.hpp"
 #include "message.hpp"
 #include "store.hpp"
@@ -55,6 +56,7 @@ public:
 	Store* currentStore;
 	Messages* messages;
 	GameObjects gameObjects;
+	GlobalState globalState;
 	Player player;
 
 	void mainLoop();

@@ -542,10 +542,14 @@ void Game::mainLoop()
 							}
 							case ObjectType::NPC: {
 								NPC* npc = (NPC*)object;
-								if (!npc->store.inventory.isEmpty()) {
-									currentStore = &npc->store;
-									storePosition = std::min(storePosition, int(npc->store.inventory.getBackpackSize()));
-									openTab(GUI::Store);
+								if (globalState[g_TALKED_TO_JULIAN] == 0) {
+									if (!npc->store.inventory.isEmpty()) {
+										currentStore = &npc->store;
+										storePosition = std::min(storePosition, int(npc->store.inventory.getBackpackSize()));
+										openTab(GUI::Store);
+									}
+
+									globalState.setVariable(g_TALKED_TO_JULIAN, 1);
 								}
 								break;
 							}

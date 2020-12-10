@@ -125,7 +125,7 @@ const std::string Text::text(TextCategory category, unsigned int id) const
 	return output;
 }
 
-const std::string Text::operator[](String element)
+const std::string Text::operator[](String element) const
 {
 	TextPair textPair = Text::makeTextPair(element);
 	return text(textPair.first, textPair.second);

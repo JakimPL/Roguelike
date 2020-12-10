@@ -17,7 +17,7 @@ std::string Player::getName() const
 
 TextPair Player::getText()
 {
-	return Text::makeTextPair(S_empty);
+	return Text::makeTextPair(s_empty);
 }
 
 void Player::load(std::ifstream& resource)

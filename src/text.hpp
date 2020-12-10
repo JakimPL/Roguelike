@@ -166,7 +166,7 @@ public:
 	Text();
 	unsigned int getContentSize(TextCategory category) const;
 	const std::string text(TextCategory category, unsigned int id) const;
-	const std::string operator[](String element);
+	const std::string operator[](String element) const;
 	const std::string operator[](TextPair element) const;
 
 	static TextPair makeTextPair(String element);
