@@ -26,4 +26,13 @@ void prepareTextItems(Text* text, const StringList& list, QComboBox* comboBox)
 	}
 }
 
+void updateTitle(QWidget* widget, const QString title, const QString& path)
+{
+	if (path.size() > 0) {
+		widget->setWindowTitle(title + " (" + path + ")");
+	} else {
+		widget->setWindowTitle(title);
+	}
+}
+
 }

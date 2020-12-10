@@ -55,6 +55,7 @@ private:
 	Dialogs dialogs;
 
 public:
+	Dialog();
 	Dialog(const std::string& filename, bool fullPath = false);
 
 	bool loadFromFile(const std::string& filename, bool fullPath = false);

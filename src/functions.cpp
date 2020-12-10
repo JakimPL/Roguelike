@@ -20,6 +20,7 @@ bpo::options_description addProgramDescription()
 	("version,v",         "Shows the version of the program")
 	("area-editor,a",     "Runs Area Editor")
 	("creature-editor,c", "Runs Creature Editor")
+	("dialog-editor,d",   "Runs Dialog Editor")
 	("item-editor,i",     "Runs Item Editor");
 
 	return description;
@@ -106,6 +107,10 @@ std::vector<Mode> parseProgramArguments(int argc, char *argv[])
 
 	if (variablesMap.count("creature-editor")) {
 		modes.push_back(Mode::CreatureEditor);
+	}
+
+	if (variablesMap.count("dialog-editor")) {
+		modes.push_back(Mode::DialogEditor);
 	}
 
 	if (variablesMap.count("item-editor")) {

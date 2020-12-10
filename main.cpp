@@ -4,6 +4,7 @@
 #include "src/log.hpp"
 #include "forms/areaeditor.hpp"
 #include "forms/creatureeditor.hpp"
+#include "forms/dialogeditor.hpp"
 #include "forms/itemeditor.hpp"
 
 #include <sstream>
@@ -29,9 +30,16 @@ int main(int argc, char *argv[])
 			break;
 		}
 		case Mode::CreatureEditor: {
-			_LogNone("CreatureEditor editor starts");
+			_LogNone("Creature editor editor starts");
 			CreatureEditor creatureEditor;
 			creatureEditor.show();
+			application.exec();
+			break;
+		}
+		case Mode::DialogEditor: {
+			_LogNone("Dialog editor editor starts");
+			DialogEditor dialogEditor;
+			dialogEditor.show();
 			application.exec();
 			break;
 		}

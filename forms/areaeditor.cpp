@@ -332,11 +332,7 @@ void AreaEditor::updateEditorValues()
 
 void AreaEditor::updateApplicationTitle()
 {
-	if (currentPath.size() > 0) {
-		QWidget::setWindowTitle("Area Editor (" + currentPath + ")");
-	} else {
-		QWidget::setWindowTitle("Area Editor");
-	}
+	updateTitle(this, "Area Editor", currentPath);
 }
 
 void AreaEditor::updateObjects()

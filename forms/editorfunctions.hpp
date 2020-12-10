@@ -13,6 +13,7 @@ namespace EditorFunctions
 void globalApplicationSettings(QWidget* widget);
 void prepareTextItems(Text* text, TextCategory category, QComboBox* comboBox);
 void prepareTextItems(Text* text, const StringList& pair, QComboBox* comboBox);
+void updateTitle(QWidget* widget, const QString title, const QString& path);
 
 }
 

@@ -76,11 +76,7 @@ void CreatureEditor::prepareEditorValuesAndRanges()
 
 void CreatureEditor::updateApplicationTitle()
 {
-	if (currentPath.size() > 0) {
-		QWidget::setWindowTitle("Creature Editor (" + currentPath + ")");
-	} else {
-		QWidget::setWindowTitle("Creature Editor");
-	}
+	updateTitle(this, "Creature Editor", currentPath);
 }
 
 void CreatureEditor::updateEditorValues()

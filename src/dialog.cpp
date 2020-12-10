@@ -7,6 +7,11 @@ Dialog::Dialog(const std::string& filename, bool fullPath)
 	loadFromFile(filename, fullPath);
 }
 
+Dialog::Dialog()
+{
+
+}
+
 bool Dialog::loadFromFile(const std::string& filename, bool fullPath)
 {
 	bool success;

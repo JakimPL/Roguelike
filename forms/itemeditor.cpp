@@ -3,9 +3,6 @@
 #include "editorfunctions.hpp"
 #include "src/log.hpp"
 
-#include <iostream>
-#include <sstream>
-
 #include <QFileDialog>
 #include <QLineEdit>
 
@@ -65,11 +62,7 @@ void ItemEditor::on_actionExit_triggered()
 
 void ItemEditor::updateApplicationTitle()
 {
-	if (currentPath.size() > 0) {
-		QWidget::setWindowTitle("Item Editor (" + currentPath + ")");
-	} else {
-		QWidget::setWindowTitle("Item Editor");
-	}
+	updateTitle(this, "Item Editor", currentPath);
 }
 
 void ItemEditor::prepareEditorValuesAndRanges()

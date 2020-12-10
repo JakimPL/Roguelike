@@ -102,6 +102,7 @@ enum class Mode {
 	Version,
 	AreaEditor,
 	CreatureEditor,
+	DialogEditor,
 	ItemEditor
 };
 

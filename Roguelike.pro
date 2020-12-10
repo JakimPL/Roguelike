@@ -6,6 +6,7 @@ OBJECTS_DIR = obj
 HEADERS += \
 	forms/areaeditor.hpp \
 	forms/creatureeditor.hpp \
+	forms/dialogeditor.hpp \
 	forms/editorfunctions.hpp \
 	forms/itemeditor.hpp \
 	src/area.hpp \
@@ -36,6 +37,7 @@ SOURCES += \
 	main.cpp \
 	forms/areaeditor.cpp \
 	forms/creatureeditor.cpp \
+	forms/dialogeditor.cpp \
 	forms/editorfunctions.cpp \
 	forms/itemeditor.cpp \
 	src/area.cpp \
@@ -62,6 +64,7 @@ SOURCES += \
 FORMS += \
     forms/areaeditor.ui \
     forms/creatureeditor.ui \
+	forms/dialogeditor.ui \
     forms/itemeditor.ui
 
 LIBS += -L/usr/lib -lSDL2 -lSDL2_ttf -lboost_program_options -lboost_filesystem -ldl -lpthread 
