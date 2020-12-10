@@ -22,7 +22,7 @@ ItemObject::ItemObject(GameObjects& gameObjects, std::ifstream& resource) : Game
 
 TextPair ItemObject::getText()
 {
-	return Text::makeTextPair(String::Item);
+	return Text::makeTextPair(s_Item);
 }
 
 void ItemObject::load(std::ifstream& resource)

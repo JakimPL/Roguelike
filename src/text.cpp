@@ -138,7 +138,7 @@ const std::string Text::operator[](TextPair element) const
 
 TextPair Text::makeTextPair(String element)
 {
-	TextCategory category = TextCategory((unsigned long)(element) / TEXT_CATEGORY_SIZE);
-	unsigned int item = (unsigned long)(element) % TEXT_CATEGORY_SIZE;
+	TextCategory category = TextCategory(element / TEXT_CATEGORY_SIZE);
+	unsigned int item = element % TEXT_CATEGORY_SIZE;
 	return {category, item};
 }

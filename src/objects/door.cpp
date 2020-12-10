@@ -46,7 +46,7 @@ void Door::setOrientation(bool newOrientation)
 
 TextPair Door::getText()
 {
-	return Text::makeTextPair(String::Door);
+	return Text::makeTextPair(s_Door);
 }
 
 void Door::load(std::ifstream& resource)
