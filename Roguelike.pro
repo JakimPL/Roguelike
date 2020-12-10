@@ -12,6 +12,7 @@ HEADERS += \
 	src/color.hpp \
 	src/constants.hpp \
 	src/creature.hpp \
+	src/dialog.hpp \
 	src/functions.hpp \
 	src/game.hpp \
 	src/globalvariables.hpp \
@@ -39,6 +40,7 @@ SOURCES += \
 	forms/itemeditor.cpp \
 	src/area.cpp \
 	src/creature.cpp \
+	src/dialog.cpp \
 	src/functions.cpp \
 	src/game.cpp \
 	src/globalvariables.cpp \
