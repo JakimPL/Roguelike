@@ -56,9 +56,7 @@ bool Dialog::load(std::ifstream& resource)
 		resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
 		Dialogs dialogs;
 		for (unsigned int index = 0; index < size; ++index) {
-			int dialogID;
 			unsigned int textID;
-			resource.read(reinterpret_cast<char*>(&dialogID), SIZE_INT);
 			resource.read(reinterpret_cast<char*>(&textID), SIZE_INT);
 
 			unsigned int responsesSize;
@@ -76,7 +74,7 @@ bool Dialog::load(std::ifstream& resource)
 				responses.push_back({textID, condition, action});
 			}
 
-			dialogs.push_back({dialogID, textID, responses});
+			dialogs.push_back({textID, responses});
 		}
 
 		_LogInfo("Dialog file opened successfully.");
@@ -95,7 +93,6 @@ void Dialog::save(std::ofstream& resource)
 	unsigned int size = dialogs.size();
 	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
 	for (DialogLine line : dialogs) {
-		resource.write(reinterpret_cast<char*>(&line.dialogID), SIZE_INT);
 		resource.write(reinterpret_cast<char*>(&line.textID), SIZE_INT);
 
 		unsigned int responsesSize = line.responses.size();
@@ -106,4 +103,24 @@ void Dialog::save(std::ofstream& resource)
 			resource.write(reinterpret_cast<char*>(&response.action), SIZE_DLGACT);
 		}
 	}
+}
+
+DialogLine& Dialog::getLine(unsigned int index)
+{
+	return dialogs[index];
+}
+
+unsigned int Dialog::getSize() const
+{
+	return dialogs.size();
+}
+
+void Dialog::addLine(DialogLine line)
+{
+	dialogs.push_back(line);
+}
+
+void Dialog::removeLine(unsigned int index)
+{
+	dialogs.erase(dialogs.begin() + index);
 }

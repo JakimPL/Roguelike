@@ -5,6 +5,7 @@
 #include "src/text.hpp"
 
 #include <QMainWindow>
+#include <QListWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -29,11 +30,16 @@ private slots:
 	void on_actionSave_triggered();
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
+	void on_addButton_pressed();
+	void on_removeButton_pressed();
+	void on_dialogLinesList_itemClicked(QListWidgetItem*);
+	void on_textIDBox_currentIndexChanged(int index);
 
 	void prepareEditorValuesAndRanges();
 	void updateApplicationTitle();
-	void updateEditorValues();
 	void updateDialogParameters();
+	void updateDialogLineParameters(unsigned int index);
+
 private:
 	Ui::DialogEditor *ui;
 };

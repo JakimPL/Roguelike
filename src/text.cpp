@@ -90,9 +90,9 @@ bool Text::loadContent(TextCategory category, const std::string& filename)
 			}
 
 			for (unsigned int i = 0; i < tableSize; i++) {
-				char item[itemSizes[i] + 1];
-				read(resource, item, itemSizes[i]);
-				content[size_t(category)].push_back(std::string(item));
+				std::string string = readString(resource, itemSizes[i]);
+				content[size_t(category)].push_back(string);
+				std::cout << string.size() << "\n";
 			}
 
 			_LogInfo("Dialog file " << filename << " opened successfully");

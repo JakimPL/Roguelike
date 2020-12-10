@@ -38,7 +38,6 @@ struct Response {
 typedef std::vector<Response> Responses;
 
 struct DialogLine {
-	int dialogID;
 	unsigned int textID;
 	Responses responses;
 };
@@ -57,6 +56,12 @@ private:
 public:
 	Dialog();
 	Dialog(const std::string& filename, bool fullPath = false);
+
+	DialogLine& getLine(unsigned int);
+	unsigned int getSize() const;
+
+	void addLine(DialogLine line);
+	void removeLine(unsigned int index);
 
 	bool loadFromFile(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);
