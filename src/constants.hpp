@@ -53,6 +53,7 @@ static constexpr unsigned int SIZE_POSITION = 2 * sizeof(int) + 1;
 static constexpr char headerARE[SIZE_HEADER + 1] = {'A', 'R', 'E', '\0'};
 static constexpr char headerCHR[SIZE_HEADER + 1] = {'C', 'H', 'R', '\0'};
 static constexpr char headerCRE[SIZE_HEADER + 1] = {'C', 'R', 'E', '\0'};
+static constexpr char headerDLG[SIZE_HEADER + 1] = {'D', 'L', 'G', '\0'};
 static constexpr char headerITM[SIZE_HEADER + 1] = {'I', 'T', 'M', '\0'};
 static constexpr char headerSTO[SIZE_HEADER + 1] = {'S', 'T', 'O', '\0'};
 static constexpr char headerSTR[SIZE_HEADER + 1] = {'S', 'T', 'R', '\0'};
@@ -60,15 +61,17 @@ static constexpr char headerSTR[SIZE_HEADER + 1] = {'S', 'T', 'R', '\0'};
 static const std::string PATH_DATA = "data/";
 static const std::string PATH_INI = "options.ini";
 static const std::string PATH_ARE = "ARE/";
-static const std::string PATH_ITM = "ITM/";
 static const std::string PATH_CRE = "CRE/";
 static const std::string PATH_CHR = "CHR/";
+static const std::string PATH_DLG = "DLG/";
+static const std::string PATH_ITM = "ITM/";
 static const std::string PATH_STO = "STO/";
 static const std::string PATH_STR = "STR/";
 static const std::string SUFFIX_ARE = ".ARE";
-static const std::string SUFFIX_ITM = ".ITM";
 static const std::string SUFFIX_CRE = ".CRE";
 static const std::string SUFFIX_CHR = ".CHR";
+static const std::string SUFFIX_DLG = ".DLG";
+static const std::string SUFFIX_ITM = ".ITM";
 static const std::string SUFFIX_STO = ".STO";
 static const std::string SUFFIX_STR = ".STR";
 static const std::string SUFFIX_TXT = ".TXT";
@@ -78,6 +81,7 @@ enum class Filetype {
 	ARE,
 	CHR,
 	CRE,
+	DLG,
 	ITM,
 	STO,
 	STR,

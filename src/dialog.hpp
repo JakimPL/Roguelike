@@ -4,6 +4,8 @@
 #include "globalvariables.hpp"
 
 #include <vector>
+#include <fstream>
+#include <sstream>
 
 enum class ComparisonOperator {
 	isEqual,
@@ -12,33 +14,53 @@ enum class ComparisonOperator {
 	isLessThan,
 	isGreaterOrEqualThan,
 	isGreaterThan
+};
 
+struct DialogCondition {
+	GlobalVariable variable;
+	ComparisonOperator comparisonOperator;
+	bool compareWithVariable;
+	int value;
+};
+
+struct DialogAction {
+	unsigned int nextDialogID;
+	GlobalVariable variable;
+	int value;
 };
 
 struct Response {
 	unsigned int textID;
-	struct Condition {
-		GlobalVariable variable;
-		ComparisonOperator comparisonOperator;
-		bool compareWithVariable;
-		int value;
-	} condition;
-	struct Action {
-		unsigned int nextDialogID;
-		GlobalVariable variable;
-		int value;
-	} action;
+	DialogCondition condition;
+	DialogAction action;
 };
+
+typedef std::vector<Response> Responses;
+
+struct DialogLine {
+	int dialogID;
+	unsigned int textID;
+	Responses responses;
+};
+
+typedef std::vector<DialogLine> Dialogs;
+
+constexpr int SIZE_DLGCOND = sizeof(DialogCondition);
+constexpr int SIZE_DLGACT = sizeof(DialogAction);
 
 class Dialog
 {
 private:
-	int dialogID;
-	unsigned int textID;
-	std::vector<Response> responses;
+	int startDialogID = 0;
+	Dialogs dialogs;
 
 public:
-	Dialog();
+	Dialog(const std::string& filename, bool fullPath = false);
+
+	bool loadFromFile(const std::string& filename, bool fullPath = false);
+	bool saveToFile(const std::string& filename, bool fullPath = false);
+	bool load(std::ifstream& resource);
+	void save(std::ofstream& resource);
 };
 
 #endif // DIALOG_HPP
