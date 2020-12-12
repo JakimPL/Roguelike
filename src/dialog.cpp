@@ -54,7 +54,6 @@ bool Dialog::load(std::ifstream& resource)
 
 		unsigned int size;
 		resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
-		Dialogs dialogs;
 		for (unsigned int index = 0; index < size; ++index) {
 			unsigned int textID;
 			resource.read(reinterpret_cast<char*>(&textID), SIZE_INT);

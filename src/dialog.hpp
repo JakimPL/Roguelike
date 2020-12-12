@@ -26,6 +26,11 @@ static const std::vector<std::string> OPERATOR_STRING = {
 	">"
 };
 
+enum class ResponseAction {
+	OPEN_STORE = -2,
+	EXIT
+};
+
 struct DialogCondition {
 	GlobalVariable variable = g_NONE;
 	ComparisonOperator comparisonOperator = ComparisonOperator::isEqual;

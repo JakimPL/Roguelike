@@ -55,8 +55,10 @@ private slots:
 	void prepareEditorValuesAndRanges();
 	void setListItem(QListWidget* widget, unsigned int index, const std::string& label);
 	void updateApplicationTitle();
+	void updateDialogLinesList();
 	void updateDialogParameters();
 	void updateDialogLineParameters(unsigned int index);
+	void updateResponsesList(unsigned int index);
 	void updateResponseParameters(unsigned int index);
 
 private:

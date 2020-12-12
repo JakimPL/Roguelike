@@ -31,7 +31,7 @@ void DialogEditor::on_actionOpen_triggered()
 		Dialog newDialog(path, true);
 		dialog = newDialog;
 		updateApplicationTitle();
-		updateDialogParameters();
+		updateDialogLinesList();
 	}
 }
 
@@ -91,20 +91,7 @@ void DialogEditor::on_removeButton_released()
 
 void DialogEditor::on_dialogLinesList_currentRowChanged(int currentIndex)
 {
-	ui->responsesList->clearSelection();
-	ui->responsesList->clearFocus();
-	ui->responsesList->clear();
-	ui->textIDBox->setDisabled(false);
-	if (ui->dialogLinesList->count() > 0) {
-		DialogLine line = dialog.getLine(currentIndex);
-		for (unsigned int index = 0; index < line.responses.size(); ++index) {
-			Response response = line.responses[index];
-			ui->responsesList->addItem(QString::fromStdString(text[ {TextCategory::Dialog, response.textID} ]));
-		}
-
-		updateDialogLineParameters(currentIndex);
-	}
-
+	updateResponsesList(currentIndex);
 	updateDialogParameters();
 }
 
@@ -270,6 +257,23 @@ void DialogEditor::setListItem(QListWidget* widget, unsigned int index, const st
 	listItem->setFont(listItemFont);
 }
 
+void DialogEditor::updateDialogLinesList()
+{
+	ui->dialogLinesList->clear();
+	for (unsigned int index = 0; index < dialog.getSize(); ++index) {
+		ui->dialogLinesList->addItem(QString::fromStdString(text[ {TextCategory::Dialog, dialog.getLine(index).textID} ]));
+	}
+
+	if (ui->dialogLinesList->count() > 0) {
+		ui->dialogLinesList->setCurrentRow(0);
+		if (ui->responsesList->count() > 0) {
+			ui->responsesList->setCurrentRow(0);
+		}
+	}
+
+	updateDialogParameters();
+}
+
 void DialogEditor::updateDialogParameters()
 {
 	for (unsigned int index = 0; index < dialog.getSize(); ++index) {
@@ -299,6 +303,23 @@ void DialogEditor::updateDialogLineParameters(unsigned int index)
 		Response response = line.responses[index];
 		std::string label = text[ {TextCategory::Dialog, response.textID} ];
 		setListItem(ui->responsesList, index, label);
+	}
+}
+
+void DialogEditor::updateResponsesList(unsigned int index)
+{
+	ui->responsesList->clearSelection();
+	ui->responsesList->clearFocus();
+	ui->responsesList->clear();
+	ui->textIDBox->setDisabled(false);
+	if (ui->dialogLinesList->count() > 0) {
+		DialogLine line = dialog.getLine(index);
+		for (unsigned int responseIndex = 0; responseIndex < line.responses.size(); ++responseIndex) {
+			Response response = line.responses[responseIndex];
+			ui->responsesList->addItem(QString::fromStdString(text[ {TextCategory::Dialog, response.textID} ]));
+		}
+
+		updateDialogLineParameters(index);
 	}
 }
 
