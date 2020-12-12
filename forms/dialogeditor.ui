@@ -174,7 +174,7 @@
        <string>Remove</string>
       </property>
      </widget>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="responseOptionsBox">
       <property name="geometry">
        <rect>
         <x>250</x>
@@ -288,8 +288,14 @@
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
          <property name="maximum">
           <number>999999999</number>
+         </property>
+         <property name="value">
+          <number>0</number>
          </property>
         </widget>
         <widget class="QLabel" name="comparisonLabel">
@@ -344,7 +350,7 @@
           </rect>
          </property>
          <property name="text">
-          <string>Target Variable ID:</string>
+          <string>Target variable ID:</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -400,13 +406,13 @@
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <property name="minimum">
-          <number>-1</number>
+          <number>-2</number>
          </property>
          <property name="maximum">
           <number>999999999</number>
          </property>
          <property name="value">
-          <number>-1</number>
+          <number>0</number>
          </property>
         </widget>
         <widget class="QLabel" name="globalVariableIDLabel">
@@ -438,13 +444,13 @@
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
          <property name="minimum">
-          <number>-1</number>
+          <number>0</number>
          </property>
          <property name="maximum">
           <number>999999999</number>
          </property>
          <property name="value">
-          <number>-1</number>
+          <number>0</number>
          </property>
         </widget>
         <widget class="QLabel" name="setValueLabel">
@@ -564,6 +570,27 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>startDialogIDBox</tabstop>
+  <tabstop>dialogLinesList</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>removeButton</tabstop>
+  <tabstop>dialogIDBox</tabstop>
+  <tabstop>textIDBox</tabstop>
+  <tabstop>responsesList</tabstop>
+  <tabstop>addResponseButton</tabstop>
+  <tabstop>removeResponseButton</tabstop>
+  <tabstop>responseIDBox</tabstop>
+  <tabstop>responseTextIDBox</tabstop>
+  <tabstop>responseWidget</tabstop>
+  <tabstop>variableIDBox</tabstop>
+  <tabstop>comparisonBox</tabstop>
+  <tabstop>targetBox</tabstop>
+  <tabstop>compareValueBox</tabstop>
+  <tabstop>nextDialogIDBox</tabstop>
+  <tabstop>globalVariableIDBox</tabstop>
+  <tabstop>setValueBox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

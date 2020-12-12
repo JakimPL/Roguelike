@@ -57,7 +57,7 @@ void ItemEditor::on_actionSaveAs_triggered()
 
 void ItemEditor::on_actionExit_triggered()
 {
-	this->close();
+	close();
 }
 
 void ItemEditor::updateApplicationTitle()

@@ -13,24 +13,34 @@ enum class ComparisonOperator {
 	isLessOrEqualThan,
 	isLessThan,
 	isGreaterOrEqualThan,
-	isGreaterThan
+	isGreaterThan,
+	count
+};
+
+static const std::vector<std::string> OPERATOR_STRING = {
+	"=",
+	"≠",
+	"≤",
+	"<",
+	"≥",
+	">"
 };
 
 struct DialogCondition {
-	GlobalVariable variable;
-	ComparisonOperator comparisonOperator;
-	bool compareWithVariable;
-	int value;
+	GlobalVariable variable = g_NONE;
+	ComparisonOperator comparisonOperator = ComparisonOperator::isEqual;
+	bool compareWithVariable = false;
+	int value = 0;
 };
 
 struct DialogAction {
-	unsigned int nextDialogID;
-	GlobalVariable variable;
-	int value;
+	unsigned int nextDialogID = -1;
+	GlobalVariable variable = g_NONE;
+	int value = 0;
 };
 
 struct Response {
-	unsigned int textID;
+	unsigned int textID = 0;
 	DialogCondition condition;
 	DialogAction action;
 };
@@ -38,8 +48,11 @@ struct Response {
 typedef std::vector<Response> Responses;
 
 struct DialogLine {
-	unsigned int textID;
+	unsigned int textID = 0;
 	Responses responses;
+
+	void addResponse(Response response);
+	void removeResponse(unsigned int index);
 };
 
 typedef std::vector<DialogLine> Dialogs;
@@ -57,11 +70,15 @@ public:
 	Dialog();
 	Dialog(const std::string& filename, bool fullPath = false);
 
-	DialogLine& getLine(unsigned int);
+	DialogLine& getLine(unsigned int index);
+	Response getLineResponse(unsigned int index, unsigned responseID) const;
+	unsigned int getLineTextID(unsigned int index) const;
 	unsigned int getSize() const;
 
 	void addLine(DialogLine line);
 	void removeLine(unsigned int index);
+	void setLineResponse(unsigned int index, unsigned responseID, Response response);
+	void setLineTextID(unsigned int index, unsigned int value);
 
 	bool loadFromFile(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);

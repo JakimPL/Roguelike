@@ -110,9 +110,29 @@ DialogLine& Dialog::getLine(unsigned int index)
 	return dialogs[index];
 }
 
+Response Dialog::getLineResponse(unsigned int index, unsigned responseID) const
+{
+	return dialogs[index].responses[responseID];
+}
+
+unsigned int Dialog::getLineTextID(unsigned int index) const
+{
+	return dialogs[index].textID;
+}
+
 unsigned int Dialog::getSize() const
 {
 	return dialogs.size();
+}
+
+void Dialog::setLineResponse(unsigned int index, unsigned responseID, Response response)
+{
+	dialogs[index].responses[responseID] = response;
+}
+
+void Dialog::setLineTextID(unsigned int index, unsigned int value)
+{
+	dialogs[index].textID = value;
 }
 
 void Dialog::addLine(DialogLine line)
@@ -123,4 +143,14 @@ void Dialog::addLine(DialogLine line)
 void Dialog::removeLine(unsigned int index)
 {
 	dialogs.erase(dialogs.begin() + index);
+}
+
+void DialogLine::addResponse(Response response)
+{
+	responses.push_back(response);
+}
+
+void DialogLine::removeResponse(unsigned int index)
+{
+	responses.erase(responses.begin() + index);
 }

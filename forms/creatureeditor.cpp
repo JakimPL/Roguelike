@@ -57,7 +57,7 @@ void CreatureEditor::on_actionSaveAs_triggered()
 
 void CreatureEditor::on_actionExit_triggered()
 {
-	this->close();
+	close();
 }
 
 void CreatureEditor::prepareEditorValuesAndRanges()

@@ -10,6 +10,14 @@ void globalApplicationSettings(QWidget* widget)
 	widget->setFixedSize(size);
 }
 
+void prepareTextItems(const std::vector<std::string> table, QComboBox* comboBox)
+{
+	for (unsigned int index = 0; index < table.size(); ++index) {
+		QString listItem = QString::fromStdString(table[index]);
+		comboBox->insertItem(index, listItem);
+	}
+}
+
 void prepareTextItems(Text* text, const TextCategory category, QComboBox* comboBox)
 {
 	for (unsigned int index = 0; index < text->getContentSize(category); ++index) {

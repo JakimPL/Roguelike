@@ -150,7 +150,7 @@ void AreaEditor::on_actionSaveAs_triggered()
 
 void AreaEditor::on_actionExit_triggered()
 {
-	this->close();
+	close();
 }
 
 void AreaEditor::on_copyButton_clicked()
