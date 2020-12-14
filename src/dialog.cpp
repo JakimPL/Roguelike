@@ -114,6 +114,11 @@ Response Dialog::getLineResponse(unsigned int index, unsigned responseID) const
 	return dialogs[index].responses[responseID];
 }
 
+int Dialog::getStartDialogID() const
+{
+	return startDialogID;
+}
+
 unsigned int Dialog::getLineTextID(unsigned int index) const
 {
 	return dialogs[index].textID;

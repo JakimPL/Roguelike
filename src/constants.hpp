@@ -10,8 +10,9 @@
 #define GUI_RECTANGLE_COLOR {32,  32,  32,  192}
 #define GUI_INVENTORY_COLOR {0,   0,   160, 224}
 
-#define TARGET_COLOR   {64,  128, 224, 255}
-#define DOOR_COLOR   {64,  128, 224, 255}
+#define TARGET_COLOR  {64,  128, 224, 255}
+#define DOOR_COLOR    {64,  128, 224, 255}
+#define DIALOG_COLOR  {224, 224, 224, 255}
 
 #define COLOR_BLACK   {0,   0,   0,   255}
 #define COLOR_RED     {224, 0,   0,   255}

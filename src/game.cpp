@@ -7,7 +7,6 @@
 
 #include "objects/door.hpp"
 #include "objects/itemobject.hpp"
-#include "objects/npc.hpp"
 
 #include <iomanip>
 
@@ -179,6 +178,10 @@ void Game::drawGUI()
 		drawCharacterInfo();
 		break;
 	}
+	case GUI::Dialog: {
+		drawDialog();
+		break;
+	}
 	case GUI::Map: {
 		drawMap();
 		break;
@@ -257,6 +260,31 @@ void Game::drawCharacterInfo()
 		Ability ability = Ability(abilityIndex);
 		drawText(renderer, font, text[ {TextCategory::General, size_t(s_Strength) + abilityIndex} ], COLOR_YGREEN, xOffset, options.gui.tabYOffset + options.gui.tabHeight + (-4.5f + ability) * options.gui.tileHeight);
 		drawText(renderer, font, STRING(player.creature.getAbilityValue(ability)), COLOR_YGREEN, options.gui.tabXOffset + options.gui.tabWidth - 2 * options.general.scale, options.gui.tabYOffset + options.gui.tabHeight + (-4.5f + ability) * options.gui.tileHeight, Alignment::Right);
+	}
+}
+
+void Game::drawDialog()
+{
+	int line = 0;
+	const int xOffset = options.gui.tabXOffset + 2 * options.general.scale;
+	const int yOffset = options.gui.tabYOffset + 0.5f * options.gui.tileHeight;
+
+	std::stringstream npcNameText;
+	npcNameText << text[ {TextCategory::Creature, targetObject->getNameID()} ] << ":";
+	drawText(renderer, font, npcNameText.str(), targetObject->getColor(), xOffset, yOffset + (options.gui.tileHeight * line++));
+
+	line++;
+
+	drawText(renderer, font, text[ {TextCategory::Dialog, currentDialog->getLineTextID(dialogID)} ], DIALOG_COLOR, xOffset, yOffset + (options.gui.tileHeight * line++));
+
+	DialogLine dialogLine = currentDialog->getLine(dialogID);
+	unsigned int size = dialogLine.responses.size();
+	drawRectangle(renderer, COLOR_DGRAY, options.gui.tabXOffset, options.gui.tabYOffset + options.gui.tabHeight + (responsePosition - size) * options.gui.tileHeight, options.gui.tabWidth, options.gui.tileHeight);
+	for (unsigned int responseIndex = 0; responseIndex < size; ++responseIndex) {
+		Response response = dialogLine.responses[responseIndex];
+		std::stringstream responseText;
+		responseText << responseIndex + 1 << ". " << text[ {TextCategory::Dialog, response.textID }];
+		drawText(renderer, font, responseText.str(), DIALOG_COLOR, xOffset, options.gui.tabYOffset + options.gui.tabHeight + (0.5f + responseIndex - size) * options.gui.tileHeight);
 	}
 }
 
@@ -457,6 +485,21 @@ void Game::openTab(GUI tab)
 	}
 }
 
+void Game::openStore(NPC* npc)
+{
+	currentStore = &npc->store;
+	activeTab = GUI::Store;
+}
+
+void Game::startDialog(NPC* npc)
+{
+	targetObject = npc;
+	currentDialog = &npc->dialog;
+	responsePosition = 0;
+	dialogID = currentDialog->getStartDialogID();
+	openTab(GUI::Dialog);
+}
+
 void Game::mainLoop()
 {
 	bool quit = false;
@@ -542,15 +585,7 @@ void Game::mainLoop()
 							}
 							case ObjectType::NPC: {
 								NPC* npc = (NPC*)object;
-								if (globalState[g_TALKED_TO_JULIAN] == 0) {
-									if (!npc->store.inventory.isEmpty()) {
-										currentStore = &npc->store;
-										storePosition = std::min(storePosition, int(npc->store.inventory.getBackpackSize()));
-										openTab(GUI::Store);
-									}
-
-									globalState.setVariable(g_TALKED_TO_JULIAN, 1);
-								}
+								startDialog(npc);
 								break;
 							}
 							default:
@@ -602,6 +637,35 @@ void Game::mainLoop()
 					}
 				}
 
+				break;
+			case GUI::Dialog:
+				if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
+					decrease(responsePosition);
+				}
+				if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
+					increase(responsePosition, currentDialog->getLine(dialogID).responses.size() - 1);
+				}
+				/*if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
+				    subtract(responsePosition, options.dialog.responsesPerPage);
+				}
+				if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6) or keyboard.isKey(SDLK_PAGEDOWN)) {
+				    add(responsePosition, options.inventory.itemsPerPage, player.creature.inventory.getBackpackSize() - 1);
+				}*/
+				if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
+					DialogLine dialogLine = currentDialog->getLine(dialogID);
+					Response response = dialogLine.responses[responsePosition];
+
+					globalState.setVariable(response.action.variable, response.action.value);
+					dialogID = response.action.nextDialogID;
+					switch (dialogID) {
+					case ra_OPEN_STORE:
+						openStore((NPC*)targetObject);
+						break;
+					case ra_EXIT:
+						activeTab = GUI::None;
+						break;
+					}
+				}
 				break;
 			case GUI::Map:
 				for (unsigned int dir = 0; dir < COUNT; ++dir) {

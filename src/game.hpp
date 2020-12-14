@@ -2,12 +2,14 @@
 #define GAME_HPP
 
 #include "area.hpp"
+#include "dialog.hpp"
 #include "globalvariables.hpp"
 #include "keyboard.hpp"
 #include "message.hpp"
 #include "store.hpp"
 #include "text.hpp"
 #include "timer.hpp"
+#include "objects/npc.hpp"
 #include "objects/player.hpp"
 
 #include <SDL2/SDL_ttf.h>
@@ -16,6 +18,7 @@ enum class GUI : unsigned int {
 	None,
 	Inventory,
 	Character,
+	Dialog,
 	Map,
 	Store
 };
@@ -40,6 +43,9 @@ private:
 	} graphics;
 
 	unsigned long turn = 0;
+	int dialogID = 0;
+	unsigned int responsePage = 0;
+	int responsePosition = 0;
 	unsigned int inventoryPage = 0;
 	int inventoryPosition = 0;
 	unsigned int storePage = 0;
@@ -54,6 +60,8 @@ public:
 	Text text;
 	Area* currentArea;
 	Store* currentStore;
+	Dialog* currentDialog;
+	GameObject* targetObject;
 	Messages* messages;
 	GameObjects gameObjects;
 	GlobalState globalState;
@@ -71,6 +79,7 @@ private:
 	void drawObjects();
 	void drawGUI();
 	void drawCharacterInfo();
+	void drawDialog();
 	void drawInventory();
 	void drawItemDescription(Item* item);
 	void drawMap();
@@ -84,6 +93,8 @@ private:
 	void initializeGraphics();
 	bool isGUIactive() const;
 	void openTab(GUI tab);
+	void openStore(NPC* npc);
+	void startDialog(NPC* npc);
 };
 
 #endif // GAME_HPP

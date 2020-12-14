@@ -26,9 +26,9 @@ static const std::vector<std::string> OPERATOR_STRING = {
 	">"
 };
 
-enum class ResponseAction {
-	OPEN_STORE = -2,
-	EXIT
+enum ResponseAction {
+	ra_OPEN_STORE = -2,
+	ra_EXIT
 };
 
 struct DialogCondition {
@@ -77,6 +77,7 @@ public:
 
 	DialogLine& getLine(unsigned int index);
 	Response getLineResponse(unsigned int index, unsigned responseID) const;
+	int getStartDialogID() const;
 	unsigned int getLineTextID(unsigned int index) const;
 	unsigned int getSize() const;
 

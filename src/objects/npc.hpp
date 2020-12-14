@@ -3,20 +3,23 @@
 
 #include "gameobject.hpp"
 #include "src/creature.hpp"
+#include "src/dialog.hpp"
 #include "src/store.hpp"
 
 class NPC : public GameObject
 {
 private:
+	std::string creatureName;
+	std::string dialogName;
+	std::string storeName;
 
 public:
-	std::string creatureName;
-	std::string storeName;
 	Creature creature;
+	Dialog dialog;
 	Store store;
 
 public:
-	NPC(GameObjects& gameObjects, std::string initialCreatureName, std::string initialStoreName, Position initialPosition);
+	NPC(GameObjects& gameObjects, std::string initialCreatureName, std::string initialDialogName, std::string initialStoreName, Position initialPosition);
 	NPC(GameObjects& gameObjects, std::ifstream& resource);
 
 	TextPair getText() override;
