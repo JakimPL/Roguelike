@@ -30,6 +30,9 @@ private slots:
 	void on_actionSave_triggered();
 	void on_actionSaveAs_triggered();
 	void on_actionExit_triggered();
+
+	void on_startVariableBox_stateChanged(int value);
+
 	void on_addButton_pressed();
 	void on_removeButton_released();
 	void on_dialogLinesList_currentRowChanged(int currentIndex);
@@ -55,6 +58,7 @@ private slots:
 	void prepareEditorValuesAndRanges();
 	void setListItem(QListWidget* widget, unsigned int index, const std::string& label);
 	void updateApplicationTitle();
+	void updateEditorParameters();
 	void updateDialogLinesList();
 	void updateDialogParameters();
 	void updateDialogLineParameters(unsigned int index);

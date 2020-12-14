@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1024</width>
-    <height>634</height>
+    <height>661</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <widget class="QSpinBox" name="startDialogIDBox">
     <property name="geometry">
      <rect>
-      <x>154</x>
+      <x>184</x>
       <y>20</y>
-      <width>851</width>
+      <width>821</width>
       <height>31</height>
      </rect>
     </property>
@@ -35,7 +35,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>131</width>
+      <width>161</width>
       <height>30</height>
      </rect>
     </property>
@@ -50,7 +50,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>70</y>
+      <y>100</y>
       <width>991</width>
       <height>511</height>
      </rect>
@@ -522,6 +522,22 @@
      </property>
     </widget>
    </widget>
+   <widget class="QCheckBox" name="startVariableBox">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>60</y>
+      <width>961</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Use start dialog ID from global variable value:</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -572,6 +588,7 @@
  </widget>
  <tabstops>
   <tabstop>startDialogIDBox</tabstop>
+  <tabstop>startVariableBox</tabstop>
   <tabstop>dialogLinesList</tabstop>
   <tabstop>addButton</tabstop>
   <tabstop>removeButton</tabstop>

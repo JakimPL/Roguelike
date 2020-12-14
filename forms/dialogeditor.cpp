@@ -31,7 +31,7 @@ void DialogEditor::on_actionOpen_triggered()
 		Dialog newDialog(path, true);
 		dialog = newDialog;
 		updateApplicationTitle();
-		updateDialogLinesList();
+		updateEditorParameters();
 	}
 }
 
@@ -57,6 +57,12 @@ void DialogEditor::on_actionSaveAs_triggered()
 void DialogEditor::on_actionExit_triggered()
 {
 	close();
+}
+
+void DialogEditor::on_startVariableBox_stateChanged(int value)
+{
+	dialog.setUseGlobalVariable(value > 0);
+	updateDialogParameters();
 }
 
 void DialogEditor::on_addButton_pressed()
@@ -257,6 +263,14 @@ void DialogEditor::setListItem(QListWidget* widget, unsigned int index, const st
 	listItem->setFont(listItemFont);
 }
 
+void DialogEditor::updateEditorParameters()
+{
+	ui->dialogIDBox->setValue(dialog.getStartDialogIDValue());
+	updateDialogLinesList();
+	ui->startVariableBox->setChecked(dialog.getUseGlobalVariable());
+}
+
+
 void DialogEditor::updateDialogLinesList()
 {
 	ui->dialogLinesList->clear();
@@ -291,6 +305,8 @@ void DialogEditor::updateDialogParameters()
 	}
 
 	ui->responseOptionsBox->setDisabled(ui->responsesList->count() == 0);
+	ui->startDialogIDLabel->setText(ui->startVariableBox->checkState() > 0 ? "Global variable ID:" : "Start dialog ID:");
+	ui->startDialogIDBox->setMinimum(ui->startVariableBox->checkState() > 0 ? 1 : 0);
 }
 
 void DialogEditor::updateDialogLineParameters(unsigned int index)
