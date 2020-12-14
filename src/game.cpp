@@ -276,12 +276,12 @@ void Game::drawDialog()
 	line++;
 
 	drawText(renderer, font, text[ {TextCategory::Dialog, currentDialog->getLineTextID(dialogID)} ], DIALOG_COLOR, xOffset, yOffset + (options.gui.tileHeight * line++));
-
 	DialogLine dialogLine = currentDialog->getLine(dialogID);
 	unsigned int size = dialogLine.responses.size();
 	drawRectangle(renderer, COLOR_DGRAY, options.gui.tabXOffset, options.gui.tabYOffset + options.gui.tabHeight + (responsePosition - size) * options.gui.tileHeight, options.gui.tabWidth, options.gui.tileHeight);
+
 	for (unsigned int responseIndex = 0; responseIndex < size; ++responseIndex) {
-		Response response = dialogLine.responses[responseIndex];
+		Response response = currentDialog->getLineResponse(dialogID, responseIndex);
 		std::stringstream responseText;
 		responseText << responseIndex + 1 << ". " << text[ {TextCategory::Dialog, response.textID }];
 		drawText(renderer, font, responseText.str(), DIALOG_COLOR, xOffset, options.gui.tabYOffset + options.gui.tabHeight + (0.5f + responseIndex - size) * options.gui.tileHeight);
@@ -496,7 +496,7 @@ void Game::startDialog(NPC* npc)
 	targetObject = npc;
 	currentDialog = &npc->dialog;
 	responsePosition = 0;
-	dialogID = currentDialog->getStartDialogID();
+	dialogID = currentDialog->getStartDialogID(&globalState);
 	openTab(GUI::Dialog);
 }
 
@@ -652,8 +652,7 @@ void Game::mainLoop()
 				    add(responsePosition, options.inventory.itemsPerPage, player.creature.inventory.getBackpackSize() - 1);
 				}*/
 				if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
-					DialogLine dialogLine = currentDialog->getLine(dialogID);
-					Response response = dialogLine.responses[responsePosition];
+					Response response = currentDialog->getLineResponse(dialogID, responsePosition);
 
 					globalState.setVariable(response.action.variable, response.action.value);
 					dialogID = response.action.nextDialogID;

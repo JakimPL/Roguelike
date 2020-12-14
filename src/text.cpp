@@ -117,7 +117,7 @@ const std::string Text::text(TextCategory category, unsigned int id) const
 	std::string output;
 	try {
 		output = content[size_t(category)].at(id);
-	}  catch (std::out_of_range &) {
+	}  catch (std::out_of_range&) {
 		_LogError("Failed to load a text of id: " << id << " in " << FILENAME_STRING[(unsigned int)(category)]);
 		throw std::runtime_error("failed to load a text");
 	}

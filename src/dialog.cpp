@@ -50,6 +50,7 @@ bool Dialog::load(std::ifstream& resource)
 	char resourceHeader[SIZE_HEADER + 1];
 	Functions::read(resource, resourceHeader, SIZE_HEADER);
 	if (Functions::compareHeaders(headerDLG, resourceHeader)) {
+		resource.read(reinterpret_cast<char*>(&useGlobalVariable), SIZE_CHAR);
 		resource.read(reinterpret_cast<char*>(&startDialogID), SIZE_INT);
 
 		unsigned int size;
@@ -87,6 +88,7 @@ bool Dialog::load(std::ifstream& resource)
 void Dialog::save(std::ofstream& resource)
 {
 	resource.write(headerDLG, SIZE_HEADER);
+	resource.write(reinterpret_cast<char*>(&useGlobalVariable), SIZE_CHAR);
 	resource.write(reinterpret_cast<char*>(&startDialogID), SIZE_INT);
 
 	unsigned int size = dialogs.size();
@@ -106,17 +108,37 @@ void Dialog::save(std::ofstream& resource)
 
 DialogLine& Dialog::getLine(unsigned int index)
 {
-	return dialogs[index];
+	try {
+		return dialogs.at(index);
+	} catch (...) {
+		_LogError("Failed to load a dialog of id: " << index);
+		throw std::runtime_error("failed to load a dialog");
+	}
 }
 
-Response Dialog::getLineResponse(unsigned int index, unsigned responseID) const
+Response Dialog::getLineResponse(unsigned int index, unsigned responseID)
 {
-	return dialogs[index].responses[responseID];
+	try {
+		return getLine(index).responses.at(responseID);
+	} catch (...) {
+		_LogError("Failed to load a response of id: " << responseID);
+		throw std::runtime_error("failed to load a response");
+	}
 }
 
-int Dialog::getStartDialogID() const
+int Dialog::getStartDialogID(GlobalState* state) const
+{
+	return useGlobalVariable ? state->getVariable(GlobalVariable(startDialogID)) : startDialogID;
+}
+
+int Dialog::getStartDialogIDValue() const
 {
 	return startDialogID;
+}
+
+bool Dialog::getUseGlobalVariable() const
+{
+	return useGlobalVariable;
 }
 
 unsigned int Dialog::getLineTextID(unsigned int index) const
@@ -137,6 +159,11 @@ void Dialog::setLineResponse(unsigned int index, unsigned responseID, Response r
 void Dialog::setLineTextID(unsigned int index, unsigned int value)
 {
 	dialogs[index].textID = value;
+}
+
+void Dialog::setUseGlobalVariable(bool value)
+{
+	useGlobalVariable = value;
 }
 
 void Dialog::addLine(DialogLine line)

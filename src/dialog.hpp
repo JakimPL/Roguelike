@@ -68,6 +68,7 @@ constexpr int SIZE_DLGACT = sizeof(DialogAction);
 class Dialog
 {
 private:
+	bool useGlobalVariable = false;
 	int startDialogID = 0;
 	Dialogs dialogs;
 
@@ -76,8 +77,11 @@ public:
 	Dialog(const std::string& filename, bool fullPath = false);
 
 	DialogLine& getLine(unsigned int index);
-	Response getLineResponse(unsigned int index, unsigned responseID) const;
-	int getStartDialogID() const;
+	Response getLineResponse(unsigned int index, unsigned responseID);
+	int getStartDialogID(GlobalState* state) const;
+	int getStartDialogIDValue() const;
+	bool getUseGlobalVariable() const;
+
 	unsigned int getLineTextID(unsigned int index) const;
 	unsigned int getSize() const;
 
@@ -85,6 +89,7 @@ public:
 	void removeLine(unsigned int index);
 	void setLineResponse(unsigned int index, unsigned responseID, Response response);
 	void setLineTextID(unsigned int index, unsigned int value);
+	void setUseGlobalVariable(bool value);
 
 	bool loadFromFile(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);

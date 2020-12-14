@@ -6,7 +6,7 @@ int GlobalState::getVariable(GlobalVariable variable) const
 {
 	try {
 		return globalState.at(variable);
-	}  catch (std::out_of_range &) {
+	}  catch (std::out_of_range&) {
 		return 0;
 	}
 }

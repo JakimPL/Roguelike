@@ -160,7 +160,9 @@ void DialogEditor::on_responseTextIDBox_currentIndexChanged(int index)
 
 void DialogEditor::on_responsesList_currentRowChanged(int currentIndex)
 {
-	updateResponseParameters(currentIndex);
+	if (currentIndex >= 0) {
+		updateResponseParameters(currentIndex);
+	}
 }
 
 void DialogEditor::on_variableIDBox_valueChanged(int value)
@@ -325,13 +327,12 @@ void DialogEditor::updateDialogLineParameters(unsigned int index)
 void DialogEditor::updateResponsesList(unsigned int index)
 {
 	ui->responsesList->clearSelection();
-	ui->responsesList->clearFocus();
 	ui->responsesList->clear();
 	ui->textIDBox->setDisabled(false);
 	if (ui->dialogLinesList->count() > 0) {
 		DialogLine line = dialog.getLine(index);
 		for (unsigned int responseIndex = 0; responseIndex < line.responses.size(); ++responseIndex) {
-			Response response = line.responses[responseIndex];
+			Response response = dialog.getLineResponse(index, responseIndex);
 			ui->responsesList->addItem(QString::fromStdString(text[ {TextCategory::Dialog, response.textID} ]));
 		}
 
@@ -339,21 +340,21 @@ void DialogEditor::updateResponsesList(unsigned int index)
 	}
 }
 
-void DialogEditor::updateResponseParameters(unsigned int index)
+void DialogEditor::updateResponseParameters(int index)
 {
-	DialogLine line = getCurrentLine();
+	Response response = getCurrentResponse();
 	ui->responseIDBox->setValue(index);
-	ui->responseTextIDBox->setCurrentIndex(line.responses[index].textID);
-	ui->variableIDBox->setValue(line.responses[index].condition.variable);
-	ui->comparisonBox->setCurrentIndex(int(line.responses[index].condition.comparisonOperator));
-	ui->targetBox->setValue(line.responses[index].condition.value);
-	ui->compareValueBox->setChecked(line.responses[index].condition.compareWithVariable);
+	ui->responseTextIDBox->setCurrentIndex(response.textID);
+	ui->variableIDBox->setValue(response.condition.variable);
+	ui->comparisonBox->setCurrentIndex(int(response.condition.comparisonOperator));
+	ui->targetBox->setValue(response.condition.value);
+	ui->compareValueBox->setChecked(response.condition.compareWithVariable);
 
-	ui->nextDialogIDBox->setValue(line.responses[index].action.nextDialogID);
-	ui->globalVariableIDBox->setValue(int(line.responses[index].action.variable));
-	ui->setValueBox->setValue(line.responses[index].action.value);
+	ui->nextDialogIDBox->setValue(response.action.nextDialogID);
+	ui->globalVariableIDBox->setValue(int(response.action.variable));
+	ui->setValueBox->setValue(response.action.value);
 
-	ui->targetLabel->setText(line.responses[index].condition.compareWithVariable ? "Target variable ID:" : "Target value:");
+	ui->targetLabel->setText(response.condition.compareWithVariable ? "Target variable ID:" : "Target value:");
 
 	bool conditionDisabled = (ui->variableIDBox->value() <= 0);
 	bool actionDisabled = (ui->globalVariableIDBox->value() <= 0);

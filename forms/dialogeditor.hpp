@@ -63,7 +63,7 @@ private slots:
 	void updateDialogParameters();
 	void updateDialogLineParameters(unsigned int index);
 	void updateResponsesList(unsigned int index);
-	void updateResponseParameters(unsigned int index);
+	void updateResponseParameters(int index);
 
 private:
 	Ui::DialogEditor *ui;
