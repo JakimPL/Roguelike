@@ -135,8 +135,11 @@ void DialogEditor::on_textIDBox_currentIndexChanged(int index)
 
 void DialogEditor::on_addResponseButton_pressed()
 {
-	dialog.addResponse(DialogResponse());
-	getCurrentLine().addResponseID(dialog.getResponsesCount() - 1);
+	if (dialog.getResponsesCount() == 0) {
+		dialog.addResponse(DialogResponse());
+	}
+
+	getCurrentLine().addResponseID(0);
 	int currentIndex = std::max(0, ui->responsesList->currentRow());
 	ui->responsesList->addItem("");
 	ui->responsesList->setCurrentRow(currentIndex);
@@ -169,6 +172,10 @@ void DialogEditor::on_removeResponseButton_released()
 void DialogEditor::on_responseIDBox_valueChanged(int value)
 {
 	if (!isResponsesListEmpty()) {
+		if (value == ui->responseIDBox->maximum()) {
+			dialog.addResponse(DialogResponse());
+		}
+
 		getCurrentLine().setResponseID(ui->responsesList->currentRow(), value);
 		updateResponsesList();
 		updateResponseParameters();
@@ -178,14 +185,9 @@ void DialogEditor::on_responseIDBox_valueChanged(int value)
 void DialogEditor::on_responseTextIDBox_currentIndexChanged(int index)
 {
 	if (!isResponsesListEmpty()) {
-		int lineIndex = ui->dialogLinesList->currentRow();
-
 		getCurrentResponse().textID = index;
-		/*QListWidgetItem* item = ui->responsesList->item(responseIndex);
-		item->setText(QString::fromStdString(text[ {TextCategory::Dialog, getCurrentResponse().textID} ]));*/
-
 		updateResponsesList();
-		updateDialogLineParameters(lineIndex);
+		updateDialogLineParameters(ui->dialogLinesList->currentRow());
 	}
 }
 
@@ -360,7 +362,7 @@ void DialogEditor::updateDialogLineParameters(unsigned int index)
 
 void DialogEditor::updateResponsesList()
 {
-	ui->responseIDBox->setMaximum(std::max(0, int(dialog.getResponsesCount()) - 1));
+	ui->responseIDBox->setMaximum(std::max(0, int(dialog.getResponsesCount())));
 	if (ui->dialogLinesList->count() > 0) {
 		DialogLine line = getCurrentLine();
 		for (unsigned int responseIndex = 0; responseIndex < line.responsesID.size(); ++responseIndex) {

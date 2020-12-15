@@ -275,17 +275,18 @@ void Game::drawDialog()
 
 	line++;
 
-	/*drawText(renderer, font, text[ {TextCategory::Dialog, currentDialog->getLineTextID(dialogID)} ], DIALOG_COLOR, xOffset, yOffset + (options.gui.tileHeight * line++));
 	DialogLine dialogLine = currentDialog->getLine(dialogID);
-	unsigned int size = dialogLine.responses.size();
+	drawText(renderer, font, text[ {TextCategory::Dialog, dialogLine.textID} ], DIALOG_COLOR, xOffset, yOffset + (options.gui.tileHeight * line++));
+
+	unsigned int size = dialogLine.responsesID.size();
 	drawRectangle(renderer, COLOR_DGRAY, options.gui.tabXOffset, options.gui.tabYOffset + options.gui.tabHeight + (responsePosition - size) * options.gui.tileHeight, options.gui.tabWidth, options.gui.tileHeight);
 
 	for (unsigned int responseIndex = 0; responseIndex < size; ++responseIndex) {
-		Response response = currentDialog->getLineResponse(dialogID, responseIndex);
+		DialogResponse response = currentDialog->getResponseByID(dialogID, responseIndex);
 		std::stringstream responseText;
 		responseText << responseIndex + 1 << ". " << text[ {TextCategory::Dialog, response.textID }];
 		drawText(renderer, font, responseText.str(), DIALOG_COLOR, xOffset, options.gui.tabYOffset + options.gui.tabHeight + (0.5f + responseIndex - size) * options.gui.tileHeight);
-	}*/
+	}
 }
 
 void Game::drawInventory()
@@ -639,23 +640,24 @@ void Game::mainLoop()
 
 				break;
 			case GUI::Dialog:
-				/*if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
+				if (keyboard.isKey(SDLK_UP) or keyboard.isKey(SDLK_KP_8)) {
 					decrease(responsePosition);
 				}
 				if (keyboard.isKey(SDLK_DOWN) or keyboard.isKey(SDLK_KP_2)) {
-					increase(responsePosition, currentDialog->getLine(dialogID).responses.size() - 1);
+					increase(responsePosition, currentDialog->getLine(dialogID).responsesID.size() - 1);
 				}
-				if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
-				    subtract(responsePosition, options.dialog.responsesPerPage);
+				/*if (keyboard.isKey(SDLK_LEFT) or keyboard.isKey(SDLK_KP_4) or keyboard.isKey(SDLK_PAGEUP)) {
+					subtract(responsePosition, options.dialog.responsesPerPage);
 				}
 				if (keyboard.isKey(SDLK_RIGHT) or keyboard.isKey(SDLK_KP_6) or keyboard.isKey(SDLK_PAGEDOWN)) {
-				    add(responsePosition, options.inventory.itemsPerPage, player.creature.inventory.getBackpackSize() - 1);
-				}
+					add(responsePosition, options.inventory.itemsPerPage, player.creature.inventory.getBackpackSize() - 1);
+				}*/
 				if (keyboard.isKeyPressed(SDLK_RETURN) or keyboard.isKeyPressed(SDLK_KP_ENTER)) {
-					Response response = currentDialog->getLineResponse(dialogID, responsePosition);
+					DialogResponse response = currentDialog->getResponseByID(dialogID, responsePosition);
 
 					globalState.setVariable(response.action.variable, response.action.value);
-					dialogID = response.action.nextDialogID;
+					dialogID = response.action.nextDialog.dialogID;
+					responsePosition = 0;
 					switch (dialogID) {
 					case ra_OPEN_STORE:
 						openStore((NPC*)targetObject);
@@ -664,7 +666,7 @@ void Game::mainLoop()
 						activeTab = GUI::None;
 						break;
 					}
-				}*/
+				}
 
 				break;
 			case GUI::Map:
