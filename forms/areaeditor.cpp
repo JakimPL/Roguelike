@@ -7,6 +7,7 @@
 #include "src/objects/door.hpp"
 #include "src/objects/itemobject.hpp"
 #include "src/objects/npc.hpp"
+#include "src/objects/sign.hpp"
 
 #include <QInputDialog>
 #include <QFileDialog>
@@ -59,7 +60,7 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			}
 		} else if (event->key() == Qt::Key_I) {
 			bool ok;
-			QString resourceName = QInputDialog::getText(this, tr("Input ITEM resource name:"), tr("Item name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
+			QString resourceName = QInputDialog::getText(this, tr("Input ITEM resource name:"), tr("Item name:"), QLineEdit::Normal, "ITEM", &ok);
 			if (ok and !resourceName.isEmpty()) {
 				new ItemObject(gameObjects, resourceName.toStdString(), selectorPosition);
 				updateObjects();
@@ -69,16 +70,25 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			QString creatureName;
 			QString dialogName;
 			QString storeName;
-			creatureName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
+			creatureName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, "CREATURE", &ok);
 			if (ok) {
-				dialogName = QInputDialog::getText(this, tr("Input DIALOG resource name:"), tr("Dialog name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
-				storeName = QInputDialog::getText(this, tr("Input STORE resource name:"), tr("Store name:"), QLineEdit::Normal, QDir::home().dirName(), &ok);
+				dialogName = QInputDialog::getText(this, tr("Input DIALOG resource name:"), tr("Dialog name:"), QLineEdit::Normal, "DIALOG", &ok);
+				storeName = QInputDialog::getText(this, tr("Input STORE resource name:"), tr("Store name:"), QLineEdit::Normal, "STORE", &ok);
 				if (ok and !dialogName.isEmpty()) {
 					new NPC(gameObjects, creatureName.toStdString(), dialogName.toStdString(), storeName.toStdString(), selectorPosition);
 					updateObjects();
 				}
 			}
+		} else if (event->key() == Qt::Key_S) {
+			bool ok;
+			QString nameIDText = QInputDialog::getText(this, tr("Input name ID:"), tr("Name ID:"), QLineEdit::Normal, "0", &ok);
+			if (ok and !nameIDText.isEmpty()) {
+				std::string nameIDString = nameIDText.toStdString();
+				int nameIDText = std::stoi(nameIDString);
 
+				new Sign(gameObjects, getColor(), selectorPosition, getLetter(ui->letterBox->text().toStdString()), nameIDText);
+				updateObjects();
+			}
 		}
 
 		if (selectorPosition != oldPosition) {

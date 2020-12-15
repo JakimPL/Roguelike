@@ -7,6 +7,7 @@
 
 #include "objects/door.hpp"
 #include "objects/itemobject.hpp"
+#include "objects/sign.hpp"
 
 #include <iomanip>
 
@@ -587,6 +588,11 @@ void Game::mainLoop()
 							case ObjectType::NPC: {
 								NPC* npc = (NPC*)object;
 								startDialog(npc);
+								break;
+							}
+							case ObjectType::Sign: {
+								Sign* sign = (Sign*)object;
+								messages->add(text[ {TextCategory::Dialog, sign->getNameID()} ], sign->getColor());
 								break;
 							}
 							default:

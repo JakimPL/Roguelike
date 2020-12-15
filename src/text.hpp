@@ -151,7 +151,10 @@ enum String : unsigned long {
 	s_Wall,
 	s_Road,
 	s_Item,
-	s_Door
+	s_Door,
+	s_Bridge,
+	s_Floor,
+	s_Sign
 };
 
 typedef std::vector<String> StringList;

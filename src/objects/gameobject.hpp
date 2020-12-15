@@ -10,7 +10,8 @@ enum class ObjectType : unsigned char {
 	Player,
 	Item,
 	NPC,
-	Door
+	Door,
+	Sign
 };
 
 class GameObject;

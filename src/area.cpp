@@ -5,6 +5,7 @@
 #include "objects/door.hpp"
 #include "objects/itemobject.hpp"
 #include "objects/npc.hpp"
+#include "objects/sign.hpp"
 
 Area::Area(GameObjects& gameObjects, const std::string& filename, bool fullPath) : areaObjects(gameObjects)
 {
@@ -104,6 +105,9 @@ bool Area::load(std::ifstream& resource)
 				break;
 			case ObjectType::Door:
 				new Door(areaObjects, resource);
+				break;
+			case ObjectType::Sign:
+				new Sign(areaObjects, resource);
 				break;
 			default:
 				break;

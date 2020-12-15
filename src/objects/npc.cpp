@@ -15,6 +15,8 @@ NPC::NPC(GameObjects& gameObjects, std::string initialCreatureName, std::string 
 NPC::NPC(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObjects)
 {
 	type = ObjectType::NPC;
+	movable = true;
+	solid = true;
 	load(resource);
 	creature = Creature(creatureName);
 	dialog = Dialog(dialogName);

@@ -8,3 +8,4 @@ Przedmiot
 Drzwi
 Most
 Podłoga
+Tabliczka

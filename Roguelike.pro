@@ -22,6 +22,7 @@ HEADERS += \
 	src/keyboard.hpp \
 	src/log.hpp \
 	src/message.hpp \
+	src/objects/sign.hpp \
 	src/options.hpp \
 	src/store.hpp \
 	src/structures.hpp \
@@ -50,6 +51,7 @@ SOURCES += \
 	src/item.cpp \
 	src/keyboard.cpp \
 	src/message.cpp \
+	src/objects/sign.cpp \
 	src/options.cpp \
 	src/store.cpp \
 	src/structures.cpp \

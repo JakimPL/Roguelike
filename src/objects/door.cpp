@@ -13,6 +13,7 @@ Door::Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation
 Door::Door(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObjects)
 {
 	type = ObjectType::Door;
+	movable = false;
 	load(resource);
 	update();
 }
