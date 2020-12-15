@@ -59,6 +59,12 @@ void DialogEditor::on_actionExit_triggered()
 	close();
 }
 
+
+void DialogEditor::on_startDialogIDBox_valueChanged(int value)
+{
+	dialog.setStartDialogIDValue(value);
+}
+
 void DialogEditor::on_startVariableBox_stateChanged(int value)
 {
 	dialog.setUseGlobalVariable(value > 0);
@@ -95,9 +101,23 @@ void DialogEditor::on_removeButton_released()
 	}
 }
 
-void DialogEditor::on_dialogLinesList_currentRowChanged(int currentIndex)
+void DialogEditor::on_dialogLinesList_currentRowChanged(int)
 {
-	updateResponsesList(currentIndex);
+	ui->responsesList->clear();
+	ui->textIDBox->setDisabled(false);
+	if (ui->dialogLinesList->count() > 0) {
+		DialogLine line = getCurrentLine();
+		for (unsigned int responseIndex = 0; responseIndex < line.responsesID.size(); ++responseIndex) {
+			unsigned int responseID = getCurrentLine().responsesID[responseIndex];
+			DialogResponse response = dialog.getResponse(responseID);
+			std::stringstream responseText;
+			responseText << responseID << ": " << text[ {TextCategory::Dialog, response.textID} ];
+			ui->responsesList->addItem(QString::fromStdString(responseText.str()));
+		}
+
+		updateDialogLineParameters(ui->dialogLinesList->currentRow());
+	}
+
 	updateDialogParameters();
 }
 
@@ -115,18 +135,19 @@ void DialogEditor::on_textIDBox_currentIndexChanged(int index)
 
 void DialogEditor::on_addResponseButton_pressed()
 {
-	getCurrentLine().addResponse(Response());
-	ui->responsesList->addItem("");
-
+	dialog.addResponse(DialogResponse());
+	getCurrentLine().addResponseID(dialog.getResponsesCount() - 1);
 	int currentIndex = std::max(0, ui->responsesList->currentRow());
+	ui->responsesList->addItem("");
 	ui->responsesList->setCurrentRow(currentIndex);
 
+	updateResponsesList();
 	updateDialogParameters();
 }
 
 void DialogEditor::on_removeResponseButton_released()
 {
-	if (!isResponsesListEmpty()) {
+	/*if (!isResponsesListEmpty()) {
 		int currentIndex = ui->responsesList->currentRow();
 		dialog.getLine(currentIndex).removeResponse(currentIndex);
 		delete ui->responsesList->takeItem(currentIndex);
@@ -142,6 +163,15 @@ void DialogEditor::on_removeResponseButton_released()
 		}
 
 		updateDialogParameters();
+	}*/
+}
+
+void DialogEditor::on_responseIDBox_valueChanged(int value)
+{
+	if (!isResponsesListEmpty()) {
+		getCurrentLine().setResponseID(ui->responsesList->currentRow(), value);
+		updateResponsesList();
+		updateResponseParameters();
 	}
 }
 
@@ -149,11 +179,12 @@ void DialogEditor::on_responseTextIDBox_currentIndexChanged(int index)
 {
 	if (!isResponsesListEmpty()) {
 		int lineIndex = ui->dialogLinesList->currentRow();
-		int responseIndex = ui->responsesList->currentRow();
 
-		QListWidgetItem* item = ui->responsesList->item(responseIndex);
-		item->setText(QString::fromStdString(text[ {TextCategory::Dialog, index} ]));
-		dialog.getLine(lineIndex).responses[responseIndex].textID = index;
+		getCurrentResponse().textID = index;
+		/*QListWidgetItem* item = ui->responsesList->item(responseIndex);
+		item->setText(QString::fromStdString(text[ {TextCategory::Dialog, getCurrentResponse().textID} ]));*/
+
+		updateResponsesList();
 		updateDialogLineParameters(lineIndex);
 	}
 }
@@ -161,7 +192,8 @@ void DialogEditor::on_responseTextIDBox_currentIndexChanged(int index)
 void DialogEditor::on_responsesList_currentRowChanged(int currentIndex)
 {
 	if (currentIndex >= 0) {
-		updateResponseParameters(currentIndex);
+		updateResponsesList();
+		updateResponseParameters();
 	}
 }
 
@@ -169,9 +201,8 @@ void DialogEditor::on_variableIDBox_valueChanged(int value)
 {
 	if (!isResponsesListEmpty()) {
 		getCurrentResponse().condition.variable = GlobalVariable(value);
+		updateResponseParameters();
 	}
-
-	updateResponseParameters(ui->responsesList->currentRow());
 }
 
 void DialogEditor::on_comparisonBox_currentIndexChanged(int index)
@@ -192,15 +223,22 @@ void DialogEditor::on_compareValueBox_stateChanged(int value)
 {
 	if (!isResponsesListEmpty()) {
 		getCurrentResponse().condition.compareWithVariable = value > 0;
+		ui->targetLabel->setText(getCurrentResponse().condition.compareWithVariable ? "Target variable ID:" : "Target value:");
 	}
-
-	ui->targetLabel->setText(getCurrentResponse().condition.compareWithVariable ? "Target variable ID:" : "Target value:");
 }
 
 void DialogEditor::on_nextDialogIDBox_valueChanged(int value)
 {
 	if (!isResponsesListEmpty()) {
-		getCurrentResponse().action.nextDialogID = value;
+		getCurrentResponse().action.nextDialog.dialogID = value;
+	}
+}
+
+void DialogEditor::on_nextDialogFromGVBox_stateChanged(int value)
+{
+	if (!isResponsesListEmpty()) {
+		getCurrentResponse().action.nextDialog.useGlobalVariable = value > 0;
+		updateResponseParameters();
 	}
 }
 
@@ -208,9 +246,8 @@ void DialogEditor::on_globalVariableIDBox_valueChanged(int value)
 {
 	if (!isResponsesListEmpty()) {
 		getCurrentResponse().action.variable = GlobalVariable(value);
+		updateResponseParameters();
 	}
-
-	updateResponseParameters(ui->responsesList->currentRow());
 }
 
 void DialogEditor::on_setValueBox_valueChanged(int value)
@@ -230,9 +267,9 @@ DialogLine& DialogEditor::getCurrentLine()
 	return dialog.getLine(ui->dialogLinesList->currentRow());
 }
 
-Response& DialogEditor::getCurrentResponse()
+DialogResponse& DialogEditor::getCurrentResponse()
 {
-	return getCurrentLine().responses[ui->responsesList->currentRow()];
+	return dialog.getResponseByID(ui->dialogLinesList->currentRow(), ui->responsesList->currentRow());
 }
 
 void DialogEditor::updateApplicationTitle()
@@ -243,7 +280,6 @@ void DialogEditor::updateApplicationTitle()
 void DialogEditor::prepareEditorValuesAndRanges()
 {
 	ui->dialogIDBox->setDisabled(true);
-	ui->responseIDBox->setDisabled(true);
 	prepareTextItems(&text, TextCategory::Dialog, ui->textIDBox);
 	prepareTextItems(&text, TextCategory::Dialog, ui->responseTextIDBox);
 	prepareTextItems(OPERATOR_STRING, ui->comparisonBox);
@@ -267,16 +303,15 @@ void DialogEditor::setListItem(QListWidget* widget, unsigned int index, const st
 
 void DialogEditor::updateEditorParameters()
 {
-	ui->dialogIDBox->setValue(dialog.getStartDialogIDValue());
 	updateDialogLinesList();
+	ui->startDialogIDBox->setValue(dialog.getStartDialogIDValue());
 	ui->startVariableBox->setChecked(dialog.getUseGlobalVariable());
 }
-
 
 void DialogEditor::updateDialogLinesList()
 {
 	ui->dialogLinesList->clear();
-	for (unsigned int index = 0; index < dialog.getSize(); ++index) {
+	for (unsigned int index = 0; index < dialog.getLinesCount(); ++index) {
 		ui->dialogLinesList->addItem(QString::fromStdString(text[ {TextCategory::Dialog, dialog.getLine(index).textID} ]));
 	}
 
@@ -292,7 +327,7 @@ void DialogEditor::updateDialogLinesList()
 
 void DialogEditor::updateDialogParameters()
 {
-	for (unsigned int index = 0; index < dialog.getSize(); ++index) {
+	for (unsigned int index = 0; index < dialog.getLinesCount(); ++index) {
 		DialogLine line = dialog.getLine(index);
 		std::string label = text[ {TextCategory::Dialog, line.textID} ];
 		setListItem(ui->dialogLinesList, index, label);
@@ -306,9 +341,9 @@ void DialogEditor::updateDialogParameters()
 		ui->dialogLineOptionsBox->setDisabled(true);
 	}
 
-	ui->responseOptionsBox->setDisabled(ui->responsesList->count() == 0);
-	ui->startDialogIDLabel->setText(ui->startVariableBox->checkState() > 0 ? "Global variable ID:" : "Start dialog ID:");
-	ui->startDialogIDBox->setMinimum(ui->startVariableBox->checkState() > 0 ? 1 : 0);
+	ui->responseOptionsBox->setDisabled(dialog.getLinesCount() == 0);
+	ui->startDialogIDLabel->setText(dialog.getUseGlobalVariable() ? "Global variable ID:" : "Start dialog ID:");
+	ui->startDialogIDBox->setMinimum(dialog.getUseGlobalVariable() > 0 ? 1 : 0);
 }
 
 void DialogEditor::updateDialogLineParameters(unsigned int index)
@@ -317,49 +352,54 @@ void DialogEditor::updateDialogLineParameters(unsigned int index)
 	ui->dialogIDBox->setValue(index);
 	ui->textIDBox->setCurrentIndex(line.textID);
 
-	for (unsigned int index = 0; index < line.responses.size(); ++index) {
-		Response response = line.responses[index];
+	for (unsigned int responseID = 0; responseID < line.responsesID.size(); ++responseID) {
+		DialogResponse response = dialog.getResponseByID(index, responseID);
 		std::string label = text[ {TextCategory::Dialog, response.textID} ];
-		setListItem(ui->responsesList, index, label);
 	}
 }
 
-void DialogEditor::updateResponsesList(unsigned int index)
+void DialogEditor::updateResponsesList()
 {
-	ui->responsesList->clearSelection();
-	ui->responsesList->clear();
-	ui->textIDBox->setDisabled(false);
+	ui->responseIDBox->setMaximum(std::max(0, int(dialog.getResponsesCount()) - 1));
 	if (ui->dialogLinesList->count() > 0) {
-		DialogLine line = dialog.getLine(index);
-		for (unsigned int responseIndex = 0; responseIndex < line.responses.size(); ++responseIndex) {
-			Response response = dialog.getLineResponse(index, responseIndex);
-			ui->responsesList->addItem(QString::fromStdString(text[ {TextCategory::Dialog, response.textID} ]));
+		DialogLine line = getCurrentLine();
+		for (unsigned int responseIndex = 0; responseIndex < line.responsesID.size(); ++responseIndex) {
+			unsigned int responseID = getCurrentLine().responsesID[responseIndex];
+			DialogResponse response = dialog.getResponse(responseID);
+			std::stringstream responseText;
+			responseText << responseID << ": " << text[ {TextCategory::Dialog, response.textID} ];
+			setListItem(ui->responsesList, responseIndex, responseText.str());
 		}
 
-		updateDialogLineParameters(index);
+		updateDialogLineParameters(ui->dialogLinesList->currentRow());
 	}
 }
 
-void DialogEditor::updateResponseParameters(int index)
+void DialogEditor::updateResponseParameters()
 {
-	Response response = getCurrentResponse();
-	ui->responseIDBox->setValue(index);
-	ui->responseTextIDBox->setCurrentIndex(response.textID);
-	ui->variableIDBox->setValue(response.condition.variable);
-	ui->comparisonBox->setCurrentIndex(int(response.condition.comparisonOperator));
-	ui->targetBox->setValue(response.condition.value);
-	ui->compareValueBox->setChecked(response.condition.compareWithVariable);
+	if (!isResponsesListEmpty()) {
+		DialogResponse response = getCurrentResponse();
+		ui->responseIDBox->setValue(getCurrentLine().getResponseID(ui->responsesList->currentRow()));
+		ui->responseTextIDBox->setCurrentIndex(response.textID);
+		ui->variableIDBox->setValue(response.condition.variable);
+		ui->comparisonBox->setCurrentIndex(int(response.condition.comparisonOperator));
+		ui->targetBox->setValue(response.condition.value);
+		ui->compareValueBox->setChecked(response.condition.compareWithVariable);
 
-	ui->nextDialogIDBox->setValue(response.action.nextDialogID);
-	ui->globalVariableIDBox->setValue(int(response.action.variable));
-	ui->setValueBox->setValue(response.action.value);
+		ui->nextDialogIDBox->setValue(response.action.nextDialog.dialogID);
+		ui->globalVariableIDBox->setValue(int(response.action.variable));
+		ui->setValueBox->setValue(response.action.value);
 
-	ui->targetLabel->setText(response.condition.compareWithVariable ? "Target variable ID:" : "Target value:");
+		ui->targetLabel->setText(response.condition.compareWithVariable ? "Target variable ID:" : "Target value:");
+		ui->nextDialogFromGVBox->setChecked(response.action.nextDialog.useGlobalVariable);
+		ui->nextDialogIDBox->setMinimum(response.action.nextDialog.useGlobalVariable ? 1 : -2);
+		ui->nextDialogIDLabel->setText(response.action.nextDialog.useGlobalVariable ? "Next dialog GV:" : "Next dialog ID:");
 
-	bool conditionDisabled = (ui->variableIDBox->value() <= 0);
-	bool actionDisabled = (ui->globalVariableIDBox->value() <= 0);
-	ui->compareValueBox->setDisabled(conditionDisabled);
-	ui->comparisonBox->setDisabled(conditionDisabled);
-	ui->targetBox->setDisabled(conditionDisabled);
-	ui->setValueBox->setDisabled(actionDisabled);
+		bool conditionDisabled = (ui->variableIDBox->value() <= 0);
+		bool actionDisabled = (ui->globalVariableIDBox->value() <= 0);
+		ui->compareValueBox->setDisabled(conditionDisabled);
+		ui->comparisonBox->setDisabled(conditionDisabled);
+		ui->targetBox->setDisabled(conditionDisabled);
+		ui->setValueBox->setDisabled(actionDisabled);
+	}
 }

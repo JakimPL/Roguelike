@@ -50,8 +50,11 @@ bool Dialog::load(std::ifstream& resource)
 	char resourceHeader[SIZE_HEADER + 1];
 	Functions::read(resource, resourceHeader, SIZE_HEADER);
 	if (Functions::compareHeaders(headerDLG, resourceHeader)) {
-		resource.read(reinterpret_cast<char*>(&useGlobalVariable), SIZE_CHAR);
-		resource.read(reinterpret_cast<char*>(&startDialogID), SIZE_INT);
+		dialogs.clear();
+		responses.clear();
+
+		resource.read(reinterpret_cast<char*>(&startDialog.useGlobalVariable), SIZE_CHAR);
+		resource.read(reinterpret_cast<char*>(&startDialog.dialogID), SIZE_INT);
 
 		unsigned int size;
 		resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
@@ -60,21 +63,22 @@ bool Dialog::load(std::ifstream& resource)
 			resource.read(reinterpret_cast<char*>(&textID), SIZE_INT);
 
 			unsigned int responsesSize;
+			std::vector<unsigned int> responsesID;
 			resource.read(reinterpret_cast<char*>(&responsesSize), SIZE_INT);
-			Responses responses;
-			for (unsigned int line = 0; line < responsesSize; ++line) {
-				unsigned int textID;
-				DialogCondition condition;
-				DialogAction action;
-
-				resource.read(reinterpret_cast<char*>(&textID), SIZE_INT);
-				resource.read(reinterpret_cast<char*>(&condition), SIZE_DLGCOND);
-				resource.read(reinterpret_cast<char*>(&action), SIZE_DLGACT);
-
-				responses.push_back({textID, condition, action});
+			for (unsigned int index = 0; index < responsesSize; ++index) {
+				unsigned int responseID;
+				resource.read(reinterpret_cast<char*>(&responseID), SIZE_INT);
+				responsesID.push_back(responseID);
 			}
 
-			dialogs.push_back({textID, responses});
+			dialogs.push_back({textID, responsesID});
+		}
+
+		resource.read(reinterpret_cast<char*>(&size), SIZE_INT);
+		for (unsigned int index = 0; index < size; ++index) {
+			DialogResponse response;
+			resource.read(reinterpret_cast<char*>(&response), SIZE_DLGRESP);
+			responses.push_back(response);
 		}
 
 		_LogInfo("Dialog file opened successfully.");
@@ -88,21 +92,24 @@ bool Dialog::load(std::ifstream& resource)
 void Dialog::save(std::ofstream& resource)
 {
 	resource.write(headerDLG, SIZE_HEADER);
-	resource.write(reinterpret_cast<char*>(&useGlobalVariable), SIZE_CHAR);
-	resource.write(reinterpret_cast<char*>(&startDialogID), SIZE_INT);
+	resource.write(reinterpret_cast<char*>(&startDialog.useGlobalVariable), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&startDialog.dialogID), SIZE_INT);
 
-	unsigned int size = dialogs.size();
-	resource.write(reinterpret_cast<char*>(&size), SIZE_INT);
+	unsigned int dialogsSize = dialogs.size();
+	resource.write(reinterpret_cast<char*>(&dialogsSize), SIZE_INT);
 	for (DialogLine line : dialogs) {
+		unsigned int lineSize = line.responsesID.size();
 		resource.write(reinterpret_cast<char*>(&line.textID), SIZE_INT);
-
-		unsigned int responsesSize = line.responses.size();
-		resource.write(reinterpret_cast<char*>(&responsesSize), SIZE_INT);
-		for (Response response : line.responses) {
-			resource.write(reinterpret_cast<char*>(&response.textID), SIZE_INT);
-			resource.write(reinterpret_cast<char*>(&response.condition), SIZE_DLGCOND);
-			resource.write(reinterpret_cast<char*>(&response.action), SIZE_DLGACT);
+		resource.write(reinterpret_cast<char*>(&lineSize), SIZE_INT);
+		for (unsigned int index = 0; index < lineSize; ++index) {
+			resource.write(reinterpret_cast<char*>(&line.responsesID[index]), SIZE_INT);
 		}
+	}
+
+	unsigned int responsesSize = responses.size();
+	resource.write(reinterpret_cast<char*>(&responsesSize), SIZE_INT);
+	for (DialogResponse response : responses) {
+		resource.write(reinterpret_cast<char*>(&response), SIZE_DLGRESP);
 	}
 }
 
@@ -116,54 +123,54 @@ DialogLine& Dialog::getLine(unsigned int index)
 	}
 }
 
-Response Dialog::getLineResponse(unsigned int index, unsigned responseID)
+DialogResponse& Dialog::getResponse(unsigned int index)
 {
 	try {
-		return getLine(index).responses.at(responseID);
+		return responses.at(index);
 	} catch (...) {
-		_LogError("Failed to load a response of id: " << responseID);
+		_LogError("Failed to load a response of id: " << index);
 		throw std::runtime_error("failed to load a response");
 	}
 }
 
+DialogResponse& Dialog::getResponseByID(unsigned int index, unsigned int responseID)
+{
+	return getResponse(getLine(index).getResponseID(responseID));
+}
+
 int Dialog::getStartDialogID(GlobalState* state) const
 {
-	return useGlobalVariable ? state->getVariable(GlobalVariable(startDialogID)) : startDialogID;
+	return startDialog.useGlobalVariable ? state->getVariable(GlobalVariable(startDialog.dialogID)) : startDialog.dialogID;
 }
 
 int Dialog::getStartDialogIDValue() const
 {
-	return startDialogID;
+	return startDialog.dialogID;
 }
 
 bool Dialog::getUseGlobalVariable() const
 {
-	return useGlobalVariable;
+	return startDialog.useGlobalVariable;
 }
 
-unsigned int Dialog::getLineTextID(unsigned int index) const
-{
-	return dialogs[index].textID;
-}
-
-unsigned int Dialog::getSize() const
+unsigned int Dialog::getLinesCount() const
 {
 	return dialogs.size();
 }
 
-void Dialog::setLineResponse(unsigned int index, unsigned responseID, Response response)
+unsigned int Dialog::getResponsesCount() const
 {
-	dialogs[index].responses[responseID] = response;
+	return responses.size();
 }
 
-void Dialog::setLineTextID(unsigned int index, unsigned int value)
+void Dialog::setStartDialogIDValue(unsigned int index)
 {
-	dialogs[index].textID = value;
+	startDialog.dialogID = index;
 }
 
 void Dialog::setUseGlobalVariable(bool value)
 {
-	useGlobalVariable = value;
+	startDialog.useGlobalVariable = value;
 }
 
 void Dialog::addLine(DialogLine line)
@@ -176,12 +183,42 @@ void Dialog::removeLine(unsigned int index)
 	dialogs.erase(dialogs.begin() + index);
 }
 
-void DialogLine::addResponse(Response response)
+void Dialog::addResponse(DialogResponse response)
 {
 	responses.push_back(response);
 }
 
-void DialogLine::removeResponse(unsigned int index)
+void Dialog::removeResponse(unsigned int index)
 {
 	responses.erase(responses.begin() + index);
+}
+
+void DialogLine::addResponseID(unsigned int id)
+{
+	responsesID.push_back(id);
+}
+
+void DialogLine::removeResponseID(unsigned int index)
+{
+	responsesID.erase(responsesID.begin() + index);
+}
+
+unsigned int DialogLine::getResponseID(unsigned int index) const
+{
+	try {
+		return responsesID.at(index);
+	} catch (std::out_of_range&) {
+		_LogError("Failed to get a response id of an index: " << index);
+		throw std::runtime_error("failed to get a response ID");
+	}
+}
+
+void DialogLine::setResponseID(unsigned int index, unsigned int id)
+{
+	try {
+		responsesID.at(index) = id;
+	} catch (std::out_of_range&) {
+		_LogError("Failed to set a response id of an index: " << index);
+		throw std::runtime_error("failed to set a response ID");
+	}
 }

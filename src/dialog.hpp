@@ -31,6 +31,11 @@ enum ResponseAction {
 	ra_EXIT
 };
 
+struct DialogStart {
+	bool useGlobalVariable = false;
+	int dialogID = 0;
+};
+
 struct DialogCondition {
 	GlobalVariable variable = g_NONE;
 	ComparisonOperator comparisonOperator = ComparisonOperator::isEqual;
@@ -39,56 +44,63 @@ struct DialogCondition {
 };
 
 struct DialogAction {
-	unsigned int nextDialogID = -1;
+	DialogStart nextDialog;
 	GlobalVariable variable = g_NONE;
 	int value = 0;
 };
 
-struct Response {
-	unsigned int textID = 0;
+struct DialogResponse {
+	unsigned int textID;
 	DialogCondition condition;
 	DialogAction action;
 };
 
-typedef std::vector<Response> Responses;
+typedef std::vector<DialogResponse> Responses;
 
 struct DialogLine {
 	unsigned int textID = 0;
-	Responses responses;
+	std::vector<unsigned int> responsesID;
 
-	void addResponse(Response response);
-	void removeResponse(unsigned int index);
+	void addResponseID(unsigned int id);
+	void removeResponseID(unsigned int index);
+
+	unsigned int getResponseID(unsigned int index) const;
+	void setResponseID(unsigned int index, unsigned int id);
 };
 
 typedef std::vector<DialogLine> Dialogs;
 
+constexpr int SIZE_DLGSTART = sizeof(DialogStart);
 constexpr int SIZE_DLGCOND = sizeof(DialogCondition);
 constexpr int SIZE_DLGACT = sizeof(DialogAction);
+constexpr int SIZE_DLGRESP = sizeof(DialogResponse);
 
 class Dialog
 {
 private:
-	bool useGlobalVariable = false;
-	int startDialogID = 0;
+	DialogStart startDialog;
 	Dialogs dialogs;
+	Responses responses;
 
 public:
 	Dialog();
 	Dialog(const std::string& filename, bool fullPath = false);
 
 	DialogLine& getLine(unsigned int index);
-	Response getLineResponse(unsigned int index, unsigned responseID);
+	DialogResponse& getResponse(unsigned int index);
+	DialogResponse& getResponseByID(unsigned int index, unsigned int responseID);
 	int getStartDialogID(GlobalState* state) const;
 	int getStartDialogIDValue() const;
 	bool getUseGlobalVariable() const;
 
-	unsigned int getLineTextID(unsigned int index) const;
-	unsigned int getSize() const;
+	unsigned int getLinesCount() const;
+	unsigned int getResponsesCount() const;
 
 	void addLine(DialogLine line);
+	void addResponse(DialogResponse response);
+	void removeResponse(unsigned int index);
 	void removeLine(unsigned int index);
-	void setLineResponse(unsigned int index, unsigned responseID, Response response);
-	void setLineTextID(unsigned int index, unsigned int value);
+	void setStartDialogIDValue(unsigned int index);
 	void setUseGlobalVariable(bool value);
 
 	bool loadFromFile(const std::string& filename, bool fullPath = false);
