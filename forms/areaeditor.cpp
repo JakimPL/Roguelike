@@ -83,11 +83,13 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			bool ok;
 			QString nameIDText = QInputDialog::getText(this, tr("Input name ID:"), tr("Name ID:"), QLineEdit::Normal, "0", &ok);
 			if (ok and !nameIDText.isEmpty()) {
-				std::string nameIDString = nameIDText.toStdString();
-				int nameIDText = std::stoi(nameIDString);
-
-				new Sign(gameObjects, getColor(), selectorPosition, getLetter(ui->letterBox->text().toStdString()), nameIDText);
-				updateObjects();
+				int nameID = QString::fromStdString(nameIDText.toStdString()).toInt(&ok);
+				if (ok) {
+					new Sign(gameObjects, getColor(), selectorPosition, getLetter(ui->letterBox->text().toStdString()), nameID);
+					updateObjects();
+				} else {
+					_LogError("Bad input!");
+				}
 			}
 		}
 

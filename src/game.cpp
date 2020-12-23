@@ -48,6 +48,7 @@ int Game::clampY(int y)
 void Game::drawFrame()
 {
 	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	if (!isGUIactive()) {
 		redrawWorld();
@@ -460,7 +461,8 @@ void Game::redrawWorld()
 	graphics.worldRectangle.x = options.gui.tileBaseWidth * x;
 	graphics.worldRectangle.y = options.gui.tileBaseHeight * y;
 	SDL_RenderCopy(renderer, graphics.worldTexture, &graphics.screenRectangle, &graphics.worldRectangle);
-	SDL_RenderCopy(renderer, graphics.objectsTexture, NULL, NULL);
+	SDL_RenderCopy(renderer, graphics.objectsTexture, &graphics.screenRectangle, NULL);
+	SDL_RenderPresent(renderer);
 }
 
 void Game::redrawGUI()
@@ -809,8 +811,9 @@ void Game::initializeGraphics()
 
 	graphics.screenRectangle.w = screenWidth;
 	graphics.screenRectangle.h = screenHeight;
-	graphics.worldRectangle.w = screenWidth;
-	graphics.worldRectangle.h = screenHeight;
+	graphics.screenRectangle.x = 0;
+	graphics.screenRectangle.y = 0;
+
 
 	int width = 0;
 	int height = 0;
@@ -831,6 +834,11 @@ void Game::initializeGraphics()
 	SDL_SetTextureBlendMode(graphics.objectsTexture, SDL_BLENDMODE_ADD);
 	SDL_SetTextureBlendMode(graphics.worldTexture, SDL_BLENDMODE_ADD);
 	SDL_SetTextureBlendMode(graphics.guiTexture, SDL_BLENDMODE_ADD);
+
+	graphics.worldRectangle.w = graphics.screenRectangle.w;
+	graphics.worldRectangle.h = graphics.screenRectangle.h;
+	graphics.worldRectangle.x = 0;
+	graphics.worldRectangle.y = 0;
 }
 
 void Game::quit()
