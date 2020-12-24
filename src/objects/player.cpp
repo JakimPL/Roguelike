@@ -15,6 +15,17 @@ std::string Player::getName() const
 	return name;
 }
 
+int Player::hit(NPC* npc)
+{
+	Item* currentItem = creature.inventory.getStackItem(ItemType::weapon);
+	delay = (currentItem == nullptr ? 10 : currentItem->getDelay());
+
+	int damage = creature.getDamageMax();
+	npc->creature.takeHP(damage);
+
+	return damage;
+}
+
 TextPair Player::getText()
 {
 	return Text::makeTextPair(s_empty);

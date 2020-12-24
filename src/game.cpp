@@ -144,7 +144,18 @@ void Game::drawGUI()
 		if (!objects.empty()) {
 			GameObject* object = objects[0];
 			TextPair textPair = object->getText();
-			drawText(renderer, font, text[textPair], object->getColor(), 2 * options.gui.guiXOffset, options.general.screenHeight - options.gui.guiYOffset - options.gui.tileHeight / 2, Alignment::Left);
+			std::stringstream objectText;
+			objectText << text[textPair];
+
+			if (object->type == ObjectType::NPC) {
+				NPC* npc = (NPC*)(object);
+				if (npc->getAllegiance() == Allegiance::enemy) {
+					objectText << " (" << npc->creature.getHPCurrent() << "/" << npc->creature.getHPMax() << ")";
+				}
+			}
+			drawText(renderer, font, objectText.str(), object->getColor(), 2 * options.gui.guiXOffset, options.general.screenHeight - options.gui.guiYOffset - options.gui.tileHeight / 2, Alignment::Left);
+
+
 		} else {
 			Tile objectTile = currentArea->getTile(playerPosition.x + dirX, playerPosition.y + dirY);
 			drawText(renderer, font, text[ {TextCategory::Object, objectTile.nameID} ], objectTile.color, 2 * options.gui.guiXOffset, options.general.screenHeight - options.gui.guiYOffset - options.gui.tileHeight / 2, Alignment::Left);
@@ -644,12 +655,17 @@ void Game::mainLoop()
 							}
 							case ObjectType::NPC: {
 								NPC* npc = (NPC*)object;
-
+								int damage;
+								std::stringstream messageText;
 								switch (npc->getAllegiance()) {
 								case Allegiance::neutral:
 									startDialog(npc);
+									break;
 								case Allegiance::enemy:
-								//hit(npc);
+									damage = player.hit(npc);
+									messageText << text[ {TextCategory::Creature, npc->getNameID()} ] << text[s_lost] << damage << text[s__HP];
+									messages->add(messageText.str(), COLOR_RED);
+									break;
 								default:
 									break;
 								}

@@ -80,6 +80,8 @@ enum String : unsigned long {
 	s_Closed,
 	s_NotEnoughGold,
 	s_SoldItem,
+	s_lost,
+	s__HP,
 
 	s_Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 

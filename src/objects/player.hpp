@@ -2,6 +2,7 @@
 #define PLAYER_HPP
 
 #include "gameobject.hpp"
+#include "npc.hpp"
 #include "src/creature.hpp"
 
 class Player : public GameObject
@@ -16,6 +17,7 @@ public:
 	Player(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, std::string initialName);
 
 	std::string getName() const;
+	int hit(NPC* npc);
 
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;

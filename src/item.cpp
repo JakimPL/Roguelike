@@ -362,6 +362,12 @@ int Inventory::getStackItemIndex(ItemType type)
 {
 	return stack[type];
 }
+
+Item* Inventory::getStackItem(ItemType type)
+{
+	return getBackpackItem(getStackItemIndex(type));
+}
+
 unsigned int Inventory::getBackpackSize()
 {
 	return backpack.size();

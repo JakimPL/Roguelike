@@ -552,3 +552,8 @@ void Creature::takeGold(int amount)
 {
 	gold -= amount;
 }
+
+void Creature::takeHP(int amount)
+{
+	hpCurrent -= amount;
+}

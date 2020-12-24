@@ -147,6 +147,7 @@ public:
 	unsigned int getBackpackSize();
 	Item* getBackpackItem(int index);
 	int getStackItemIndex(ItemType type);
+	Item* getStackItem(ItemType type);
 
 	bool isEmpty() const;
 	bool isFull() const;

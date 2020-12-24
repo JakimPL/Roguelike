@@ -167,6 +167,7 @@ public:
 
 	void addGold(int amount);
 	void takeGold(int amount);
+	void takeHP(int amount);
 
 	bool loadFromFile(const std::string& filename, bool fullPath = false);
 	bool saveToFile(const std::string& filename, bool fullPath = false);

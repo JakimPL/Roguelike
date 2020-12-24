@@ -46,3 +46,5 @@ Ekwipunek jest pełny!
 Zamknięte!
 Za mało złota!
 Sprzedano: 
+ stracił(a) 
+ HP
