@@ -9,10 +9,7 @@
 #include <fstream>
 #include <sstream>
 
-namespace Functions
-{
-
-bpo::options_description addProgramDescription()
+bpo::options_description Functions::addProgramDescription()
 {
 	bpo::options_description description(DESCRIPTION);
 	description.add_options()
@@ -26,12 +23,12 @@ bpo::options_description addProgramDescription()
 	return description;
 }
 
-bool compareHeaders(const char* header1, const char* header2)
+bool Functions::compareHeaders(const char* header1, const char* header2)
 {
 	return (std::strcmp(header1, header2) == 0);
 }
 
-const std::string getPath(const std::string& filename, Filetype filetype)
+const std::string Functions::getPath(const std::string& filename, Filetype filetype)
 {
 	std::string path;
 	switch (filetype) {
@@ -66,7 +63,7 @@ const std::string getPath(const std::string& filename, Filetype filetype)
 	return path;
 }
 
-bpo::variables_map getVariablesMap(bpo::options_description description, int argc, char *argv[])
+bpo::variables_map Functions::getVariablesMap(bpo::options_description description, int argc, char *argv[])
 {
 	bpo::variables_map variablesMap;
 	bpo::positional_options_description positionalOptionsDescription;
@@ -85,7 +82,7 @@ bpo::variables_map getVariablesMap(bpo::options_description description, int arg
 	return variablesMap;
 }
 
-std::vector<Mode> parseProgramArguments(int argc, char *argv[])
+std::vector<Mode> Functions::parseProgramArguments(int argc, char *argv[])
 {
 	std::vector<Mode> modes;
 	bpo::options_description description = addProgramDescription();
@@ -124,18 +121,44 @@ std::vector<Mode> parseProgramArguments(int argc, char *argv[])
 	return modes;
 }
 
-void read(std::ifstream& resource, char* string, unsigned int size)
+std::vector<std::string> Functions::parseString(const std::string& string, const std::string& delimiter, unsigned int lineWidth)
+{
+	size_t startPos = 0, endPos;
+	size_t delimiterLength = delimiter.length();
+	std::string token;
+	std::string line;
+	std::vector<std::string> lines;
+
+	unsigned int currentWidth = 0;
+	while ((endPos = string.find(delimiter, startPos)) != std::string::npos) {
+		token = string.substr(startPos, endPos - startPos);
+		line += token + delimiter;
+		currentWidth += endPos - startPos + delimiterLength;
+		startPos = endPos + delimiterLength;
+
+		if (currentWidth > lineWidth) {
+			lines.push_back(line);
+			line.clear();
+			currentWidth = 0;
+		}
+	}
+
+	line += string.substr(startPos);
+	lines.push_back(line);
+
+	return lines;
+}
+
+void Functions::read(std::ifstream& resource, char* string, unsigned int size)
 {
 	resource.read(string, size);
 	string[size] = '\0';
 }
 
-std::string readString(std::ifstream& resource, unsigned int size)
+std::string Functions::readString(std::ifstream& resource, unsigned int size)
 {
 	char string[size + 1];
 	read(resource, string, size);
 	return string;
-
-}
 
 }

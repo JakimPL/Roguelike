@@ -64,6 +64,7 @@ struct DialogLine {
 	void addResponseID(unsigned int id);
 	void removeResponseID(unsigned int index);
 
+	unsigned int getResponsesCount() const;
 	unsigned int getResponseID(unsigned int index) const;
 	void setResponseID(unsigned int index, unsigned int id);
 };

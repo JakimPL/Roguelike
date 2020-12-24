@@ -54,6 +54,12 @@ private:
 	bool storeTab = false;
 	Position mapOffset = {0, 0, 0};
 
+	std::vector<std::string> currentDialogLineText;
+	std::vector<unsigned int> possibleResponsesID;
+	std::vector<std::vector<std::string>> currentResponsesTest;
+	std::vector<unsigned int> responsesHeights;
+	std::vector<unsigned int> responsesOffsets;
+	unsigned int responsesHeight;
 public:
 	Game();
 	~Game();
@@ -94,6 +100,7 @@ private:
 	bool isGUIactive() const;
 	void openTab(GUI tab);
 	void openStore(NPC* npc);
+	void prepareDialog();
 	void startDialog(NPC* npc);
 };
 

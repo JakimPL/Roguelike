@@ -91,6 +91,8 @@ void Options::load(const std::string& filename)
 	gui.tabWidth = general.screenWidth - 2 * gui.guiXOffset - 4 * gui.tileWidth;
 	gui.tabHeight = general.screenHeight - 2 * gui.guiYOffset - 8 * gui.tileHeight;
 
+	dialog.lineWidth = gui.tabWidth / (gui.tileWidth - 1);
+
 	inventory.itemsPerPage = (general.screenHeight - 2 * gui.guiYOffset - 8 * gui.tileHeight) / gui.tileHeight - 3;
 	inventory.storeItemsPerPage = inventory.itemsPerPage - 3;
 }

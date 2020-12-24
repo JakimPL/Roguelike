@@ -213,6 +213,11 @@ unsigned int DialogLine::getResponseID(unsigned int index) const
 	}
 }
 
+unsigned int DialogLine::getResponsesCount() const
+{
+	return responsesID.size();
+}
+
 void DialogLine::setResponseID(unsigned int index, unsigned int id)
 {
 	try {

@@ -45,6 +45,8 @@ static constexpr int TAB_Y_OFFSET = GUI_Y_OFFSET + 4 * TILE_HEIGHT;
 static constexpr int TAB_WIDTH = SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH;
 static constexpr int TAB_HEIGHT = SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT;
 
+static constexpr unsigned int DIALOG_LINE_WIDTH = TAB_WIDTH / TILE_WIDTH;
+
 static constexpr unsigned int INVENTORY_SIZE = 30;
 static constexpr int INVENTORY_ABILITIES_DISTANCE = 6;
 static constexpr int INVENTORY_ITEMS_PER_PAGE = (SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT) / TILE_HEIGHT - 3;
@@ -86,6 +88,9 @@ struct Options {
 		int tabWidth                     = TAB_WIDTH;
 		int tabHeight                    = TAB_HEIGHT;
 	} gui;
+	struct Dialog {
+		unsigned int lineWidth           = DIALOG_LINE_WIDTH;
+	} dialog;
 	struct Inventory {
 		unsigned int size                = INVENTORY_SIZE;
 		unsigned short abilitiesDistance = INVENTORY_ABILITIES_DISTANCE;

@@ -48,7 +48,7 @@ int Game::clampY(int y)
 void Game::drawFrame()
 {
 	SDL_RenderClear(renderer);
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
 
 	if (!isGUIactive()) {
 		redrawWorld();
@@ -165,7 +165,6 @@ void Game::drawGUI()
 	fpsText << text[s_FPS] << std::setprecision(2) << std::fixed << timer.getFPS();
 	drawText(renderer, font, fpsText.str(), COLOR_GRAY, options.general.screenWidth - 2 * options.gui.guiXOffset, options.general.screenHeight - options.gui.guiYOffset - options.gui.tileHeight / 2, Alignment::Right);
 
-
 	if (isGUIactive()) {
 		drawRectangle(renderer, COLOR_WHITE, options.gui.tabXOffset - 4 * options.general.scale, options.gui.tabYOffset - 4 * options.general.scale, options.gui.tabWidth + 8 * options.general.scale, options.gui.tabHeight + 8 * options.general.scale, true);
 		drawRectangle(renderer, GUI_RECTANGLE_COLOR, options.gui.tabXOffset, options.gui.tabYOffset, options.gui.tabWidth, options.gui.tabHeight);
@@ -276,18 +275,17 @@ void Game::drawDialog()
 	drawText(renderer, font, npcNameText.str(), targetObject->getColor(), xOffset, yOffset + (options.gui.tileHeight * line++));
 
 	line++;
+	for (std::string textLine : currentDialogLineText) {
+		drawText(renderer, font, textLine, DIALOG_COLOR, xOffset, yOffset + (options.gui.tileHeight * line++));
+	}
 
-	DialogLine dialogLine = currentDialog->getLine(dialogID);
-	drawText(renderer, font, text[ {TextCategory::Dialog, dialogLine.textID} ], DIALOG_COLOR, xOffset, yOffset + (options.gui.tileHeight * line++));
+	drawRectangle(renderer, COLOR_DGRAY, options.gui.tabXOffset, options.gui.tabYOffset + options.gui.tabHeight + (responsesOffsets[responsePosition] - responsesHeight) * options.gui.tileHeight, options.gui.tabWidth, options.gui.tileHeight * responsesHeights[responsePosition]);
 
-	unsigned int size = dialogLine.responsesID.size();
-	drawRectangle(renderer, COLOR_DGRAY, options.gui.tabXOffset, options.gui.tabYOffset + options.gui.tabHeight + (responsePosition - size) * options.gui.tileHeight, options.gui.tabWidth, options.gui.tileHeight);
-
-	for (unsigned int responseIndex = 0; responseIndex < size; ++responseIndex) {
-		DialogResponse response = currentDialog->getResponseByID(dialogID, responseIndex);
-		std::stringstream responseText;
-		responseText << responseIndex + 1 << ". " << text[ {TextCategory::Dialog, response.textID }];
-		drawText(renderer, font, responseText.str(), DIALOG_COLOR, xOffset, options.gui.tabYOffset + options.gui.tabHeight + (0.5f + responseIndex - size) * options.gui.tileHeight);
+	line = 0;
+	for (std::vector<std::string> responseLines : currentResponsesTest) {
+		for (std::string responseLine : responseLines) {
+			drawText(renderer, font, responseLine, DIALOG_COLOR, xOffset, options.gui.tabYOffset + options.gui.tabHeight + (0.5f + line++ - responsesHeight) * options.gui.tileHeight);
+		}
 	}
 }
 
@@ -495,12 +493,69 @@ void Game::openStore(NPC* npc)
 	activeTab = GUI::Store;
 }
 
+void Game::prepareDialog()
+{
+	DialogLine dialogLine = currentDialog->getLine(dialogID);
+	currentDialogLineText = parseString(text[ {TextCategory::Dialog, dialogLine.textID} ]);
+
+	responsesHeight = 0;
+	responsesHeights.clear();
+	responsesOffsets.clear();
+	possibleResponsesID.clear();
+	currentResponsesTest.clear();
+	unsigned int size = dialogLine.getResponsesCount();
+	int realLine = 1;
+	for (unsigned int index = 0; index < size; ++index) {
+		unsigned int responseID = dialogLine.getResponseID(index);
+		DialogResponse response = currentDialog->getResponseByID(dialogID, index);
+		bool condition = true;
+		if (response.condition.variable != g_NONE) {
+			int value = globalState[response.condition.variable];
+			int targetValue = (response.condition.compareWithVariable ? globalState[GlobalVariable(response.condition.value)] : response.condition.value);
+
+			switch (response.condition.comparisonOperator) {
+			case ComparisonOperator::isEqual:
+				condition = (value == targetValue);
+				break;
+			case ComparisonOperator::isDifferent:
+				condition = (value != targetValue);
+				break;
+			case ComparisonOperator::isLessOrEqualThan:
+				condition = (value <= targetValue);
+				break;
+			case ComparisonOperator::isLessThan:
+				condition = (value < targetValue);
+				break;
+			case ComparisonOperator::isGreaterOrEqualThan:
+				condition = (value >= targetValue);
+				break;
+			case ComparisonOperator::isGreaterThan:
+				condition = (value > targetValue);
+				break;
+			default:
+				break;
+			}
+		}
+
+		if (condition) {
+			possibleResponsesID.push_back(responseID);
+			std::vector<std::string> responseLines = parseString(STRING(realLine) + ". " + text[ {TextCategory::Dialog, response.textID} ]);
+			responsesOffsets.push_back(responsesHeight);
+			responsesHeight += responseLines.size();
+			responsesHeights.push_back(responseLines.size());
+			currentResponsesTest.push_back(responseLines);
+			realLine++;
+		}
+	}
+}
+
 void Game::startDialog(NPC* npc)
 {
 	targetObject = npc;
 	currentDialog = &npc->dialog;
 	responsePosition = 0;
 	dialogID = currentDialog->getStartDialogID(&globalState);
+	prepareDialog();
 	openTab(GUI::Dialog);
 }
 
@@ -673,6 +728,8 @@ void Game::mainLoop()
 					case ra_EXIT:
 						activeTab = GUI::None;
 						break;
+					default:
+						prepareDialog();
 					}
 				}
 

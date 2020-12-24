@@ -2,6 +2,7 @@
 #define FUNCTIONS_HPP
 
 #include "constants.hpp"
+#include "options.hpp"
 #include <string>
 
 #include <boost/program_options.hpp>
@@ -16,6 +17,7 @@ bool compareHeaders(const char* header1, const char* header2);
 const std::string getPath(const std::string& filename, Filetype filetype);
 bpo::variables_map getVariablesMap(bpo::options_description description, int argc, char *argv[]);
 std::vector<Mode> parseProgramArguments(int argc, char *argv[]);
+std::vector<std::string> parseString(const std::string& string, const std::string& delimiter = " ", unsigned int lineWidth = options.dialog.lineWidth);
 void read(std::ifstream& resource, char* string, unsigned int size);
 std::string readString(std::ifstream& resource, unsigned int size);
 
