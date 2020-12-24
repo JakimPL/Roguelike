@@ -73,9 +73,11 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			creatureName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, "CREATURE", &ok);
 			if (ok) {
 				dialogName = QInputDialog::getText(this, tr("Input DIALOG resource name:"), tr("Dialog name:"), QLineEdit::Normal, "DIALOG", &ok);
-				storeName = QInputDialog::getText(this, tr("Input STORE resource name:"), tr("Store name:"), QLineEdit::Normal, "STORE", &ok);
-				if (ok and !dialogName.isEmpty()) {
-					new NPC(gameObjects, creatureName.toStdString(), dialogName.toStdString(), storeName.toStdString(), selectorPosition);
+				if (ok) {
+					storeName = QInputDialog::getText(this, tr("Input STORE resource name:"), tr("Store name:"), QLineEdit::Normal, "STORE", &ok);
+				}
+				if (!creatureName.isEmpty()) {
+					new NPC(gameObjects, creatureName.toStdString(), dialogName.toStdString(), storeName.toStdString(), selectorPosition, Allegiance::neutral);
 					updateObjects();
 				}
 			}

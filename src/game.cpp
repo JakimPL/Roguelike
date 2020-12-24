@@ -644,7 +644,15 @@ void Game::mainLoop()
 							}
 							case ObjectType::NPC: {
 								NPC* npc = (NPC*)object;
-								startDialog(npc);
+
+								switch (npc->getAllegiance()) {
+								case Allegiance::neutral:
+									startDialog(npc);
+								case Allegiance::enemy:
+								//hit(npc);
+								default:
+									break;
+								}
 								break;
 							}
 							case ObjectType::Sign: {

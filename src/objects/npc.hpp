@@ -12,6 +12,7 @@ private:
 	std::string creatureName;
 	std::string dialogName;
 	std::string storeName;
+	Allegiance allegiance;
 
 public:
 	Creature creature;
@@ -19,8 +20,10 @@ public:
 	Store store;
 
 public:
-	NPC(GameObjects& gameObjects, std::string initialCreatureName, std::string initialDialogName, std::string initialStoreName, Position initialPosition);
+	NPC(GameObjects& gameObjects, std::string initialCreatureName, std::string initialDialogName, std::string initialStoreName, Position initialPosition, Allegiance initialAllegiance);
 	NPC(GameObjects& gameObjects, std::ifstream& resource);
+
+	Allegiance getAllegiance() const;
 
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;

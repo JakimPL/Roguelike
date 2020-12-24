@@ -26,3 +26,4 @@ Dobry
 Neutralny
 Zły
 Julian
+Żuk
