@@ -55,6 +55,17 @@ void Door::setOrientation(bool newOrientation)
 	update();
 }
 
+void Door::setLocked(bool isLocked)
+{
+	locked = isLocked;
+}
+
+void Door::setOpen(bool isOpen)
+{
+	open = isOpen;
+	update();
+}
+
 TextPair Door::getText()
 {
 	return Text::makeTextPair(s_Door);

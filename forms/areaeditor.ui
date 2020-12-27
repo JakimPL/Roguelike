@@ -652,6 +652,9 @@
          <height>30</height>
         </rect>
        </property>
+       <property name="maxLength">
+        <number>1</number>
+       </property>
       </widget>
       <widget class="QSpinBox" name="signGreenBox">
        <property name="geometry">

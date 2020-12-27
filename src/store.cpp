@@ -19,6 +19,10 @@ Store::Store(const std::string& filename, bool fullPath)
 
 bool Store::loadFromFile(const std::string &filename, bool fullPath)
 {
+	if (filename.empty()) {
+		return false;
+	}
+
 	bool success;
 	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::STO);
 	_LogInfo("Opening " << path << " store file");

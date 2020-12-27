@@ -25,7 +25,10 @@ public:
 	bool isLocked() const;
 	bool isOpen() const;
 	bool getOrientation() const;
+
 	void setOrientation(bool newOrientation);
+	void setLocked(bool isLocked = true);
+	void setOpen(bool isOpen = true);
 
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;

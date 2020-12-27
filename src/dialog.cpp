@@ -14,8 +14,13 @@ Dialog::Dialog()
 
 bool Dialog::loadFromFile(const std::string& filename, bool fullPath)
 {
+	if (filename.empty()) {
+		return false;
+	}
+
 	bool success;
 	std::string path = fullPath ? filename : Functions::getPath(filename, Filetype::DLG);
+
 	_LogInfo("Opening " << path << " dialog file");
 	std::ifstream resource(path, std::ios::in);
 	if (resource.good()) {

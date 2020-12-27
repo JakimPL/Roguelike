@@ -32,6 +32,7 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			selectorPosition.y = std::max(0, std::min(selectorPosition.y + 1, int(area.getHeight()) - 1));
 		}
 
+		GameObjects objects = area.isPositionTaken(selectorPosition);
 		if (event->key() == Qt::Key_Return) {
 			setEditorTile();
 			area.setTile(selectorPosition, currentTile);
@@ -41,61 +42,18 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			area.setTile(selectorPosition, emptyTile);
 			setTile(selectorPosition, emptyTile);
 
-			GameObjects objects = area.isPositionTaken(selectorPosition);
 			for (GameObject* object : objects) {
 				gameObjects.deleteObject(object);
 			}
 			updateObjects();
 		}
 
-		GameObjects objects = area.isPositionTaken(selectorPosition);
-		if (!objects.empty()) {
-			GameObject* object = objects[0];
-			ObjectType type = object->type;
-
-			ui->objectInfoWidget->setCurrentIndex(int(object->type) - 1);
-			ui->objectInfoWidget->setDisabled(false);
-			if (type == ObjectType::Item) {
-				ItemObject* item = (ItemObject*)(object);
-				ui->itemResourceBox->setText(QString::fromStdString(item->resourceName));
-			} else if (type == ObjectType::NPC) {
-				NPC* npc = (NPC*)(object);
-				ui->npcResourceBox->setText(QString::fromStdString(npc->getCreatureResourceName()));
-				ui->dialogResourceBox->setText(QString::fromStdString(npc->getDialogResourceName()));
-				ui->storeResourceBox->setText(QString::fromStdString(npc->getStoreResourceName()));
-				ui->allegianceBox->setCurrentIndex(int(npc->getAllegiance()));
-			} else if (type == ObjectType::Door) {
-				Door* door = (Door*)(object);
-				ui->doorOrientationBox->setChecked(door->getOrientation());
-				ui->lockedBox->setChecked(door->isLocked());
-				ui->openBox->setChecked(door->isOpen());
-
-				Color color = door->getColor();
-				ui->doorRedBox->setValue(color.red);
-				ui->doorGreenBox->setValue(color.green);
-				ui->doorBlueBox->setValue(color.blue);
-			} else if (type == ObjectType::Sign) {
-				Sign* sign = (Sign*)(object);
-				ui->dialogIDBox->setCurrentIndex(sign->getNameID());
-				ui->signLetterBox->setText(QString::fromStdString({sign->getLetter()}));
-
-				Color color = sign->getColor();
-				ui->signRedBox->setValue(color.red);
-				ui->signGreenBox->setValue(color.green);
-				ui->signBlueBox->setValue(color.blue);
-			}
-		} else {
-			ui->objectInfoWidget->setCurrentIndex(0);
-			ui->objectInfoWidget->setDisabled(true);
+		if (objects.empty()) {
 			if (event->key() == Qt::Key_D) {
 				if (area.getTile(selectorPosition) == Tile(TILE_EMPTY)) {
 					GameObjects objects = area.isPositionTaken(selectorPosition);
 					if (objects.empty()) {
 						new Door(gameObjects, getColor(), false, false, selectorPosition);
-						updateObjects();
-					} else if (objects[0]->type == ObjectType::Door) {
-						Door* door = (Door*)(objects[0]);
-						door->setOrientation(1 - door->getOrientation());
 						updateObjects();
 					}
 				}
@@ -109,18 +67,10 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 			} else if (event->key() == Qt::Key_N) {
 				bool ok;
 				QString creatureName;
-				QString dialogName;
-				QString storeName;
 				creatureName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, "CREATURE", &ok);
-				if (ok) {
-					dialogName = QInputDialog::getText(this, tr("Input DIALOG resource name:"), tr("Dialog name:"), QLineEdit::Normal, "DIALOG", &ok);
-					if (ok) {
-						storeName = QInputDialog::getText(this, tr("Input STORE resource name:"), tr("Store name:"), QLineEdit::Normal, "STORE", &ok);
-					}
-					if (!creatureName.isEmpty()) {
-						new NPC(gameObjects, creatureName.toStdString(), dialogName.toStdString(), storeName.toStdString(), selectorPosition, Allegiance::neutral);
-						updateObjects();
-					}
+				if (ok and !creatureName.isEmpty()) {
+					new NPC(gameObjects, creatureName.toStdString(), "", "", selectorPosition, Allegiance::neutral);
+					updateObjects();
 				}
 			} else if (event->key() == Qt::Key_S) {
 				bool ok;
@@ -138,12 +88,18 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 		}
 
 		if (selectorPosition != oldPosition) {
-			try {
-				Tile tile = area.getTile(selectorPosition);
-				std::string objectTypeString = text.text(TextCategory::Object, tile.nameID);
-				ui->statusbar->showMessage(QString::fromStdString(objectTypeString));
-			}  catch (...) {
+			updateObjectEditor();
 
+			if (objects.empty()) {
+				try {
+					Tile tile = area.getTile(selectorPosition);
+					std::string objectTypeString = text.text(TextCategory::Object, tile.nameID);
+					ui->statusbar->showMessage(QString::fromStdString(objectTypeString));
+				}  catch (...) {
+
+				}
+			} else {
+				ui->statusbar->showMessage(QString::fromStdString(text[getCurrentObject()->getText()]));
 			}
 		}
 
@@ -240,6 +196,168 @@ void AreaEditor::on_resizeButton_clicked()
 	}
 }
 
+
+void AreaEditor::on_itemResourceBox_editingFinished()
+{
+	ItemObject* item = (ItemObject*)(getCurrentObject());
+	item->resourceName = ui->itemResourceBox->text().toStdString();
+	updateObjectEditor();
+}
+
+void AreaEditor::on_npcResourceBox_editingFinished()
+{
+	NPC* npc = (NPC*)(getCurrentObject());
+	npc->setCreatureResourceName(ui->npcResourceBox->text().toStdString());
+	updateObjectEditor();
+	drawWorld(false);
+}
+
+void AreaEditor::on_dialogResourceBox_editingFinished()
+{
+	NPC* npc = (NPC*)(getCurrentObject());
+	npc->setDialogResourceName(ui->dialogResourceBox->text().toStdString());
+	updateObjectEditor();
+}
+
+void AreaEditor::on_storeResourceBox_editingFinished()
+{
+	NPC* npc = (NPC*)(getCurrentObject());
+	npc->setStoreResourceName(ui->storeResourceBox->text().toStdString());
+	updateObjectEditor();
+}
+
+void AreaEditor::on_allegianceBox_currentIndexChanged(int index)
+{
+	NPC* npc = (NPC*)(getCurrentObject());
+	if (npc != nullptr) {
+		npc->setAllegiance(Allegiance(index));
+		updateObjectEditor();
+	}
+}
+
+void AreaEditor::on_doorOrientationBox_stateChanged(int value)
+{
+	Door* door = (Door*)(getCurrentObject());
+	if (door != nullptr) {
+		door->setOrientation(value > 0);
+
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
+void AreaEditor::on_lockedBox_stateChanged(int value)
+{
+	Door* door = (Door*)(getCurrentObject());
+	if (door != nullptr) {
+		door->setLocked(value > 0);
+
+		updateObjectEditor();
+	}
+}
+
+void AreaEditor::on_openBox_stateChanged(int value)
+{
+	Door* door = (Door*)(getCurrentObject());
+	if (door != nullptr) {
+		door->setOpen(value > 0);
+
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
+void AreaEditor::on_doorRedBox_valueChanged(int value)
+{
+	Door* door = (Door*)(getCurrentObject());
+	if (door != nullptr) {
+		Color color = door->getColor();
+		Color newColor = {(unsigned char)(value), color.green, color.blue};
+		door->setColor(newColor);
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
+void AreaEditor::on_doorGreenBox_valueChanged(int value)
+{
+	Door* door = (Door*)(getCurrentObject());
+	if (door != nullptr) {
+		Color color = door->getColor();
+		Color newColor = {color.red, (unsigned char)(value), color.blue};
+		door->setColor(newColor);
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
+void AreaEditor::on_doorBlueBox_valueChanged(int value)
+{
+	Door* door = (Door*)(getCurrentObject());
+	if (door != nullptr) {
+		Color color = door->getColor();
+		Color newColor = {color.red, color.green, (unsigned char)(value)};
+		door->setColor(newColor);
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
+void AreaEditor::on_dialogIDBox_currentIndexChanged(int value)
+{
+	Sign* sign = (Sign*)(getCurrentObject());
+	if (sign != nullptr) {
+		sign->setNameID(value);
+		updateObjectEditor();
+	}
+}
+
+void AreaEditor::on_signLetterBox_editingFinished()
+{
+	Sign* sign = (Sign*)(getCurrentObject());
+	if (sign != nullptr) {
+		sign->setLetter(getLetter(ui->signLetterBox->text().toStdString()));
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
+void AreaEditor::on_signRedBox_valueChanged(int value)
+{
+	Sign* sign = (Sign*)(getCurrentObject());
+	if (sign != nullptr) {
+		Color color = sign->getColor();
+		Color newColor = {(unsigned char)(value), color.green, color.blue};
+		sign->setColor(newColor);
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
+void AreaEditor::on_signGreenBox_valueChanged(int value)
+{
+	Sign* sign = (Sign*)(getCurrentObject());
+	if (sign != nullptr) {
+		Color color = sign->getColor();
+		Color newColor = {color.red, (unsigned char)(value), color.blue};
+		sign->setColor(newColor);
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
+void AreaEditor::on_signBlueBox_valueChanged(int value)
+{
+	Sign* sign = (Sign*)(getCurrentObject());
+	if (sign != nullptr) {
+		Color color = sign->getColor();
+		Color newColor = {color.red, color.green, (unsigned char)(value)};
+		sign->setColor(newColor);
+		updateObjectEditor();
+		drawWorld(false);
+	}
+}
+
 void AreaEditor::clearEditorElements()
 {
 	for (auto pair : textObjects) {
@@ -263,6 +381,16 @@ void AreaEditor::clearEditorElements()
 	rectTiles.clear();
 }
 
+GameObject* AreaEditor::getCurrentObject()
+{
+	GameObjects objects = area.isPositionTaken(selectorPosition);
+	if (objects.size() > 0) {
+		return objects[0];
+	} else {
+		return nullptr;
+	}
+}
+
 Color AreaEditor::getColor() const
 {
 	Color color = {(uint8_t)(ui->colorRedBox->value()), (uint8_t)(ui->colorGreenBox->value()), (uint8_t)(ui->colorBlueBox->value())};
@@ -280,28 +408,42 @@ char AreaEditor::getLetter(std::string string) const
 	return letter;
 }
 
-void AreaEditor::drawWorld()
+void AreaEditor::drawWorld(bool drawTiles)
 {
-	clearEditorElements();
+	if (drawTiles) {
+		clearEditorElements();
 
-	textTiles.resize(area.getWidth());
-	rectTiles.resize(area.getWidth());
-	for (unsigned int y = 0; y < area.getHeight(); ++y) {
-		for (unsigned int x = 0; x < area.getWidth(); ++x) {
-			QGraphicsTextItem* textItem = new QGraphicsTextItem;
-			QGraphicsRectItem* rectItem = new QGraphicsRectItem(0, 0, options.gui.tileBaseWidth, options.gui.tileBaseHeight);
-			textTiles[x].push_back(textItem);
-			rectTiles[x].push_back(rectItem);
+		textTiles.resize(area.getWidth());
+		rectTiles.resize(area.getWidth());
+		for (unsigned int y = 0; y < area.getHeight(); ++y) {
+			for (unsigned int x = 0; x < area.getWidth(); ++x) {
+				QGraphicsTextItem* textItem = new QGraphicsTextItem;
+				QGraphicsRectItem* rectItem = new QGraphicsRectItem(0, 0, options.gui.tileBaseWidth, options.gui.tileBaseHeight);
+				textTiles[x].push_back(textItem);
+				rectTiles[x].push_back(rectItem);
 
-			Position position(x, y);
-			Tile tile = area.getTile(position);
-			setTile(position, tile);
+				Position position(x, y);
+				Tile tile = area.getTile(position);
+				setTile(position, tile);
 
-			graphicsScene->addItem(textItem);
-			graphicsScene->addItem(rectItem);
+				graphicsScene->addItem(textItem);
+				graphicsScene->addItem(rectItem);
+			}
 		}
-	}
 
+		drawObjects();
+	} else {
+		for (auto pair : textObjects) {
+			delete pair.second;
+		}
+
+		textObjects.clear();
+		drawObjects();
+	}
+}
+
+void AreaEditor::drawObjects()
+{
 	for (GameObject* object : gameObjects) {
 		QGraphicsTextItem* textItem = new QGraphicsTextItem;
 		textObjects[object] = textItem;
@@ -364,12 +506,12 @@ void AreaEditor::prepareEditorElements()
 
 void AreaEditor::prepareEditorValuesAndRanges()
 {
-	ui->objectInfoWidget->setDisabled(true);
 	prepareTextItems(&text, TextCategory::Area, ui->nameIDBox);
 	prepareTextItems(&text, TextCategory::Object, ui->objectNameIDBox);
 	prepareTextItems(&text, TextCategory::Dialog, ui->dialogIDBox);
 	prepareTextItems(&text, allegianceNameIDs, ui->allegianceBox);
 	setEditorTile();
+	updateObjectEditor();
 }
 
 void AreaEditor::setEditorTile()
@@ -397,6 +539,49 @@ void AreaEditor::updateApplicationTitle()
 	updateTitle(this, "Area Editor", currentPath);
 }
 
+void AreaEditor::updateObjectEditor()
+{
+	GameObject* object = getCurrentObject();
+
+	if (object == nullptr) {
+		ui->objectInfoWidget->setCurrentIndex(0);
+		ui->objectInfoWidget->setDisabled(true);
+	} else {
+		ObjectType type = object->type;
+		ui->objectInfoWidget->setCurrentIndex(int(object->type) - 1);
+		ui->objectInfoWidget->setDisabled(false);
+		if (type == ObjectType::Item) {
+			ItemObject* item = (ItemObject*)(object);
+			ui->itemResourceBox->setText(QString::fromStdString(item->resourceName));
+		} else if (type == ObjectType::NPC) {
+			NPC* npc = (NPC*)(object);
+			ui->npcResourceBox->setText(QString::fromStdString(npc->getCreatureResourceName()));
+			ui->dialogResourceBox->setText(QString::fromStdString(npc->getDialogResourceName()));
+			ui->storeResourceBox->setText(QString::fromStdString(npc->getStoreResourceName()));
+			ui->allegianceBox->setCurrentIndex(int(npc->getAllegiance()));
+		} else if (type == ObjectType::Door) {
+			Door* door = (Door*)(object);
+			ui->doorOrientationBox->setChecked(door->getOrientation());
+			ui->lockedBox->setChecked(door->isLocked());
+			ui->openBox->setChecked(door->isOpen());
+
+			Color color = door->getColor();
+			ui->doorRedBox->setValue(color.red);
+			ui->doorGreenBox->setValue(color.green);
+			ui->doorBlueBox->setValue(color.blue);
+		} else if (type == ObjectType::Sign) {
+			Sign* sign = (Sign*)(object);
+			ui->dialogIDBox->setCurrentIndex(sign->getNameID());
+			ui->signLetterBox->setText(QString::fromStdString({sign->getLetter()}));
+
+			Color color = sign->getColor();
+			ui->signRedBox->setValue(color.red);
+			ui->signGreenBox->setValue(color.green);
+			ui->signBlueBox->setValue(color.blue);
+		}
+	}
+}
+
 void AreaEditor::updateObjects()
 {
 	for (auto pair : textObjects) {
@@ -411,11 +596,4 @@ void AreaEditor::updateObjects()
 		setObject(object);
 		graphicsScene->addItem(textItem);
 	}
-}
-
-void AreaEditor::on_itemResourceBox_editingFinished()
-{
-	GameObjects objects = area.isPositionTaken(selectorPosition);
-	ItemObject* item = (ItemObject*)(objects[0]);
-	item->resourceName = ui->itemResourceBox->text().toStdString();
 }

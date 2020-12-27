@@ -47,6 +47,30 @@ std::string NPC::getStoreResourceName() const
 	return storeName;
 }
 
+void NPC::setAllegiance(Allegiance value)
+{
+	allegiance = value;
+}
+
+void NPC::setCreatureResourceName(const std::string name)
+{
+	creatureName = name;
+	creature = Creature(name);
+	nameID = creature.getNameID();
+	color = creature.getColor();
+	letter = creature.getLetter();
+}
+
+void NPC::setDialogResourceName(const std::string name)
+{
+	dialogName = name;
+}
+
+void NPC::setStoreResourceName(const std::string name)
+{
+	storeName = name;
+}
+
 TextPair NPC::getText()
 {
 	return {TextCategory::Creature, nameID};

@@ -28,6 +28,11 @@ public:
 	std::string getDialogResourceName() const;
 	std::string getStoreResourceName() const;
 
+	void setAllegiance(Allegiance value);
+	void setCreatureResourceName(const std::string name);
+	void setDialogResourceName(const std::string name);
+	void setStoreResourceName(const std::string name);
+
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;
 	void save(std::ofstream& resource) override;

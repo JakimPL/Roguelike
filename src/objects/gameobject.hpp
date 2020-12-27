@@ -48,7 +48,11 @@ public:
 	Position getPosition() const;
 	bool isSolid() const;
 
+	void setNameID(unsigned int index);
+	void setColor(Color newColor);
+	void setLetter(char newLetter);
 	void setDirection(Direction direction);
+
 	void move(Direction direction);
 	void move();
 	void step();

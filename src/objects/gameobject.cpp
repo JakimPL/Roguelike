@@ -37,6 +37,26 @@ bool GameObject::isSolid() const
 	return solid;
 }
 
+void GameObject::setNameID(unsigned int index)
+{
+	nameID = index;
+}
+
+void GameObject::setColor(Color newColor)
+{
+	color = newColor;
+}
+
+void GameObject::setLetter(char newLetter)
+{
+	letter = newLetter;
+}
+
+void GameObject::setDirection(Direction direction)
+{
+	position.direction = direction;
+}
+
 void GameObject::move(Direction direction)
 {
 	if (movable) {
@@ -52,11 +72,6 @@ void GameObject::move(Direction direction)
 void GameObject::move()
 {
 	move(Direction(position.direction));
-}
-
-void GameObject::setDirection(Direction direction)
-{
-	position.direction = direction;
 }
 
 void GameObject::step()
