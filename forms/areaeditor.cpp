@@ -46,51 +46,93 @@ bool AreaEditor::eventFilter(QObject* qObject, QEvent* qEvent)
 				gameObjects.deleteObject(object);
 			}
 			updateObjects();
-		} else if (event->key() == Qt::Key_D) {
-			if (area.getTile(selectorPosition) == Tile(TILE_EMPTY)) {
-				GameObjects objects = area.isPositionTaken(selectorPosition);
-				if (objects.empty()) {
-					new Door(gameObjects, getColor(), false, false, selectorPosition);
-					updateObjects();
-				} else if (objects[0]->type == ObjectType::Door) {
-					Door* door = (Door*)(objects[0]);
-					door->setOrientation(1 - door->getOrientation());
+		}
+
+		GameObjects objects = area.isPositionTaken(selectorPosition);
+		if (!objects.empty()) {
+			GameObject* object = objects[0];
+			ObjectType type = object->type;
+
+			ui->objectInfoWidget->setCurrentIndex(int(object->type) - 1);
+			ui->objectInfoWidget->setDisabled(false);
+			if (type == ObjectType::Item) {
+				ItemObject* item = (ItemObject*)(object);
+				ui->itemResourceBox->setText(QString::fromStdString(item->resourceName));
+			} else if (type == ObjectType::NPC) {
+				NPC* npc = (NPC*)(object);
+				ui->npcResourceBox->setText(QString::fromStdString(npc->getCreatureResourceName()));
+				ui->dialogResourceBox->setText(QString::fromStdString(npc->getDialogResourceName()));
+				ui->storeResourceBox->setText(QString::fromStdString(npc->getStoreResourceName()));
+				ui->allegianceBox->setCurrentIndex(int(npc->getAllegiance()));
+			} else if (type == ObjectType::Door) {
+				Door* door = (Door*)(object);
+				ui->doorOrientationBox->setChecked(door->getOrientation());
+				ui->lockedBox->setChecked(door->isLocked());
+				ui->openBox->setChecked(door->isOpen());
+
+				Color color = door->getColor();
+				ui->doorRedBox->setValue(color.red);
+				ui->doorGreenBox->setValue(color.green);
+				ui->doorBlueBox->setValue(color.blue);
+			} else if (type == ObjectType::Sign) {
+				Sign* sign = (Sign*)(object);
+				ui->dialogIDBox->setCurrentIndex(sign->getNameID());
+				ui->signLetterBox->setText(QString::fromStdString({sign->getLetter()}));
+
+				Color color = sign->getColor();
+				ui->signRedBox->setValue(color.red);
+				ui->signGreenBox->setValue(color.green);
+				ui->signBlueBox->setValue(color.blue);
+			}
+		} else {
+			ui->objectInfoWidget->setCurrentIndex(0);
+			ui->objectInfoWidget->setDisabled(true);
+			if (event->key() == Qt::Key_D) {
+				if (area.getTile(selectorPosition) == Tile(TILE_EMPTY)) {
+					GameObjects objects = area.isPositionTaken(selectorPosition);
+					if (objects.empty()) {
+						new Door(gameObjects, getColor(), false, false, selectorPosition);
+						updateObjects();
+					} else if (objects[0]->type == ObjectType::Door) {
+						Door* door = (Door*)(objects[0]);
+						door->setOrientation(1 - door->getOrientation());
+						updateObjects();
+					}
+				}
+			} else if (event->key() == Qt::Key_I) {
+				bool ok;
+				QString resourceName = QInputDialog::getText(this, tr("Input ITEM resource name:"), tr("Item name:"), QLineEdit::Normal, "ITEM", &ok);
+				if (ok and !resourceName.isEmpty()) {
+					new ItemObject(gameObjects, resourceName.toStdString(), selectorPosition);
 					updateObjects();
 				}
-			}
-		} else if (event->key() == Qt::Key_I) {
-			bool ok;
-			QString resourceName = QInputDialog::getText(this, tr("Input ITEM resource name:"), tr("Item name:"), QLineEdit::Normal, "ITEM", &ok);
-			if (ok and !resourceName.isEmpty()) {
-				new ItemObject(gameObjects, resourceName.toStdString(), selectorPosition);
-				updateObjects();
-			}
-		} else if (event->key() == Qt::Key_N) {
-			bool ok;
-			QString creatureName;
-			QString dialogName;
-			QString storeName;
-			creatureName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, "CREATURE", &ok);
-			if (ok) {
-				dialogName = QInputDialog::getText(this, tr("Input DIALOG resource name:"), tr("Dialog name:"), QLineEdit::Normal, "DIALOG", &ok);
+			} else if (event->key() == Qt::Key_N) {
+				bool ok;
+				QString creatureName;
+				QString dialogName;
+				QString storeName;
+				creatureName = QInputDialog::getText(this, tr("Input CREATURE resource name:"), tr("Creature name:"), QLineEdit::Normal, "CREATURE", &ok);
 				if (ok) {
-					storeName = QInputDialog::getText(this, tr("Input STORE resource name:"), tr("Store name:"), QLineEdit::Normal, "STORE", &ok);
+					dialogName = QInputDialog::getText(this, tr("Input DIALOG resource name:"), tr("Dialog name:"), QLineEdit::Normal, "DIALOG", &ok);
+					if (ok) {
+						storeName = QInputDialog::getText(this, tr("Input STORE resource name:"), tr("Store name:"), QLineEdit::Normal, "STORE", &ok);
+					}
+					if (!creatureName.isEmpty()) {
+						new NPC(gameObjects, creatureName.toStdString(), dialogName.toStdString(), storeName.toStdString(), selectorPosition, Allegiance::neutral);
+						updateObjects();
+					}
 				}
-				if (!creatureName.isEmpty()) {
-					new NPC(gameObjects, creatureName.toStdString(), dialogName.toStdString(), storeName.toStdString(), selectorPosition, Allegiance::neutral);
-					updateObjects();
-				}
-			}
-		} else if (event->key() == Qt::Key_S) {
-			bool ok;
-			QString nameIDText = QInputDialog::getText(this, tr("Input name ID:"), tr("Name ID:"), QLineEdit::Normal, "0", &ok);
-			if (ok and !nameIDText.isEmpty()) {
-				int nameID = QString::fromStdString(nameIDText.toStdString()).toInt(&ok);
-				if (ok) {
-					new Sign(gameObjects, getColor(), selectorPosition, getLetter(ui->letterBox->text().toStdString()), nameID);
-					updateObjects();
-				} else {
-					_LogError("Bad input!");
+			} else if (event->key() == Qt::Key_S) {
+				bool ok;
+				QString nameIDText = QInputDialog::getText(this, tr("Input name ID:"), tr("Name ID:"), QLineEdit::Normal, "0", &ok);
+				if (ok and !nameIDText.isEmpty()) {
+					int nameID = QString::fromStdString(nameIDText.toStdString()).toInt(&ok);
+					if (ok) {
+						new Sign(gameObjects, getColor(), selectorPosition, getLetter(ui->letterBox->text().toStdString()), nameID);
+						updateObjects();
+					} else {
+						_LogError("Bad input!");
+					}
 				}
 			}
 		}
@@ -122,6 +164,7 @@ AreaEditor::AreaEditor(QWidget* parent) : QMainWindow(parent), area(gameObjects,
 	prepareEditorElements();
 	updateEditorValues();
 	drawWorld();
+
 }
 
 AreaEditor::~AreaEditor()
@@ -321,8 +364,11 @@ void AreaEditor::prepareEditorElements()
 
 void AreaEditor::prepareEditorValuesAndRanges()
 {
+	ui->objectInfoWidget->setDisabled(true);
 	prepareTextItems(&text, TextCategory::Area, ui->nameIDBox);
 	prepareTextItems(&text, TextCategory::Object, ui->objectNameIDBox);
+	prepareTextItems(&text, TextCategory::Dialog, ui->dialogIDBox);
+	prepareTextItems(&text, allegianceNameIDs, ui->allegianceBox);
 	setEditorTile();
 }
 
@@ -365,4 +411,11 @@ void AreaEditor::updateObjects()
 		setObject(object);
 		graphicsScene->addItem(textItem);
 	}
+}
+
+void AreaEditor::on_itemResourceBox_editingFinished()
+{
+	GameObjects objects = area.isPositionTaken(selectorPosition);
+	ItemObject* item = (ItemObject*)(objects[0]);
+	item->resourceName = ui->itemResourceBox->text().toStdString();
 }

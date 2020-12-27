@@ -32,6 +32,21 @@ Allegiance NPC::getAllegiance() const
 	return allegiance;
 }
 
+std::string NPC::getCreatureResourceName() const
+{
+	return creatureName;
+}
+
+std::string NPC::getDialogResourceName() const
+{
+	return dialogName;
+}
+
+std::string NPC::getStoreResourceName() const
+{
+	return storeName;
+}
+
 TextPair NPC::getText()
 {
 	return {TextCategory::Creature, nameID};

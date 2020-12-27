@@ -24,6 +24,9 @@ public:
 	NPC(GameObjects& gameObjects, std::ifstream& resource);
 
 	Allegiance getAllegiance() const;
+	std::string getCreatureResourceName() const;
+	std::string getDialogResourceName() const;
+	std::string getStoreResourceName() const;
 
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;

@@ -48,3 +48,9 @@ Za mało złota!
 Sprzedano: 
  stracił(a) 
  HP
+Nieznany
+Gracz
+Sojusznik
+Zauroczony
+Neutralny
+Wróg

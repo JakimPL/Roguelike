@@ -22,6 +22,8 @@ public:
 	bool toggle();
 	void update();
 
+	bool isLocked() const;
+	bool isOpen() const;
 	bool getOrientation() const;
 	void setOrientation(bool newOrientation);
 

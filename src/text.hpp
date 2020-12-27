@@ -82,6 +82,12 @@ enum String : unsigned long {
 	s_SoldItem,
 	s_lost,
 	s__HP,
+	s_unknown,
+	s_pc,
+	s_ally,
+	s_charmed,
+	s_neutral,
+	s_enemy,
 
 	s_Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 
@@ -177,6 +183,15 @@ public:
 	const std::string operator[](TextPair element) const;
 
 	static TextPair makeTextPair(String element);
+};
+
+static const StringList allegianceNameIDs = {
+	s_unknown,
+	s_pc,
+	s_ally,
+	s_charmed,
+	s_neutral,
+	s_enemy
 };
 
 static const StringList raceNameIDs = {

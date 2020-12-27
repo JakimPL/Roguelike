@@ -60,6 +60,8 @@ private slots:
 	void updateAreaParameters();
 	void updateObjects();
 
+	void on_itemResourceBox_editingFinished();
+
 private:
 	Ui::AreaEditor *ui;
 };

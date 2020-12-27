@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1023</width>
     <height>768</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>180</y>
-      <width>771</width>
+      <width>571</width>
       <height>521</height>
      </rect>
     </property>
@@ -331,40 +331,412 @@
    <widget class="QGroupBox" name="objectInfoBox">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>590</x>
       <y>180</y>
-      <width>221</width>
+      <width>421</width>
       <height>521</height>
      </rect>
     </property>
     <property name="title">
      <string>Object Info</string>
     </property>
-    <widget class="QPushButton" name="copyObjectButton">
+    <widget class="QStackedWidget" name="objectInfoWidget">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>440</y>
-       <width>201</width>
-       <height>31</height>
+       <x>20</x>
+       <y>30</y>
+       <width>381</width>
+       <height>481</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Copy object</string>
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-    </widget>
-    <widget class="QPushButton" name="pasteObjectButton">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>480</y>
-       <width>201</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Paste object</string>
-     </property>
+     <widget class="QWidget" name="empty"/>
+     <widget class="QWidget" name="item">
+      <widget class="QLabel" name="itemResourceLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>101</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Item resource:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="itemResourceBox">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>7</y>
+         <width>251</width>
+         <height>30</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="npc">
+      <widget class="QLabel" name="npcResourceLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>121</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>NPC resource:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="npcResourceBox">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>7</y>
+         <width>231</width>
+         <height>30</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="dialogResourceLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>50</y>
+         <width>121</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Dialog resource:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="dialogResourceBox">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>47</y>
+         <width>231</width>
+         <height>30</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="storeResourceLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>90</y>
+         <width>121</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Store resource:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="storeResourceBox">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>87</y>
+         <width>231</width>
+         <height>30</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="allegianceBox">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>127</y>
+         <width>231</width>
+         <height>30</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="allegianceLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>130</y>
+         <width>121</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Allegiance:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="door">
+      <widget class="QCheckBox" name="doorOrientationBox">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>10</y>
+         <width>361</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>Horizontal orientation:</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="lockedBox">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>361</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>Locked:</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="doorGreenBox">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>127</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="doorBlueBox">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>127</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="doorColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>130</y>
+         <width>71</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Color:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="doorRedBox">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>127</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="openBox">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>90</y>
+         <width>361</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="text">
+        <string>Open:</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="sign">
+      <widget class="QLabel" name="dialogIDLabel">
+       <property name="geometry">
+        <rect>
+         <x>-10</x>
+         <y>10</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Dialog ID:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="signLetterLabel">
+       <property name="geometry">
+        <rect>
+         <x>-10</x>
+         <y>50</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Sign:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="signLetterBox">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>47</y>
+         <width>291</width>
+         <height>30</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="signGreenBox">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>87</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="signBlueBox">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>87</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="signRedBox">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>87</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="signColorLabel">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>90</y>
+         <width>71</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Color:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="dialogIDBox">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>7</y>
+         <width>291</width>
+         <height>30</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -373,7 +745,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1023</width>
      <height>23</height>
     </rect>
    </property>
@@ -428,8 +800,6 @@
   <tabstop>colorBlueBox</tabstop>
   <tabstop>objectNameIDBox</tabstop>
   <tabstop>copyButton</tabstop>
-  <tabstop>copyObjectButton</tabstop>
-  <tabstop>pasteObjectButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

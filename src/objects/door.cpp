@@ -34,6 +34,16 @@ void Door::update()
 	letter = ((!open) != (!orientation) ? options.game.doorHorizontalLetter : options.game.doorVerticalLetter);
 }
 
+bool Door::isLocked() const
+{
+	return locked;
+}
+
+bool Door::isOpen() const
+{
+	return open;
+}
+
 bool Door::getOrientation() const
 {
 	return orientation;
