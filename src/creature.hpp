@@ -166,6 +166,7 @@ public:
 	void setBaseAbilityValue(const Ability ability, int value);
 
 	void addGold(int amount);
+	void addXP(int amount);
 	void takeGold(int amount);
 	void takeHP(int amount);
 

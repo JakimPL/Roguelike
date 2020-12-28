@@ -655,20 +655,26 @@ void Game::mainLoop()
 							}
 							case ObjectType::NPC: {
 								NPC* npc = (NPC*)object;
-								int damage;
-								std::stringstream messageText;
-								switch (npc->getAllegiance()) {
-								case Allegiance::neutral:
+								Allegiance allegiance = npc->getAllegiance();
+
+								if (allegiance == Allegiance::neutral) {
 									startDialog(npc);
-									break;
-								case Allegiance::enemy:
-									damage = player.hit(npc);
-									messageText << text[ {TextCategory::Creature, npc->getNameID()} ] << text[s_lost] << damage << text[s__HP];
+								} else if (allegiance == Allegiance::enemy) {
+									std::stringstream messageText;
+									std::string npcName = text[ {TextCategory::Creature, npc->getNameID()} ];
+
+									int xp = player.creature.getXPCurrent();
+									int damage = player.hit(npc);
+									messageText << npcName << text[s_lost] << damage << text[s__HP];
 									messages->add(messageText.str(), COLOR_RED);
-									break;
-								default:
-									break;
+
+									if (!player.exists(npc)) {
+										std::stringstream xpText;
+										xpText << text[s_Killed] << npcName << " (" << player.creature.getXPCurrent() - xp << text[s__XP] << ")";
+										messages->add(xpText.str(), COLOR_YELLOW);
+									}
 								}
+
 								break;
 							}
 							case ObjectType::Sign: {

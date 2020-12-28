@@ -1,4 +1,6 @@
 #include "player.hpp"
+#include "src/options.hpp"
+#include "src/random.hpp"
 
 Player::Player(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, std::string initialName) : GameObject(gameObjects), creature(initialCreature)
 {
@@ -18,10 +20,15 @@ std::string Player::getName() const
 int Player::hit(NPC* npc)
 {
 	Item* currentItem = creature.inventory.getStackItem(ItemType::weapon);
-	delay = (currentItem == nullptr ? 10 : currentItem->getDelay());
+	delay = (currentItem == nullptr ? FIST_DELAY : currentItem->getDelay());
 
 	int damage = creature.getDamageMax();
 	npc->creature.takeHP(damage);
+
+	if (npc->creature.getHPCurrent() <= 0) {
+		creature.addXP(npc->creature.getXPValue() * round(0.8f + 0.4f * Random::random()));
+		remove(npc);
+	}
 
 	return damage;
 }

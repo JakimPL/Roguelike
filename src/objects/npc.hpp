@@ -12,7 +12,7 @@ private:
 	std::string creatureName;
 	std::string dialogName;
 	std::string storeName;
-	Allegiance allegiance;
+	Allegiance allegiance = Allegiance::unknown;
 
 public:
 	Creature creature;

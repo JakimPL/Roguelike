@@ -24,6 +24,7 @@ HEADERS += \
 	src/message.hpp \
 	src/objects/sign.hpp \
 	src/options.hpp \
+	src/random.hpp \
 	src/store.hpp \
 	src/structures.hpp \
 	src/text.hpp \
@@ -53,6 +54,7 @@ SOURCES += \
 	src/message.cpp \
 	src/objects/sign.cpp \
 	src/options.cpp \
+	src/random.cpp \
 	src/store.cpp \
 	src/structures.cpp \
 	src/text.cpp \

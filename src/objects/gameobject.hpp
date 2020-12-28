@@ -42,6 +42,9 @@ public:
 	GameObject(GameObjects& gameObjects);
 	virtual ~GameObject();
 
+	bool exists(GameObject* object);
+	void remove(GameObject* object);
+
 	unsigned int getNameID() const;
 	Color getColor() const;
 	char getLetter() const;

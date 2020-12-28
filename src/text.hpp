@@ -88,6 +88,8 @@ enum String : unsigned long {
 	s_charmed,
 	s_neutral,
 	s_enemy,
+	s_Killed,
+	s__XP,
 
 	s_Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 

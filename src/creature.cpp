@@ -548,6 +548,14 @@ void Creature::addGold(int amount)
 	gold += amount;
 }
 
+void Creature::addXP(int amount)
+{
+	xpCurrent += amount;
+	if (xpCurrent >= xpNextLevel) {
+
+	}
+}
+
 void Creature::takeGold(int amount)
 {
 	gold -= amount;

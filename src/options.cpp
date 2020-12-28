@@ -33,6 +33,7 @@ void Options::save(const std::string& filename)
 
 	pt.add("game.delay",                  game.delay);
 	pt.add("game.keyInputDelay",          game.keyInputDelay);
+	pt.add("game.fistDelay",              game.fistDelay);
 	pt.add("game.targetLetter",           game.targetLetter);
 	pt.add("game.itemLetter",             game.itemLetter);
 
@@ -65,6 +66,7 @@ void Options::load(const std::string& filename)
 
 	game.delay                  = pt.get<unsigned int>("game.delay");
 	game.keyInputDelay          = pt.get<unsigned int>("game.keyInputDelay");
+	game.fistDelay              = pt.get<unsigned int>("game.fistDelay");
 	game.targetLetter           = pt.get<char>("game.targetLetter");
 	game.itemLetter             = pt.get<char>("game.itemLetter");
 

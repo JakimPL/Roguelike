@@ -54,3 +54,5 @@ Sojusznik
 Zauroczony
 Neutralny
 Wróg
+Zabito: 
+ XP

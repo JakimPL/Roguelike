@@ -29,6 +29,7 @@ static constexpr int SCREEN_WIDTH = 1920;
 static constexpr int SCREEN_HEIGHT = 1080;
 
 static constexpr unsigned int DELAY = 10;
+static constexpr unsigned int FIST_DELAY = 10;
 static constexpr unsigned int KEY_INPUT_DELAY = 8;
 static constexpr char TARGET_LETTER = u'¤';
 static constexpr char ITEM_LETTER = '?';
@@ -69,6 +70,7 @@ struct Options {
 	struct Game {
 		unsigned int delay               = DELAY;
 		unsigned int keyInputDelay       = KEY_INPUT_DELAY;
+		unsigned int fistDelay           = FIST_DELAY;
 		char targetLetter                = TARGET_LETTER;
 		char itemLetter                  = ITEM_LETTER;
 		char doorHorizontalLetter        = DOOR_LETTER[0];

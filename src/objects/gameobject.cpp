@@ -12,6 +12,17 @@ GameObject::~GameObject()
 
 }
 
+bool GameObject::exists(GameObject* object)
+{
+	return std::find(objects.begin(), objects.end(), object) != objects.end();
+}
+
+void GameObject::remove(GameObject* object)
+{
+	objects.erase(std::find(objects.begin(), objects.end(), object));
+	delete object;
+}
+
 unsigned int GameObject::getNameID() const
 {
 	return nameID;
