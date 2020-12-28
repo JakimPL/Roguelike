@@ -57,6 +57,7 @@ static constexpr unsigned short MAP_PIXEL_SIZE = 2 * SCALE;
 static constexpr unsigned char MAP_ALPHA = 224;
 
 static constexpr float MESSAGE_DURATION = 3.0f;
+static constexpr float MESSAGE_DURATION_LEVEL = 6.0f;
 static constexpr unsigned int MAX_MESSAGES = 6;
 
 struct Options {

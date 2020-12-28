@@ -121,6 +121,8 @@ public:
 	int getBaseAttackRate() const;
 	int getBaseAbilityValue(const Ability ability) const;
 
+	bool isNextLevel() const;
+
 	int getLevel() const;
 	int getXPRemaining() const;
 	int getXPCurrent() const;
@@ -167,6 +169,7 @@ public:
 
 	void addGold(int amount);
 	void addXP(int amount);
+	void nextLevel();
 	void takeGold(int amount);
 	void takeHP(int amount);
 

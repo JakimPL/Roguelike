@@ -37,7 +37,7 @@ enum String : unsigned long {
 	s_HP,
 	s_MP,
 	s_SHORTCUTS,
-	s_NextLevel,
+	s_NEXTLEVEL,
 	s_Next,
 	s_XP,
 	s_X,
@@ -90,6 +90,7 @@ enum String : unsigned long {
 	s_enemy,
 	s_Killed,
 	s__XP,
+	s_NextLevel,
 
 	s_Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 

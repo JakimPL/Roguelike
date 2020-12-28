@@ -56,3 +56,4 @@ Neutralny
 Wróg
 Zabito: 
  XP
+Nowy poziom!

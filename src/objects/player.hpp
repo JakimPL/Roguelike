@@ -17,7 +17,10 @@ public:
 	Player(GameObjects& gameObjects, Creature initialCreature, Position initialPosition, std::string initialName);
 
 	std::string getName() const;
+	bool isNextLevel() const;
+
 	int hit(NPC* npc);
+	void nextLevel();
 
 	TextPair getText() override;
 	void load(std::ifstream& resource) override;

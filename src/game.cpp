@@ -168,7 +168,7 @@ void Game::drawGUI()
 
 	if (player.creature.getAbilityPoints() > 0) {
 		std::stringstream newLevelText;
-		newLevelText << text[s_NextLevel];
+		newLevelText << text[s_NEXTLEVEL];
 		drawText(renderer, font, newLevelText.str(), COLOR_LGREEN, options.general.screenWidth - 2 * options.gui.guiXOffset, options.general.screenHeight - options.gui.guiYOffset - 3 * options.gui.tileHeight / 2, Alignment::Right);
 	}
 
@@ -664,7 +664,10 @@ void Game::mainLoop()
 									std::string npcName = text[ {TextCategory::Creature, npc->getNameID()} ];
 
 									int xp = player.creature.getXPCurrent();
+									int level = player.creature.getLevel();
 									int damage = player.hit(npc);
+									bool nextLevel = player.creature.getLevel() > level;
+
 									messageText << npcName << text[s_lost] << damage << text[s__HP];
 									messages->add(messageText.str(), COLOR_RED);
 
@@ -672,6 +675,10 @@ void Game::mainLoop()
 										std::stringstream xpText;
 										xpText << text[s_Killed] << npcName << " (" << player.creature.getXPCurrent() - xp << text[s__XP] << ")";
 										messages->add(xpText.str(), COLOR_YELLOW);
+									}
+
+									if (nextLevel) {
+										messages->add(text[s_NextLevel], COLOR_YELLOW, MESSAGE_DURATION_LEVEL);
 									}
 								}
 

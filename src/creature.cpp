@@ -5,6 +5,8 @@
 #include "message.hpp"
 #include "text.hpp"
 
+#include <math.h>
+
 Creature::Creature(const std::string& filename, bool fullPath)
 {
 	loadFromFile(filename, fullPath);
@@ -327,6 +329,11 @@ int Creature::getBaseAbilityValue(const Ability ability) const
 	return abilitiesBase[ability];
 }
 
+bool Creature::isNextLevel() const
+{
+	return getXPRemaining() <= 0;
+}
+
 int Creature::getLevel() const
 {
 	return level;
@@ -551,9 +558,19 @@ void Creature::addGold(int amount)
 void Creature::addXP(int amount)
 {
 	xpCurrent += amount;
-	if (xpCurrent >= xpNextLevel) {
-
+	if (isNextLevel()) {
+		nextLevel();
 	}
+}
+
+void Creature::nextLevel()
+{
+	double k = 1.2f;
+	xpNextLevel = floor(xpNextLevel * (k + (k - 1) / (pow(k, level) - 1)));
+	abilityPoints += 5;
+	level++;
+
+	updateStats();
 }
 
 void Creature::takeGold(int amount)
