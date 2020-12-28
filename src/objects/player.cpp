@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include "src/log.hpp"
 #include "src/options.hpp"
 #include "src/random.hpp"
 
@@ -22,12 +23,18 @@ int Player::hit(NPC* npc)
 	Item* currentItem = creature.inventory.getStackItem(ItemType::weapon);
 	delay = (currentItem == nullptr ? FIST_DELAY : currentItem->getDelay());
 
-	int damage = creature.getDamageMax();
-	npc->creature.takeHP(damage);
+	int damage = 0;
+	if (Random::random(npc->creature.getDefenseRate()) + 0.5f * npc->creature.getDefenseRate() < Random::random(5 + creature.getAttackRate()) + 0.58f * creature.getAttackRate()) {
+		damage = std::max(0.0, round(Random::random(creature.getDamageMin(), creature.getDamageMax())) - 0.2f * npc->creature.getDefense());
 
-	if (npc->creature.getHPCurrent() <= 0) {
-		creature.addXP(npc->creature.getXPValue() * round(0.8f + 0.4f * Random::random()));
-		remove(npc);
+		if (damage > 0) {
+			npc->creature.takeHP(damage);
+			if (npc->creature.getHPCurrent() <= 0) {
+				int xp = round((0.8 + 0.4 * Random::random()) * npc->creature.getXPValue());
+				creature.addXP(xp);
+				remove(npc);
+			}
+		}
 	}
 
 	return damage;

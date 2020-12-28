@@ -91,6 +91,7 @@ enum String : unsigned long {
 	s_Killed,
 	s__XP,
 	s_NextLevel,
+	s_Missed,
 
 	s_Moondale = (unsigned int)(TextCategory::Area) * TEXT_CATEGORY_SIZE + 1,
 

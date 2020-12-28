@@ -7,6 +7,8 @@ namespace Random
 {
 
 double random();
+double random(double max);
+double random(double min, double max);
 
 };
 
