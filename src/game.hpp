@@ -60,6 +60,8 @@ private:
 	std::vector<unsigned int> responsesHeights;
 	std::vector<unsigned int> responsesOffsets;
 	unsigned int responsesHeight;
+
+	std::map<std::pair<int, int>, bool> visibilityMap;
 public:
 	Game();
 	~Game();
@@ -79,6 +81,8 @@ public:
 private:
 	int clampX(int x);
 	int clampY(int y);
+
+	void calculateVisibilityMap();
 
 	void drawFrame();
 	void drawWorld();

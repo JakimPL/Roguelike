@@ -92,6 +92,7 @@ void Options::load(const std::string& filename)
 	gui.tabYOffset = gui.guiYOffset + 4 * gui.tileHeight;
 	gui.tabWidth = general.screenWidth - 2 * gui.guiXOffset - 4 * gui.tileWidth;
 	gui.tabHeight = general.screenHeight - 2 * gui.guiYOffset - 8 * gui.tileHeight;
+	gui.depth = std::max(general.screenWidth / gui.tileWidth, general.screenHeight / gui.tileHeight);
 
 	dialog.lineWidth = gui.tabWidth / (gui.tileWidth - 1);
 

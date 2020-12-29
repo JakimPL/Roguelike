@@ -45,6 +45,7 @@ static constexpr int TAB_X_OFFSET = GUI_X_OFFSET + 2 * TILE_WIDTH;
 static constexpr int TAB_Y_OFFSET = GUI_Y_OFFSET + 4 * TILE_HEIGHT;
 static constexpr int TAB_WIDTH = SCREEN_WIDTH - 2 * GUI_X_OFFSET - 4 * TILE_WIDTH;
 static constexpr int TAB_HEIGHT = SCREEN_HEIGHT - 2 * GUI_Y_OFFSET - 8 * TILE_HEIGHT;
+static constexpr int GUI_DEPTH = std::max(SCREEN_WIDTH / TILE_WIDTH, SCREEN_HEIGHT / TILE_HEIGHT);
 
 static constexpr unsigned int DIALOG_LINE_WIDTH = TAB_WIDTH / TILE_WIDTH;
 
@@ -78,6 +79,7 @@ struct Options {
 		char doorVerticalLetter          = DOOR_LETTER[1];
 	} game;
 	struct GUI {
+		int depth                        = GUI_DEPTH;
 		int guiXOffset                   = GUI_X_OFFSET * SCALE;
 		int guiYOffset                   = GUI_Y_OFFSET * SCALE;
 		int tileBaseWidth                = _TILE_WIDTH;

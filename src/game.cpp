@@ -87,11 +87,14 @@ void Game::drawObjects()
 	int x = clampX(options.gui.centerX - playerPosition.x);
 	int y = clampY(options.gui.centerY - playerPosition.y);
 
+	calculateVisibilityMap();
 	for (GameObject* object : gameObjects) {
 		Position objectPosition = object->getPosition();
-		int realX = objectPosition.x + x;
-		int realY = objectPosition.y + y;
-		drawLetter(renderer, font, object->getLetter(), object->getColor(), realX, realY);
+		if (visibilityMap[ {objectPosition.x - playerPosition.x, objectPosition.y - playerPosition.y} ]) {
+			int realX = objectPosition.x + x;
+			int realY = objectPosition.y + y;
+			drawLetter(renderer, font, object->getLetter(), object->getColor(), realX, realY);
+		}
 	}
 
 	int dirX = DIR_X(playerPosition.direction);
@@ -99,6 +102,26 @@ void Game::drawObjects()
 	drawLetter(renderer, font, options.game.targetLetter, TARGET_COLOR, playerPosition.x + x + dirX, playerPosition.y + y + dirY);
 
 	SDL_SetRenderTarget(renderer, NULL);
+}
+
+void Game::calculateVisibilityMap()
+{
+	visibilityMap.clear();
+
+	Position playerPosition = player.getPosition();
+	int depth = options.gui.depth;
+	for (int d = -4 * depth - 2; d <= 4 * depth + 2; ++d) {
+		int xMax = std::max(-depth, std::min(depth, std::abs(d - depth) - 2 * depth - 1));
+		int yMax = std::max(-depth, std::min(depth, std::abs(d + depth + 1) - 2 * depth - 1));
+		for (int s = 0; s < depth; ++s) {
+			int _x = round(xMax * double(s) / depth);
+			int _y = round(yMax * double(s) / depth);
+			visibilityMap[std::pair<int, int>(_x, _y)] = true;
+			if (!currentArea->isPositionFree(playerPosition.x + _x, playerPosition.y + _y)) {
+				break;
+			}
+		}
+	}
 }
 
 void Game::drawGUI()
