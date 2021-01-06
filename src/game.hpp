@@ -62,6 +62,7 @@ private:
 	unsigned int responsesHeight;
 
 	std::map<std::pair<int, int>, bool> visibilityMap;
+	std::vector<std::vector<bool>> seen;
 public:
 	Game();
 	~Game();

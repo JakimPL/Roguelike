@@ -208,14 +208,14 @@ bool Area::isPositionFree(int x, int y) const
 	return isPositionFree({x, y});
 }
 
-bool Area::isPositionFree(Position position) const
+bool Area::isPositionFree(Position position, bool checkTransparency) const
 {
 	if (isTileOutside(position) or getTile(position).obstacle) {
 		return false;
 	}
 
 	for (GameObject* object : areaObjects) {
-		if (object->isSolid() and object->getPosition() == position) {
+		if ((checkTransparency ? object->isTransparent() : object->isSolid()) and object->getPosition() == position) {
 			return false;
 		}
 	}

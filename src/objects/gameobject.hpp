@@ -30,6 +30,7 @@ protected:
 
 	bool movable = false;
 	bool solid = false;
+	bool transparent = false;
 
 	Position position = {0, 0, SOUTH};
 	Color color;
@@ -50,6 +51,7 @@ public:
 	char getLetter() const;
 	Position getPosition() const;
 	bool isSolid() const;
+	bool isTransparent() const;
 
 	void setNameID(unsigned int index);
 	void setColor(Color newColor);

@@ -4,7 +4,6 @@
 Door::Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation, bool initialLocked, Position initialPosition) : GameObject(gameObjects), orientation(initialOrientation), locked(initialLocked)
 {
 	type = ObjectType::Door;
-	movable = false;
 	position = initialPosition;
 	color = initialColor;
 	update();
@@ -13,7 +12,6 @@ Door::Door(GameObjects& gameObjects, Color initialColor, bool initialOrientation
 Door::Door(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObjects)
 {
 	type = ObjectType::Door;
-	movable = false;
 	load(resource);
 	update();
 }
@@ -30,6 +28,7 @@ bool Door::toggle()
 
 void Door::update()
 {
+	transparent = open;
 	solid = !open;
 	letter = ((!open) != (!orientation) ? options.game.doorHorizontalLetter : options.game.doorVerticalLetter);
 }

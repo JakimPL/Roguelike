@@ -6,6 +6,7 @@ NPC::NPC(GameObjects& gameObjects, std::string initialCreatureName, std::string 
 	type = ObjectType::NPC;
 	movable = true;
 	solid = true;
+	transparent = false;
 	position = initialPosition;
 	nameID = creature.getNameID();
 	color = creature.getColor();
@@ -15,8 +16,7 @@ NPC::NPC(GameObjects& gameObjects, std::string initialCreatureName, std::string 
 NPC::NPC(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObjects)
 {
 	type = ObjectType::NPC;
-	movable = true;
-	solid = true;
+	transparent = false;
 	load(resource);
 	creature = Creature(creatureName);
 	if (!dialogName.empty()) {

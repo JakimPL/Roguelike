@@ -8,6 +8,7 @@ Player::Player(GameObjects& gameObjects, Creature initialCreature, Position init
 	type = ObjectType::Player;
 	name = initialName;
 	movable = true;
+	transparent = true;
 	position = initialPosition;
 	color = creature.getColor();
 	letter = creature.getLetter();

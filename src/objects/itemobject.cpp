@@ -7,6 +7,7 @@ ItemObject::ItemObject(GameObjects& gameObjects, std::string initialResourceName
 {
 	type = ObjectType::Item;
 	solid = false;
+	transparent = true;
 	position = initialPosition;
 	nameID = item.getNameID();
 	color = item.getColor();

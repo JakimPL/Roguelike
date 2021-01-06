@@ -5,6 +5,7 @@ Sign::Sign(GameObjects& gameObjects, Color initialColor, Position initialPositio
 	type = ObjectType::Sign;
 	movable = false;
 	solid = true;
+	transparent = false;
 	letter = initialLetter;
 	position = initialPosition;
 	color = initialColor;
@@ -14,6 +15,7 @@ Sign::Sign(GameObjects& gameObjects, Color initialColor, Position initialPositio
 Sign::Sign(GameObjects& gameObjects, std::ifstream& resource) : GameObject(gameObjects)
 {
 	type = ObjectType::Sign;
+	transparent = false;
 	load(resource);
 }
 

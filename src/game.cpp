@@ -14,7 +14,7 @@
 using namespace Graphics;
 using namespace Functions;
 
-Game::Game() : player(gameObjects, Creature(), STARTING_POSITION, "Liop")
+Game::Game() : player(gameObjects, Creature(), STARTING_POSITION, "Aiden")
 {
 	currentArea = new Area(gameObjects, "MOONDALE");
 
@@ -64,13 +64,19 @@ void Game::drawFrame()
 void Game::drawWorld()
 {
 	SDL_SetRenderTarget(renderer, graphics.worldTexture);
+	SDL_RenderClear(renderer);
+	Position playerPosition = player.getPosition();
 
 	int width = currentArea->getWidth();
 	int height = currentArea->getHeight();
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
 			Tile tile = currentArea->getTile(x, y);
-			drawLetter(renderer, font, tile.letter, tile.color, x, y);
+			if (visibilityMap[ {x - playerPosition.x, y - playerPosition.y} ]) {
+				drawLetter(renderer, font, tile.letter, tile.color, x, y);
+			} else if (seen[x][y]) {
+				drawLetter(renderer, font, tile.letter, {tile.color.red, tile.color.green, tile.color.blue, 64}, x, y);
+			}
 		}
 	}
 
@@ -117,6 +123,10 @@ void Game::calculateVisibilityMap()
 			int _x = round(xMax * double(s) / depth);
 			int _y = round(yMax * double(s) / depth);
 			visibilityMap[std::pair<int, int>(_x, _y)] = true;
+
+			if (!currentArea->isTileOutside(playerPosition.x + _x, playerPosition.y + _y)) {
+				seen[playerPosition.x + _x][playerPosition.y + _y] = true;
+			}
 			if (!currentArea->isPositionFree(playerPosition.x + _x, playerPosition.y + _y)) {
 				break;
 			}
@@ -599,6 +609,7 @@ void Game::mainLoop()
 	SDL_Event event;
 
 	// draw world in advance
+	seen.resize(currentArea->getWidth(), std::vector<bool>(currentArea->getHeight(), false));
 	drawWorld();
 	drawObjects();
 	drawGUI();
@@ -871,6 +882,8 @@ void Game::mainLoop()
 			}
 
 			if (update) {
+				calculateVisibilityMap();
+				drawWorld();
 				drawObjects();
 				drawGUI();
 			}

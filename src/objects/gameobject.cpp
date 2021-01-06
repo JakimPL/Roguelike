@@ -48,6 +48,11 @@ bool GameObject::isSolid() const
 	return solid;
 }
 
+bool GameObject::isTransparent() const
+{
+	return transparent;
+}
+
 void GameObject::setNameID(unsigned int index)
 {
 	nameID = index;
@@ -103,6 +108,7 @@ void GameObject::load(std::ifstream& resource)
 	resource.read(reinterpret_cast<char*>(&delay), SIZE_INT);
 	resource.read(reinterpret_cast<char*>(&movable), SIZE_CHAR);
 	resource.read(reinterpret_cast<char*>(&solid), SIZE_CHAR);
+	resource.read(reinterpret_cast<char*>(&transparent), SIZE_CHAR);
 	resource.read(reinterpret_cast<char*>(&position), SIZE_POSITION);
 	resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
 	resource.read(reinterpret_cast<char*>(&letter), SIZE_CHAR);
@@ -115,6 +121,7 @@ void GameObject::save(std::ofstream& resource)
 	resource.write(reinterpret_cast<char*>(&delay), SIZE_INT);
 	resource.write(reinterpret_cast<char*>(&movable), SIZE_CHAR);
 	resource.write(reinterpret_cast<char*>(&solid), SIZE_CHAR);
+	resource.write(reinterpret_cast<char*>(&transparent), SIZE_CHAR);
 	resource.write(reinterpret_cast<char*>(&position), SIZE_POSITION);
 	resource.write(reinterpret_cast<char*>(&color), SIZE_COLOR);
 	resource.write(reinterpret_cast<char*>(&letter), SIZE_CHAR);

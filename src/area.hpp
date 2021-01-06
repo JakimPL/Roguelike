@@ -45,7 +45,7 @@ public:
 	void setTile(Position position, Tile tile);
 
 	bool isPositionFree(int x, int y) const;
-	bool isPositionFree(Position position) const;
+	bool isPositionFree(Position position, bool checkTransparency = false) const;
 	GameObjects isPositionTaken(int x, int y) const;
 	GameObjects isPositionTaken(Position position) const;
 	bool isTileOutside(int x, int y) const;
