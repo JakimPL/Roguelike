@@ -173,6 +173,7 @@ void AreaEditor::on_copyButton_clicked()
 	currentTile = area.getTile(selectorPosition);
 	ui->objectNameIDBox->setCurrentIndex(currentTile.nameID);
 	ui->obstacleBox->setChecked(currentTile.obstacle);
+	ui->transparentBox->setChecked(currentTile.transparent);
 
 	std::string letterString;
 	letterString.push_back(currentTile.letter);
@@ -517,6 +518,7 @@ void AreaEditor::prepareEditorValuesAndRanges()
 void AreaEditor::setEditorTile()
 {
 	currentTile.obstacle = ui->obstacleBox->isChecked();
+	currentTile.transparent = ui->transparentBox->isChecked();
 	currentTile.nameID = ui->objectNameIDBox->currentIndex();
 	currentTile.letter = getLetter(ui->letterBox->text().toStdString());
 	currentTile.color = getColor();

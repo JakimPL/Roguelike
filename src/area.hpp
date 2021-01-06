@@ -9,6 +9,7 @@ struct Tile {
 	char letter;
 	Color color;
 	bool obstacle;
+	bool transparent;
 	unsigned int nameID;
 
 	bool operator==(Tile rhs) const
@@ -16,6 +17,7 @@ struct Tile {
 		return letter == rhs.letter and
 			   color == rhs.color and
 			   obstacle == rhs.obstacle and
+			   transparent == rhs.transparent and
 			   nameID == rhs.nameID;
 	};
 };
@@ -44,7 +46,7 @@ public:
 	void setTile(unsigned int x, unsigned int y, Tile tile);
 	void setTile(Position position, Tile tile);
 
-	bool isPositionFree(int x, int y) const;
+	bool isPositionFree(int x, int y, bool checkTransparency = false) const;
 	bool isPositionFree(Position position, bool checkTransparency = false) const;
 	GameObjects isPositionTaken(int x, int y) const;
 	GameObjects isPositionTaken(Position position) const;

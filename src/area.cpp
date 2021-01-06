@@ -78,14 +78,16 @@ bool Area::load(std::ifstream& resource)
 				char letter;
 				Color color;
 				bool obstacle;
+				bool transparent;
 				unsigned int nameID;
 
 				resource.read(reinterpret_cast<char*>(&letter), SIZE_CHAR);
 				resource.read(reinterpret_cast<char*>(&color), SIZE_COLOR);
 				resource.read(reinterpret_cast<char*>(&obstacle), SIZE_CHAR);
+				resource.read(reinterpret_cast<char*>(&transparent), SIZE_CHAR);
 				resource.read(reinterpret_cast<char*>(&nameID), SIZE_INT);
 
-				Tile tile = {letter, color, obstacle, nameID};
+				Tile tile = {letter, color, obstacle, transparent, nameID};
 				map[x].push_back(tile);
 			}
 		}
@@ -136,6 +138,7 @@ void Area::save(std::ofstream& resource)
 			resource.write(reinterpret_cast<char*>(&tile.letter), SIZE_CHAR);
 			resource.write(reinterpret_cast<char*>(&tile.color), SIZE_COLOR);
 			resource.write(reinterpret_cast<char*>(&tile.obstacle), SIZE_CHAR);
+			resource.write(reinterpret_cast<char*>(&tile.transparent), SIZE_CHAR);
 			resource.write(reinterpret_cast<char*>(&tile.nameID), SIZE_INT);
 		}
 	}
@@ -203,19 +206,19 @@ void Area::setTile(Position position, Tile tile)
 	map[position.x][position.y] = tile;
 }
 
-bool Area::isPositionFree(int x, int y) const
+bool Area::isPositionFree(int x, int y, bool checkTransparency) const
 {
-	return isPositionFree({x, y});
+	return isPositionFree({x, y}, checkTransparency);
 }
 
 bool Area::isPositionFree(Position position, bool checkTransparency) const
 {
-	if (isTileOutside(position) or getTile(position).obstacle) {
+	if (isTileOutside(position) or (checkTransparency ? !getTile(position).transparent : getTile(position).obstacle)) {
 		return false;
 	}
 
 	for (GameObject* object : areaObjects) {
-		if ((checkTransparency ? object->isTransparent() : object->isSolid()) and object->getPosition() == position) {
+		if ((checkTransparency ? !object->isTransparent() : object->isSolid()) and object->getPosition() == position) {
 			return false;
 		}
 	}

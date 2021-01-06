@@ -39,7 +39,7 @@
 #define COLOR_PURPLE  {96,  0,   160, 255}
 #define COLOR_YGREEN  {192, 255, 32,  255}
 
-#define TILE_EMPTY {'\0', {0, 0, 0}, 0, 0}
+#define TILE_EMPTY {'\0', {0, 0, 0}, 0, 1, 0}
 #define STARTING_POSITION {30, 30, Direction::SOUTH}
 
 static constexpr unsigned int SIZE_TABLE = 4;

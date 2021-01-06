@@ -183,9 +183,9 @@
     <widget class="QLineEdit" name="letterBox">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>93</x>
        <y>37</y>
-       <width>251</width>
+       <width>121</width>
        <height>30</height>
       </rect>
      </property>
@@ -327,6 +327,22 @@
       <string>Copy tile</string>
      </property>
     </widget>
+    <widget class="QCheckBox" name="transparentBox">
+     <property name="geometry">
+      <rect>
+       <x>223</x>
+       <y>37</y>
+       <width>121</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>Transparent:</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="objectInfoBox">
     <property name="geometry">
@@ -350,7 +366,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="empty"/>
      <widget class="QWidget" name="item">
@@ -794,15 +810,32 @@
   <tabstop>nameIDBox</tabstop>
   <tabstop>widthBox</tabstop>
   <tabstop>heightBox</tabstop>
-  <tabstop>areaView</tabstop>
   <tabstop>resizeButton</tabstop>
+  <tabstop>areaView</tabstop>
   <tabstop>letterBox</tabstop>
+  <tabstop>transparentBox</tabstop>
   <tabstop>obstacleBox</tabstop>
   <tabstop>colorRedBox</tabstop>
   <tabstop>colorGreenBox</tabstop>
   <tabstop>colorBlueBox</tabstop>
   <tabstop>objectNameIDBox</tabstop>
   <tabstop>copyButton</tabstop>
+  <tabstop>itemResourceBox</tabstop>
+  <tabstop>npcResourceBox</tabstop>
+  <tabstop>dialogResourceBox</tabstop>
+  <tabstop>storeResourceBox</tabstop>
+  <tabstop>allegianceBox</tabstop>
+  <tabstop>doorOrientationBox</tabstop>
+  <tabstop>lockedBox</tabstop>
+  <tabstop>openBox</tabstop>
+  <tabstop>doorRedBox</tabstop>
+  <tabstop>doorGreenBox</tabstop>
+  <tabstop>doorBlueBox</tabstop>
+  <tabstop>dialogIDBox</tabstop>
+  <tabstop>signLetterBox</tabstop>
+  <tabstop>signRedBox</tabstop>
+  <tabstop>signGreenBox</tabstop>
+  <tabstop>signBlueBox</tabstop>
  </tabstops>
  <resources/>
  <connections/>

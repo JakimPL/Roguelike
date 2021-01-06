@@ -127,7 +127,7 @@ void Game::calculateVisibilityMap()
 			if (!currentArea->isTileOutside(playerPosition.x + _x, playerPosition.y + _y)) {
 				seen[playerPosition.x + _x][playerPosition.y + _y] = true;
 			}
-			if (!currentArea->isPositionFree(playerPosition.x + _x, playerPosition.y + _y)) {
+			if (!currentArea->isPositionFree(playerPosition.x + _x, playerPosition.y + _y, true)) {
 				break;
 			}
 		}
