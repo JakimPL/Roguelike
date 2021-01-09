@@ -51,6 +51,7 @@ void ItemEditor::on_actionSaveAs_triggered()
 {
 	currentPath = QFileDialog::getSaveFileName(this, tr("Save ITM file"), "./data/ITM/", tr("Item files (*.ITM)"));
 	std::string path = currentPath.toStdString();
+	updateItemParameters();
 	item.saveToFile(path, true);
 	updateApplicationTitle();
 }

@@ -26,6 +26,7 @@ enum class ItemType : unsigned char {
 	boots,
 	ring,
 	amulet,
+	shield,
 	quiver,
 	quick,
 	count
@@ -48,6 +49,8 @@ enum class ItemCategory : unsigned char {
 	chain_mall,
 	plate_armor,
 	robe,
+	shield,
+	ammunition,
 	potion,
 	spell,
 	count

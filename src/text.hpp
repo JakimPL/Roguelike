@@ -139,6 +139,7 @@ enum String : unsigned long {
 	s_ChainMail,
 	s_PlateArmor,
 	s_Robe,
+	s_Ammunition,
 	s_Weapon,
 	s_Armor,
 	s_Helmet,
@@ -147,6 +148,7 @@ enum String : unsigned long {
 	s_Boots,
 	s_Ring,
 	s_Amulet,
+	s_Shield,
 	s_Quiver,
 	s_Quick,
 	s_Potion,
@@ -248,6 +250,7 @@ static const StringList typeNameIDs = {
 	s_Boots,
 	s_Ring,
 	s_Amulet,
+	s_Shield,
 	s_Quiver,
 	s_Quick
 };
@@ -269,6 +272,8 @@ static const StringList categoryNameIDs = {
 	s_ChainMail,
 	s_PlateArmor,
 	s_Robe,
+	s_Shield,
+	s_Ammunition,
 	s_Potion,
 	s_Spell
 };

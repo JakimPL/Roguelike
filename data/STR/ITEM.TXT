@@ -15,6 +15,7 @@ Skórzana zbroja
 Kolczuga
 Zbroja płytowa
 Szata
+Amunicja
 Broń
 Pancerz
 Hełm
@@ -23,6 +24,7 @@ Płaszcz
 Buty
 Pierścień
 Amulet
+Tarcza
 Amunicja
 Przedmiot szybkiego użycia
 Mikstura
@@ -41,3 +43,8 @@ Ostrze
 Włócznia
 Halabarda
 Lanca
+Puklerz
+Mała tarcza
+Pawęż
+Duża tarcza
+Kolczana tarcza
